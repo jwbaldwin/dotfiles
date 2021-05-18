@@ -111,6 +111,16 @@ source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 SPACESHIP_PROMPT_ADD_NEWLINE="false"
 SPACESHIP_CHAR_SUFFIX=(" ")
 SPACESHIP_DIR_COLOR=yellow
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# For sourcing the aliases directory
+for file in $HOME/.aliases/* ; do
+  source "$file"
+done
+
 source ~/.bashrc
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
@@ -119,5 +129,6 @@ source ~/.bashrc
 . /usr/local/opt/asdf/asdf.sh
 
 # Command for managing dotfiles
-alias dotfiles='/usr/local/bin/git --git-dir=/Users/jbaldwin/.dotfiles/ --work-tree=/Users/jbaldwin'
+alias dotfiles='/usr/local/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+alias df='dotfiles'
 

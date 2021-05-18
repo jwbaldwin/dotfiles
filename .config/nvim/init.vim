@@ -26,7 +26,7 @@ call plug#end()
 "
 
 inoremap kj <Esc>
-set number relativenumber
+set number 
 
 let mapleader = " "
 nnoremap <C-h> :History<CR>

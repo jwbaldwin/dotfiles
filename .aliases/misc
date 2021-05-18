@@ -1,0 +1,19 @@
+# Edit and Source shortuts
+alias ebash="vim ~/.bashrc"
+alias sbash="source ~/.bashrc"
+alias ezsh="vim ~/.zshrc"
+alias szsh="source ~/.zshrc"
+
+
+# Use nvim for everything
+alias v="nvim"
+alias vim="nvim"
+alias vi="nvim"
+
+# Program related
+alias gg="./gradlew"
+
+# Command-line related
+alias lsa='ls -a'
+alias personal="cd ~/repos/personal"
+
