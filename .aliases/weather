@@ -1,4 +1,5 @@
-alias weather="curl -s wttr.in | sed -n '1,7p'" #current weather
-alias weal="curl -s wttr.in | sed -n '1,38p'" #long weather.. all data
-alias weatd="curl -s wttr.in | sed -n '1,17p'" #weather today
-alias weatm="curl -s wttr.in | sed -n '18,27p'" #weather tomorrow
+alias weather="curl -s wttr.in | sed -n '1,7p'" # current weather
+alias wea="wea" # current weather
+alias weal="curl -s wttr.in | sed -n '1,38p'" # long weather.. all data
+alias weatd="curl -s wttr.in | sed -n '1,17p'" # weather today
+alias weatm="curl -s wttr.in | sed -n '18,27p'" # weather tomorrow
