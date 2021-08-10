@@ -8,7 +8,7 @@ fi
 # Remove `+` and `-` from start of diff lines; just rely upon color.
 alias gd='git diff --color | sed "s/^\([^-+ ]*\)[-+ ]/\\1/" | less -r'
 
-alias glot="git log --all --graph --pretty=oneline --decorate --abbrev-commit"
+alias glog="git log --all --graph --pretty=oneline --decorate --abbrev-commit"
 alias gl='git log --stat --color'
 alias gs='git status -sb'
 alias ga='git add -A'
@@ -24,5 +24,28 @@ alias gmain="git checkout main && git pull"
 # Start a new branch with last commit, then revert the commit in the previous branch
 function branchify {
   git checkout -b $1 && git checkout - && git reset --hard HEAD~ && git checkout -
+}
+
+
+# Function to print out commands that I defined in here and forgot about
+function ghelp {
+  echo -e "\n
+	gd  - 'git diff'
+	glog - 'pretty git log'
+	gl - 'simple git log'
+	gs - 'git status -sb'
+	ga - 'git add -A'
+	gcm - 'git commit -m'
+	gacm - 'git add -A && git commit -m'
+	gpush - 'git push'
+	gpull - 'git pull'
+	gcane - 'git commit --ammend --no-edit'
+	gpr - 'hub pull-request'
+	gm - 'git checkout master && git pull'
+	gmain - 'git checkout main && git pull'
+
+	branchify - 'Start new branch with last commit and revert commit on previous branch'
+	ghelp - 'Print out this'
+  "
 }
 
