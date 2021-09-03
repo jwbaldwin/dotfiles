@@ -18,8 +18,8 @@ alias gpush='git push'
 alias gpull='git pull'
 alias gcane='git commit --ammend --no-edit'
 alias gpr='hub pull-request'
-alias gm="git checkout master && git pull"
-alias gmain="git checkout main && git pull"
+alias gm="git checkout main && git pull"
+alias gmas="git checkout master && git pull"
 
 # Start a new branch with last commit, then revert the commit in the previous branch
 function branchify {
@@ -41,8 +41,8 @@ function ghelp {
 	gpull - 'git pull'
 	gcane - 'git commit --ammend --no-edit'
 	gpr - 'hub pull-request'
-	gm - 'git checkout master && git pull'
-	gmain - 'git checkout main && git pull'
+	gm - 'git checkout main && git pull'
+	gmas - 'git checkout master && git pull'
 
 	branchify - 'Start new branch with last commit and revert commit on previous branch'
 	ghelp - 'Print out this'
