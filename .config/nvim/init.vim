@@ -27,6 +27,7 @@ call plug#end()
 
 inoremap kj <Esc>
 set number 
+set mouse=
 
 let mapleader = " "
 nnoremap <C-h> :History<CR>

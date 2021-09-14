@@ -5,10 +5,11 @@ alias ezsh="vim ~/.zshrc"
 alias szsh="source ~/.zshrc"
 
 
-# Use nvim for everything
-alias v="nvim"
-alias vim="nvim"
-alias vi="nvim"
+# Use lvim for everything
+alias v="lvim"
+alias vim="lvim"
+alias vi="lvim"
+alias lv="lvim"
 
 # Program related
 alias gg="./gradlew"

@@ -25,11 +25,10 @@ lvim.leader = "space"
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 lvim.keys.normal_mode["<C-q>"] = "<cmd> lua require('lua/toggle_qf').toggle_qf()<cr>"  -- Toggle nvim-bqf quickfix list
 
--- for commenting out
-lvim.keys.normal_mode["<C-_>"] = "<cmd>CommentToggle<cr>"
-lvim.keys.insert_mode["<C-_>"] = "<cmd>CommentToggle<cr>"
-lvim.keys.visual_mode["<C-_>"] = "<cmd>CommentToggle<cr>"
-lvim.keys.visual_block_mode["<C-_>"] = "<cmd>CommentToggle<cr>"
+-- Spectre keybindings
+lvim.keys.normal_mode["<C-r>"] = "<cmd>lua require('spectre').open_visual({select_word=true})<cr>"
+lvim.keys.visual_mode["<C-r>"] = "<cmd>lua require('spectre').open_visual({select_word=true})<cr>"
+lvim.keys.visual_block_mode["<C-r>"] = "<cmd>lua require('spectre').open_visual({select_word=true})<cr>"
 
 -- Telescope configuration
 lvim.builtin.telescope.defaults.prompt_prefix = '❯ '
@@ -75,12 +74,21 @@ lvim.builtin.which_key.mappings["x"] = {
   c = {"<cmd>!mix credo --strict<cr>", "Run credo strict"},
 }
 
--- TODO: User Config for predefined plugins
+lvim.builtin.which_key.mappings["s"] = {
+  B = {"<cmd>Telescope file_browser<cr>", "File browser"}
+}
+
+lvim.builtin.which_key.mappings["r"] = {
+  name = "+Spectre",
+  r = {"<cmd>lua require('spectre').open()<cr>", "Open spectre - search and replace"},
+  w = {"<cmd>lua require('spectre').open_visual({select_word=true})<cr>", "Open spectre on word"},
+  f = {"<cmd>lua require('spectre').open_file_search()<cr>", "Open spectre for file"},
+}
+
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
 lvim.builtin.dashboard.active = true
 lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.side = "left"
-lvim.builtin.nvimtree.show_icons.git = 0
 
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.ensure_installed = "maintained"
@@ -145,6 +153,7 @@ lvim.plugins = {
     {"tpope/vim-projectionist"},
     {"vim-test/vim-test"},
     {"ggandor/lightspeed.nvim"},
+    {"windwp/nvim-spectre"},
 
     -- Telescope addons
     {"nvim-telescope/telescope-fzf-native.nvim", run ='make'},
@@ -156,6 +165,10 @@ lvim.lsp.diagnostics.virtual_text = true
 require('lightspeed').setup {
   jump_to_first_match = true,
   grey_out_search_area = true,
+}
+
+require('spectre').setup {
+  is_insert_mode = true
 }
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
