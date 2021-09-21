@@ -23,7 +23,7 @@ lvim.leader = "space"
 
 -- add your own keymapping
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
-lvim.keys.normal_mode["<C-q>"] = "<cmd> lua require('lua/toggle_qf').toggle_qf()<cr>"  -- Toggle nvim-bqf quickfix list
+lvim.keys.normal_mode["<C-q>"] = "<cmd> lua require('toggle_qf').toggle_qf()<cr>"  -- Toggle nvim-bqf quickfix list
 
 -- Spectre keybindings
 lvim.keys.normal_mode["<C-r>"] = "<cmd>lua require('spectre').open_visual({select_word=true})<cr>"
@@ -67,16 +67,15 @@ lvim.builtin.which_key.mappings["t"] = {
 lvim.builtin.which_key.mappings["x"] = {
   name = "+vim-test",
   n = {"<cmd>TestNearest<cr>", "Test nearest"},
-  f = {"<cmd>TestFile<cr>", "Test last"},
+  f = {"<cmd>TestFile<cr>", "Test file"},
   s = {"<cmd>TestSuite<cr>", "Test suite"},
   l = {"<cmd>TestLast<cr>", "Test last"},
   g = {"<cmd>TestVisit<cr>", "Test visit"},
   c = {"<cmd>!mix credo --strict<cr>", "Run credo strict"},
+  m = {"<cmd>!mix test<cr>", "Mix test"},
 }
 
-lvim.builtin.which_key.mappings["s"] = {
-  B = {"<cmd>Telescope file_browser<cr>", "File browser"}
-}
+lvim.builtin.which_key.mappings.s.B = { "<cmd>Telescope file_browser<cr>", "File browser"}
 
 lvim.builtin.which_key.mappings["r"] = {
   name = "+Spectre",
@@ -161,6 +160,11 @@ lvim.plugins = {
 
 -- Plugin configuration
 lvim.lsp.diagnostics.virtual_text = true
+lvim.builtin.compe.preselect = "always" -- nvim-compe always select the first item like vscode
+
+-- vim-test and vim-projectionist
+vim.g['test#strategy'] = 'neovim'
+vim.g['test#neovim#term_position'] = 'vertical'
 
 require('lightspeed').setup {
   jump_to_first_match = true,
