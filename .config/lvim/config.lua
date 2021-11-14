@@ -26,9 +26,9 @@ lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 lvim.keys.normal_mode["<C-q>"] = "<cmd> lua require('toggle_qf').toggle_qf()<cr>"  -- Toggle nvim-bqf quickfix list
 
 -- Spectre keybindings
-lvim.keys.normal_mode["<C-r>"] = "<cmd>lua require('spectre').open_visual({select_word=true})<cr>"
-lvim.keys.visual_mode["<C-r>"] = "<cmd>lua require('spectre').open_visual({select_word=true})<cr>"
-lvim.keys.visual_block_mode["<C-r>"] = "<cmd>lua require('spectre').open_visual({select_word=true})<cr>"
+lvim.keys.normal_mode["<C-p>"] = "<cmd>lua require('spectre').open_visual({select_word=true})<cr>"
+lvim.keys.visual_mode["<C-p>"] = "<cmd>lua require('spectre').open_visual({select_word=true})<cr>"
+lvim.keys.visual_block_mode["<C-p>"] = "<cmd>lua require('spectre').open_visual({select_word=true})<cr>"
 
 -- Telescope configuration
 lvim.builtin.telescope.defaults.prompt_prefix = '❯ '
@@ -127,9 +127,11 @@ lvim.builtin.treesitter.highlight.enabled = true
 --   }
 -- }
 -- set an additional linter
--- lvim.lang.elixir.linters = {
+-- local linters = require "lvim.lsp.null-ls.linters"
+-- linters.setup {
 --   {
 --     exe = "credo",
+--     filetypes = { "elixir" }
 --   }
 -- }
 
@@ -153,14 +155,33 @@ lvim.plugins = {
     {"vim-test/vim-test"},
     {"ggandor/lightspeed.nvim"},
     {"windwp/nvim-spectre"},
-
-    -- Telescope addons
-    {"nvim-telescope/telescope-fzf-native.nvim", run ='make'},
+    -- {"github/copilot.vim"},
 }
+
 
 -- Plugin configuration
 lvim.lsp.diagnostics.virtual_text = true
-lvim.builtin.compe.preselect = "always" -- nvim-compe always select the first item like vscode
+require('cmp').setup {
+  completion = {
+    completeopt = 'menu,menuone,noinsert',
+  }
+}
+
+-- Makes copilot and C-e complete work with cmp
+-- vim.g.copilot_no_tab_map = true
+-- vim.g.copilot_assume_mapped = true
+-- vim.g.copilot_tab_fallback = ""
+-- local cmp = require "cmp"
+-- lvim.builtin.cmp.mapping["<C-e>"] = function(fallback)
+--   cmp.mapping.abort()
+--   local copilot_keys = vim.fn["copilot#Accept"]()
+--   if copilot_keys ~= "" then
+--     vim.api.nvim_feedkeys(copilot_keys, "i", true)
+--   else
+--     fallback()
+--   end
+-- end
+
 
 -- vim-test and vim-projectionist
 vim.g['test#strategy'] = 'neovim'
