@@ -9,7 +9,7 @@ fi
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/jbaldwin/.oh-my-zsh"
+export ZSH="/Users/jwbaldwin/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -70,6 +70,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
+  asdf
   git
   zsh-syntax-highlighting
   zsh-autosuggestions
@@ -105,7 +106,6 @@ export SSH_KEY_PATH="~/.ssh/rsa_id"
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Spaceship configuration
 SPACESHIP_PROMPT_ADD_NEWLINE="false"
@@ -121,14 +121,15 @@ for file in $HOME/.aliases/* ; do
   source "$file"
 done
 
+# Enables IEx shell history
+export ERL_AFLAGS="-kernel shell_history enabled"
+
 source ~/.bashrc
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-. /usr/local/opt/asdf/asdf.sh
-
 # Command for managing dotfiles
-alias dotfiles='/usr/local/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias df='dotfiles'
 
