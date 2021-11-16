@@ -6,3 +6,9 @@ Technique borrowed from [Nicola Paolucci's blog post](https://www.atlassian.com/
 ## Intial setup
 
 ## New workstation setup
+*Flesh this out*
+- Install brew
+
+- Install asdf
+
+- Install LunarVim
