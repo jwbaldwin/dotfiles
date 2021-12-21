@@ -5,6 +5,18 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+# Use `hub` as our git wrapper (http://defunkt.github.com/hub/)
+eval "$(hub alias -s)"
+
+if type brew &>/dev/null
+then
+  FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+  FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+
+  autoload -Uz compinit
+  compinit
+fi
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -22,6 +34,8 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # a theme from this variable instead of looking in ~/.oh-my-zsh/themes/
 # If set to an empty array, this variable will have no effect.
 #ZSH_THEME_RANDOM_CANDIDATES=( "avit" "spaceship" )
+
+#ZSH_DISABLE_COMPFIX=true
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"

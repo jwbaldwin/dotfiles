@@ -13,6 +13,7 @@ lvim.log.level = "warn"
 lvim.format_on_save = true
 lvim.colorscheme = "material"
 vim.opt.cmdheight = 1
+vim.opt.timeoutlen = 200
 
 -- Extra material.vim customizations
 vim.g.material_terminal_italics = 1
@@ -23,12 +24,13 @@ lvim.leader = "space"
 
 -- add your own keymapping
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
-lvim.keys.normal_mode["<C-q>"] = "<cmd> lua require('toggle_qf').toggle_qf()<cr>"  -- Toggle nvim-bqf quickfix list
 
 -- Spectre keybindings
 lvim.keys.normal_mode["<C-p>"] = "<cmd>lua require('spectre').open_visual({select_word=true})<cr>"
 lvim.keys.visual_mode["<C-p>"] = "<cmd>lua require('spectre').open_visual({select_word=true})<cr>"
 lvim.keys.visual_block_mode["<C-p>"] = "<cmd>lua require('spectre').open_visual({select_word=true})<cr>"
+
+-- Nvim-cmp keybindings and configuration
 
 -- Telescope configuration
 lvim.builtin.telescope.defaults.prompt_prefix = '❯ '
@@ -152,20 +154,31 @@ lvim.plugins = {
     -- Editor stuff
     {"tpope/vim-surround"},
     {"tpope/vim-projectionist"},
+    {"dkuku/vim-projectionist-elixir"},
+    {"c-brenn/fuzzy-projectionist.vim"},
     {"vim-test/vim-test"},
     {"ggandor/lightspeed.nvim"},
     {"windwp/nvim-spectre"},
+    {"kevinhwang91/nvim-bqf", ft = 'qf'}
     -- {"github/copilot.vim"},
 }
 
 
 -- Plugin configuration
 lvim.lsp.diagnostics.virtual_text = true
-require('cmp').setup {
+
+
+-- Tab autocomplete for suggestions
+-- lvim.builtin.cmp.mapping["<Tab>"] = Cmp.mapping.confirm({
+--       behavior = Cmp.ConfirmBehavior.Replace,
+--       select = true,
+--   })
+Cmp = require("cmp")
+Cmp.setup ({
   completion = {
     completeopt = 'menu,menuone,noinsert',
-  }
-}
+  },
+})
 
 -- Makes copilot and C-e complete work with cmp
 -- vim.g.copilot_no_tab_map = true
@@ -186,11 +199,8 @@ require('cmp').setup {
 -- vim-test and vim-projectionist
 vim.g['test#strategy'] = 'neovim'
 vim.g['test#neovim#term_position'] = 'vertical'
-
-require('lightspeed').setup {
-  jump_to_first_match = true,
-  grey_out_search_area = true,
-}
+vim.g['test#echo_command'] = 1
+vim.g['test#start_normal'] = 0
 
 require('spectre').setup {
   is_insert_mode = true
@@ -200,3 +210,22 @@ require('spectre').setup {
 lvim.autocommands.custom_groups = {
   -- { "BufRead,BufNewFile", "*.html.*", "setf html" },
 }
+
+-- Toggle quickfix
+Toggle_qf = function()
+  local qf_open = false
+  for _, win in pairs(vim.fn.getwininfo()) do
+    if win["quickfix"] == 1 then
+      qf_open = true
+    end
+  end
+  if qf_open == true then
+    vim.cmd("cclose")
+    return
+  end
+  if not vim.tbl_isempty(vim.fn.getqflist()) then
+    vim.cmd("copen")
+  end
+end
+
+lvim.keys.normal_mode["<C-q>"] = "<cmd> lua Toggle_qf()<cr>"  -- Toggle nvim-bqf quickfix list

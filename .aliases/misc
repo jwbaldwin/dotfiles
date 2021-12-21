@@ -1,22 +1,35 @@
 # vim: filetype=sh
 
 # Edit and Source shortuts
-alias ebash="vim ~/.bashrc"
+alias ebash="vi ~/.bashrc"
 alias sbash="source ~/.bashrc"
-alias ezsh="vim ~/.zshrc"
+alias ezsh="vi ~/.zshrc"
 alias szsh="source ~/.zshrc"
 
 
 # Use lvim for everything
 alias v="lvim"
-alias vim="lvim"
+# alias vim="lvim" except this
 alias vi="lvim"
 alias lv="lvim"
 
 # Program related
 alias gg="./gradlew"
+alias exserver="iex -S mix phx.server"
+
+
+# Docker related
+alias dcu="docker-compose up -d"
+alias dc="docker-compose"
 
 # Command-line related
 alias lsa='ls -a'
 alias personal="cd ~/repos/personal"
 
+### Remote Specific ###
+alias tgr="cd ~/repos/tiger"
+alias tiger="tgr"
+alias drgn="cd ~/repos/dragon"
+alias dragon="drgn"
+
+alias fix_argon="cd ~/repos/tiger && mix deps.clean argon2_elixir && mix deps.get && rm -rf deps/argon2_elixir/priv && cd -"
