@@ -1,46 +1,69 @@
---[[
-lvim is the global options object
-
-Linters should be
-filled in as strings with either
-a global executable or a path to
-an executable
-]]
--- THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
-
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save = true
-lvim.colorscheme = "material"
+lvim.colorscheme = "duskfox"
+-- lvim.colorscheme = "material"
 vim.opt.cmdheight = 1
 vim.opt.timeoutlen = 200
 
 -- Extra material.vim customizations
 vim.g.material_terminal_italics = 1
 vim.g.material_theme_style = "moonlight"
+vim.g.ayucolor="mirage"
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
 
 -- add your own keymapping
-lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
+lvim.keys.normal_mode["<C-y>"] = ":w<cr>"
+lvim.keys.normal_mode["<S-Up>"] = ":move-2<cr>"
+lvim.keys.normal_mode["<S-Down>"] = ":move+<cr>"
+lvim.keys.normal_mode["wh"] = ":wincmd h<cr>"
+lvim.keys.normal_mode["wj"] = ":wincmd j<cr>"
+lvim.keys.normal_mode["wk"] = ":wincmd k<cr>"
+lvim.keys.normal_mode["wl"] = ":wincmd l<cr>"
+
+-- Harpoon keybindings
+lvim.keys.normal_mode["<C-h>"] = "<cmd>lua require('harpoon.ui').toggle_quick_menu()<cr>"
+lvim.keys.normal_mode["<C-e>"] = "<cmd>lua require('harpoon.cmd-ui').toggle_quick_menu()<cr>"
+
+lvim.keys.normal_mode["<C-j>"] = "<cmd>lua require('harpoon.ui').nav_file(1)<cr>"
+lvim.keys.normal_mode["<C-k>"] = "<cmd>lua require('harpoon.ui').nav_file(2)<cr>"
+lvim.keys.normal_mode["<C-l>"] = "<cmd>lua require('harpoon.ui').nav_file(3)<cr>"
+lvim.keys.normal_mode["<C-;>"] = "<cmd>lua require('harpoon.ui').nav_file(4)<cr>"
 
 -- Spectre keybindings
 lvim.keys.normal_mode["<C-p>"] = "<cmd>lua require('spectre').open_visual({select_word=true})<cr>"
 lvim.keys.visual_mode["<C-p>"] = "<cmd>lua require('spectre').open_visual({select_word=true})<cr>"
 lvim.keys.visual_block_mode["<C-p>"] = "<cmd>lua require('spectre').open_visual({select_word=true})<cr>"
 
--- Nvim-cmp keybindings and configuration
-
 -- Telescope configuration
 lvim.builtin.telescope.defaults.prompt_prefix = '❯ '
+lvim.builtin.telescope.defaults.selection_caret = '> '
 lvim.builtin.telescope.defaults.file_ignore_patterns = {'node_modules/*', 'deps/*', 'build/*', '_build/*'}
+lvim.builtin.telescope.defaults.path_display.shorten = 8
 
 -- Change Telescope navigation to use j and k for navigation and n and p for history in both input and normal mode.
+-- #TODO: add item for searching and editing dotfiles
 lvim.builtin.telescope.on_config_done = function()
   require('telescope').load_extension('fzf')
 
+  require('telescope').setup {
+    defaults = {
+      preview = {
+        treesitter = false
+      }
+    },
+    pickers = {
+      find_files = { theme = "dropdown", disable_devicons = true, previewer = false},
+      git_files = { theme = "dropdown", disable_devicons = true, previewer = false},
+      projects = { theme = "dropdown", disable_devicons = true, previewer = false}
+    }
+  }
+
   local actions = require "telescope.actions"
+  lvim.builtin.telescope.defaults.mappings.i["<C-p>"] = actions.cycle_history_prev
+
   -- for input mode
   lvim.builtin.telescope.defaults.mappings.i["<C-j>"] = actions.move_selection_next
   lvim.builtin.telescope.defaults.mappings.i["<C-k>"] = actions.move_selection_previous
@@ -53,10 +76,62 @@ lvim.builtin.telescope.on_config_done = function()
 end
 
 -- Customize lualine
-lvim.builtin.lualine.options.theme = "nightfly"
+local components = require("lvim.core.lualine.components")
+
+lvim.builtin.lualine = {
+  active = true,
+  style = "default",
+  options = {
+    icons_enabled = true,
+    component_separators = { left = "", right = "" },
+    section_separators = { left = "", right = "" },
+    disabled_filetypes = {"alpha", "NvimTree", "Outline"},
+  },
+  sections = {
+    lualine_a = { "mode" },
+    lualine_b = { components.branch, { "filename", path = 1, shorting_target = 20 } },
+    lualine_c = { components.diff, components.python_env },
+    lualine_x = {
+      components.diagnostics,
+      components.treesitter,
+      components.lsp,
+      components.filetype,
+    },
+    lualine_y = { "location" },
+    lualine_z = { "progress" },
+  },
+  inactive_sections = {
+    lualine_a = { "filename" },
+    lualine_b = {},
+    lualine_c = {},
+    lualine_x = {},
+    lualine_y = {},
+    lualine_z = {},
+  },
+  tabline = {},
+  extensions = { "nvim-tree" },
+}
 
 -- Use which-key to add extra bindings with the leader-key prefix
-lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
+-- -- Bufferline
+-- lvim.builtin.which_key.mappings["b"]["l"] = { "<cmd>BufferMoveNext<cr>", "Move right" }
+-- lvim.builtin.which_key.mappings["b"]["h"] = { "<cmd>BufferMovePrevious<cr>", "Move left" }
+-- lvim.builtin.which_key.mappings["b"]["L"] = { "<cmd>BufferCloseBuffersRight<cr>", "Close all to the right" }
+-- lvim.builtin.which_key.mappings["b"]["H"] = { "<cmd>BufferCloseBuffersLeft<cr>", "Close all to the left" }
+-- lvim.builtin.which_key.mappings["b"]["p"] = { "<cmd>BufferPin<cr>", "Pin" }
+
+lvim.builtin.which_key.mappings["g"]["a"] = { "<cmd>lua require 'gitsigns'.stage_hunk()<cr>", "Stage Hunk" }
+lvim.builtin.which_key.mappings["g"]["s"] = { "<cmd>Telescope git_status<cr>", "Open changed file" }
+lvim.builtin.which_key.mappings["p"] = { "<cmd>Telescope projects<CR>", "Projects" }
+lvim.builtin.which_key.mappings["P"] = {
+  name = "Packer",
+  c = { "<cmd>PackerCompile<cr>", "Compile" },
+  i = { "<cmd>PackerInstall<cr>", "Install" },
+  r = { "<cmd>lua require('lvim.plugin-loader').recompile()<cr>", "Re-compile" },
+  s = { "<cmd>PackerSync<cr>", "Sync" },
+  S = { "<cmd>PackerStatus<cr>", "Status" },
+  u = { "<cmd>PackerUpdate<cr>", "Update" },
+}
 lvim.builtin.which_key.mappings["t"] = {
   name = "+Trouble",
   r = { "<cmd>Trouble lsp_references<cr>", "References" },
@@ -75,6 +150,7 @@ lvim.builtin.which_key.mappings["x"] = {
   g = {"<cmd>TestVisit<cr>", "Test visit"},
   c = {"<cmd>!mix credo --strict<cr>", "Run credo strict"},
   m = {"<cmd>!mix test<cr>", "Mix test"},
+  F = {"<cmd>!mix test --failed<cr>", "Mix test [failed]"},
 }
 
 lvim.builtin.which_key.mappings.s.B = { "<cmd>Telescope file_browser<cr>", "File browser"}
@@ -86,14 +162,23 @@ lvim.builtin.which_key.mappings["r"] = {
   f = {"<cmd>lua require('spectre').open_file_search()<cr>", "Open spectre for file"},
 }
 
+lvim.builtin.which_key.mappings["a"] = {"<cmd>lua require('harpoon.mark').add_file()<cr>", "Throw harpoon"}
+lvim.builtin.which_key.mappings["h"] = {
+  name = "Harpoon",
+  a = {"<cmd>lua require('harpoon.mark').add_file()<cr>", "Mark"},
+  ["j"] = {"<cmd>lua require('harpoon.ui').nav_file(1)<cr>", "first"},
+  ["k"] = {"<cmd>lua require('harpoon.ui').nav_file(2)<cr>", "second"},
+  ["l"] = {"<cmd>lua require('harpoon.ui').nav_file(3)<cr>", "third"},
+  [";"] = {"<cmd>lua require('harpoon.ui').nav_file(4)<cr>", "fourth"},
+}
+
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
-lvim.builtin.dashboard.active = true
+lvim.builtin.alpha.active = true
 lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.side = "left"
 
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.ensure_installed = "maintained"
-lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enabled = true
 
 -- generic LSP settings
@@ -141,15 +226,27 @@ lvim.builtin.treesitter.highlight.enabled = true
 lvim.plugins = {
     -- Themes
     {"jwbaldwin/moonlight-material.vim"},
+    -- {"~/repos/moonlight-material.vim"},
+    {"nvim-treesitter/playground"},
     {"shaunsingh/moonlight.nvim"},
+    {"ayu-theme/ayu-vim"},
     {"folke/tokyonight.nvim"},
+    {"EdenEast/nightfox.nvim"},
 
-    -- Language stuff
+    -- Language and Sessions stuff
     {
       "folke/trouble.nvim",
       cmd = "TroubleToggle",
     },
-    {"elixir-editors/vim-elixir"},
+    {
+    "folke/persistence.nvim",
+    event = "BufReadPre", -- this will only start session saving when an actual file was opened
+    module = "persistence",
+    config = function()
+      require("persistence").setup()
+    end,
+    },
+    -- {"elixir-editors/vim-elixir"},
 
     -- Editor stuff
     {"tpope/vim-surround"},
@@ -158,8 +255,16 @@ lvim.plugins = {
     {"c-brenn/fuzzy-projectionist.vim"},
     {"vim-test/vim-test"},
     {"ggandor/lightspeed.nvim"},
+    -- {"phaazon/hop.nvim",
+    --   branch = 'v1',
+    --   config = function()
+    --     -- you can configure Hop the way you like here; see :h hop-config
+    --     require'hop'.setup()
+    --   end
+    -- },
     {"windwp/nvim-spectre"},
-    {"kevinhwang91/nvim-bqf", ft = 'qf'}
+    {"kevinhwang91/nvim-bqf", ft = 'qf'},
+    {"ThePrimeagen/harpoon"}
     -- {"github/copilot.vim"},
 }
 
@@ -167,18 +272,19 @@ lvim.plugins = {
 -- Plugin configuration
 lvim.lsp.diagnostics.virtual_text = true
 
-
--- Tab autocomplete for suggestions
--- lvim.builtin.cmp.mapping["<Tab>"] = Cmp.mapping.confirm({
---       behavior = Cmp.ConfirmBehavior.Replace,
---       select = true,
---   })
-Cmp = require("cmp")
-Cmp.setup ({
+require("cmp").setup ({
   completion = {
     completeopt = 'menu,menuone,noinsert',
   },
 })
+
+-- Hop configuration
+-- vim.api.nvim_set_keymap('n', 's', "<cmd>lua require'hop'.hint_words()<cr>", {})
+-- vim.api.nvim_set_keymap('n', 'S', "<cmd>lua require'hop'.hint_lines()<cr>", {})
+
+require("lightspeed").setup {
+  ignore_case = true
+}
 
 -- Makes copilot and C-e complete work with cmp
 -- vim.g.copilot_no_tab_map = true
@@ -200,16 +306,16 @@ Cmp.setup ({
 vim.g['test#strategy'] = 'neovim'
 vim.g['test#neovim#term_position'] = 'vertical'
 vim.g['test#echo_command'] = 1
-vim.g['test#start_normal'] = 0
+vim.g['test#start_normal'] = 1
 
 require('spectre').setup {
-  is_insert_mode = true
+  is_insert_mode = false
 }
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
-lvim.autocommands.custom_groups = {
+-- lvim.autocommands.custom_groups = {
   -- { "BufRead,BufNewFile", "*.html.*", "setf html" },
-}
+-- }
 
 -- Toggle quickfix
 Toggle_qf = function()
@@ -229,3 +335,10 @@ Toggle_qf = function()
 end
 
 lvim.keys.normal_mode["<C-q>"] = "<cmd> lua Toggle_qf()<cr>"  -- Toggle nvim-bqf quickfix list
+
+---
+-- Load in my stuff
+---
+lvim.builtin.alpha.mode = "custom"
+local alpha_opts = require("user.dashboard").config()
+lvim.builtin.alpha["custom"] = { config = alpha_opts }

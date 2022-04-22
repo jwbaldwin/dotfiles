@@ -1,4 +1,7 @@
 # vim: filetype=sh
+RED='\033[0;31m'
+YELLOW='\033[1;33m'
+NC='\033[0m'
 
 # Edit and Source shortuts
 alias ebash="vi ~/.bashrc"
@@ -27,9 +30,28 @@ alias lsa='ls -a'
 alias personal="cd ~/repos/personal"
 
 ### Remote Specific ###
+# movement
 alias tgr="cd ~/repos/tiger"
 alias tiger="tgr"
 alias drgn="cd ~/repos/dragon"
 alias dragon="drgn"
 
+# operations
+upd() {
+  cd ~/repos/tiger
+  git checkout master
+  git pull origin master
+  MIX_ENV=test mix ecto.drop
+  mix test.setup
+}
+
+alias staging_remote="echo -e '========= CONNECTING TO ${YELLOW}[STAGING]${NC} =========\n' && remotectl k8s shell tiger-api -e staging -l -c -r engineer"
+alias prod_remote="echo -e '${RED}========= CONNECTING TO [PRODUCTION] =========${NC} \n' && remotectl k8s shell tiger-api -e production -c -r engineer"
 alias fix_argon="cd ~/repos/tiger && mix deps.clean argon2_elixir && mix deps.get && rm -rf deps/argon2_elixir/priv && cd -"
+alias stripe_nl="stripe listen --api-key sk_test_51Hejj5C9nQV5leL26mjbHwEauWgVkI4yHEA46F6eHQIZKXxCxydtuyxEaoGL87DFBCjQT5i3KBLbR98Z5iEnh3ug00hVuFXUPR  -f localhost:4000/api/v1/payment-methods-nl"
+alias stripe_us="stripe listen --api-key sk_test_EFXTnee8RunsgppmLPCY2WaV -f localhost:4000/api/v1/payment-methods-us"
+
+### Asdf Updating nvim ###
+alias update-nvim-stable='asdf uninstall neovim stable && asdf install neovim stable'
+alias update-nvim-nightly='asdf uninstall neovim nightly && asdf install neovim nightly'
+alias update-nvim-master='asdf uninstall neovim ref:master && asdf install neovim ref:master'

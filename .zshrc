@@ -143,7 +143,10 @@ source ~/.bashrc
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+##### REMOTE SPECIFIC ENV VARS #####
+export AWS_PROFILE=sts
+export REMOTE_USERNAME=james.baldwin@remote.com
+
 # Command for managing dotfiles
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias df='dotfiles'
-

@@ -1,10 +1,12 @@
 # vim: filetype=sh
 
+primary_branch="master"
+
 # Remove `+` and `-` from start of diff lines; just rely upon color.
 alias gd='git diff --color | sed "s/^\([^-+ ]*\)[-+ ]/\\1/" | less -r'
 
-alias glog="git log --all --graph --pretty=oneline --decorate --abbrev-commit"
-alias gl='git log --stat --color'
+alias gl="git log --all --graph --pretty=oneline --decorate --abbrev-commit"
+alias gl='git log --oneline'
 alias gs='git status -sb'
 alias ga='git add -A'
 alias gcm='git commit -m'
@@ -13,7 +15,8 @@ alias gpush='git push'
 alias gpull='git pull'
 alias gcane='git commit --ammend --no-edit'
 alias gpr='hub pull-request'
-alias gm="git checkout main && git pull"
+alias gm='git checkout $primary_branch && git pull'
+alias gmain="git checkout main && git pull"
 alias gmas="git checkout master && git pull"
 
 # Start a new branch with last commit, then revert the commit in the previous branch
