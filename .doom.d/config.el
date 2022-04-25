@@ -6,8 +6,8 @@
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets. It is optional.
-(setq user-full-name "John Doe"
-      user-mail-address "john@doe.com")
+(setq user-full-name "James Baldwin"
+      user-mail-address "jwbaldwin3@gmail.com")
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom:
 ;;
@@ -32,45 +32,153 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-one)
 
-;; This determines the style of line numbers in effect. If set to `nil', line
-;; numbers are disabled. For relative line numbers, set this to `relative'.
+(setq doom-theme 'doom-palenight
+      doom-font (font-spec :family "DankMono Nerd Font" :size 16)
+      doom-big-font (font-spec :family "DankMono Nerd Font" :size 16))
+
+(after! doom-themes
+  (setq doom-themes-enable-bold t
+        doom-themes-enable-italic t))
+
+(setq doom-neotree-enable-variable-pitch nil)
+
 (setq display-line-numbers-type t)
 
-;; If you use `org' and don't want your org files in the default location below,
-;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/org/")
 
+(setq evil-escape-key-sequence "kj")
 
-;; Whenever you reconfigure a package, make sure to wrap your config in an
-;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
+;; Workaround to enable running credo after lsp
+(defvar-local my/flycheck-local-cache nil)
+(defun my/flycheck-checker-get (fn checker property)
+  (or (alist-get property (alist-get checker my/flycheck-local-cache))
+      (funcall fn checker property)))
+(advice-add 'flycheck-checker-get :around 'my/flycheck-checker-get)
+(add-hook 'lsp-managed-mode-hook
+          (lambda ()
+            (when (derived-mode-p 'elixir-mode)
+              (setq my/flycheck-local-cache '((lsp . ((next-checkers . (elixir-credo)))))))
+            ))
+
+;; Reducde lsp compilation
+(setq lsp-file-watch-ignored
+      '(".idea" ".ensime_cache" ".eunit" "node_modules"
+        ".git" ".hg" ".fslckout" "_FOSSIL_"
+        ".bzr" "_darcs" ".tox" ".svn" ".stack-work"
+        "build" "_build" "deps" "postgres-data")
+      )
+
+;; Format after save
+(setq-hook! 'elixir-mode-hook +format-with-lsp nil)
+(add-hook 'elixir-mode-hook
+          (lambda ()
+            (add-hook 'before-save-hook #'elixir-format nil t)))
+(setq elixir-format-arguments (list "--dot-formatter" ".formatter.exs"))
+
+;; Tabs configuration
+(after! centaur-tabs
+  :ensure t
+  :config
+   (setq centaur-tabs-style "bar"
+         centaur-tabs-set-bar 'over
+         centaur-tabs-set-icons t
+         centaur-tabs-gray-out-icons 'buffer)
+   (centaur-tabs-headline-match)
+   (centaur-tabs-mode t))
+
 ;;
-;;   (after! PACKAGE
-;;     (setq x y))
+;; Keybinds
 ;;
-;; The exceptions to this rule:
-;;
-;;   - Setting file/directory variables (like `org-directory')
-;;   - Setting variables which explicitly tell you to set them before their
-;;     package is loaded (see 'C-h v VARIABLE' to look up their documentation).
-;;   - Setting doom variables (which start with 'doom-' or '+').
-;;
-;; Here are some additional functions/macros that will help you configure Doom.
-;;
-;; - `load!' for loading external *.el files relative to this one
-;; - `use-package!' for configuring packages
-;; - `after!' for running code after a package has loaded
-;; - `add-load-path!' for adding directories to the `load-path', relative to
-;;   this file. Emacs searches the `load-path' when you load packages with
-;;   `require' or `use-package'.
-;; - `map!' for binding new keys
-;;
-;; To get information about any of these functions/macros, move the cursor over
-;; the highlighted symbol at press 'K' (non-evil users must press 'C-c c k').
-;; This will open documentation for it, including demos of how they are used.
-;; Alternatively, use `C-h o' to look up a symbol (functions, variables, faces,
-;; etc).
-;;
-;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
-;; they are implemented.
+
+
+(map! :leader
+      :desc "Neotree"
+      "e" #'+treemacs/toggle)
+
+(map! :leader
+      :desc "Find file in project"
+      "." 'projectile-find-file)
+
+;; Motion
+(after! evil-easymotion
+  (evil-define-key* '(motion normal) evil-snipe-local-mode-map "S" nil)
+  (evil-define-key* '(motion normal) evil-snipe-local-mode-map "s" nil)
+  (define-key evil-normal-state-map "S" nil)
+  (evilem-default-keybindings "S"))
+
+(map! :n "s" 'evil-avy-goto-char-2)
+(map! :v "z" 'evil-avy-goto-char-2-below)
+(map! :v "Z" 'evil-avy-goto-char-2-above)
+
+;; optional, if you want to see the which key popup
+(setq which-key-show-transient-maps t)
+
+;; Tabs
+(map!
+ :n "H" 'centaur-tabs-backward
+ :n "L" 'centaur-tabs-forward)
+
+;; Harpoon
+(map! :leader "j c" 'harpoon-clear)
+(map! :leader "j f" 'harpoon-toggle-file)
+
+(map! :n "C-h" 'harpoon-quick-menu-hydra)
+(map! :n "C-f" 'harpoon-add-file)
+(map! :n "C-j" 'harpoon-go-to-1)
+(map! :n "C-k" 'harpoon-go-to-2)
+(map! :n "C-l" 'harpoon-go-to-3)
+(map! :n "C-;" 'harpoon-go-to-4)
+
+;; elixir specific keybinds
+
+;; unbind some stuff
+(map! :after elixir-mode
+      :map alchemist-mode-map
+      :n "C-j" nil
+      :n "C-k" nil)
+
+(map! :after elixir-mode
+      :map elixir-mode-map
+      :n "C-j" nil
+      :n "C-k" nil)
+
+(map! :nv "gr" '+lookup/references)
+(map! :nv "gR" 'xref-find-references)
+
+(map! :after elixir-mode
+      :localleader
+      :map elixir-mode-map
+      (:prefix ("i" . "iEx")
+      :desc "iEx session" :n "i" #'alchemist-iex-start-process
+      :desc "mix -S iEx session" :n "p" #'alchemist-iex-project-run))
+
+(map! :after elixir-mode
+      :map alchemist-mode-map
+      :n "C-<up>" #'alchemist-goto-jump-to-previous-def-symbol)
+(map! :after elixir-mode
+      :map alchemist-mode-map
+      :n "C-<down>" #'alchemist-goto-jump-to-next-def-symbol)
+
+(map! :after elixir-mode
+      :localleader
+      :map alchemist-mode-map
+      :desc "Alternate file" :nve "a" #'exunit-toggle-file-and-test
+      :desc "Run module" :nve "m" #'exunit-verify
+      :desc "Run single" :nve "s" #'exunit-verify-single
+      :desc "Run last" :nve "l" #'exunit-rerun)
+
+(map! :after elixir-mode
+      :map elixir-mode-map
+      :desc "Run debug"
+       :nve "SPC m t d" #'exunit-debug)
+
+(map! :after elixir-mode
+      :map elixir-mode-map
+      :desc "Run all tests"
+       :nve "SPC m t a" #'exunit-verify-all)
+
+(map! :after elixir-mode
+      :map elixir-mode-map
+      :desc "Make test file"
+       :nve "SPC m t f" #'exunit-create-test-for-current-buffer)

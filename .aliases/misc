@@ -9,8 +9,18 @@ alias sbash="source ~/.bashrc"
 alias ezsh="vi ~/.zshrc"
 alias szsh="source ~/.zshrc"
 
+# EMACS ALIASES
+alias e="emacsclient -nc"
+alias em="emacsclient -n"
+alias et="emacsclient -nw"
+alias emacs="~/.local/bin/emacs"
+alias emd="emacs --daemon"
 
-# Use lvim for everything
+export ALTERNATE_EDITOR=""
+export EDITOR="emacsclient -c"                  # $EDITOR opens in GUI mode
+export VISUAL="emacsclient -c -a emacs"         # $VISUAL opens in GUI mode
+
+# LVIM ALIASES
 alias v="lvim"
 # alias vim="lvim" except this
 alias vi="lvim"
