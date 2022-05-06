@@ -33,9 +33,17 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 
+;; ===========================
+;;
+;; Doom config
+;;
+;; ===========================
+
 (setq doom-theme 'doom-palenight
       doom-font (font-spec :family "DankMono Nerd Font" :size 16)
       doom-big-font (font-spec :family "DankMono Nerd Font" :size 16))
+
+(setq-default line-spacing 0.4)
 
 (after! doom-themes
   (setq doom-themes-enable-bold t
@@ -48,6 +56,48 @@
 (setq org-directory "~/org/")
 
 (setq evil-escape-key-sequence "kj")
+
+;; ===========================
+;;
+;; Dashboard
+;;
+;; ===========================
+
+(setq fancy-splash-image "~/.doom.d/banners/black-hole.png"
+      +doom-dashboard-banner-padding '(0 . 5)
+      +doom-dashboard--width 100)
+
+(setq +doom-dashboard-menu-sections
+  '(("Explore"
+     :icon (all-the-icons-octicon "search" :height 0.75 :face 'doom-dashboard-menu-title)
+     :action find-file)
+    ("Recents"
+     :icon (all-the-icons-octicon "history" :height 0.75 :face 'doom-dashboard-menu-title)
+     :action recentf-open-files)
+    ("Restore"
+     :icon (all-the-icons-octicon "light-bulb" :height 0.75 :face 'doom-dashboard-menu-title)
+     :when (cond ((featurep! :ui workspaces)
+                  (file-exists-p (expand-file-name persp-auto-save-fname persp-save-dir)))
+                 ((require 'desktop nil t)
+                  (file-exists-p (desktop-full-file-name))))
+     :face (:inherit (doom-dashboard-menu-title bold))
+     :action doom/quickload-session)
+    ("Projects"
+     :icon (all-the-icons-octicon "repo" :height 0.75 :face 'doom-dashboard-menu-title)
+     :action projectile-switch-project)
+    ("Config"
+     :icon (all-the-icons-octicon "settings" :height 0.75 :face 'doom-dashboard-menu-title)
+     :when (file-directory-p doom-private-dir)
+     :action doom/open-private-config)))
+
+(remove-hook '+doom-dashboard-functions 'doom-dashboard-widget-footer)
+(remove-hook '+doom-dashboard-functions 'doom-dashboard-widget-loaded)
+
+;; ===========================
+;;
+;; General plugin config
+;;
+;; ===========================
 
 ;; Workaround to enable running credo after lsp
 (defvar-local my/flycheck-local-cache nil)
@@ -71,10 +121,7 @@
 
 ;; Format after save
 (setq-hook! 'elixir-mode-hook +format-with-lsp nil)
-(add-hook 'elixir-mode-hook
-          (lambda ()
-            (add-hook 'before-save-hook #'elixir-format nil t)))
-(setq elixir-format-arguments (list "--dot-formatter" ".formatter.exs"))
+
 
 ;; Tabs configuration
 (after! centaur-tabs
@@ -87,9 +134,11 @@
    (centaur-tabs-headline-match)
    (centaur-tabs-mode t))
 
+;; ===========================
 ;;
 ;; Keybinds
 ;;
+;; ===========================
 
 
 (map! :leader
@@ -100,12 +149,17 @@
       :desc "Find file in project"
       "." 'projectile-find-file)
 
+(map! :leader
+      :desc "Dashboard"
+      "d" #'+doom-dashboard/open)
+
 ;; Motion
 (after! evil-easymotion
   (evil-define-key* '(motion normal) evil-snipe-local-mode-map "S" nil)
   (evil-define-key* '(motion normal) evil-snipe-local-mode-map "s" nil)
   (define-key evil-normal-state-map "S" nil)
   (evilem-default-keybindings "S"))
+
 
 (map! :n "s" 'evil-avy-goto-char-2)
 (map! :v "z" 'evil-avy-goto-char-2-below)
@@ -118,6 +172,17 @@
 (map!
  :n "H" 'centaur-tabs-backward
  :n "L" 'centaur-tabs-forward)
+
+;; unbind some stuff
+(map! :after elixir-mode
+      :map alchemist-mode-map
+      :n "C-j" nil
+      :n "C-k" nil)
+
+(map! :after elixir-mode
+      :map elixir-mode-map
+      :n "C-j" nil
+      :n "C-k" nil)
 
 ;; Harpoon
 (map! :leader "j c" 'harpoon-clear)
@@ -132,17 +197,6 @@
 
 ;; elixir specific keybinds
 
-;; unbind some stuff
-(map! :after elixir-mode
-      :map alchemist-mode-map
-      :n "C-j" nil
-      :n "C-k" nil)
-
-(map! :after elixir-mode
-      :map elixir-mode-map
-      :n "C-j" nil
-      :n "C-k" nil)
-
 (map! :nv "gr" '+lookup/references)
 (map! :nv "gR" 'xref-find-references)
 
@@ -150,7 +204,7 @@
       :localleader
       :map elixir-mode-map
       (:prefix ("i" . "iEx")
-      :desc "iEx session" :n "i" #'alchemist-iex-start-process
+      :desc "iEx session" :n "i" #'alchemist-iex-run
       :desc "mix -S iEx session" :n "p" #'alchemist-iex-project-run))
 
 (map! :after elixir-mode

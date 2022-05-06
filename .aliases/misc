@@ -47,6 +47,8 @@ alias drgn="cd ~/repos/dragon"
 alias dragon="drgn"
 
 # operations
+alias tiger-up="git pull && mix deps.get --force && mix compile && MIX_ENV=test mix compile && mix ecto.migrate && MIX_ENV=test mix ecto.migrate"
+
 upd() {
   cd ~/repos/tiger
   git checkout master
