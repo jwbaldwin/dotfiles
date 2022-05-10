@@ -126,9 +126,6 @@
 (setq lsp-elixir-signature-after-complete nil)
 
 
-;; Format after save
-(setq-hook! 'elixir-mode-hook +format-with-lsp nil)
-
 ;; Add known projects
 (projectile-add-known-project "~/repos/tiger")
 (projectile-add-known-project "~/repos/dragon")
@@ -152,6 +149,7 @@
       :desc "Dashboard"
       "d" #'+doom-dashboard/open)
 
+(map! :map alchemist-mode-map :n "C-t" nil)
 (map! :map evil-normal-state-map :ni "C-t" nil)
 (map! :ni "C-t" '+vterm/toggle)
 
