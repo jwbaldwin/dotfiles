@@ -61,7 +61,14 @@ lvim.builtin.telescope.on_config_done = function()
     }
   }
 
-  local actions = require "telescope.actions"
+  local actions = require( "telescope.actions")require("telescope").setup{
+    pickers = {
+      buffers = {
+        sort_lastused = true
+      }
+    }
+  }
+
   lvim.builtin.telescope.defaults.mappings.i["<C-p>"] = actions.cycle_history_prev
 
   -- for input mode

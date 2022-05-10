@@ -39,11 +39,12 @@
 ;;
 ;; ===========================
 
-(setq doom-theme 'doom-palenight
+(setq doom-theme 'doom-moonlight-ii
       doom-font (font-spec :family "DankMono Nerd Font" :size 16)
       doom-big-font (font-spec :family "DankMono Nerd Font" :size 16))
 
-(setq-default line-spacing 0.4)
+;; Set line height and center the text in the new line height
+(setq-default default-text-properties '(line-spacing 0.25 line-height 1.25))
 
 (after! doom-themes
   (setq doom-themes-enable-bold t
@@ -63,7 +64,8 @@
 ;;
 ;; ===========================
 
-(setq fancy-splash-image "~/.doom.d/banners/black-hole.png"
+(setq +doom-dashboard-banner-dir "~/.doom.d/banners/"
+      +doom-dashboard-banner-file "black-hole.png"
       +doom-dashboard-banner-padding '(0 . 5)
       +doom-dashboard--width 100)
 
@@ -111,28 +113,25 @@
               (setq my/flycheck-local-cache '((lsp . ((next-checkers . (elixir-credo)))))))
             ))
 
-;; Reducde lsp compilation
+;; Reduce lsp compilation
 (setq lsp-file-watch-ignored
       '(".idea" ".ensime_cache" ".eunit" "node_modules"
         ".git" ".hg" ".fslckout" "_FOSSIL_"
         ".bzr" "_darcs" ".tox" ".svn" ".stack-work"
         "build" "_build" "deps" "postgres-data")
       )
+(setq lsp-elixir-suggest-specs nil)
+(setq lsp-elixir-mix-env "dev")
+(setq lsp-elixir-dialyzer-enabled nil)
+(setq lsp-elixir-signature-after-complete nil)
+
 
 ;; Format after save
 (setq-hook! 'elixir-mode-hook +format-with-lsp nil)
 
-
-;; Tabs configuration
-(after! centaur-tabs
-  :ensure t
-  :config
-   (setq centaur-tabs-style "bar"
-         centaur-tabs-set-bar 'over
-         centaur-tabs-set-icons t
-         centaur-tabs-gray-out-icons 'buffer)
-   (centaur-tabs-headline-match)
-   (centaur-tabs-mode t))
+;; Add known projects
+(projectile-add-known-project "~/repos/tiger")
+(projectile-add-known-project "~/repos/dragon")
 
 ;; ===========================
 ;;
@@ -153,6 +152,9 @@
       :desc "Dashboard"
       "d" #'+doom-dashboard/open)
 
+(map! :map evil-normal-state-map :ni "C-t" nil)
+(map! :ni "C-t" '+vterm/toggle)
+
 ;; Motion
 (after! evil-easymotion
   (evil-define-key* '(motion normal) evil-snipe-local-mode-map "S" nil)
@@ -168,16 +170,9 @@
 ;; optional, if you want to see the which key popup
 (setq which-key-show-transient-maps t)
 
-;; Tabs
-(map!
- :n "H" 'centaur-tabs-backward
- :n "L" 'centaur-tabs-forward)
-
 ;; unbind some stuff
-(map! :after elixir-mode
-      :map alchemist-mode-map
-      :n "C-j" nil
-      :n "C-k" nil)
+(map! :map alchemist-mode-map :n "C-j" nil)
+(map! :map alchemist-mode-map :n "C-k" nil)
 
 (map! :after elixir-mode
       :map elixir-mode-map
@@ -196,7 +191,6 @@
 (map! :n "C-;" 'harpoon-go-to-4)
 
 ;; elixir specific keybinds
-
 (map! :nv "gr" '+lookup/references)
 (map! :nv "gR" 'xref-find-references)
 

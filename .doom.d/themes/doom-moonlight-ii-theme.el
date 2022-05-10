@@ -62,7 +62,7 @@ Can be an integer to determine the exact padding."
    (selection      region)
    (builtin        magenta)
    (comments       indigo)
-   (doc-comments   (doom-lighten comments 0.25))
+   (doc-comments   (doom-lighten comments 0.05))
    (constants      orange)
    (functions      blue)
    (keywords       magenta)
@@ -77,7 +77,7 @@ Can be an integer to determine the exact padding."
    (warning        yellow)
    (success        green)
    (vc-modified    blue)
-   (vc-added       teal)
+   (vc-added       green)
    (vc-deleted     red)
 
    ;; custom categories
@@ -91,13 +91,17 @@ Can be an integer to determine the exact padding."
       (if (integerp doom-moonlight-ii-padded-modeline) doom-moonlight-ii-padded-modeline 4))))
 
   ;;;; Base theme face overrides
-  ((font-lock-keyword-face :foreground keywords)
-   (font-lock-comment-face :foreground comments)
-   (font-lock-doc-face :foreground doc-comments)
+
+  ((font-lock-comment-face :foreground comments :slant 'italic)
+   (font-lock-doc-face :foreground doc-comments :slant 'italic)
+   (font-lock-keyword-face :foreground keywords :slant 'italic)
+   (font-lock-variable-name-face :foreground fg)
+   (elixir-atom-face :foreground light-red)
+   (elixir-attribute-face :foreground orange)
    (hl-line :background line-highlight)
    (lazy-highlight :background base4 :foreground fg)
    ((line-number &override) :foreground base5 :background (doom-darken bg 0.06))
-   ((line-number-current-line &override) :foreground fg :background line-highlight)
+   ((line-number-current-line &override) :foreground yellow :background line-highlight)
    (mode-line
     :background modeline-bg :foreground modeline-fg
     :box (if -modeline-pad `(:line-width ,-modeline-pad :color ,modeline-bg)))
