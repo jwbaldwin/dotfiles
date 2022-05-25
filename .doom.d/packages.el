@@ -48,3 +48,8 @@
 ;(unpin! pinned-package another-pinned-package)
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
+
+(package! elixir-mode :recipe (:local-repo "/Users/jwbaldwin/repos/emacs-elixir" :build (:not compile)))
+
+;; Git-lens style git blame plugin
+(package! blamer)

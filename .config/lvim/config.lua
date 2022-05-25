@@ -234,7 +234,6 @@ lvim.plugins = {
     -- Themes
     {"jwbaldwin/moonlight-material.vim"},
     -- {"~/repos/moonlight-material.vim"},
-    {"nvim-treesitter/playground"},
     {"shaunsingh/moonlight.nvim"},
     {"ayu-theme/ayu-vim"},
     {"folke/tokyonight.nvim"},

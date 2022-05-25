@@ -96,6 +96,7 @@ Can be an integer to determine the exact padding."
    (font-lock-doc-face :foreground doc-comments :slant 'italic)
    (font-lock-keyword-face :foreground keywords :slant 'italic)
    (font-lock-variable-name-face :foreground fg)
+   (elixir-function-call-face :foreground functions)
    (elixir-atom-face :foreground light-red)
    (elixir-attribute-face :foreground orange)
    (hl-line :background line-highlight)

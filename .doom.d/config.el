@@ -149,8 +149,10 @@
       :desc "Dashboard"
       "d" #'+doom-dashboard/open)
 
-(map! :map alchemist-mode-map :n "C-t" nil)
+(map! :after alchemist-mode :map alchemist-mode-map :ni "C-t" nil)
 (map! :map evil-normal-state-map :ni "C-t" nil)
+(map! :after alchemist-mode :map alchemist-mode-map :n "gb" #'alchemist-goto-jump-back)
+(map! :after alchemist-mode :map alchemist-mode-map :ni "C-t" '+vterm/toggle)
 (map! :ni "C-t" '+vterm/toggle)
 
 ;; Motion
@@ -169,8 +171,11 @@
 (setq which-key-show-transient-maps t)
 
 ;; unbind some stuff
-(map! :map alchemist-mode-map :n "C-j" nil)
-(map! :map alchemist-mode-map :n "C-k" nil)
+(map! :after alchemist-mode :map alchemist-mode-map :n "C-j" nil)
+(map! :after alchemist-mode :map alchemist-mode-map :n "C-k" nil)
+
+(map! :after alchemist :map alchemist-mode-map :n "C-j" nil)
+(map! :after alchemist :map alchemist-mode-map :n "C-k" nil)
 
 (map! :after elixir-mode
       :map elixir-mode-map
@@ -187,6 +192,24 @@
 (map! :n "C-k" 'harpoon-go-to-2)
 (map! :n "C-l" 'harpoon-go-to-3)
 (map! :n "C-;" 'harpoon-go-to-4)
+
+;; Git blame stuff
+(map! :leader
+      :map global-blamer-mode
+      :desc "Toggle blamer mode"
+      :nve "g B" #'blamer-mode)
+(use-package blamer
+  :defer 20
+  :custom
+        (blamer-author-formatter " ✎ %s ")
+        (blamer-datetime-formatter "[%s]")
+        (blamer-commit-formatter " • %s")
+        (blamer-prettify-time-p t)
+        (blamer-idle-time 0.3)
+        (blamer-min-offset 30)
+  :config
+        (global-blamer-mode 0))
+(setq blamer-view 'overlay-right)
 
 ;; elixir specific keybinds
 (map! :nv "gr" '+lookup/references)
