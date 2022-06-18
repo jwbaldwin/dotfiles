@@ -21,7 +21,7 @@ fi
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/jwbaldwin/.oh-my-zsh"
+export ZSH="/Users/jbaldwin/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -142,10 +142,6 @@ source ~/.bashrc
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-##### REMOTE SPECIFIC ENV VARS #####
-export AWS_PROFILE=sts
-export REMOTE_USERNAME=james.baldwin@remote.com
 
 # Command for managing dotfiles
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'

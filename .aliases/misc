@@ -15,6 +15,7 @@ alias em="emacsclient -n"
 alias et="emacsclient -nw"
 alias emacs="~/.local/bin/emacs"
 alias emd="emacs --daemon"
+alias emk="killall Emacs"
 
 export ALTERNATE_EDITOR=""
 export EDITOR="emacsclient -c"                  # $EDITOR opens in GUI mode
@@ -39,16 +40,6 @@ alias dc="docker-compose"
 alias lsa='ls -a'
 alias personal="cd ~/repos/personal"
 
-### Remote Specific ###
-# movement
-alias tgr="cd ~/repos/tiger"
-alias tiger="tgr"
-alias drgn="cd ~/repos/dragon"
-alias dragon="drgn"
-
-# operations
-alias tiger-up="git pull && mix deps.get --force && mix compile && MIX_ENV=test mix compile && mix ecto.migrate && MIX_ENV=test mix ecto.migrate"
-
 upd() {
   cd ~/repos/tiger
   git checkout master
@@ -57,11 +48,6 @@ upd() {
   mix test.setup
 }
 
-alias staging_remote="echo -e '========= CONNECTING TO ${YELLOW}[STAGING]${NC} =========\n' && remotectl k8s shell tiger-api -e staging -l -c -r engineer"
-alias prod_remote="echo -e '${RED}========= CONNECTING TO [PRODUCTION] =========${NC} \n' && remotectl k8s shell tiger-api -e production -c -r engineer"
-alias fix_argon="cd ~/repos/tiger && mix deps.clean argon2_elixir && mix deps.get && rm -rf deps/argon2_elixir/priv && cd -"
-alias stripe_nl="stripe listen --api-key sk_test_51Hejj5C9nQV5leL26mjbHwEauWgVkI4yHEA46F6eHQIZKXxCxydtuyxEaoGL87DFBCjQT5i3KBLbR98Z5iEnh3ug00hVuFXUPR  -f localhost:4000/api/v1/payment-methods-nl"
-alias stripe_us="stripe listen --api-key sk_test_EFXTnee8RunsgppmLPCY2WaV -f localhost:4000/api/v1/payment-methods-us"
 
 ### Asdf Updating nvim ###
 alias update-nvim-stable='asdf uninstall neovim stable && asdf install neovim stable'

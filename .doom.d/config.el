@@ -127,8 +127,6 @@
 
 
 ;; Add known projects
-(projectile-add-known-project "~/repos/tiger")
-(projectile-add-known-project "~/repos/dragon")
 
 ;; ===========================
 ;;
