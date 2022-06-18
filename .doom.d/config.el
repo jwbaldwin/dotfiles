@@ -195,7 +195,17 @@
 (map! :leader
       :map global-blamer-mode
       :desc "Toggle blamer mode"
-      :nve "g B" #'blamer-mode)
+      :nve "g b" #'blamer-mode)
+
+(map! :leader
+      :map global-blamer-mode
+      :desc "Push to upstream branch"
+      :nve "g p" #'magit-push-current-to-upstream)
+
+(map! :leader
+      :map global-blamer-mode
+      :desc "Checkout branch"
+      :nve "g B" #'magit-branch-checkout)
 (use-package blamer
   :defer 20
   :custom

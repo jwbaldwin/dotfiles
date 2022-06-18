@@ -1,21 +1,26 @@
+#!/bin/zsh
 # vim: filetype=sh
 RED='\033[0;31m'
 YELLOW='\033[1;33m'
+GREEN='\033[0;32m'
 NC='\033[0m'
 
 # Edit and Source shortuts
-alias ebash="vi ~/.bashrc"
+alias ebash="e ~/.bashrc"
 alias sbash="source ~/.bashrc"
-alias ezsh="vi ~/.zshrc"
+alias ezsh="e ~/.zshrc"
 alias szsh="source ~/.zshrc"
+alias edotfiles="e ~/.aliases"
 
 # EMACS ALIASES
 alias e="emacsclient -nc"
 alias em="emacsclient -n"
 alias et="emacsclient -nw"
 alias emacs="~/.local/bin/emacs"
+# emacs daemon
 alias emd="emacs --daemon"
-alias emk="killall Emacs"
+# emacs kill
+alias emk="killall Emacs && killall emacs"
 
 export ALTERNATE_EDITOR=""
 export EDITOR="emacsclient -c"                  # $EDITOR opens in GUI mode
@@ -39,15 +44,6 @@ alias dc="docker-compose"
 # Command-line related
 alias lsa='ls -a'
 alias personal="cd ~/repos/personal"
-
-upd() {
-  cd ~/repos/tiger
-  git checkout master
-  git pull origin master
-  MIX_ENV=test mix ecto.drop
-  mix test.setup
-}
-
 
 ### Asdf Updating nvim ###
 alias update-nvim-stable='asdf uninstall neovim stable && asdf install neovim stable'

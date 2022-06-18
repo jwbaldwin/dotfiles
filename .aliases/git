@@ -1,3 +1,4 @@
+#!/bin/zsh
 # vim: filetype=sh
 
 primary_branch="master"

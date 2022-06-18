@@ -1,3 +1,4 @@
+#!/bin/zsh
 # vim: filetype=sh
 
 alias weather="curl -s wttr.in | sed -n '1,7p'" # current weather
