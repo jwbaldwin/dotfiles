@@ -127,8 +127,6 @@
 
 
 ;; Add known projects
-(projectile-add-known-project "~/repos/tiger")
-(projectile-add-known-project "~/repos/dragon")
 
 ;; ===========================
 ;;
@@ -234,6 +232,25 @@
         (global-blamer-mode 0))
 (setq blamer-view 'overlay-right)
 
+(use-package polymode
+  :mode ("\.ex$" . poly-elixir-web-mode)
+  :config
+  (define-hostmode poly-elixir-hostmode :mode 'elixir-mode)
+  (define-innermode poly-liveview-expr-elixir-innermode
+    :mode 'web-mode
+    :head-matcher (rx line-start (* space) "~H" (= 3 (char "\"'")) line-end)
+    :tail-matcher (rx line-start (* space) (= 3 (char "\"'")) line-end)
+    :head-mode 'host
+    :tail-mode 'host
+    :allow-nested nil
+    :keep-in-mode 'host
+    :fallback-mode 'host)
+  (define-polymode poly-elixir-web-mode
+    :hostmode 'poly-elixir-hostmode
+    :innermodes '(poly-liveview-expr-elixir-innermode))
+  )
+(setq web-mode-engines-alist '(("elixir" . "\\.ex\\'")))
+
 ;; elixir specific keybinds
 (map! :nv "gr" '+lookup/references)
 (map! :nv "gR" 'xref-find-references)
@@ -274,3 +291,6 @@
       :map elixir-mode-map
       :desc "Make test file"
        :nve "SPC m t f" #'exunit-create-test-for-current-buffer)
+
+(map! :map doom-leader-code-map
+      :desc "Peek inline docs" "h" #'lsp-ui-doc-glance)

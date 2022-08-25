@@ -49,7 +49,10 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
 
-(package! elixir-mode :recipe (:local-repo "/Users/jwbaldwin/repos/emacs-elixir" :build (:not compile)))
+(package! elixir-mode :recipe (:local-repo "/Users/jbaldwin/repos/emacs-elixir" :build (:not compile)))
 
 ;; Git-lens style git blame plugin
 (package! blamer)
+
+;; Use web-move with elixir-mode for Heex
+(package! polymode)
