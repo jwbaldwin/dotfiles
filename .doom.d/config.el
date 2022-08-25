@@ -193,6 +193,19 @@
 (map! :n "C-l" 'harpoon-go-to-3)
 (map! :n "C-;" 'harpoon-go-to-4)
 
+;; Creates a function to edit my .aliases directory
+(defvar personal-dotfiles-dir (expand-file-name "~/.aliases/"))
+
+(defun personal/open-dotfiles ()
+  "Browse my personal dotfiles under `personal-dotfiles-dir`."
+  (interactive)
+  (doom-project-browse personal-dotfiles-dir))
+
+(map! :leader
+      :prefix-map ("f" . "file")
+      :desc "Browse personal dotfiles" "." #'personal/open-dotfiles
+      )
+
 ;; Git blame stuff
 (map! :leader
       :map global-blamer-mode
