@@ -1,21 +1,24 @@
 -- Just an example, supposed to be placed in /lua/custom/
 local M = {}
 
--- make sure you maintain the structure of `core/default_config.lua` here,
--- example of changing theme:
 M.ui = {
+  theme_toggle = {"tokyonight", "catppuccin"},
   theme = "tokyonight",
 }
 
 local pluginConfs = require("custom.p.configs")
 
 M.plugins = {
-  user = require("custom.p"),
+  user = require("custom.p.plugins"),
   override = {
       ["nvim-treesitter/nvim-treesitter"] = pluginConfs.treesitter,
       ["kyazdani42/nvim-tree.lua"] = pluginConfs.nvimtree,
       ["NvChad/ui"] = pluginConfs.ui,
-    },
+      ["hrsh7th/nvim-cmp"] = pluginConfs.cmp,
+  },
+  remove = {
+      "NvChad/nvterm",
+  }
 }
 
 M.mappings = require("custom.mappings")
@@ -23,6 +26,5 @@ M.mappings = require("custom.mappings")
 return M
 
 --  TODO: 
--- add projects into telescope
--- fix icons
--- customize dashboard
+-- lsp formatting
+-- go to test file

@@ -14,11 +14,17 @@ M.nvimtree = {
       enable = true,
    },
 }
+
+M.cmp = {
+  completion = {
+    completeopt = "menu,menuone,noinsert"
+  }
+}
+
 M.ui = {
   statusline = {
      separator_style = "round",
   },
 }
-
 
 return M
