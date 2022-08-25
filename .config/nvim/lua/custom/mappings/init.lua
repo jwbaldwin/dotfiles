@@ -1,31 +1,31 @@
 local M = {}
 
--- lvim.keys.normal_mode["<D-/>"] = "<Plug>(comment_toggle_linewise_visual)"
-
 M.base = {
   n = {
     -- dashboard
-    ["<leader>;"] = { ":Alpha <CR>", "dashboard"},
+    ["<leader>;"] = { ":Alpha <CR>", "dashboard" },
+    ["<leader>fe"] = { ":e ~/.config/nvim/lua/custom/chadrc.lua | :cd %:p:h <CR>", "edit config" },
+    ["<leader>f."] = { ":e ~/.aliases/ | :cd %:p:h <CR>", "edit dotfiles" },
 
     -- window nav
-    ["<leader>wh"] = { ":wincmd h<cr>", "window left"},
-    ["<leader>wj"] = { ":wincmd j<cr>", "window down"},
-    ["<leader>wk"] = { ":wincmd k<cr>", "window up"},
-    ["<leader>wl"] = { ":wincmd l<cr>", "window right"},
+    ["<leader>wh"] = { ":wincmd h<cr>", "window left" },
+    ["<leader>wj"] = { ":wincmd j<cr>", "window down" },
+    ["<leader>wk"] = { ":wincmd k<cr>", "window up" },
+    ["<leader>wl"] = { ":wincmd l<cr>", "window right" },
 
     -- packer
-    ["<leader>ps"] = { ":PackerSync <CR>", "packer sync"},
-    ["<leader>pc"] = { ":PackerCompile <CR>", "packer compie"},
+    ["<leader>ps"] = { ":PackerSync <CR>", "packer sync" },
+    ["<leader>pc"] = { ":PackerCompile <CR>", "packer compie" },
 
     -- misc
-    ["S-Up"] = {":move-2<cr>", "shift line up"},
-    ["S-Down"] = {":move+<cr>", "shift line down"}
+    ["S-Up"] = { ":move-2<cr>", "shift line up" },
+    ["S-Down"] = { ":move+<cr>", "shift line down" },
   },
   i = {
-     ["kk"] = { "<ESC>", "escape insert mode" , opts = { nowait = true }},
-     ["jj"] = { "<ESC>", "escape insert mode" , opts = { nowait = true }},
-     ["kj"] = { "<ESC>", "escape insert mode" , opts = { nowait = true }},
-     ["jk"] = { "<ESC>", "escape insert mode" , opts = { nowait = true }},
+    ["kk"] = { "<ESC>", "escape insert mode", opts = { nowait = true } },
+    ["jj"] = { "<ESC>", "escape insert mode", opts = { nowait = true } },
+    ["kj"] = { "<ESC>", "escape insert mode", opts = { nowait = true } },
+    ["jk"] = { "<ESC>", "escape insert mode", opts = { nowait = true } },
   },
 }
 
@@ -33,7 +33,6 @@ M.nvimtree = {
   n = {
     ["<leader>e"] = { "<cmd> NvimTreeToggle <CR>", "toggle nvimtree" },
   },
-
 }
 
 M.telescope = {
@@ -42,6 +41,7 @@ M.telescope = {
     ["<leader>'"] = { "<cmd> Telescope live_grep <CR>", "live grep" },
     ["<leader>,"] = { "<cmd> Telescope buffers <CR>", "find buffers" },
     ["<leader>pp"] = { "<cmd> Telescope project <CR>", "projects" },
+    ["<leader>ss"] = { ":Telescope session-lens search_session<CR>", "search sessions" },
   },
 }
 
@@ -79,16 +79,17 @@ M.tabufline = {
       "goto next buffer",
     },
     ["<leader>bk"] = {
-        function()
-          require("core.utils").close_buffer()
-        end,
-        "close buffers",
+      function()
+        require("core.utils").close_buffer()
+      end,
+      "close buffers",
     },
     ["<leader>bb"] = { "<cmd> TbufPick <CR>", "pick buffer" },
     ["<leader>bp"] = {
       function()
         require("core.utils").tabuflinePrev()
-      end, "pick buffer"
+      end,
+      "pick buffer",
     },
   },
 }
@@ -124,14 +125,14 @@ M.lspconfig = {
 
 M.harpoon = {
   n = {
-    ["<C-h>"] = {"<cmd>lua require('harpoon.ui').toggle_quick_menu()<cr>", "toggle harpoon menu"},
-    ["<C-e>"] = {"<cmd>lua require('harpoon.cmd-ui').toggle_quick_menu()<cr>", "toggle harpoon cmd ui"},
-    ["<C-j>"] = {"<cmd>lua require('harpoon.ui').nav_file(1)<cr>", "harpoon 1"},
-    ["<C-k>"] = {"<cmd>lua require('harpoon.ui').nav_file(2)<cr>", "harpoon 2"},
-    ["<C-l>"] = {"<cmd>lua require('harpoon.ui').nav_file(3)<cr>", "harpoon 3"},
-    ["<C-;>"] = {"<cmd>lua require('harpoon.ui').nav_file(4)<cr>", "harpoon 4"},
-    ["<C-f>"] = {"<cmd>lua require('harpoon.mark').add_file()<cr>", "harpoon: add file"},
-  }
+    ["<C-h>"] = { "<cmd>lua require('harpoon.ui').toggle_quick_menu()<cr>", "toggle harpoon menu" },
+    ["<C-e>"] = { "<cmd>lua require('harpoon.cmd-ui').toggle_quick_menu()<cr>", "toggle harpoon cmd ui" },
+    ["<C-j>"] = { "<cmd>lua require('harpoon.ui').nav_file(1)<cr>", "harpoon 1" },
+    ["<C-k>"] = { "<cmd>lua require('harpoon.ui').nav_file(2)<cr>", "harpoon 2" },
+    ["<C-l>"] = { "<cmd>lua require('harpoon.ui').nav_file(3)<cr>", "harpoon 3" },
+    ["<C-;>"] = { "<cmd>lua require('harpoon.ui').nav_file(4)<cr>", "harpoon 4" },
+    ["<C-f>"] = { "<cmd>lua require('harpoon.mark').add_file()<cr>", "harpoon: add file" },
+  },
 }
 
 return M

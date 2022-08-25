@@ -1,4 +1,4 @@
-local alpha = require("alpha")
+local alpha = require "alpha"
 
 require("base46").load_highlight "alpha"
 
@@ -13,7 +13,7 @@ local function button(sc, txt, keybind)
     width = 24,
     align_shortcut = "right",
     hl_shortcut = "Number",
-    hl = "AlphaButton"
+    hl = "AlphaButton",
   }
 
   if keybind then
