@@ -1,5 +1,11 @@
 local M = {}
 
+M.disabled = {
+  n = {
+    ["<C-c>"] = ""
+  }
+}
+
 M.base = {
   n = {
     -- dashboard
@@ -17,6 +23,11 @@ M.base = {
     ["<leader>ps"] = { ":PackerSync <CR>", "packer sync" },
     ["<leader>pc"] = { ":PackerCompile <CR>", "packer compie" },
 
+    -- copy and save
+    ["<C-y>"] = { "<cmd> w <CR>", "save file" },
+    ["<C-c>"] = { "<cmd> y <CR>", "copy line" },
+    ["<C-a>"] = { "<cmd> %y+ <CR>", "copy all" },
+
     -- misc
     ["S-Up"] = { ":move-2<cr>", "shift line up" },
     ["S-Down"] = { ":move+<cr>", "shift line down" },
@@ -27,6 +38,11 @@ M.base = {
     ["kj"] = { "<ESC>", "escape insert mode", opts = { nowait = true } },
     ["jk"] = { "<ESC>", "escape insert mode", opts = { nowait = true } },
   },
+  v = {
+    -- copy and paste in visual
+    ["<C-c>"] = { "<cmd>'<,'>y<CR>", "copy line" },
+    ["<C-a>"] = { "<cmd> %y+ <CR>", "copy all" },
+  }
 }
 
 M.nvimtree = {
