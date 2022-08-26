@@ -1,5 +1,6 @@
 #!/bin/zsh
 # vim: filetype=sh
+
 RED='\033[0;31m'
 YELLOW='\033[1;33m'
 GREEN='\033[0;32m'
@@ -23,8 +24,8 @@ alias emd="emacs --daemon"
 alias emk="killall Emacs && killall emacs"
 
 export ALTERNATE_EDITOR=""
-export EDITOR="emacsclient -c"                  # $EDITOR opens in GUI mode
-export VISUAL="emacsclient -c -a emacs"         # $VISUAL opens in GUI mode
+export EDITOR="emacsclient -c"          # $EDITOR opens in GUI mode
+export VISUAL="emacsclient -c -a emacs" # $VISUAL opens in GUI mode
 
 # LVIM ALIASES
 alias v="lvim"
@@ -35,7 +36,6 @@ alias lv="lvim"
 # Program related
 alias gg="./gradlew"
 alias exserver="iex -S mix phx.server"
-
 
 # Docker related
 alias dcu="docker-compose up -d"
