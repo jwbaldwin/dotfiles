@@ -50,8 +50,15 @@ lspconfig.sumneko_lua.setup {
   },
 }
 
+local elixirls = ""
+if os.getenv("USER") == "jbaldwin" then
+  elixirls = "/Users/jbaldwin/repos/elixir-ls/release/language_server.sh"
+else
+  elixirls = "/Users/jwbaldwin/.elixir-ls/release/language_server.sh"
+end
+
 lspconfig.elixirls.setup {
-  cmd = { "/Users/jwbaldwin/.elixir-ls/release/language_server.sh" },
+  cmd = { elixirls },
   on_attach = default_on_attach,
   capabilities = capabilities,
   settings = {
