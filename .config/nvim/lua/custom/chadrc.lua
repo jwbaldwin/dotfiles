@@ -2,8 +2,8 @@
 local M = {}
 
 M.ui = {
-  theme_toggle = { "tokyonight", "catppuccin" },
-  theme = "catppuccin",
+  theme_toggle = { "tokyonight", "moonlight" },
+  theme = "moonlight",
   hl_override = require("custom.highlights"),
 }
 
@@ -27,7 +27,5 @@ M.mappings = require "custom.mappings"
 return M
 
 --  TODO:
--- format on save
 -- go to test file
--- add session keymap
--- go to these files keymap
+-- better session management

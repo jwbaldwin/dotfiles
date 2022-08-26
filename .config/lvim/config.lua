@@ -32,6 +32,7 @@ lvim.builtin.treesitter.highlight.enabled = true
 
 -- generic LSP settings
 lvim.lsp.installer.setup.ensure_installed = {
+  "elixirls",
   "sumeko_lua",
   "jsonls",
 }

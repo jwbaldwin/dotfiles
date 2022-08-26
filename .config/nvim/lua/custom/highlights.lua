@@ -7,4 +7,5 @@ return {
   Comment = italic,
   Keyword = italic,
   TSKeywordFunction = italic,
+  Constant = { fg = "orange" },
 }

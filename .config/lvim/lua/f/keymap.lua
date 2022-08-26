@@ -7,10 +7,9 @@ lvim.keys.normal_mode["<Space>bl"] = ":BufferLineCyclePrev<CR>"
 lvim.keys.normal_mode["<Space>bk"] = ":BufferKill<CR>"
 lvim.keys.normal_mode["<Space>."] = ":Telescope enhanced_find_files<CR>"
 lvim.keys.normal_mode["<Space>,"] = ":Telescope buffers<CR>"
-lvim.keys.normal_mode["<Space>pp"] = ":Telescope buffers<CR>"
+lvim.keys.normal_mode["<Space>pp"] = ":Telescope projects<CR>"
 lvim.keys.normal_mode["<Space>/"] = ":Telescope live_grep<CR>"
-lvim.keys.normal_mode["<M>/"] = "<Plug>(comment_toggle_linewise_visual)"
--- ["/"] = { "<Plug>(comment_toggle_linewise_visual)", "Comment toggle linewise (visual)" },
+lvim.keys.normal_mode["<D-/>"] = "<Plug>(comment_toggle_linewise_visual)"
 
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 lvim.keys.normal_mode["<C-y>"] = ":w<cr>"
