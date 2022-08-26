@@ -51,7 +51,7 @@ lspconfig.sumneko_lua.setup {
 }
 
 lspconfig.elixirls.setup {
-  cmd = { "/Users/jwbaldwin/.elixir-ls/release/language_server.sh" },
+  cmd = { "/Users/jbaldwin/repos/elixir-ls/release/language_server.sh" },
   on_attach = default_on_attach,
   capabilities = capabilities,
   settings = {

@@ -2,8 +2,8 @@
 local M = {}
 
 M.ui = {
-  theme_toggle = { "tokyonight", "catppuccin" },
-  theme = "catppuccin",
+  theme_toggle = { "tokyonight", "moonlight" },
+  theme = "moonlight",
   hl_override = require("custom.highlights"),
 }
 
