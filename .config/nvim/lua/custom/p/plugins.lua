@@ -2,9 +2,13 @@ return {
   ["jwbaldwin/moonlight-material.vim"] = {},
   ["tpope/vim-surround"] = {},
   ["vim-test/vim-test"] = {},
-  ["nvim-telescope/telescope-project.nvim"] = {},
   ["rcarriga/nvim-notify"] = {},
   ["ThePrimeagen/harpoon"] = {},
+  ["ahmedkhalf/project.nvim"] = {
+    config = function()
+      require "custom.p.projects"
+    end,
+  },
   ["jose-elias-alvarez/null-ls.nvim"] = {
     after = "nvim-lspconfig",
     config = function()

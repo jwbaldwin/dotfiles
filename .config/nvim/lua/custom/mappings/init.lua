@@ -53,10 +53,11 @@ M.nvimtree = {
 
 M.telescope = {
   n = {
-    ["<leader>."] = { "<cmd> Telescope find_files <CR>", "find files" },
-    ["<leader>'"] = { "<cmd> Telescope live_grep <CR>", "live grep" },
-    ["<leader>,"] = { "<cmd> Telescope buffers <CR>", "find buffers" },
-    ["<leader>pp"] = { "<cmd> Telescope project <CR>", "projects" },
+    ["<leader>."] = { "<cmd> Telescope find_files theme=ivy <CR>", "find files" },
+    ["<leader>'"] = { "<cmd> Telescope live_grep theme=ivy previewer=false<CR>", "live grep" },
+    ["<leader>st"] = { "<cmd> Telescope live_grep <CR>", "live grep" },
+    ["<leader>,"] = { "<cmd> Telescope buffers theme=ivy<CR>", "find buffers" },
+    ["<leader>pp"] = { "<cmd> Telescope projects theme=ivy<CR>", "projects" },
     ["<leader>ss"] = { ":Telescope session-lens search_session<CR>", "search sessions" },
   },
 }

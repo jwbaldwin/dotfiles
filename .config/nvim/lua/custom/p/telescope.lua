@@ -51,29 +51,33 @@ local options = {
     buffer_previewer_maker = require("telescope.previewers").buffer_previewer_maker,
     pickers = {
       find_files = {
+        theme = "ivy",
         hidden = true,
       },
       live_grep = {
         --@usage don't include the filename in the search results
         only_sort_text = true,
       },
+      projects = {
+        theme = "ivy"
+      }
     },
     mappings = {
-        n = {
-          ["q"] = require("telescope.actions").close,
-          ["<C-j>"] = require("telescope.actions").move_selection_next,
-          ["<C-k>"] = require("telescope.actions").move_selection_previous,
-          ["<C-q>"] = require("telescope.actions").smart_send_to_qflist + require("telescope.actions").open_qflist,
-        },
-        i = {
-          ["<C-j>"] = require("telescope.actions").move_selection_next,
-          ["<C-k>"] = require("telescope.actions").move_selection_previous,
-          ["<C-c>"] = require("telescope.actions").close,
-          ["<C-n>"] = require("telescope.actions").cycle_history_next,
-          ["<C-p>"] = require("telescope.actions").cycle_history_prev,
-          ["<C-q>"] = require("telescope.actions").smart_send_to_qflist + require("telescope.actions").open_qflist,
-          ["<CR>"] = require("telescope.actions").select_default,
-        },
+      n = {
+        ["q"] = require("telescope.actions").close,
+        ["<C-j>"] = require("telescope.actions").move_selection_next,
+        ["<C-k>"] = require("telescope.actions").move_selection_previous,
+        ["<C-q>"] = require("telescope.actions").smart_send_to_qflist + require("telescope.actions").open_qflist,
+      },
+      i = {
+        ["<C-j>"] = require("telescope.actions").move_selection_next,
+        ["<C-k>"] = require("telescope.actions").move_selection_previous,
+        ["<C-c>"] = require("telescope.actions").close,
+        ["<C-n>"] = require("telescope.actions").cycle_history_next,
+        ["<C-p>"] = require("telescope.actions").cycle_history_prev,
+        ["<C-q>"] = require("telescope.actions").smart_send_to_qflist + require("telescope.actions").open_qflist,
+        ["<CR>"] = require("telescope.actions").select_default,
+      },
     },
     extensions = {
       fzf = {
@@ -84,7 +88,7 @@ local options = {
       },
     },
   },
-  extensions_list = { "themes", "terms", "fzf", "project", "enhanced_find_files", "session-lens" },
+  extensions_list = { "themes", "terms", "fzf", "projects", "enhanced_find_files", "session-lens" },
 }
 
 -- check for any override
