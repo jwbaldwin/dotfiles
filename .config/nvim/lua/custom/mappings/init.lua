@@ -1,5 +1,11 @@
 local M = {}
 
+M.disabled = {
+  n = {
+    ["<C-c>"] = ""
+  }
+}
+
 M.base = {
   n = {
     -- dashboard
@@ -17,6 +23,11 @@ M.base = {
     ["<leader>ps"] = { ":PackerSync <CR>", "packer sync" },
     ["<leader>pc"] = { ":PackerCompile <CR>", "packer compie" },
 
+    -- copy and save
+    ["<C-y>"] = { "<cmd> w <CR>", "save file" },
+    ["<C-c>"] = { "<cmd> y <CR>", "copy line" },
+    ["<C-a>"] = { "<cmd> %y+ <CR>", "copy all" },
+
     -- misc
     ["S-Up"] = { ":move-2<cr>", "shift line up" },
     ["S-Down"] = { ":move+<cr>", "shift line down" },
@@ -27,6 +38,11 @@ M.base = {
     ["kj"] = { "<ESC>", "escape insert mode", opts = { nowait = true } },
     ["jk"] = { "<ESC>", "escape insert mode", opts = { nowait = true } },
   },
+  v = {
+    -- copy and paste in visual
+    ["<C-c>"] = { "<cmd>'<,'>y<CR>", "copy line" },
+    ["<C-a>"] = { "<cmd> %y+ <CR>", "copy all" },
+  }
 }
 
 M.nvimtree = {
@@ -37,10 +53,11 @@ M.nvimtree = {
 
 M.telescope = {
   n = {
-    ["<leader>."] = { "<cmd> Telescope find_files <CR>", "find files" },
-    ["<leader>'"] = { "<cmd> Telescope live_grep <CR>", "live grep" },
-    ["<leader>,"] = { "<cmd> Telescope buffers <CR>", "find buffers" },
-    ["<leader>pp"] = { "<cmd> Telescope project <CR>", "projects" },
+    ["<leader>."] = { "<cmd> Telescope find_files theme=ivy <CR>", "find files" },
+    ["<leader>'"] = { "<cmd> Telescope live_grep theme=ivy previewer=false<CR>", "live grep" },
+    ["<leader>st"] = { "<cmd> Telescope live_grep <CR>", "live grep" },
+    ["<leader>,"] = { "<cmd> Telescope buffers theme=ivy<CR>", "find buffers" },
+    ["<leader>pp"] = { "<cmd> Telescope projects theme=ivy<CR>", "projects" },
     ["<leader>ss"] = { ":Telescope session-lens search_session<CR>", "search sessions" },
   },
 }

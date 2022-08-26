@@ -20,7 +20,7 @@ local default_on_attach = function(client, bufnr)
 end
 
 local lspconfig = require "lspconfig"
-local servers = { "html", "cssls", "jsonls", "tailwindcss", "bashls", "sumneko_lua" }
+local servers = { "html", "cssls", "jsonls", "tailwindcss", "bashls" }
 
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
@@ -29,8 +29,29 @@ for _, lsp in ipairs(servers) do
   }
 end
 
+lspconfig.sumneko_lua.setup {
+  on_attach = default_on_attach,
+  capabilities = capabilities,
+
+  settings = {
+    Lua = {
+      diagnostics = {
+        globals = { "vim", "require" },
+      },
+      workspace = {
+        library = {
+          [vim.fn.expand "$VIMRUNTIME/lua"] = true,
+          [vim.fn.expand "$VIMRUNTIME/lua/vim/lsp"] = true,
+        },
+        maxPreload = 100000,
+        preloadFileSize = 10000,
+      },
+    },
+  },
+}
+
 lspconfig.elixirls.setup {
-  cmd = { "/Users/jbaldwin/repos/elixir-ls/release/language_server.sh" },
+  cmd = { "/Users/jwbaldwin/.elixir-ls/release/language_server.sh" },
   on_attach = default_on_attach,
   capabilities = capabilities,
   settings = {

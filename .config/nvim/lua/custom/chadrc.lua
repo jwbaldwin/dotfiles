@@ -3,7 +3,7 @@ local M = {}
 
 M.ui = {
   theme_toggle = { "tokyonight", "catppuccin" },
-  theme = "tokyonight",
+  theme = "catppuccin",
   hl_override = require("custom.highlights"),
 }
 

@@ -10,8 +10,12 @@ export GOPATH=$HOME/.go
 
 export ERL_AFLAGS="-kernel shell_history enabled"
 
-
 PATH=$PATH:/home/username/bin:/usr/local/homebrew:$GOROOT/bin:$GOPATH/bin:~/.emacs.d/bin:$HOME/.cargo/env:$HOME/.local/bin:/usr/local/sbin
-PATH=$PATH:$HOME/repos/elixir-ls/release
+if [ "$USER" = "jbaldwin" ]; then
+    PATH=$PATH:$HOME/repos/elixir-ls/release
+else
+    PATH=$PATH:$HOME/.elixir-ls/release
+fi
+
 export PATH
 . "$HOME/.cargo/env"
