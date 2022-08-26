@@ -56,7 +56,10 @@ end
 
 M.ui = {
   statusline = {
-    separator_style = "round",
+    separator_style = "block",
+    overriden_modules = function()
+      return require("custom.ui")
+    end
   },
 }
 

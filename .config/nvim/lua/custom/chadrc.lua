@@ -4,7 +4,8 @@ local M = {}
 M.ui = {
   theme_toggle = { "tokyonight", "moonlight" },
   theme = "moonlight",
-  hl_override = require("custom.highlights"),
+  hl_override = require("custom.highlights").override,
+  hl_add = require("custom.highlights").add
 }
 
 local pluginConfs = require "custom.p.configs"
