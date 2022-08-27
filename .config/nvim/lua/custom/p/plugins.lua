@@ -20,9 +20,9 @@ return {
       require "custom.p.fterm"
     end,
   },
-  ["ggandor/lightspeed.nvim"] = {
+  ["ggandor/leap.nvim"] = {
     config = function()
-      require "custom.p.lightspeed"
+      require "custom.p.leap"
     end,
   },
   ["goolord/alpha-nvim"] = {

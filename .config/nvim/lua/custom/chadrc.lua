@@ -1,8 +1,7 @@
--- Just an example, supposed to be placed in /lua/custom/
 local M = {}
 
 M.ui = {
-  theme_toggle = { "tokyonight", "moonlight" },
+  theme_toggle = { "tokyonight", "palenight" },
   theme = "moonlight",
   hl_override = require("custom.highlights").override,
   hl_add = require("custom.highlights").add
@@ -30,3 +29,4 @@ return M
 --  TODO:
 -- go to test file
 -- better session management
+-- theme fixes: vim / highlights are green, invert tab colors, git added should be green not blue, which-key bg

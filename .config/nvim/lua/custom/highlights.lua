@@ -14,6 +14,9 @@ return {
     PmenuSel = { bg = "pmenu_bg", fg = "white" },
     NormalFloat = { bg = "one_bg" },
     TelescopeSelection = { bg = "pmenu_bg" },
+    Type = { fg = "yellow" },
+    TSSymbol = { fg = "red" },
+    Label = { fg = "sun" },
   },
   add = {
     St_file_root = {

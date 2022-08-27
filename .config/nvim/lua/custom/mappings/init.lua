@@ -2,8 +2,11 @@ local M = {}
 
 M.disabled = {
   n = {
-    ["<C-c>"] = ""
-  }
+    ["<C-c>"] = "",
+    ["<leader>cm"] = "",
+    ["<leader>gt"] = "",
+    ["S"] = ""
+  },
 }
 
 M.base = {
@@ -149,6 +152,16 @@ M.harpoon = {
     ["<C-l>"] = { "<cmd>lua require('harpoon.ui').nav_file(3)<cr>", "harpoon 3" },
     ["<C-;>"] = { "<cmd>lua require('harpoon.ui').nav_file(4)<cr>", "harpoon 4" },
     ["<C-f>"] = { "<cmd>lua require('harpoon.mark').add_file()<cr>", "harpoon: add file" },
+  },
+}
+
+M.gitsigns = {
+  n = {
+    ["<leader>gm"] = { "<cmd> Telescope git_commits theme=ivy<CR>", "git commits" },
+    ["<leader>gs"] = { "<cmd> Telescope git_status <CR>", "git status" },
+    ["<leader>gb"] = { "<cmd> Gitsigns toggle_current_line_blame<CR>", "git blame" },
+    ["<leader>gr"] = { "<cmd> Gitsigns reset_hunk <CR>", "git reset" },
+    ["<leader>gR"] = { "<cmd> Gitsigns reset_buffer <CR>", "git reset buffer" },
   },
 }
 
