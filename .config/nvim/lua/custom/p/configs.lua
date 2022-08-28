@@ -9,6 +9,7 @@ M.treesitter = {
     "eex",
     "erlang",
     "heex",
+    "norg"
   },
 }
 

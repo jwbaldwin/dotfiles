@@ -4,6 +4,11 @@ return {
   ["vim-test/vim-test"] = {},
   ["rcarriga/nvim-notify"] = {},
   ["ThePrimeagen/harpoon"] = {},
+  ["nvim-neorg/neorg"] = {
+    config = function()
+      require "custom.p.neorg"
+    end
+  },
   ["ahmedkhalf/project.nvim"] = {
     config = function()
       require "custom.p.projects"
@@ -29,15 +34,6 @@ return {
     disable = false,
     config = function()
       require "custom.p.alpha"
-    end,
-  },
-  ["rmagatti/session-lens"] = {
-    after = "auto-session",
-  },
-  ["rmagatti/auto-session"] = {
-    after = "telescope.nvim",
-    config = function()
-      require "custom.p.session"
     end,
   },
   ["nvim-telescope/telescope.nvim"] = {

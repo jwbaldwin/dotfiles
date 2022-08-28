@@ -5,7 +5,8 @@ M.disabled = {
     ["<C-c>"] = "",
     ["<leader>cm"] = "",
     ["<leader>gt"] = "",
-    ["S"] = ""
+    ["S"] = "",
+    ["<leader>n"] = ""
   },
 }
 
@@ -56,7 +57,7 @@ M.nvimtree = {
 
 M.telescope = {
   n = {
-    ["<leader>."] = { "<cmd> Telescope find_files theme=ivy <CR>", "find files" },
+    ["<leader>."] = { "<cmd> Telescope find_files theme=ivy hidden=true <CR>", "find files" },
     ["<leader>'"] = { "<cmd> Telescope live_grep theme=ivy previewer=false<CR>", "live grep" },
     ["<leader>st"] = { "<cmd> Telescope live_grep <CR>", "live grep" },
     ["<leader>,"] = { "<cmd> Telescope buffers theme=ivy<CR>", "find buffers" },
@@ -160,9 +161,17 @@ M.gitsigns = {
     ["<leader>gm"] = { "<cmd> Telescope git_commits theme=ivy<CR>", "git commits" },
     ["<leader>gs"] = { "<cmd> Telescope git_status <CR>", "git status" },
     ["<leader>gb"] = { "<cmd> Gitsigns toggle_current_line_blame<CR>", "git blame" },
-    ["<leader>gr"] = { "<cmd> Gitsigns reset_hunk <CR>", "git reset" },
+    ["<leader>gr"] = { "<cmd> Gitsigns reset_hunk <CR>", "git reset hunk" },
     ["<leader>gR"] = { "<cmd> Gitsigns reset_buffer <CR>", "git reset buffer" },
+    ["<leader>gp"] = { "<cmd> Gitsigns preview_hunk <CR>", "preview hunk" },
   },
+}
+
+M.neorg = {
+  n = {
+    ["<leader>na"] = { "<cmd> Neorg gtd capture <CR>", "Neorg add todo" },
+    ["<leader>nv"] = { "<cmd> Neorg gtd view <CR>", "Neorg add todo" }
+  }
 }
 
 return M

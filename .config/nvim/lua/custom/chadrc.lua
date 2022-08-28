@@ -28,5 +28,6 @@ return M
 
 --  TODO:
 -- go to test file
+-- elixir test mappings
 -- better session management
--- theme fixes: vim / highlights are green, invert tab colors, git added should be green not blue, which-key bg
+-- theme fixes: vim / highlights are green, invert tab colors, git added should be green not blue, which-key bg, mode in status line simpler, line lighter, the selected line hl
