@@ -11,6 +11,9 @@ M.treesitter = {
     "heex",
     "norg"
   },
+  highlight = {
+    enable = true
+  }
 }
 
 M.nvimtree = {

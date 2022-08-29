@@ -31,6 +31,6 @@ return {
     St_file_name = {
       bg = "lightbg",
       fg = "white"
-    }
+    },
   }
 }

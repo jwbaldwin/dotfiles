@@ -5,6 +5,7 @@ return {
   ["rcarriga/nvim-notify"] = {},
   ["ThePrimeagen/harpoon"] = {},
   ["nvim-neorg/neorg"] = {
+    after = "nvim-treesitter",
     config = function()
       require "custom.p.neorg"
     end

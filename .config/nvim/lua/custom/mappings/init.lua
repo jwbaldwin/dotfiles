@@ -170,7 +170,8 @@ M.gitsigns = {
 M.neorg = {
   n = {
     ["<leader>na"] = { "<cmd> Neorg gtd capture <CR>", "Neorg add todo" },
-    ["<leader>nv"] = { "<cmd> Neorg gtd view <CR>", "Neorg add todo" }
+    ["<leader>nv"] = { "<cmd> Neorg gtd views <CR>", "Neorg add todo" },
+    ["<leader>ne"] = { "<cmd> Neorg gtd edit <CR>", "Neorg edit todo" }
   }
 }
 
