@@ -1,11 +1,20 @@
 return {
   ["jwbaldwin/moonlight-material.vim"] = {},
   ["tpope/vim-surround"] = {},
+  ["tpope/vim-projectionist"] = {},
   ["vim-test/vim-test"] = {},
   ["rcarriga/nvim-notify"] = {},
+  ["nvim-neotest/neotest-vim-test"] = {},
+  ["nvim-neotest/neotest"] = {
+    config = function()
+      require "custom.p.neotest"
+    end
+  },
+  ["antoinemadec/FixCursorHold.nvim"] = {},
   ["ThePrimeagen/harpoon"] = {},
   ["nvim-neorg/neorg"] = {
     after = "nvim-treesitter",
+    tag = "0.0.12",
     config = function()
       require "custom.p.neorg"
     end

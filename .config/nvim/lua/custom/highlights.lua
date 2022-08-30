@@ -15,7 +15,7 @@ return {
     NormalFloat = { bg = "one_bg" },
     TelescopeSelection = { bg = "pmenu_bg" },
     Type = { fg = "yellow" },
-    TSSymbol = { fg = "red" },
+    TSSymbol = { fg = "baby_pink" },
     Label = { fg = "sun" },
   },
   add = {

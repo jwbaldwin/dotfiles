@@ -58,6 +58,7 @@ M.nvimtree = {
 M.telescope = {
   n = {
     ["<leader>."] = { "<cmd> Telescope find_files theme=ivy hidden=true <CR>", "find files" },
+    ["<leader>fr"] = { "<cmd> Telescope oldfiles theme=ivy hidden=true<CR>", "find recent" },
     ["<leader>'"] = { "<cmd> Telescope live_grep theme=ivy previewer=false<CR>", "live grep" },
     ["<leader>st"] = { "<cmd> Telescope live_grep <CR>", "live grep" },
     ["<leader>,"] = { "<cmd> Telescope buffers theme=ivy<CR>", "find buffers" },
@@ -172,6 +173,23 @@ M.neorg = {
     ["<leader>na"] = { "<cmd> Neorg gtd capture <CR>", "Neorg add todo" },
     ["<leader>nv"] = { "<cmd> Neorg gtd views <CR>", "Neorg add todo" },
     ["<leader>ne"] = { "<cmd> Neorg gtd edit <CR>", "Neorg edit todo" }
+  }
+}
+
+M.projectionist = {
+  n = {
+    ["<leader>ma"] = { "<cmd> A <CR>", "Go to alternate file" }
+  }
+}
+
+M.test = {
+  n = {
+    ["<leader>mm"] = { "<cmd> TestFile <CR>", "Test file" },
+    ["<leader>mf"] = { "<cmd> TestFile <CR>", "Test file" },
+    ["<leader>ms"] = { "<cmd> TestNearest <CR>", "Test single" },
+    ["<leader>ml"] = { "<cmd> TestLast <CR>", "Test last run" },
+    ["<leader>mp"] = { "<cmd> TestSuite <CR>", "Run tests for whole project" },
+    ["<leader>mv"] = { "<cmd> TestVisit <CR>", "Go back to last-run test file" },
   }
 }
 
