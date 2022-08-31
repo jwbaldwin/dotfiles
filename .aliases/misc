@@ -24,8 +24,8 @@ alias emd="emacs --daemon"
 alias emk="killall Emacs && killall emacs"
 
 export ALTERNATE_EDITOR=""
-export EDITOR="emacsclient -c"          # $EDITOR opens in GUI mode
-export VISUAL="emacsclient -c -a emacs" # $VISUAL opens in GUI mode
+export EDITOR="nvim"          # $EDITOR opens in GUI mode
+export VISUAL="nvim" # $VISUAL opens in GUI mode
 
 # LVIM ALIASES
 alias v="lvim"

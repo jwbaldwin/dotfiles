@@ -9,6 +9,9 @@ neorg.setup {
       }
     },
     ["core.norg.concealer"] = {
+      config = {
+        folds = false
+      }
     },
     ["core.norg.completion"] = {
       config = {

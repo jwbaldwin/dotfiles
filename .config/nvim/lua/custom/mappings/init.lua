@@ -29,18 +29,22 @@ M.base = {
 
     -- copy and save
     ["<C-y>"] = { "<cmd> w <CR>", "save file" },
-    ["<C-c>"] = { "<cmd> y <CR>", "copy line" },
     ["<C-a>"] = { "<cmd> %y+ <CR>", "copy all" },
 
     -- misc
     ["S-Up"] = { ":move-2<cr>", "shift line up" },
     ["S-Down"] = { ":move+<cr>", "shift line down" },
+
+    -- list movement
+    ["<C-,>"] = { "<cmd> cnext <CR>zz", "next qfix list item" },
+    ["<C-.>"] = { "<cmd> cprev <CR>zz", "prev qfix list item" },
   },
   i = {
     ["kk"] = { "<ESC>", "escape insert mode", opts = { nowait = true } },
     ["jj"] = { "<ESC>", "escape insert mode", opts = { nowait = true } },
     ["kj"] = { "<ESC>", "escape insert mode", opts = { nowait = true } },
     ["jk"] = { "<ESC>", "escape insert mode", opts = { nowait = true } },
+    ["<C-h>"] = { function() vim.lsp.buf.signature_help() end, "signature help" }
   },
   v = {
     -- copy and paste in visual
@@ -161,7 +165,8 @@ M.gitsigns = {
   n = {
     ["<leader>gm"] = { "<cmd> Telescope git_commits theme=ivy<CR>", "git commits" },
     ["<leader>gs"] = { "<cmd> Telescope git_status <CR>", "git status" },
-    ["<leader>gb"] = { "<cmd> Gitsigns toggle_current_line_blame<CR>", "git blame" },
+    ["<leader>gb"] = { "<cmd> Gitsigns blame_line<CR>", "git blame" },
+    ["<leader>gB"] = { "<cmd> Gitsigns toggle_current_line_blame<CR>", "git blame" },
     ["<leader>gr"] = { "<cmd> Gitsigns reset_hunk <CR>", "git reset hunk" },
     ["<leader>gR"] = { "<cmd> Gitsigns reset_buffer <CR>", "git reset buffer" },
     ["<leader>gp"] = { "<cmd> Gitsigns preview_hunk <CR>", "preview hunk" },

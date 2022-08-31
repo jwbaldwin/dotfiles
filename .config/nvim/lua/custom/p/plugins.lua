@@ -5,6 +5,7 @@ return {
   ["vim-test/vim-test"] = {},
   ["rcarriga/nvim-notify"] = {},
   ["nvim-neotest/neotest-vim-test"] = {},
+  ["jfpedroza/neotest-elixir"] = {},
   ["nvim-neotest/neotest"] = {
     config = function()
       require "custom.p.neotest"
@@ -14,7 +15,6 @@ return {
   ["ThePrimeagen/harpoon"] = {},
   ["nvim-neorg/neorg"] = {
     after = "nvim-treesitter",
-    tag = "0.0.12",
     config = function()
       require "custom.p.neorg"
     end
