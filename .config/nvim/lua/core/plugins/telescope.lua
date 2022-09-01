@@ -1,9 +1,5 @@
 local telescope = require("telescope")
 
-vim.g.theme_switcher_loaded = true
-
-require("base46").load_highlight "telescope"
-
 local options = {
   defaults = {
     vimgrep_arguments = {
@@ -39,7 +35,7 @@ local options = {
     file_ignore_patterns = { "node_modules", "node_modules/*", 'deps/*', 'build/*', '_build/*' },
     generic_sorter = require("telescope.sorters").get_generic_fuzzy_sorter,
     path_display = { "truncate" },
-    winblend = 0,
+    winblend = 10,
     border = {},
     borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
     color_devicons = true,
@@ -88,11 +84,9 @@ local options = {
       },
     },
   },
-  extensions_list = { "themes", "terms", "fzf", "projects", "enhanced_find_files", "session-lens" },
+  extensions_list = { "fzf", "projects", "enhanced_find_files" },
 }
 
--- check for any override
-options = require("core.utils").load_override(options, "nvim-telescope/telescope.nvim")
 telescope.setup(options)
 
 -- load extensions

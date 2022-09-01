@@ -1,5 +1,27 @@
--- custom.plugins.lspconfig
-local capabilities = require("plugins.configs.lspconfig").capabilities
+local present, lspconfig = pcall(require, "lspconfig")
+if not present then
+  return
+end
+
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem = {
+  documentationFormat = { "markdown", "plaintext" },
+  snippetSupport = true,
+  preselectSupport = true,
+  insertReplaceSupport = true,
+  labelDetailsSupport = true,
+  deprecatedSupport = true,
+  commitCharactersSupport = true,
+  tagSupport = { valueSet = { 1 } },
+  resolveSupport = {
+    properties = {
+      "documentation",
+      "detail",
+      "additionalTextEdits",
+    },
+  },
+}
+
 local default_on_attach = function(client, bufnr)
   if vim.g.vim_version > 7 then
     -- nightly
@@ -13,13 +35,8 @@ local default_on_attach = function(client, bufnr)
 
   require("core.utils").load_mappings("lspconfig", { buffer = bufnr })
   vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format({bufnr = bufnr})]]
-
-  if client.server_capabilities.signatureHelpProvider then
-    require("nvchad_ui.signature").setup(client)
-  end
 end
 
-local lspconfig = require "lspconfig"
 local servers = { "html", "cssls", "jsonls", "tailwindcss", "bashls" }
 
 for _, lsp in ipairs(servers) do

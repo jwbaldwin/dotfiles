@@ -1,7 +1,5 @@
 local alpha = require "alpha"
 
-require("base46").load_highlight "alpha"
-
 local function button(sc, txt, keybind)
   local sc_ = sc:gsub("%s", ""):gsub("SPC", "<leader>")
 
@@ -70,7 +68,7 @@ local options = {
       button("p", "  Projects", ":Telescope projects<CR>"),
       button("r", "  Recents", ":Telescope oldfiles<CR>"),
       button("s", "  Restore", ":Telescope session-lens search_session<CR>"),
-      button("c", "  Settings", ":e ~/.config/nvim/lua/custom/chadrc.lua | :cd %:p:h <CR>"),
+      button("c", "  Settings", ":e ~/.config/nvim/init.lua | :cd %:p:h <CR>"),
     },
     opts = {
       spacing = 1,
@@ -81,8 +79,6 @@ local options = {
   headerPaddingBottom = { type = "padding", val = 2 },
 }
 
-options = require("core.utils").load_override(options, "goolord/alpha-nvim")
-
 alpha.setup {
   layout = {
     options.headerPaddingTop,
@@ -92,3 +88,19 @@ alpha.setup {
   },
   opts = {},
 }
+
+-- Disable statusline in dashboard
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "alpha",
+  callback = function()
+    -- store current statusline value and use that
+    local old_laststatus = vim.opt.laststatus
+    vim.api.nvim_create_autocmd("BufUnload", {
+      buffer = 0,
+      callback = function()
+        vim.opt.laststatus = old_laststatus
+      end,
+    })
+    vim.opt.laststatus = 0
+  end,
+})
