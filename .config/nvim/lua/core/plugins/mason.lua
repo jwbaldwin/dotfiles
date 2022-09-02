@@ -35,8 +35,30 @@ local options = {
   max_concurrent_installers = 10,
 }
 
+-- LSP's to install with the MasonInstallAll auto cmd
+local ensure_installed = {
+      -- lua stuff
+      "lua-language-server",
+      "stylua",
+
+      -- elixir
+      "elixir-ls",
+      "yamllint",
+      "yaml-language-server",
+
+      -- web dev
+      "html-lsp",
+      "css-lsp",
+      "tailwindcss-language-server",
+      "typescript-language-server",
+      "json-lsp",
+
+      -- shell
+      "shfmt",
+}
+
 vim.api.nvim_create_user_command("MasonInstallAll", function()
-  vim.cmd("MasonInstall " .. table.concat(options.ensure_installed, " "))
+  vim.cmd("MasonInstall " .. table.concat(ensure_installed, " "))
 end, {})
 
 mason.setup(options)

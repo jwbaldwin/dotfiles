@@ -7,7 +7,6 @@ M.close_buffer = function(bufnr)
     vim.cmd(vim.bo.buflisted and "set nobl | enew" or "hide")
   else
     bufnr = bufnr or vim.api.nvim_get_current_buf()
-    require("core.utils").tabuflinePrev()
     vim.cmd("confirm bd" .. bufnr)
   end
 end
@@ -99,9 +98,6 @@ M.gitsigns = function()
 end
 
 M.load_mappings = function(section, mapping_opt)
-  -- My keymaps are loaded here, this allows for special config
-  local mappings = require("core.keymaps")
-
   local function set_section_map(section_values)
     for mode, mode_values in pairs(section_values) do
       local default_opts = merge_table("force", { mode = mode }, mapping_opt or {})
@@ -116,6 +112,9 @@ M.load_mappings = function(section, mapping_opt)
       end
     end
   end
+
+  -- My keymaps are loaded here, this allows for special config
+  local mappings = require("core.keymaps")
 
   if type(section) == "string" then
     mappings = { mappings[section] }

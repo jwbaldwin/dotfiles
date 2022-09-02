@@ -3,6 +3,8 @@ if not present then
   return
 end
 
+local utils = require("core.utils")
+
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem = {
   documentationFormat = { "markdown", "plaintext" },
@@ -33,7 +35,8 @@ local default_on_attach = function(client, bufnr)
     client.resolved_capabilities.document_range_formatting = true
   end
 
-  require("core.utils").load_mappings("lspconfig", { buffer = bufnr })
+  utils.load_mappings("lspconfig", { buffer = bufnr })
+
   vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format({bufnr = bufnr})]]
 end
 

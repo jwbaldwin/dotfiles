@@ -34,8 +34,11 @@ M.general = {
     ["<C-a>"] = { "<cmd> %y+ <CR>", "copy all" },
 
     -- misc
-    ["S-Up"] = { ":move-2<cr>", "shift line up" },
-    ["S-Down"] = { ":move+<cr>", "shift line down" },
+    ["<S-Up>"] = { ":move-2<cr>", "shift line up" },
+    ["<S-Down>"] = { ":move+<cr>", "shift line down" },
+    ["<C-d>"] = { "<C-d>zz", "move down and center" },
+    ["<C-u>"] = { "<C-u>zz", "move up and center" },
+
 
     -- list movement
     ["<C-,>"] = { "<cmd> cnext <CR>zz", "next qfix list item" },
@@ -128,8 +131,6 @@ M.comment = {
 }
 
 M.lspconfig = {
-  -- See `<cmd> :help vim.lsp.*` for documentation on any of the below functions
-
   n = {
     ["gD"] = {
       function()
@@ -138,12 +139,7 @@ M.lspconfig = {
       "lsp declaration",
     },
 
-    ["gd"] = {
-      function()
-        vim.lsp.buf.definition()
-      end,
-      "lsp definition",
-    },
+    ["gd"] = { "<cmd> lua vim.lsp.buf.definition()<CR>zz", "lsp definition", },
 
     ["K"] = {
       function()
@@ -243,7 +239,7 @@ M.lspconfig = {
       "remove workspace folder",
     },
 
-    ["<leader>wl"] = {
+    ["<leader>wf"] = {
       function()
         print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
       end,
@@ -253,8 +249,6 @@ M.lspconfig = {
 }
 
 M.nvimtree = {
-
-
   n = {
     -- toggle
     ["<leader>e"] = { "<cmd> NvimTreeToggle <CR>", "toggle nvimtree" },
@@ -310,8 +304,6 @@ M.FTerm = {
 }
 
 M.whichkey = {
-
-
   n = {
     ["<leader>wK"] = {
       function()
@@ -319,19 +311,10 @@ M.whichkey = {
       end,
       "which-key all keymaps",
     },
-    ["<leader>wk"] = {
-      function()
-        local input = vim.fn.input "WhichKey: "
-        vim.cmd("WhichKey " .. input)
-      end,
-      "which-key query lookup",
-    },
   },
 }
 
 M.blankline = {
-
-
   n = {
     ["<leader>cc"] = {
       function()
@@ -353,18 +336,8 @@ M.blankline = {
 
 M.tabufline = {
   n = {
-    ["<S-h>"] = {
-      function()
-        require("core.utils").tabuflinePrev()
-      end,
-      "goto prev buffer",
-    },
-    ["<S-l>"] = {
-      function()
-        require("core.utils").tabuflineNext()
-      end,
-      "goto next buffer",
-    },
+    ["<S-h>"] = { "<cmd> bprev <CR>", "goto prev buffer", },
+    ["<S-l>"] = { "<cmd> bnext <CR>", "goto next buffer", },
     ["<leader>bk"] = {
       function()
         require("core.utils").close_buffer()
@@ -381,43 +354,14 @@ M.tabufline = {
   },
 }
 
-M.comment = {
-  n = {
-    ["<leader>/"] = {
-      function()
-        require("Comment.api").toggle.linewise.current()
-      end,
-      "toggle comment",
-    },
-  },
-
-  v = {
-    ["<M-/>"] = {
-      "<ESC><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>",
-      "toggle comment",
-    },
-  },
-}
-
-M.lspconfig = {
-  n = {
-    ["<leader>fm"] = {
-      function()
-        vim.lsp.buf.format {}
-      end,
-      "lsp formatting",
-    },
-  },
-}
-
 M.harpoon = {
   n = {
     ["<C-h>"] = { "<cmd>lua require('harpoon.ui').toggle_quick_menu()<cr>", "toggle harpoon menu" },
-    ["<C-e>"] = { "<cmd>lua require('harpoon.cmd-ui').toggle_quick_menu()<cr>", "toggle harpoon cmd ui" },
     ["<C-j>"] = { "<cmd>lua require('harpoon.ui').nav_file(1)<cr>", "harpoon 1" },
     ["<C-k>"] = { "<cmd>lua require('harpoon.ui').nav_file(2)<cr>", "harpoon 2" },
     ["<C-l>"] = { "<cmd>lua require('harpoon.ui').nav_file(3)<cr>", "harpoon 3" },
     ["<C-;>"] = { "<cmd>lua require('harpoon.ui').nav_file(4)<cr>", "harpoon 4" },
+    ["<;>"] = { "<cmd>lua require('harpoon.ui').nav_file(4)<cr>", "harpoon 4" },
     ["<C-f>"] = { "<cmd>lua require('harpoon.mark').add_file()<cr>", "harpoon: add file" },
   },
 }

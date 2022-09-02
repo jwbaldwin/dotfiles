@@ -3,18 +3,78 @@ if not present then
   return
 end
 
-local separators = require("core.icons").statusline_separators["block"]
-local sep_r = separators["left"]
-local sep_l = separators["right"]
+-- local separators = require("core.icons").statusline_separators["block"]
+-- local sep_l = separators["right"]
+local fn = vim.fn
+
+-- LSP STUFF
+-- local function lsp_progress()
+--   if not rawget(vim, "lsp") then
+--     return ""
+--   end
+--
+--   local Lsp = vim.lsp.util.get_progress_messages()[1]
+--
+--   if vim.o.columns < 120 or not Lsp then
+--     return ""
+--   end
+--
+--   local msg = Lsp.message or ""
+--   local percentage = Lsp.percentage or 0
+--   local title = Lsp.title or ""
+--   local spinners = { "", "" }
+--   local ms = vim.loop.hrtime() / 1000000
+--   local frame = math.floor(ms / 120) % #spinners
+--   local content = string.format(" %%<%s %s %s (%s%%%%) ", spinners[frame + 1], title, msg, percentage)
+--
+--   return ("%#St_LspProgress#" .. content) or ""
+--  -- end
+
+local function lsp_status()
+  local ok, devicons = pcall(require, 'nvim-web-devicons')
+  local icon = ''
+  local icon_highlight_group = ''
+  if ok then
+    local f_name, f_extension = vim.fn.expand('%:t'), vim.fn.expand('%:e')
+    f_extension = f_extension ~= '' and f_extension or vim.bo.filetype
+    icon, icon_highlight_group = devicons.get_icon(f_name, f_extension)
+
+    if icon == nil and icon_highlight_group == nil then
+      icon = ' '
+    end
+  else
+    ok = vim.fn.exists('*WebDevIconsGetFileTypeSymbol')
+    if ok ~= 0 then
+      icon = vim.fn.WebDevIconsGetFileTypeSymbol()
+    end
+  end
+  if rawget(vim, "lsp") then
+    for _, client in ipairs(vim.lsp.get_active_clients()) do
+      if client.attached_buffers[vim.api.nvim_get_current_buf()] then
+        return (vim.o.columns > 100 and client.name .. " " .. icon) or "LSP  "
+      end
+    end
+  end
+end
+
+local function cwd()
+  local dir_icon = "  "
+  local dir_name = fn.fnamemodify(fn.getcwd(), ":t")
+  return (vim.o.columns > 85 and (dir_icon .. dir_name)) or ""
+end
+
+local function mode()
+  return " "
+end
 
 local options = {
   options = {
     icons_enabled = true,
-    theme = 'auto',
-    component_separators = { left = sep_l, right = sep_r },
-    section_separators = { left = sep_l, right = sep_r },
+    theme = 'tokyonight',
+    component_separators = { left = "◦", right = "" },
+    section_separators = { left = "", right = "" },
     disabled_filetypes = {
-      statusline = {},
+      statusline = { "help" },
       winbar = {},
     },
     ignore_focus = {},
@@ -27,12 +87,14 @@ local options = {
     }
   },
   sections = {
-    lualine_a = { 'mode' },
-    lualine_b = { 'branch', 'diff', 'diagnostics' },
-    lualine_c = { 'filename' },
-    lualine_x = { 'encoding', 'fileformat', 'filetype' },
-    lualine_y = { 'progress' },
-    lualine_z = { 'location' }
+    lualine_a = { mode },
+    lualine_b = { { cwd, color = { fg = "#7aa2f7", bg = "#2f344d" } },
+      { 'filename', file_status = true, newfile_status = true, path = 0, shorting_target = 30,
+        color = { fg = "#c0caf5", bg = "#292e42" } } },
+    lualine_c = { { 'branch', icon = '' }, 'diff', 'diagnostics' },
+    lualine_x = { lsp_status },
+    lualine_y = { 'location' },
+    lualine_z = { 'progress' }
   },
   inactive_sections = {
     lualine_a = {},

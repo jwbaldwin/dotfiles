@@ -16,15 +16,22 @@ M.packer = {
   },
 }
 
-M.gitsigns = {
-  signs = {
-    add = { hl = "DiffAdd", text = "│", numhl = "GitSignsAddNr" },
-    change = { hl = "DiffChange", text = "︴", numhl = "GitSignsChangeNr" },
-    delete = { hl = "DiffDelete", text = "", numhl = "GitSignsDeleteNr" },
-    topdelete = { hl = "DiffDelete", text = "‾", numhl = "GitSignsDeleteNr" },
-    changedelete = { hl = "DiffChangeDelete", text = "~", numhl = "GitSignsChangeNr" },
-  },
-}
+M.gitsigns = function()
+  local present, gitsigns = pcall(require, "gitsigns")
+
+  if not present then
+    return
+  end
+
+  local options = {
+    signs = {
+      add = { hl = "DiffAdd", text = "│", numhl = "GitSignsAddNr" },
+      change = { hl = "DiffChange", text = "︴", numhl = "GitSignsChangeNr" },
+    },
+  }
+
+  gitsigns.setup(options)
+end
 
 M.autopairs = function()
   local present1, autopairs = pcall(require, "nvim-autopairs")
@@ -133,9 +140,8 @@ M.luasnip = function()
 
   vim.api.nvim_create_autocmd("InsertLeave", {
     callback = function()
-      if
-        require("luasnip").session.current_nodes[vim.api.nvim_get_current_buf()]
-        and not require("luasnip").session.jump_active
+      if require("luasnip").session.current_nodes[vim.api.nvim_get_current_buf()]
+          and not require("luasnip").session.jump_active
       then
         require("luasnip").unlink_current()
       end

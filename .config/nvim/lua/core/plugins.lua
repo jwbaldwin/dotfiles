@@ -201,7 +201,7 @@ return packer.startup(function(use)
 
   -- theme related
   use { "jwbaldwin/moonlight-material.vim" }
-  use { "folke/tokyonight.nvim" }
+  use { "~/repos/tokyonight.nvim" }
 
   -- utility
   use { "ThePrimeagen/harpoon" }
