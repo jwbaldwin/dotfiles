@@ -2,23 +2,6 @@
 -- load my globals, autocmds here or anything
 --
 
--- theme
-vim.g.tokyonight_style = "storm"
-vim.g.tokyonight_italic_comments = true
-vim.g.tokyonight_italic_keywords = true
-vim.g.tokyonight_italic_function_def = true
-vim.g.tokyonight_italic_functions = false
-vim.g.tokyonight_italic_variables = false
-vim.g.tokyonight_transparent = true
-vim.g.tokyonight_transparent_sidebar = true
-vim.g.tokyonight_dark_float = true
-vim.g.tokyonight_sidebars = { "qf", "vista_kind", "terminal", "packer" }
-
--- Change the "hint" color to the "orange" color, and make the "error" color bright red
-vim.g.tokyonight_colors = {}
-
--- Load the colorscheme
-vim.cmd [[colorscheme tokyonight]]
 
 vim.opt.laststatus = 3 -- global statusline
 vim.opt.showmode = false
@@ -41,6 +24,7 @@ vim.opt.mouse = "a"
 
 -- Numbers
 vim.opt.number = true
+vim.opt.relativenumber = true
 vim.opt.numberwidth = 2
 vim.opt.ruler = false
 

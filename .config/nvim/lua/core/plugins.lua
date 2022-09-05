@@ -1,7 +1,7 @@
 local fn = vim.fn
 
 -- Automatically install packer
-local install_path = fn.stdpath "data" .. "/site/pack/packer/opt/packer.nvim"
+local install_path = fn.stdpath "data" .. "/site/pack/packer/start/packer.nvim"
 if fn.empty(fn.glob(install_path)) > 0 then
   PACKER_BOOTSTRAP = fn.system {
     "git",
@@ -201,7 +201,11 @@ return packer.startup(function(use)
 
   -- theme related
   use { "jwbaldwin/moonlight-material.vim" }
-  use { "~/repos/tokyonight.nvim" }
+  use { "jwbaldwin/tokyonight.nvim",
+    config = function()
+      require("core.plugins.tokyonight")
+    end
+  }
 
   -- utility
   use { "ThePrimeagen/harpoon" }
