@@ -41,8 +41,8 @@ M.general = {
 
 
     -- list movement
-    ["<C-,>"] = { "<cmd> cnext <CR>zz", "next qfix list item" },
-    ["<C-.>"] = { "<cmd> cprev <CR>zz", "prev qfix list item" },
+    ["<C-.>"] = { "<cmd> cnext <CR>zz", "next qfix list item" },
+    ["<C-,>"] = { "<cmd> cprev <CR>zz", "prev qfix list item" },
 
     -- A better escape (removes highlights)
     ["<ESC>"] = { "<cmd> noh <CR>", "no highlight" },
@@ -131,6 +131,14 @@ M.comment = {
 }
 
 M.lspconfig = {
+  i = {
+    ["<C-leader>"] = {
+      function()
+        vim.lsp.buf.completion()
+      end,
+      "trigger completion"
+    },
+  },
   n = {
     ["gD"] = {
       function()
