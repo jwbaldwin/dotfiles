@@ -20,6 +20,7 @@ local options = {
   lualine_bold = true,
   on_highlights = function(hl, c)
     local prompt = "#1f2335"
+    hl.NvimTreeFolderIcon = { bg = c.none, fg = c.blue }
     hl.TelescopeNormal = {
       bg = c.bg_dark,
       fg = c.fg_dark,

@@ -53,6 +53,7 @@ if vim.g.vim_version < 8 then
   vim.g.do_filetype_lua = 1
 end
 vim.g.mapleader = " "
+vim.o.background = "dark"
 
 -- Vim test setup
 vim.g['test#strategy'] = "neovim"

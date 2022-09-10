@@ -163,12 +163,14 @@ M.lspconfig = {
       "lsp implementation",
     },
 
-    ["<leader>ls"] = {
+    ["<leader>lh"] = {
       function()
         vim.lsp.buf.signature_help()
       end,
       "lsp signature_help",
     },
+
+    ["<leader>ls"] = { "<cmd> Telescope lsp_document_symbols <CR>", "list document symbols" },
 
     ["<leader>D"] = {
       function()
@@ -269,7 +271,7 @@ M.telescope = {
 
   n = {
     -- find
-    ["<leader>."] = { "<cmd> Telescope find_files theme=ivy hidden=true <CR>", "find files" },
+    ["<leader>."] = { "<cmd> Telescope enhanced_find_files theme=ivy hidden=true <CR>", "find files" },
     ["<leader>fr"] = { "<cmd> Telescope oldfiles theme=ivy hidden=true<CR>", "find recent" },
     ["<leader>'"] = { "<cmd> Telescope live_grep theme=ivy previewer=false<CR>", "live grep" },
     ["<leader>ft"] = { "<cmd> Telescope live_grep <CR>", "live grep" },
@@ -353,12 +355,7 @@ M.tabufline = {
       "close buffers",
     },
     ["<leader>bb"] = { "<cmd> TbufPick <CR>", "pick buffer" },
-    ["<leader>bp"] = {
-      function()
-        require("core.utils").tabuflinePrev()
-      end,
-      "pick buffer",
-    },
+    ["<leader>bp"] = { "<C-6>", "prev" },
   },
 }
 

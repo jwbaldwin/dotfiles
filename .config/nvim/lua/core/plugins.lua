@@ -54,15 +54,6 @@ return packer.startup(function(use)
       require("core.plugins.configs").blankline()
     end,
   }
-  use { "NvChad/nvim-colorizer.lua",
-    opt = true,
-    setup = function()
-      require("core.utils").on_file_open "nvim-colorizer.lua"
-    end,
-    config = function()
-      require("core.plugins.configs").colorizer()
-    end,
-  }
   use { "nvim-treesitter/nvim-treesitter",
     module = "nvim-treesitter",
     setup = function()

@@ -71,7 +71,7 @@ local options = {
   options = {
     icons_enabled = true,
     theme = 'tokyonight',
-    component_separators = { left = "◦", right = "" },
+    component_separators = { left = "", right = "" },
     section_separators = { left = "", right = "" },
     disabled_filetypes = {
       statusline = { "help" },
@@ -89,7 +89,7 @@ local options = {
   sections = {
     lualine_a = { mode },
     lualine_b = { { cwd, color = { fg = "#7aa2f7", bg = "#2f344d" } },
-      { 'filename', file_status = true, newfile_status = true, path = 0, shorting_target = 30,
+      { 'filename', file_status = true, newfile_status = true, path = 1, shorting_target = 30,
         color = { fg = "#c0caf5", bg = "#292e42" } } },
     lualine_c = { { 'branch', icon = '' }, 'diff', 'diagnostics' },
     lualine_x = { lsp_status },
