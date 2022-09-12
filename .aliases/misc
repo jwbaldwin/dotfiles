@@ -27,11 +27,10 @@ export ALTERNATE_EDITOR=""
 export EDITOR="nvim"          # $EDITOR opens in GUI mode
 export VISUAL="nvim" # $VISUAL opens in GUI mode
 
-# LVIM ALIASES
-alias v="lvim"
+# NVIM ALIASES
+alias v="nvim"
 # alias vim="lvim" except this
-alias vi="lvim"
-alias lv="lvim"
+alias vi="nvim"
 
 # Program related
 alias gg="./gradlew"
