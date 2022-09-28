@@ -2,7 +2,7 @@ local M = {}
 local autocmd = vim.api.nvim_create_autocmd
 local merge_table = vim.tbl_deep_extend
 
-M.toggle_quickfix = function()
+M.toggle_qf_list = function()
   local qf_exists = false
   for _, win in pairs(vim.fn.getwininfo()) do
     if win["quickfix"] == 1 then

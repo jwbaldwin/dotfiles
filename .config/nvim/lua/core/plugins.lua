@@ -205,7 +205,11 @@ return packer.startup(function(use)
   -- }
 
   -- utility
-  use { "ThePrimeagen/harpoon" }
+  use { "ThePrimeagen/harpoon",
+    config = function()
+      require("core.plugins.configs").harpoon()
+    end,
+  }
   use { "tpope/vim-surround" }
   use { "tpope/vim-projectionist" }
   use { "vim-test/vim-test" }
@@ -237,6 +241,11 @@ return packer.startup(function(use)
   use { "ggandor/leap.nvim",
     config = function()
       require("core.plugins.leap")
+    end
+  }
+  use { "olimorris/persisted.nvim",
+    config = function()
+      require("core.plugins.configs").persisted()
     end
   }
 

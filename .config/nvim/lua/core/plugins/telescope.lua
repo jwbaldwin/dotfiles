@@ -84,7 +84,7 @@ local options = {
       },
     },
   },
-  extensions_list = { "fzf", "projects", "enhanced_find_files" },
+  extensions_list = { "fzf", "projects", "enhanced_find_files", "persisted" },
 }
 
 telescope.setup(options)

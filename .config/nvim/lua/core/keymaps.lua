@@ -41,9 +41,9 @@ M.general = {
 
 
     -- list movement
-    ["<C-q>"] = { "<cmd>lua require('core.utils').toggle_quickfix() <CR>", "toggle qf menu" },
-    ["<C-n>"] = { "<cmd> cnext <CR>zz", "next qfix list item" },
-    ["<C-p>"] = { "<cmd> cprev <CR>zz", "prev qfix list item" },
+    ["<C-q>"] = { "<cmd> lua require('core.utils').toggle_qf_list()<CR>", "toggle qf list" },
+    ["<C-n>"] = { "<cmd> cnext<CR>zz", "next qfix list item" },
+    ["<C-p>"] = { "<cmd> cprev<CR>zz", "prev qfix list item" },
 
     -- A better escape (removes highlights)
     ["<ESC>"] = { "<cmd> noh <CR>", "no highlight" },
@@ -277,7 +277,7 @@ M.telescope = {
     ["<leader>st"] = { "<cmd> Telescope live_grep <CR>", "live grep" },
     ["<leader>,"] = { "<cmd> Telescope buffers theme=ivy<CR>", "find buffers" },
     ["<leader>pp"] = { "<cmd> Telescope projects theme=ivy<CR>", "projects" },
-    ["<leader>ss"] = { ":Telescope session-lens search_session<CR>", "search sessions" },
+    ["<leader>ss"] = { ":Telescope persisted<CR>", "search sessions" },
     -- more find
     ["<leader>ff"] = { "<cmd> Telescope find_files <CR>", "find files" },
     ["<leader>fa"] = { "<cmd> Telescope find_files follow=true no_ignore=true hidden=true <CR>", "find all" },
@@ -365,7 +365,6 @@ M.harpoon = {
     ["<C-j>"] = { "<cmd>lua require('harpoon.ui').nav_file(1)<cr>", "harpoon 1" },
     ["<C-k>"] = { "<cmd>lua require('harpoon.ui').nav_file(2)<cr>", "harpoon 2" },
     ["<C-l>"] = { "<cmd>lua require('harpoon.ui').nav_file(3)<cr>", "harpoon 3" },
-    ["<C-;>"] = { "<cmd>lua require('harpoon.ui').nav_file(4)<cr>", "harpoon 4" },
     ["<C-_>"] = { "<cmd>lua require('harpoon.ui').nav_file(4)<cr>", "harpoon 4" },
     ["<C-f>"] = { "<cmd>lua require('harpoon.mark').add_file()<cr>", "harpoon: add file" },
   },
