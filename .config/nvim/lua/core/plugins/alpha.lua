@@ -67,7 +67,7 @@ local options = {
       button("f", "  Find File  ", ":Telescope find_files<CR>"),
       button("p", "  Projects", ":Telescope projects<CR>"),
       button("r", "  Recents", ":Telescope oldfiles<CR>"),
-      button("s", "  Restore", ":Telescope session-lens search_session<CR>"),
+      button("s", "  Restore", ":Telescope persisted<CR>"),
       button("c", "  Settings", ":e ~/.config/nvim/init.lua | :cd %:p:h <CR>"),
     },
     opts = {
