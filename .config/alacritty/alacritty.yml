@@ -1,7 +1,7 @@
 window:
   padding:
     x: 3
-    y: 6
+    y: 6 
   decorations: buttonless # full, none, transparent, buttonless
   dimensions:
     columns: 160

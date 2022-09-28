@@ -41,8 +41,9 @@ M.general = {
 
 
     -- list movement
-    ["<C-.>"] = { "<cmd> cnext <CR>zz", "next qfix list item" },
-    ["<C-,>"] = { "<cmd> cprev <CR>zz", "prev qfix list item" },
+    ["<C-q>"] = { "<cmd>lua require('core.utils').toggle_quickfix() <CR>", "toggle qf menu" },
+    ["<C-n>"] = { "<cmd> cnext <CR>zz", "next qfix list item" },
+    ["<C-p>"] = { "<cmd> cprev <CR>zz", "prev qfix list item" },
 
     -- A better escape (removes highlights)
     ["<ESC>"] = { "<cmd> noh <CR>", "no highlight" },
@@ -262,7 +263,6 @@ M.nvimtree = {
   n = {
     -- toggle
     ["<leader>e"] = { "<cmd> NvimTreeToggle <CR>", "toggle nvimtree" },
-    ["<C-n>"] = { "<cmd> NvimTreeToggle <CR>", "toggle nvimtree" },
   },
 }
 
@@ -274,7 +274,7 @@ M.telescope = {
     ["<leader>."] = { "<cmd> Telescope enhanced_find_files theme=ivy hidden=true <CR>", "find files" },
     ["<leader>fr"] = { "<cmd> Telescope oldfiles theme=ivy hidden=true<CR>", "find recent" },
     ["<leader>'"] = { "<cmd> Telescope live_grep theme=ivy previewer=false<CR>", "live grep" },
-    ["<leader>ft"] = { "<cmd> Telescope live_grep <CR>", "live grep" },
+    ["<leader>st"] = { "<cmd> Telescope live_grep <CR>", "live grep" },
     ["<leader>,"] = { "<cmd> Telescope buffers theme=ivy<CR>", "find buffers" },
     ["<leader>pp"] = { "<cmd> Telescope projects theme=ivy<CR>", "projects" },
     ["<leader>ss"] = { ":Telescope session-lens search_session<CR>", "search sessions" },

@@ -197,12 +197,12 @@ return packer.startup(function(use)
       require("core.plugins.tokyonight")
     end
   }
-  use { "catppuccin/nvim",
-    as = "catppuccin",
-    config = function()
-      require("core.plugins.catppuccin")
-    end
-  }
+  -- use { "catppuccin/nvim",
+  --   as = "catppuccin",
+  --   config = function()
+  --     require("core.plugins.catppuccin")
+  --   end
+  -- }
 
   -- utility
   use { "ThePrimeagen/harpoon" }

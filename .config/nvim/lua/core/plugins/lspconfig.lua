@@ -40,7 +40,7 @@ local default_on_attach = function(client, bufnr)
   vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format({bufnr = bufnr})]]
 end
 
-local servers = { "html", "cssls", "jsonls", "bashls", "tailwindcss" }
+local servers = { "html", "cssls", "jsonls", "bashls", "tailwindcss", "tsserver" }
 
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
