@@ -255,6 +255,11 @@ return packer.startup(function(use)
       require("core.plugins.lualine")
     end
   }
+  use { "folke/todo-comments.nvim",
+    config = function()
+      require("core.plugins.configs").todo()
+    end
+  }
 
 
   -- Automatically set configuration after cloning packer.nvim

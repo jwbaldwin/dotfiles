@@ -286,6 +286,7 @@ M.telescope = {
     ["<leader>fh"] = { "<cmd> Telescope help_tags <CR>", "help page" },
     ["<leader>fo"] = { "<cmd> Telescope oldfiles <CR>", "find oldfiles" },
     ["<leader>fk"] = { "<cmd> Telescope keymaps <CR>", "show keys" },
+    ["<leader>ft"] = { "<cmd> TodoTelescope<CR>", "Show todo comments" },
 
     -- pick a hidden term
     ["<leader>pt"] = { "<cmd> Telescope terms <CR>", "pick hidden term" },
