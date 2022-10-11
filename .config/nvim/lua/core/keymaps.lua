@@ -379,6 +379,7 @@ M.gitsigns = {
     ["<leader>gr"] = { "<cmd> Gitsigns reset_hunk <CR>", "git reset hunk" },
     ["<leader>gR"] = { "<cmd> Gitsigns reset_buffer <CR>", "git reset buffer" },
     ["<leader>gp"] = { "<cmd> Gitsigns preview_hunk <CR>", "preview hunk" },
+    ["<leader>gl"] = { "<cmd> Telescope git_branches <CR>", "List git branches" },
   },
 }
 
