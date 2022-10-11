@@ -16,6 +16,16 @@ M.packer = {
   },
 }
 
+M.todo = function()
+  local present, todo = pcall(require, "todo-comments")
+
+  if not present then
+    return
+  end
+
+  todo.setup()
+end
+
 M.persisted = function()
   local present, persisted = pcall(require, "persisted")
 
@@ -71,10 +81,10 @@ M.gitsigns = function()
   end
 
   local options = {
-    signs = {
-      add = { hl = "DiffAdd", text = "│", numhl = "GitSignsAddNr" },
-      change = { hl = "DiffChange", text = "│", numhl = "GitSignsChangeNr" },
-    },
+    -- signs = {
+    --   add = { hl = "DiffAdd", text = "│", numhl = "GitSignsAddNr" },
+    --   change = { hl = "DiffChange", text = "│", numhl = "GitSignsChangeNr" },
+    -- },
   }
 
   gitsigns.setup(options)

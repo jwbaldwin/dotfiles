@@ -197,12 +197,12 @@ return packer.startup(function(use)
       require("core.plugins.tokyonight")
     end
   }
-  use { "catppuccin/nvim",
-    as = "catppuccin",
-    config = function()
-      require("core.plugins.catppuccin")
-    end
-  }
+  -- use { "catppuccin/nvim",
+  --   as = "catppuccin",
+  --   config = function()
+  --     require("core.plugins.catppuccin")
+  --   end
+  -- }
 
   -- utility
   use { "ThePrimeagen/harpoon",
@@ -253,6 +253,11 @@ return packer.startup(function(use)
   use { "nvim-lualine/lualine.nvim",
     config = function()
       require("core.plugins.lualine")
+    end
+  }
+  use { "folke/todo-comments.nvim",
+    config = function()
+      require("core.plugins.configs").todo()
     end
   }
 
