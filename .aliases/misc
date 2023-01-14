@@ -44,7 +44,7 @@ alias dc="docker-compose"
 alias lsa='ls -a'
 alias personal="cd ~/repos/personal"
 alias kept="cd ~/repos/personal/kept"
-alias lkept="cd ~/repos/personal/lkept"
+alias lkept="cd ~/repos/personal/kept-landing"
 
 ### Asdf Updating nvim ###
 alias update-nvim-stable='asdf uninstall neovim stable && asdf install neovim stable'
