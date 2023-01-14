@@ -24,7 +24,7 @@ vim.opt.mouse = "a"
 
 -- Numbers
 vim.opt.number = true
-vim.opt.relativenumber = true
+vim.opt.relativenumber = false
 vim.opt.numberwidth = 2
 vim.opt.ruler = false
 
