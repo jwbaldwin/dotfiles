@@ -60,8 +60,13 @@ M.general = {
     ["<Up>"] = { 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', opts = { expr = true } },
     ["<Down>"] = { 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', opts = { expr = true } },
 
-    -- new buffer
-    ["<leader>bn"] = { "<cmd> enew <CR>", "new buffer" },
+    -- cycle buffers
+    ["<leader>bp"] = { "<cmd> :bprev<CR>", "previous buffer" },
+    ["<leader>bn"] = { "<cmd> :bnext<CR>", "next buffer" },
+    ["<leader>bl"] = { "<C-6>", "toggle between last buffer" },
+
+    -- create buffer
+    ["<leader>bc"] = { "<cmd> enew <CR>", "new buffer" },
 
     -- close buffer + hide terminal buffer
     ["<leader>x"] = {
@@ -345,20 +350,20 @@ M.blankline = {
   },
 }
 
-M.tabufline = {
-  n = {
-    ["<S-h>"] = { "<cmd> bprev <CR>", "goto prev buffer", },
-    ["<S-l>"] = { "<cmd> bnext <CR>", "goto next buffer", },
-    ["<leader>bk"] = {
-      function()
-        require("core.utils").close_buffer()
-      end,
-      "close buffers",
-    },
-    ["<leader>bb"] = { "<cmd> TbufPick <CR>", "pick buffer" },
-    ["<leader>bp"] = { "<C-6>", "prev" },
-  },
-}
+-- M.tabufline = {
+--   n = {
+--     ["<S-h>"] = { "<cmd> bprev <CR>", "goto prev buffer", },
+--     ["<S-l>"] = { "<cmd> bnext <CR>", "goto next buffer", },
+--     ["<leader>bk"] = {
+--       function()
+--         require("core.utils").close_buffer()
+--       end,
+--       "close buffers",
+--     },
+--     ["<leader>bb"] = { "<cmd> TbufPick <CR>", "pick buffer" },
+--     ["<leader>bp"] = { "<C-6>", "prev" },
+--   },
+-- }
 
 M.harpoon = {
   n = {
@@ -380,6 +385,7 @@ M.gitsigns = {
     ["<leader>gr"] = { "<cmd> Gitsigns reset_hunk <CR>", "git reset hunk" },
     ["<leader>gR"] = { "<cmd> Gitsigns reset_buffer <CR>", "git reset buffer" },
     ["<leader>gp"] = { "<cmd> Gitsigns preview_hunk <CR>", "preview hunk" },
+    ["<leader>gl"] = { "<cmd> Telescope git_branches <CR>", "List git branches" },
   },
 }
 
