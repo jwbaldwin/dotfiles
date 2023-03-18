@@ -1,5 +1,4 @@
 local M = {}
-local autocmd = vim.api.nvim_create_autocmd
 local merge_table = vim.tbl_deep_extend
 
 M.toggle_qf_list = function()
@@ -27,70 +26,6 @@ M.close_buffer = function(bufnr)
   end
 end
 
--- This must be used for plugins that need to be loaded just after a file
--- ex : treesitter, lspconfig etc
-M.lazy_load = function(table)
-  autocmd(table.events, {
-    group = vim.api.nvim_create_augroup(table.augroup_name, {}),
-    callback = function()
-      if table.condition() then
-        vim.api.nvim_del_augroup_by_name(table.augroup_name)
-
-        -- dont defer for treesitter as it will show slow highlighting
-        -- This deferring only happens when we do "nvim filename"
-        if table.plugin ~= "nvim-treesitter" then
-          vim.defer_fn(function()
-            require("packer").loader(table.plugin)
-            if table.plugin == "nvim-lspconfig" then
-              vim.cmd "silent! do FileType"
-            end
-          end, 0)
-        else
-          require("packer").loader(table.plugin)
-        end
-      end
-    end,
-  })
-end
-
--- load certain plugins only when there's a file opened in the buffer
--- if "nvim filename" is executed -> load the plugin after nvim gui loads
--- This gives an instant preview of nvim with the file opened
-M.on_file_open = function(plugin_name)
-  M.lazy_load {
-    events = { "BufRead", "BufWinEnter", "BufNewFile" },
-    augroup_name = "BeLazyOnFileOpen" .. plugin_name,
-    plugin = plugin_name,
-    condition = function()
-      local file = vim.fn.expand "%"
-      return file ~= "NvimTree_1" and file ~= "[packer]" and file ~= ""
-    end,
-  }
-end
-
-M.packer_cmds = {
-  "PackerSnapshot",
-  "PackerSnapshotRollback",
-  "PackerSnapshotDelete",
-  "PackerInstall",
-  "PackerUpdate",
-  "PackerSync",
-  "PackerClean",
-  "PackerCompile",
-  "PackerStatus",
-  "PackerProfile",
-  "PackerLoad",
-}
-
-M.treesitter_cmds = {
-  "TSInstall",
-  "TSBufEnable",
-  "TSBufDisable",
-  "TSEnable",
-  "TSDisable",
-  "TSModuleInfo",
-}
-
 M.mason_cmds = {
   "Mason",
   "MasonInstall",
@@ -99,19 +34,6 @@ M.mason_cmds = {
   "MasonUninstallAll",
   "MasonLog",
 }
-
-M.gitsigns = function()
-  autocmd({ "BufRead" }, {
-    callback = function()
-      vim.fn.system("git rev-parse " .. vim.fn.expand "%:p:h")
-      if vim.v.shell_error == 0 then
-        vim.schedule(function()
-          require("packer").loader "gitsigns.nvim"
-        end)
-      end
-    end,
-  })
-end
 
 M.load_mappings = function(section, mapping_opt)
   local function set_section_map(section_values)
