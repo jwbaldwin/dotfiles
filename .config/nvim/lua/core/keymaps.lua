@@ -25,10 +25,6 @@ M.general = {
     ["<leader>wk"] = { ":wincmd k<cr>", "window up" },
     ["<leader>wl"] = { ":wincmd l<cr>", "window right" },
 
-    -- packer
-    ["<leader>ps"] = { ":PackerSync <CR>", "packer sync" },
-    ["<leader>pc"] = { ":PackerCompile <CR>", "packer compie" },
-
     -- copy and save
     ["<C-y>"] = { "<cmd> w <CR>", "save file" },
     ["<C-a>"] = { "<cmd> %y+ <CR>", "copy all" },

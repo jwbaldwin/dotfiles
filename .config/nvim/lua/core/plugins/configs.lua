@@ -1,20 +1,15 @@
 local M = {}
 
-M.packer = {
-  auto_clean = true,
-  compile_on_sync = true,
-  git = { clone_timeout = 6000 },
-  display = {
-    working_sym = "ﲊ",
-    error_sym = "✗ ",
-    done_sym = " ",
-    removed_sym = " ",
-    moved_sym = "",
-    open_fn = function()
-      return require("packer.util").float { border = "single" }
-    end,
-  },
-}
+M.notify = function()
+  local present, notify = pcall(require, "nvim-notify")
+
+  if not present then
+    return
+  end
+  notify.setup({
+
+  })
+end
 
 M.todo = function()
   local present, todo = pcall(require, "todo-comments")
@@ -122,7 +117,6 @@ M.blankline = function()
       "help",
       "terminal",
       "alpha",
-      "packer",
       "lspinfo",
       "TelescopePrompt",
       "TelescopeResults",
@@ -163,8 +157,6 @@ M.luasnip = function()
   }
 
   luasnip.config.set_config(options)
-  require("luasnip.loaders.from_vscode").lazy_load()
-  require("luasnip.loaders.from_vscode").lazy_load { paths = vim.g.luasnippets_path or "" }
 
   vim.api.nvim_create_autocmd("InsertLeave", {
     callback = function()
