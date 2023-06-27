@@ -34,7 +34,7 @@ alias vi="nvim"
 
 # Program related
 alias gg="./gradlew"
-alias exserver="iex -S mix phx.server"
+alias xs="iex -S mix phx.server"
 
 # Docker related
 alias dcu="docker-compose up -d"
