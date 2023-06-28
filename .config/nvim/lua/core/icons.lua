@@ -104,7 +104,7 @@ M.devicons = {
   },
 
   js = {
-    icon = "",
+    icon = "",
     name = "js",
   },
 
@@ -176,6 +176,11 @@ M.devicons = {
   rpm = {
     icon = "",
     name = "rpm",
+  },
+
+  svelte = {
+    icon = "",
+    name = "svelte"
   },
 
   vue = {

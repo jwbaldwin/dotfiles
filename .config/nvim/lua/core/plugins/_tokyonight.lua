@@ -1,9 +1,3 @@
-local present, _tokyonight = pcall(require, "tokyonight")
-
-if not present then
-  return
-end
-
 local options = {
   style = "night",
   transparent = true,
@@ -53,7 +47,6 @@ local options = {
   end,
 }
 
-_tokyonight.setup(options)
+require("tokyonight").setup(options)
 
--- theme
 vim.cmd [[colorscheme tokyonight]]
