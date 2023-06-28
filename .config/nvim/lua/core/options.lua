@@ -21,6 +21,7 @@ vim.opt.fillchars = { eob = " " }
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.mouse = "a"
+vim.opt.filetype = "on"
 
 -- Numbers
 vim.opt.number = true
@@ -57,9 +58,9 @@ vim.o.background = "dark"
 
 -- Vim test setup
 vim.g['test#strategy'] = "neovim"
-vim.g['test#neovim#start_normal'] = 1 -- start in normal mode
+vim.g['test#neovim#start_normal'] = 1       -- start in normal mode
 vim.g['test#neovim#term_position'] = "vert" -- split right
-vim.g['test#echo_command'] = 1 -- echo the command
+vim.g['test#echo_command'] = 1              -- echo the command
 
 -- Elixir/phoenix projectionist mappings
 vim.g.projectionist_heuristics = {

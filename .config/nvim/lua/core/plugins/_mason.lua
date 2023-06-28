@@ -19,7 +19,6 @@ local options = {
       package_installed = " ",
       package_uninstalled = " ﮊ",
     },
-
     keymaps = {
       toggle_server_expand = "<CR>",
       install_server = "i",
@@ -31,30 +30,30 @@ local options = {
       cancel_installation = "<C-c>",
     },
   },
-
   max_concurrent_installers = 10,
 }
 
 -- LSP's to install with the MasonInstallAll auto cmd
 local ensure_installed = {
-      -- lua stuff
-      "lua-language-server",
-      "stylua",
+  -- lua stuff
+  "lua-language-server",
+  "stylua",
 
-      -- elixir
-      "elixir-ls",
-      "yamllint",
-      "yaml-language-server",
+  -- elixir
+  "elixir-ls",
+  "yamllint",
+  "yaml-language-server",
 
-      -- web dev
-      "html-lsp",
-      "css-lsp",
-      "tailwindcss-language-server",
-      "typescript-language-server",
-      "json-lsp",
+  -- web dev
+  "html-lsp",
+  "css-lsp",
+  "tailwindcss-language-server",
+  "eslint-ls",
+  "typescript-language-server",
+  "json-lsp",
 
-      -- shell
-      "shfmt",
+  -- shell
+  "shfmt",
 }
 
 vim.api.nvim_create_user_command("MasonInstallAll", function()
@@ -62,4 +61,3 @@ vim.api.nvim_create_user_command("MasonInstallAll", function()
 end, {})
 
 mason.setup(options)
-

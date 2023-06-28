@@ -17,7 +17,10 @@ local options = {
     "markdown",
     "markdown_inline",
     "norg",
+    "tsx",
+    "typescript",
     "yaml",
+    "svelte"
   },
   highlight = {
     enable = true,

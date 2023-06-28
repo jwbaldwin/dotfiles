@@ -239,6 +239,5 @@ require("lazy").setup({
       require("core.plugins.configs").todo()
     end,
   },
-  "nathom/filetype.nvim",
   "tpope/vim-fugitive"
 })

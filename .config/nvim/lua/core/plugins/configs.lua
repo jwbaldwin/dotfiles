@@ -176,7 +176,8 @@ M.devicons = function()
   local present, devicons = pcall(require, "nvim-web-devicons")
 
   if present then
-    local options = { override = require("core.icons").devicons }
+    -- local options = { override = require("core.icons").devicons }
+    local options = {}
 
     devicons.setup(options)
   end

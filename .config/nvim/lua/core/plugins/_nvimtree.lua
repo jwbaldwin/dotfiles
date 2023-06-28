@@ -35,6 +35,7 @@ local options = {
     },
   },
   renderer = {
+    root_folder_label = false,
     highlight_git = false,
     highlight_opened_files = "none",
     root_folder_label = false,
@@ -55,10 +56,10 @@ local options = {
         default = "",
         symlink = "",
         folder = {
-          default = "",
+          default = "󰉋",
           empty = "",
-          empty_open = "",
-          open = "",
+          empty_open = "󰷏",
+          open = "󰝰",
           symlink = "",
           symlink_open = "",
           arrow_open = "",
