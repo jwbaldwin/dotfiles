@@ -1,42 +1,42 @@
 local M = {}
 
 M.lspkind = {
-  Namespace = "",
-  Text = " ",
-  Method = " ",
-  Function = " ",
+  Namespace = "󰌗 ",
+  Text = "󰉿 ",
+  Method = "󰆧 ",
+  Function = "󰆧 ",
   Constructor = " ",
-  Field = "ﰠ ",
+  Field = "󰜢 ",
   Variable = " ",
-  Class = "ﴯ ",
+  Class = "󰠱 ",
   Interface = " ",
   Module = " ",
-  Property = "ﰠ ",
+  Property = "󰜢 ",
   Unit = "塞 ",
-  Value = " ",
+  Value = "󰎠 ",
   Enum = " ",
-  Keyword = " ",
+  Keyword = "󰌋 ",
   Snippet = " ",
-  Color = " ",
-  File = " ",
-  Reference = " ",
-  Folder = " ",
+  Color = "󰏘 ",
+  File = "󰈙 ",
+  Reference = "󰈇 ",
+  Folder = "󰉋 ",
   EnumMember = " ",
-  Constant = " ",
-  Struct = "פּ ",
+  Constant = "󰏿 ",
+  Struct = " ",
   Event = " ",
-  Operator = " ",
-  TypeParameter = " ",
+  Operator = "󰆕 ",
+  TypeParameter = "󰊄 ",
   Table = "",
-  Object = " ",
+  Object = "󰅩 ",
   Tag = "",
   Array = "[]",
   Boolean = " ",
   Number = " ",
-  Null = "ﳠ",
-  String = " ",
+  Null = "󰟢 ",
+  String = "󰉿 ",
   Calendar = "",
-  Watch = " ",
+  Watch = "󰥔 ",
   Package = "",
 }
 
@@ -64,7 +64,7 @@ M.statusline_separators = {
 
 M.devicons = {
   default_icon = {
-    icon = "",
+    icon = "󰈙",
     name = "Default",
   },
 
@@ -94,12 +94,12 @@ M.devicons = {
   },
 
   jpeg = {
-    icon = "",
+    icon = " ",
     name = "jpeg",
   },
 
   jpg = {
-    icon = "",
+    icon = " ",
     name = "jpg",
   },
 
@@ -114,7 +114,7 @@ M.devicons = {
   },
 
   lock = {
-    icon = "",
+    icon = "󰌾",
     name = "lock",
   },
 
@@ -124,7 +124,7 @@ M.devicons = {
   },
 
   mp3 = {
-    icon = "",
+    icon = "󰫔",
     name = "mp3",
   },
 
@@ -139,7 +139,7 @@ M.devicons = {
   },
 
   png = {
-    icon = "",
+    icon = " ",
     name = "png",
   },
 
@@ -149,7 +149,7 @@ M.devicons = {
   },
 
   ["robots.txt"] = {
-    icon = "ﮧ",
+    icon = "󰚩",
     name = "robots",
   },
 
@@ -159,7 +159,7 @@ M.devicons = {
   },
 
   ts = {
-    icon = "ﯤ",
+    icon = "󰛦 ",
     name = "ts",
   },
 
@@ -179,12 +179,12 @@ M.devicons = {
   },
 
   svelte = {
-    icon = "",
+    icon = " ",
     name = "svelte"
   },
 
   vue = {
-    icon = "﵂",
+    icon = "󰡄 ",
     name = "vue",
   },
 
