@@ -38,6 +38,7 @@ local options = {
     root_folder_label = false,
     highlight_git = false,
     highlight_opened_files = "none",
+    root_folder_label = false,
 
     indent_markers = {
       enable = false,

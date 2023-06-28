@@ -7,7 +7,7 @@ M.notify = function()
     return
   end
   notify.setup({
-
+    background_color = "#000000"
   })
 end
 
@@ -42,9 +42,10 @@ M.persisted = function()
     before_save = nil,                                                -- function to run before the session is saved to disk
     after_save = nil,                                                 -- function to run after the session is saved to disk
     after_source = nil,                                               -- function to run after the session is sourced
-    telescope = {                                                     -- options for the telescope extension
-      before_source = nil,                                            -- function to run before the session is sourced via telescope
-      after_source = nil,                                             -- function to run after the session is sourced via telescope
+    telescope = {
+      -- options for the telescope extension
+      before_source = nil, -- function to run before the session is sourced via telescope
+      after_source = nil,  -- function to run after the session is sourced via telescope
     },
   }
 
@@ -157,6 +158,8 @@ M.luasnip = function()
   }
 
   luasnip.config.set_config(options)
+  require("luasnip.loaders.from_vscode").lazy_load({ paths = "~/.config/nvim/snippets" })
+  require("luasnip.loaders.from_vscode").lazy_load()
 
   vim.api.nvim_create_autocmd("InsertLeave", {
     callback = function()

@@ -72,7 +72,7 @@ local options = {
     icons_enabled = true,
     theme = 'tokyonight',
     component_separators = { left = "", right = "" },
-    section_separators = { left = "", right = "" },
+    section_separators = { left = "", right = "" },
     disabled_filetypes = {
       statusline = { "help" },
       winbar = {},
@@ -89,20 +89,34 @@ local options = {
   sections = {
     lualine_a = { mode },
     lualine_b = { { cwd, color = { fg = "#7aa2f7", bg = "#2f344d" } },
-      { 'filename', file_status = true, newfile_status = true, path = 1, shorting_target = 30,
-        color = { fg = "#c0caf5", bg = "#292e42" } } },
+      {
+        'filename',
+        file_status = true,
+        newfile_status = true,
+        path = 1,
+        shorting_target = 30,
+        color = { fg = "#c0caf5", bg = "#292e42" }
+      } },
     lualine_c = { { 'branch', icon = '' }, 'diff', 'diagnostics' },
     lualine_x = { lsp_status },
     lualine_y = { 'location' },
     lualine_z = { 'progress' }
   },
   inactive_sections = {
-    lualine_a = {},
-    lualine_b = {},
-    lualine_c = { 'filename' },
-    lualine_x = { 'location' },
-    lualine_y = {},
-    lualine_z = {}
+    lualine_a = { mode },
+    lualine_b = { { cwd, color = { fg = "#7aa2f7", bg = "#2f344d" } },
+      {
+        'filename',
+        file_status = true,
+        newfile_status = true,
+        path = 1,
+        shorting_target = 30,
+        color = { fg = "#c0caf5", bg = "#292e42" }
+      } },
+    lualine_c = { { 'branch', icon = '' }, 'diff', 'diagnostics' },
+    lualine_x = { lsp_status },
+    lualine_y = { 'location' },
+    lualine_z = { 'progress' }
   },
   tabline = {},
   winbar = {},

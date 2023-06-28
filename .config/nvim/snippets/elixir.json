@@ -1,0 +1,25 @@
+{
+  "Adds an IO.inspect": {
+    "prefix": "ioi",
+    "body": [
+      "IO.inspect($1, label: \"$2\")$0"
+    ],
+    "description": "IO inspect the contents with label"
+  },
+  "Expand to ieex template": {
+    "prefix": "lx",
+    "body": [
+      "<%= $0$1 %>"
+    ],
+    "description": "Expands to the template for ieex var"
+  },
+  "Expand to ieex template block": {
+    "prefix": "lxd",
+    "body": [
+      "<%= $0$1 do %>",
+      "",
+      "<% end %>"
+    ],
+    "description": "Expands to the template for ieex var"
+  }
+}

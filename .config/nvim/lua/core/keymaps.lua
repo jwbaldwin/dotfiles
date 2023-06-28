@@ -18,35 +18,28 @@ M.general = {
     ["<leader>;"] = { ":Alpha <CR>", "dashboard" },
     ["<leader>fe"] = { ":e ~/.config/nvim/init.lua | :cd %:p:h <CR>", "edit config" },
     ["<leader>fd"] = { ":e ~/.aliases/ | :cd %:p:h <CR>", "edit dotfiles" },
-
     -- switch between windows
     ["<leader>wh"] = { ":wincmd h<cr>", "window left" },
     ["<leader>wj"] = { ":wincmd j<cr>", "window down" },
     ["<leader>wk"] = { ":wincmd k<cr>", "window up" },
     ["<leader>wl"] = { ":wincmd l<cr>", "window right" },
-
     -- copy and save
     ["<C-y>"] = { "<cmd> w <CR>", "save file" },
     ["<C-a>"] = { "<cmd> %y+ <CR>", "copy all" },
-
+    ["<leader>yy"] = { "<cmd>:let @+ = expand('%:s') <CR>", "copy current filepath to clipboard" },
     -- misc
     ["<S-Up>"] = { ":move-2<cr>", "shift line up" },
     ["<S-Down>"] = { ":move+<cr>", "shift line down" },
     ["<C-d>"] = { "<C-d>zz", "move down and center" },
     ["<C-u>"] = { "<C-u>zz", "move up and center" },
-
-
     -- list movement
     ["<C-q>"] = { "<cmd> lua require('core.utils').toggle_qf_list()<CR>", "toggle qf list" },
     ["<C-n>"] = { "<cmd> cnext<CR>zz", "next qfix list item" },
     ["<C-p>"] = { "<cmd> cprev<CR>zz", "prev qfix list item" },
-
     -- A better escape (removes highlights)
     ["<ESC>"] = { "<cmd> noh <CR>", "no highlight" },
-
     -- save
     ["<C-s>"] = { "<cmd> w <CR>", "save file" },
-
     -- Allow moving the cursor through wrapped lines with j, k, <Up> and <Down>
     -- http://www.reddit.com/r/vim/comments/2k4cbr/problem_with_gj_and_gk/
     -- empty mode is same as using <cmd> :map
@@ -55,15 +48,12 @@ M.general = {
     ["k"] = { 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', opts = { expr = true } },
     ["<Up>"] = { 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', opts = { expr = true } },
     ["<Down>"] = { 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', opts = { expr = true } },
-
     -- cycle buffers
     ["<leader>bp"] = { "<cmd> :bprev<CR>", "previous buffer" },
     ["<leader>bn"] = { "<cmd> :bnext<CR>", "next buffer" },
     ["<leader>bl"] = { "<C-6>", "toggle between last buffer" },
-
     -- create buffer
     ["<leader>bc"] = { "<cmd> enew <CR>", "new buffer" },
-
     -- close buffer + hide terminal buffer
     ["<leader>x"] = {
       function()
@@ -72,9 +62,7 @@ M.general = {
       "close buffer",
     },
   },
-
   t = { ["<C-x>"] = { termcodes "<C-\\><C-N>", "escape terminal mode" } },
-
   v = {
     -- copy and paste in visual
     ["<C-c>"] = { "<cmd>'<,'>y<CR>", "copy line" },
@@ -90,8 +78,6 @@ M.general = {
 }
 
 M.tabufline = {
-
-
   n = {
     -- cycle through buffers
     ["<TAB>"] = {
@@ -100,14 +86,12 @@ M.tabufline = {
       end,
       "goto next buffer",
     },
-
     ["<S-Tab>"] = {
       function()
         require("core.utils").tabuflinePrev()
       end,
       "goto prev buffer",
     },
-
     -- pick buffers via numbers
     ["<Bslash>"] = { "<cmd> TbufPick <CR>", "Pick buffer" },
   },
@@ -123,7 +107,6 @@ M.comment = {
       "toggle comment",
     },
   },
-
   v = {
     ["<leader>/"] = {
       "<ESC><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>",
@@ -148,109 +131,92 @@ M.lspconfig = {
       end,
       "lsp declaration",
     },
-
     ["gd"] = { "<cmd> lua vim.lsp.buf.definition()<CR>zz", "lsp definition", },
-
     ["K"] = {
       function()
         vim.lsp.buf.hover()
       end,
       "lsp hover",
     },
-
     ["gi"] = {
       function()
         vim.lsp.buf.implementation()
       end,
       "lsp implementation",
     },
-
     ["<leader>lh"] = {
       function()
         vim.lsp.buf.signature_help()
       end,
       "lsp signature_help",
     },
-
     ["<leader>ls"] = { "<cmd> Telescope lsp_document_symbols <CR>", "list document symbols" },
-
     ["<leader>D"] = {
       function()
         vim.lsp.buf.type_definition()
       end,
       "lsp definition type",
     },
-
     ["<leader>ra"] = {
       function()
         require("nvchad_ui.renamer").open()
       end,
       "lsp rename",
     },
-
     ["<leader>ca"] = {
       function()
         vim.lsp.buf.code_action()
       end,
       "lsp code_action",
     },
-
     ["gr"] = {
       function()
         vim.lsp.buf.references()
       end,
       "lsp references",
     },
-
     ["<leader>f"] = {
       function()
         vim.diagnostic.open_float()
       end,
       "floating diagnostic",
     },
-
     ["[d"] = {
       function()
         vim.diagnostic.goto_prev()
       end,
       "goto prev",
     },
-
     ["d]"] = {
       function()
         vim.diagnostic.goto_next()
       end,
       "goto_next",
     },
-
     ["<leader>q"] = {
       function()
         vim.diagnostic.setloclist()
       end,
       "diagnostic setloclist",
     },
-
     ["<leader>fm"] = {
       function()
         vim.lsp.buf.formatting {}
       end,
       "lsp formatting",
     },
-
     ["<leader>wa"] = {
       function()
         vim.lsp.buf.add_workspace_folder()
       end,
       "add workspace folder",
     },
-
     ["<leader>wr"] = {
       function()
         vim.lsp.buf.remove_workspace_folder()
       end,
       "remove workspace folder",
     },
-
     ["<leader>wf"] = {
       function()
         print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
@@ -268,8 +234,6 @@ M.nvimtree = {
 }
 
 M.telescope = {
-
-
   n = {
     -- find
     ["<leader>."] = { "<cmd> Telescope enhanced_find_files theme=ivy hidden=true <CR>", "find files" },
@@ -287,16 +251,16 @@ M.telescope = {
     ["<leader>fh"] = { "<cmd> Telescope help_tags <CR>", "help page" },
     ["<leader>fo"] = { "<cmd> Telescope oldfiles <CR>", "find oldfiles" },
     ["<leader>fk"] = { "<cmd> Telescope keymaps <CR>", "show keys" },
-    ["<leader>ft"] = { "<cmd> TodoTelescope<CR>", "Show todo comments" },
-
     -- pick a hidden term
     ["<leader>pt"] = { "<cmd> Telescope terms <CR>", "pick hidden term" },
+    -- Folke Todo Comment
+    ["<leader>ct"] = { "<cmd> TodoTelescope<CR>", "Show todo comments in telescope" },
+    ["<leader>cl"] = { "<cmd> TodoLocList<CR>", "Show todo comments in a loc list" },
+    ["<leader>cq"] = { "<cmd> TodoQuickFix<CR>", "Show todo comments in a quickfix list" },
   },
 }
 
 M.FTerm = {
-
-
   t = {
     ["<C-t>"] = {
       function()
