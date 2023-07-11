@@ -77,26 +77,6 @@ M.general = {
   },
 }
 
-M.tabufline = {
-  n = {
-    -- cycle through buffers
-    ["<TAB>"] = {
-      function()
-        require("core.utils").tabuflineNext()
-      end,
-      "goto next buffer",
-    },
-    ["<S-Tab>"] = {
-      function()
-        require("core.utils").tabuflinePrev()
-      end,
-      "goto prev buffer",
-    },
-    -- pick buffers via numbers
-    ["<Bslash>"] = { "<cmd> TbufPick <CR>", "Pick buffer" },
-  },
-}
-
 M.comment = {
   -- toggle comment in both modes
   n = {
