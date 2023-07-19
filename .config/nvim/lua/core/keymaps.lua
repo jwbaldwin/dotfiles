@@ -226,7 +226,8 @@ M.telescope = {
     -- more find
     ["<leader>ff"] = { "<cmd> Telescope find_files <CR>", "find files" },
     ["<leader>fa"] = { "<cmd> Telescope find_files follow=true no_ignore=true hidden=true <CR>", "find all" },
-    ["<leader>fw"] = { "<cmd> Telescope live_grep <CR>", "live grep" },
+    ["<leader>f0"] = { "<cmd> Telescope live_grep <CR>", "live grep old" },
+    ["<leader>fw"] = { "<cmd> lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>", "live grep" },
     ["<leader>fb"] = { "<cmd> Telescope buffers <CR>", "find buffers" },
     ["<leader>fh"] = { "<cmd> Telescope help_tags <CR>", "help page" },
     ["<leader>fo"] = { "<cmd> Telescope oldfiles <CR>", "find oldfiles" },

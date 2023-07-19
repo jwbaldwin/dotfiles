@@ -142,6 +142,11 @@ require("lazy").setup({
   {
     "nvim-telescope/telescope.nvim",
     cmd = "Telescope",
+    dependencies = {
+      "nvim-telescope/telescope-live-grep-args.nvim",
+      "nvim-telescope/telescope-fzf-native.nvim",
+      build = "make"
+    },
     config = function()
       require "core.plugins._telescope"
     end,
@@ -149,8 +154,6 @@ require("lazy").setup({
       require("core.utils").load_mappings "telescope"
     end,
   },
-
-  { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
 
 
   -- Only load whichkey
@@ -166,7 +169,7 @@ require("lazy").setup({
   },
 
   -- theme related
-  { "jwbaldwin/moonlight-material.vim",         lazy = true },
+  { "jwbaldwin/moonlight-material.vim", lazy = true },
   {
     "jwbaldwin/tokyonight.nvim",
     lazy = false,    -- make sure we load this during startup if it is your main colorscheme
@@ -193,7 +196,7 @@ require("lazy").setup({
       require("core.plugins.configs").notify()
     end,
   },
-  { "nvim-neotest/neotest-vim-test", lazy = true },
+  { "nvim-neotest/neotest-vim-test",    lazy = true },
   "jfpedroza/neotest-elixir",
   "antoinemadec/FixCursorHold.nvim",
   {
@@ -227,6 +230,9 @@ require("lazy").setup({
   --     require("core.plugins._leap")
   --   end,
   -- },
+  {
+    "mg979/vim-visual-multi",
+  },
   -- { "olimorris/persisted.nvim",
   --   config = function()
   --     require("core.plugins.configs").persisted()
