@@ -21,6 +21,20 @@ require("lazy").setup({
   { "folke/lazy.nvim",              version = "*" },
   "nvim-lua/plenary.nvim",
   {
+    "danielfalk/smart-open.nvim",
+    branch = "0.2.x",
+    config = function()
+      require("telescope").load_extension("smart_open")
+    end,
+    dependencies = {
+      "kkharji/sqlite.lua",
+      -- Only required if using match_algorithm fzf
+      { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+      -- Optional.  If installed, native fzy will be used when match_algorithm is fzy
+      { "nvim-telescope/telescope-fzy-native.nvim" },
+    },
+  },
+  {
     "kyazdani42/nvim-web-devicons",
     config = function()
       require("core.plugins.configs").devicons()
@@ -218,18 +232,18 @@ require("lazy").setup({
       require("core.plugins._fterm")
     end,
   },
-  {
-    "folke/flash.nvim",
-    event = "VeryLazy",
-    opts = require("core.plugins.configs").flash.otps,
-    keys = require("core.plugins.configs").flash.keys
-  },
   -- {
-  --   "ggandor/leap.nvim",
-  --   config = function()
-  --     require("core.plugins._leap")
-  --   end,
+  --   "folke/flash.nvim",
+  --   event = "VeryLazy",
+  --   opts = require("core.plugins.configs").flash.otps,
+  --   keys = require("core.plugins.configs").flash.keys
   -- },
+  {
+    "ggandor/leap.nvim",
+    config = function()
+      require("core.plugins._leap")
+    end,
+  },
   {
     "mg979/vim-visual-multi",
   },

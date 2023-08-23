@@ -27,6 +27,7 @@ M.general = {
     ["<C-y>"] = { "<cmd> w <CR>", "save file" },
     ["<C-a>"] = { "<cmd> %y+ <CR>", "copy all" },
     ["<leader>yy"] = { "<cmd>:let @+ = expand('%:s') <CR>", "copy current filepath to clipboard" },
+
     -- misc
     ["<S-Up>"] = { ":move-2<cr>", "shift line up" },
     ["<S-Down>"] = { ":move+<cr>", "shift line down" },
@@ -216,20 +217,20 @@ M.nvimtree = {
 M.telescope = {
   n = {
     -- find
-    ["<leader>."] = { "<cmd> Telescope enhanced_find_files theme=ivy hidden=true <CR>", "find files" },
-    ["<leader>fr"] = { "<cmd> Telescope oldfiles theme=ivy hidden=true<CR>", "find recent" },
-    ["<leader>'"] = { "<cmd> Telescope live_grep theme=ivy previewer=false<CR>", "live grep" },
-    ["<leader>st"] = { "<cmd> Telescope live_grep <CR>", "live grep" },
+    ["<leader>."] = { "<cmd> Telescope smart_open theme=ivy hidden=true <CR>", "find files" },
     ["<leader>,"] = { "<cmd> Telescope buffers theme=ivy<CR>", "find buffers" },
+    ["<leader>'"] = { "<cmd> lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>", "live grep" },
+    ["<leader>st"] = { "<cmd> Telescope live_grep <CR>", "live grep" },
     ["<leader>pp"] = { "<cmd> Telescope projects theme=ivy<CR>", "projects" },
     ["<leader>ss"] = { ":Telescope persisted<CR>", "search sessions" },
     -- more find
-    ["<leader>ff"] = { "<cmd> Telescope find_files <CR>", "find files" },
+    ["<leader>ff"] = { "<cmd> Telescope enhanced_find_files theme=ivy hidden=true <CR>", "find files" },
     ["<leader>fa"] = { "<cmd> Telescope find_files follow=true no_ignore=true hidden=true <CR>", "find all" },
     ["<leader>f0"] = { "<cmd> Telescope live_grep <CR>", "live grep old" },
-    ["<leader>fw"] = { "<cmd> lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>", "live grep" },
+    ["<leader>fw"] = { "<cmd> Telescope live_grep theme=ivy previewer=false<CR>", "live grep" },
     ["<leader>fb"] = { "<cmd> Telescope buffers <CR>", "find buffers" },
     ["<leader>fh"] = { "<cmd> Telescope help_tags <CR>", "help page" },
+    ["<leader>fr"] = { "<cmd> Telescope oldfiles theme=ivy hidden=true<CR>", "find recent" },
     ["<leader>fo"] = { "<cmd> Telescope oldfiles <CR>", "find oldfiles" },
     ["<leader>fk"] = { "<cmd> Telescope keymaps <CR>", "show keys" },
     -- pick a hidden term
@@ -340,18 +341,25 @@ M.neorg = {
 
 M.projectionist = {
   n = {
-    ["<leader>ma"] = { "<cmd> A <CR>", "Go to alternate file" }
+    ["<leader>ta"] = { "<cmd> A <CR>", "Go to alternate file" }
+  }
+}
+
+M.mix = {
+  n = {
+    ["<leader>mc"] = { "<cmd>!mix compile <CR>", "mix compile" },
+    ["<leader>mf"] = { "<cmd>!mix format <CR>", "mix format" },
   }
 }
 
 M.test = {
   n = {
-    ["<leader>mm"] = { "<cmd> TestFile <CR>", "Test file" },
-    ["<leader>mf"] = { "<cmd> TestFile <CR>", "Test file" },
-    ["<leader>ms"] = { "<cmd> TestNearest <CR>", "Test single" },
-    ["<leader>ml"] = { "<cmd> TestLast <CR>", "Test last run" },
-    ["<leader>mp"] = { "<cmd> TestSuite <CR>", "Run tests for whole project" },
-    ["<leader>mv"] = { "<cmd> TestVisit <CR>", "Go back to last-run test file" },
+    ["<leader>tm"] = { "<cmd> TestFile <CR>", "Test file" },
+    ["<leader>tf"] = { "<cmd> TestFile <CR>", "Test file" },
+    ["<leader>ts"] = { "<cmd> TestNearest <CR>", "Test single" },
+    ["<leader>tl"] = { "<cmd> TestLast <CR>", "Test last run" },
+    ["<leader>tp"] = { "<cmd> TestSuite <CR>", "Run tests for whole project" },
+    ["<leader>tv"] = { "<cmd> TestVisit <CR>", "Go back to last-run test file" },
   }
 }
 

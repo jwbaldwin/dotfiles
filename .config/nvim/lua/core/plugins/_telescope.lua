@@ -88,12 +88,18 @@ local options = {
       override_file_sorter = true,
       case_mode = "smart_case",
     },
+    smart_open = {
+      show_scores = false,
+      ignore_patterns = { "*.git/*", "*/tmp/*" },
+      match_algorithm = "fzf",
+      disable_devicons = false,
+    },
     live_grep_args = {
       only_sort_text = true,
       mappings = {
         i = {
           ["<C-f>"] = lga_actions.quote_prompt(),
-          ["<C-i>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
+          ["<C-g>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
         }
       }
     }
