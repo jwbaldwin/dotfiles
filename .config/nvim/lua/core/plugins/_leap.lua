@@ -1,6 +1,6 @@
 local leap = require("leap")
 leap.setup {
-  ignore_case = true
+  case_sensitive = false,
 }
 
 leap.set_default_keymaps(true)

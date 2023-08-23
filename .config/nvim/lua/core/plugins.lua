@@ -215,22 +215,19 @@ require("lazy").setup({
       require("core.plugins._fterm")
     end,
   },
-  {
-    "folke/flash.nvim",
-    event = "VeryLazy",
-    opts = require("core.plugins.configs").flash.otps,
-    keys = require("core.plugins.configs").flash.keys
-  },
   -- {
-  --   "ggandor/leap.nvim",
-  --   config = function()
-  --     require("core.plugins._leap")
-  --   end,
+  --   "folke/flash.nvim",
+  --   event = "VeryLazy",
+  --   opts = require("core.plugins.configs").flash.otps,
+  --   keys = require("core.plugins.configs").flash.keys
   -- },
-  -- { "olimorris/persisted.nvim",
-  --   config = function()
-  --     require("core.plugins.configs").persisted()
-  --   end, },
+  {
+    "ggandor/leap.nvim",
+    config = function()
+      require("core.plugins._leap")
+    end,
+  },
+  { "mg979/vim-visual-multi" },
 
   -- ui plugins
   {
