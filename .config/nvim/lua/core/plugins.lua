@@ -21,6 +21,20 @@ require("lazy").setup({
   { "folke/lazy.nvim",              version = "*" },
   "nvim-lua/plenary.nvim",
   {
+    "danielfalk/smart-open.nvim",
+    branch = "0.2.x",
+    config = function()
+      require("telescope").load_extension("smart_open")
+    end,
+    dependencies = {
+      "kkharji/sqlite.lua",
+      -- Only required if using match_algorithm fzf
+      { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+      -- Optional.  If installed, native fzy will be used when match_algorithm is fzy
+      { "nvim-telescope/telescope-fzy-native.nvim" },
+    },
+  },
+  {
     "kyazdani42/nvim-web-devicons",
     config = function()
       require("core.plugins.configs").devicons()
@@ -142,6 +156,11 @@ require("lazy").setup({
   {
     "nvim-telescope/telescope.nvim",
     cmd = "Telescope",
+    dependencies = {
+      "nvim-telescope/telescope-live-grep-args.nvim",
+      "nvim-telescope/telescope-fzf-native.nvim",
+      build = "make"
+    },
     config = function()
       require "core.plugins._telescope"
     end,
@@ -149,8 +168,6 @@ require("lazy").setup({
       require("core.utils").load_mappings "telescope"
     end,
   },
-
-  { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
 
 
   -- Only load whichkey
@@ -166,7 +183,7 @@ require("lazy").setup({
   },
 
   -- theme related
-  { "jwbaldwin/moonlight-material.vim",         lazy = true },
+  { "jwbaldwin/moonlight-material.vim", lazy = true },
   {
     "jwbaldwin/tokyonight.nvim",
     lazy = false,    -- make sure we load this during startup if it is your main colorscheme
@@ -193,7 +210,7 @@ require("lazy").setup({
       require("core.plugins.configs").notify()
     end,
   },
-  { "nvim-neotest/neotest-vim-test", lazy = true },
+  { "nvim-neotest/neotest-vim-test",    lazy = true },
   "jfpedroza/neotest-elixir",
   "antoinemadec/FixCursorHold.nvim",
   {

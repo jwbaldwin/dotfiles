@@ -72,9 +72,10 @@ lspconfig.lua_ls.setup {
 
 local elixirls = ""
 if os.getenv("USER") == "jbaldwin" then
-  elixirls = "/Users/jbaldwin/repos/elixir-ls/release/language_server.sh"
+  elixirls = "/Users/jbaldwin/.local/share/nvim/mason/packages/elixir-ls/language_server.sh"
 else
-  elixirls = "/Users/jwbaldwin/.elixir-ls/release/language_server.sh"
+  -- Mason's install location
+  elixirls = "/Users/jwbaldwin/.local/share/nvim/mason/packages/elixir-ls/language_server.sh"
 end
 
 lspconfig.elixirls.setup {

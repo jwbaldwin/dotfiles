@@ -1,4 +1,9 @@
 local telescope = require("telescope")
+local lga_status_ok, lga_actions = pcall(require, "telescope-live-grep-args.actions")
+if not lga_status_ok then
+  return
+end
+
 
 local options = {
   defaults = {
@@ -75,23 +80,35 @@ local options = {
         ["<CR>"] = require("telescope.actions").select_default,
       },
     },
-    extensions = {
-      fzf = {
-        fuzzy = true,
-        override_generic_sorter = true,
-        override_file_sorter = true,
-        case_mode = "smart_case",
-      },
-    },
   },
-  extensions_list = { "fzf", "projects", "enhanced_find_files", "persisted" },
+  extensions = {
+    fzf = {
+      fuzzy = true,
+      override_generic_sorter = true,
+      override_file_sorter = true,
+      case_mode = "smart_case",
+    },
+    smart_open = {
+      show_scores = false,
+      ignore_patterns = { "*.git/*", "*/tmp/*" },
+      match_algorithm = "fzf",
+      disable_devicons = false,
+    },
+    live_grep_args = {
+      only_sort_text = true,
+      mappings = {
+        i = {
+          ["<C-f>"] = lga_actions.quote_prompt(),
+          ["<C-g>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
+        }
+      }
+    }
+  },
 }
 
 telescope.setup(options)
 
--- load extensions
-pcall(function()
-  for _, ext in ipairs(options.extensions_list) do
-    telescope.load_extension(ext)
-  end
-end)
+telescope.load_extension("fzf")
+telescope.load_extension("live_grep_args")
+telescope.load_extension("projects")
+telescope.load_extension("enhanced_find_files")
