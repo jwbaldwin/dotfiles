@@ -96,7 +96,9 @@ lspconfig.tailwindcss.setup {
   capabilities = capabilities,
   init_options = {
     userLanguages = {
+      elixir = "phoenix-heex",
       heex = "phoenix-heex",
+      svelte = "html",
     },
   },
   handlers = {
@@ -107,7 +109,8 @@ lspconfig.tailwindcss.setup {
   root_dir = lspconfig.util.root_pattern('tailwind.config.js', 'tailwind.config.ts', 'postcss.config.js',
     'postcss.config.ts',
     'package.json',
-    'node_modules', '.git'),
+    'node_modules', '.git', 'mix.exs'),
+
   settings = {
     includeLanguages = {
       typescript = "javascript",
@@ -116,9 +119,12 @@ lspconfig.tailwindcss.setup {
       ["phoenix-heex"] = "html",
       heex = "html",
       eelixir = "html",
+      elixir = "html",
+      svelte = "html",
     },
     tailwindCSS = {
       lint = {
+        cssConflict = "warning",
         invalidApply = "error",
         invalidConfigPath = "error",
         invalidScreen = "error",
@@ -131,22 +137,22 @@ lspconfig.tailwindcss.setup {
           [[class= "([^"]*)]],
           [[class: "([^"]*)]],
           '~H""".*class="([^"]*)".*"""',
+          '~F""".*class="([^"]*)".*"""',
         },
       },
       validate = true,
     },
   },
   filetypes = {
-    -- "css",
-    -- "scss",
-    -- "sass",
+    "css",
+    "scss",
+    "sass",
     "html",
     "heex",
-    "svelte",
-    -- "elixir",
+    "elixir",
     "javascript",
     "javascriptreact",
     "typescript",
     "typescriptreact",
-  },
-}
+    "svelte",
+  }, }
