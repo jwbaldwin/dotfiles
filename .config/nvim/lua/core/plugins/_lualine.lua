@@ -1,8 +1,3 @@
-local present, lualine = pcall(require, "lualine")
-if not present then
-  return
-end
-
 -- local separators = require("core.icons").statusline_separators["block"]
 -- local sep_l = separators["right"]
 local fn = vim.fn
@@ -74,7 +69,7 @@ local options = {
     component_separators = { left = "", right = "" },
     section_separators = { left = "", right = "" },
     disabled_filetypes = {
-      statusline = { "help" },
+      statusline = { "help", "NvimTree", "alpha" },
       winbar = {},
     },
     ignore_focus = {},
@@ -124,4 +119,4 @@ local options = {
   extensions = {}
 }
 
-lualine.setup(options)
+require('lualine').setup(options)
