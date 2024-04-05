@@ -10,7 +10,8 @@ if not vim.loop.fs_stat(lazypath) then
     lazypath,
   })
 end
-vim.opt.rtp:prepend(lazypath)
+
+    vim.opt.rtp:prepend(lazypath)
 
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
@@ -87,6 +88,13 @@ require("lazy").setup({
       require "core.plugins._lspconfig"
     end,
   },
+
+  {
+    "mhartington/formatter.nvim",
+    config = function()
+      require("core.plugins.configs").formatter()
+    end,
+ },
 
 
   -- loadsnips + cmp related in insert mode only
@@ -186,6 +194,7 @@ require("lazy").setup({
   { "jwbaldwin/moonlight-material.vim", lazy = true },
   {
     "jwbaldwin/tokyonight.nvim",
+    dir = "~/repos/tokyonight.nvim",
     lazy = false,    -- make sure we load this during startup if it is your main colorscheme
     priority = 1000, -- make sure to load this before all the other start plugins
     config = function()

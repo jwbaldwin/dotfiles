@@ -1,7 +1,5 @@
-local present, lspconfig = pcall(require, "lspconfig")
-if not present then
-  return
-end
+local lspconfig = require("lspconfig")
+local configs = require("lspconfig.configs")
 
 local utils = require("core.utils")
 
@@ -37,7 +35,7 @@ local default_on_attach = function(client, bufnr)
 
   utils.load_mappings("lspconfig", { buffer = bufnr })
 
-  vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format({bufnr = bufnr})]]
+  -- vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format({bufnr = bufnr})]]
 end
 
 local servers = { "html", "cssls", "jsonls", "bashls", "tsserver", "eslint", "tailwindcss", "svelte", "marksman" }
@@ -70,26 +68,49 @@ lspconfig.lua_ls.setup {
   },
 }
 
-local elixirls = ""
-if os.getenv("USER") == "jbaldwin" then
-  elixirls = "/Users/jbaldwin/.local/share/nvim/mason/packages/elixir-ls/language_server.sh"
-else
-  -- Mason's install location
-  elixirls = "/Users/jwbaldwin/.local/share/nvim/mason/packages/elixir-ls/language_server.sh"
+-- local elixirls = ""
+-- if os.getenv("USER") == "jbaldwin" then
+--   elixirls = "/Users/jbaldwin/.local/share/nvim/mason/packages/elixir-ls/language_server.sh"
+-- else
+--   -- Mason's install location
+--   elixirls = "/Users/jwbaldwin/.local/share/nvim/mason/packages/elixir-ls/language_server.sh"
+-- end
+--
+-- lspconfig.elixirls.setup {
+--   cmd = { elixirls },
+--   on_attach = default_on_attach,
+--   capabilities = capabilities,
+--   filetypes = { "elixir", "eelixir", "heex", "surface", "eex" },
+--   settings = {
+--     elixirLS = {
+--       dialyzerEnabled = false,
+--       fetchDeps = true,
+--     },
+--   },
+-- }
+
+-- Lexical
+local lexical_config = {
+  filetypes = { "elixir", "eelixir", "heex", "eex", "surface" },
+  cmd = { "/Users/jwbaldwin/repos/lexical/_build/dev/package/lexical/bin/start_lexical.sh" },
+  settings = {},
+}
+
+if not configs.lexical then
+  configs.lexical = {
+    default_config = {
+      filetypes = lexical_config.filetypes,
+      cmd = lexical_config.cmd,
+      root_dir = function(fname)
+        return lspconfig.util.root_pattern("mix.exs", ".git")(fname) or vim.loop.os_homedir()
+      end,
+      -- optional settings
+      settings = lexical_config.settings,
+    },
+  }
 end
 
-lspconfig.elixirls.setup {
-  cmd = { elixirls },
-  on_attach = default_on_attach,
-  capabilities = capabilities,
-  filetypes = { "elixir", "eelixir", "heex", "surface", "eex" },
-  settings = {
-    elixirLS = {
-      dialyzerEnabled = false,
-      fetchDeps = true,
-    },
-  },
-}
+lspconfig.lexical.setup({})
 
 lspconfig.tailwindcss.setup {
   on_attach = default_on_attach,
