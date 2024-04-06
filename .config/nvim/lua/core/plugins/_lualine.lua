@@ -1,8 +1,3 @@
-local present, lualine = pcall(require, "lualine")
-if not present then
-  return
-end
-
 -- local separators = require("core.icons").statusline_separators["block"]
 -- local sep_l = separators["right"]
 local fn = vim.fn
@@ -31,97 +26,101 @@ local fn = vim.fn
 --  -- end
 
 local function lsp_status()
-  local ok, devicons = pcall(require, 'nvim-web-devicons')
-  local icon = ''
-  local icon_highlight_group = ''
-  if ok then
-    local f_name, f_extension = vim.fn.expand('%:t'), vim.fn.expand('%:e')
-    f_extension = f_extension ~= '' and f_extension or vim.bo.filetype
-    icon, icon_highlight_group = devicons.get_icon(f_name, f_extension)
+	local ok, devicons = pcall(require, "nvim-web-devicons")
+	local icon = ""
+	local icon_highlight_group = ""
+	if ok then
+		local f_name, f_extension = vim.fn.expand("%:t"), vim.fn.expand("%:e")
+		f_extension = f_extension ~= "" and f_extension or vim.bo.filetype
+		icon, icon_highlight_group = devicons.get_icon(f_name, f_extension)
 
-    if icon == nil and icon_highlight_group == nil then
-      icon = ' '
-    end
-  else
-    ok = vim.fn.exists('*WebDevIconsGetFileTypeSymbol')
-    if ok ~= 0 then
-      icon = vim.fn.WebDevIconsGetFileTypeSymbol()
-    end
-  end
-  if rawget(vim, "lsp") then
-    for _, client in ipairs(vim.lsp.get_active_clients()) do
-      if client.attached_buffers[vim.api.nvim_get_current_buf()] then
-        return (vim.o.columns > 100 and client.name .. " " .. icon) or "LSP  "
-      end
-    end
-  end
+		if icon == nil and icon_highlight_group == nil then
+			icon = " "
+		end
+	else
+		ok = vim.fn.exists("*WebDevIconsGetFileTypeSymbol")
+		if ok ~= 0 then
+			icon = vim.fn.WebDevIconsGetFileTypeSymbol()
+		end
+	end
+	if rawget(vim, "lsp") then
+		for _, client in ipairs(vim.lsp.get_active_clients()) do
+			if client.attached_buffers[vim.api.nvim_get_current_buf()] then
+				return (vim.o.columns > 100 and client.name .. " " .. icon) or "LSP  "
+			end
+		end
+	end
 end
 
 local function cwd()
-  local dir_icon = "  "
-  local dir_name = fn.fnamemodify(fn.getcwd(), ":t")
-  return (vim.o.columns > 85 and (dir_icon .. dir_name)) or ""
+	local dir_icon = "  "
+	local dir_name = fn.fnamemodify(fn.getcwd(), ":t")
+	return (vim.o.columns > 85 and (dir_icon .. dir_name)) or ""
 end
 
 local function mode()
-  return " "
+	return " "
 end
 
 local options = {
-  options = {
-    icons_enabled = true,
-    theme = 'tokyonight',
-    component_separators = { left = "", right = "" },
-    section_separators = { left = "", right = "" },
-    disabled_filetypes = {
-      statusline = { "help", "alpha" },
-      winbar = {},
-    },
-    ignore_focus = {},
-    always_divide_middle = true,
-    globalstatus = false,
-    refresh = {
-      statusline = 1000,
-      tabline = 1000,
-      winbar = 1000,
-    }
-  },
-  sections = {
-    lualine_a = { mode },
-    lualine_b = { { cwd, color = { fg = "#7aa2f7", bg = "#2f344d" } },
-      {
-        'filename',
-        file_status = true,
-        newfile_status = true,
-        path = 1,
-        shorting_target = 30,
-        color = { fg = "#c0caf5", bg = "#292e42" }
-      } },
-    lualine_c = { { 'branch', icon = '' }, 'diff', 'diagnostics' },
-    lualine_x = { lsp_status },
-    lualine_y = { 'location' },
-    lualine_z = { 'progress' }
-  },
-  inactive_sections = {
-    lualine_a = { mode },
-    lualine_b = { { cwd, color = { fg = "#7aa2f7", bg = "#2f344d" } },
-      {
-        'filename',
-        file_status = true,
-        newfile_status = true,
-        path = 1,
-        shorting_target = 30,
-        color = { fg = "#c0caf5", bg = "#292e42" }
-      } },
-    lualine_c = { { 'branch', icon = '' }, 'diff', 'diagnostics' },
-    lualine_x = { lsp_status },
-    lualine_y = { 'location' },
-    lualine_z = { 'progress' }
-  },
-  tabline = {},
-  winbar = {},
-  inactive_winbar = {},
-  extensions = {}
+	options = {
+		icons_enabled = true,
+		theme = "tokyonight",
+		component_separators = { left = "", right = "" },
+		section_separators = { left = "", right = "" },
+		disabled_filetypes = {
+			statusline = { "help", "NvimTree", "alpha" },
+			winbar = {},
+		},
+		ignore_focus = {},
+		always_divide_middle = true,
+		globalstatus = false,
+		refresh = {
+			statusline = 1000,
+			tabline = 1000,
+			winbar = 1000,
+		},
+	},
+	sections = {
+		lualine_a = { mode },
+		lualine_b = {
+			{ cwd, color = { fg = "#7aa2f7", bg = "#2f344d" } },
+			{
+				"filename",
+				file_status = true,
+				newfile_status = true,
+				path = 1,
+				shorting_target = 30,
+				color = { fg = "#c0caf5", bg = "#292e42" },
+			},
+		},
+		lualine_c = { { "branch", icon = "" }, "diff", "diagnostics" },
+		lualine_x = { lsp_status },
+		lualine_y = { "location" },
+		lualine_z = { "progress" },
+	},
+	inactive_sections = {
+		lualine_a = { mode },
+		lualine_b = {
+			{ cwd, color = { fg = "#7aa2f7", bg = "#2f344d" } },
+			{
+				"filename",
+				file_status = true,
+				newfile_status = true,
+				path = 1,
+				shorting_target = 30,
+				color = { fg = "#c0caf5", bg = "#292e42" },
+			},
+		},
+		lualine_c = { { "branch", icon = "" }, "diff", "diagnostics" },
+		lualine_x = { lsp_status },
+		lualine_y = { "location" },
+		lualine_z = { "progress" },
+	},
+	tabline = {},
+	winbar = {},
+	inactive_winbar = {},
+	extensions = {},
 }
 
-lualine.setup(options)
+require("lualine").setup(options)

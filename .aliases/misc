@@ -7,11 +7,11 @@ GREEN='\033[0;32m'
 NC='\033[0m'
 
 # Edit and Source shortuts
-alias ebash="e ~/.bashrc"
+alias ebash="nvim ~/.bashrc"
 alias sbash="source ~/.bashrc"
-alias ezsh="e ~/.zshrc"
+alias ezsh="nvim ~/.zshrc"
 alias szsh="source ~/.zshrc"
-alias edotfiles="e ~/.aliases"
+alias edotfiles="nvim ~/.aliases"
 
 # EMACS ALIASES
 alias e="emacsclient -nc"
