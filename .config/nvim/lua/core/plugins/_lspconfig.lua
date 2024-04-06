@@ -92,7 +92,7 @@ lspconfig.lua_ls.setup({
 -- Lexical
 local lexical_config = {
 	filetypes = { "elixir", "eelixir", "heex", "eex", "surface" },
-	cmd = { "/Users/jwbaldwin/repos/lexical/_build/dev/package/lexical/bin/start_lexical.sh" },
+	cmd = { "/Users/jbaldwin/repos/lexical/_build/dev/package/lexical/bin/start_lexical.sh" },
 	settings = {},
 }
 
