@@ -8,18 +8,18 @@ local config = {
 	window_decorations = "RESIZE",
 	font_size = 16,
 	-- font = wezterm.font("Monaspace Neon", { weight = "Regular" }),
-	font = wezterm.font("DankMono Nerd Font", { weight = "Bold" }),
+	-- font = wezterm.font("DankMono Nerd Font", { weight = "Bold" }),
 	-- font = wezterm.font("MonoLisa", { weight = "Regular" }),
 	-- font = wezterm.font("Operator Mono", { weight = 325 }),
-	-- font = wezterm.font("Berkeley Mono", { weight = "Regular" }),
-	font_rules = {
-		{
-			italic = true,
-			font = wezterm.font("Operator Mono", { weight = "Regular", style = "Italic" }),
-		},
-	},
+	font = wezterm.font("Berkeley Mono", { weight = "Regular" }),
+	-- font_rules = {
+	-- 	{
+	-- 		italic = true,
+	-- 		font = wezterm.font("Operator Mono", { weight = "Regular", style = "Italic" }),
+	-- 	},
+	-- },
 	harfbuzz_features = {
-		"calt=1",
+		"calt=0",
 		"dlig=1",
 		"clig=1",
 		"ss01=1",
@@ -33,7 +33,7 @@ local config = {
 	},
 	bold_brightens_ansi_colors = "BrightAndBold",
 	line_height = 1.35,
-	cell_width = 0.8,
+	cell_width = 0.9,
 	front_end = "WebGpu",
 	audible_bell = "Disabled",
 	adjust_window_size_when_changing_font_size = true,
@@ -48,6 +48,11 @@ local config = {
 			key = "s",
 			mods = "CMD",
 			action = wezterm.action.SendKey({ key = "\x13", mods = "CMD" }),
+		},
+		{
+			key = ";",
+			mods = "CTRL",
+			action = wezterm.action.SendKey({ key = "\x1F", mods = "CMD" }),
 		},
 		{
 			key = "l",
