@@ -92,7 +92,7 @@ lspconfig.lua_ls.setup({
 -- Lexical
 local lexical_config = {
 	filetypes = { "elixir", "eelixir", "heex", "eex", "surface" },
-	cmd = { "/Users/jwbaldwin/repos/lexical/_build/dev/package/lexical/bin/start_lexical.sh" },
+	cmd = { "/Users/jbaldwin/repos/lexical/_build/dev/package/lexical/bin/start_lexical.sh" },
 	settings = {},
 }
 
@@ -111,63 +111,3 @@ if not configs.lexical then
 end
 
 lspconfig.lexical.setup({})
-
--- lspconfig.tailwindcss.setup {
---   on_attach = default_on_attach,
---   capabilities = capabilities,
---   init_options = {
---     userLanguages = {
---       heex = "phoenix-heex",
---     },
---   },
---   handlers = {
---     ["tailwindcss/getConfiguration"] = function(_, _, params, _, bufnr, _)
---       vim.lsp.buf_notify(bufnr, "tailwindcss/getConfigurationResponse", { _id = params._id })
---     end,
---   },
---   root_dir = lspconfig.util.root_pattern('tailwind.config.js', 'tailwind.config.ts', 'postcss.config.js',
---     'postcss.config.ts',
---     'package.json',
---     'node_modules', '.git'),
---   settings = {
---     includeLanguages = {
---       typescript = "javascript",
---       typescriptreact = "javascript",
---       ["html-eex"] = "html",
---       ["phoenix-heex"] = "html",
---       heex = "html",
---       eelixir = "html",
---     },
---     tailwindCSS = {
---       lint = {
---         invalidApply = "error",
---         invalidConfigPath = "error",
---         invalidScreen = "error",
---         invalidTailwindDirective = "error",
---         invalidVariant = "error",
---         recommendedVariantOrder = "warning",
---       },
---       experimental = {
---         classRegex = {
---           [[class= "([^"]*)]],
---           [[class: "([^"]*)]],
---           '~H""".*class="([^"]*)".*"""',
---         },
---       },
---       validate = true,
---     },
---   },
---   filetypes = {
---     -- "css",
---     -- "scss",
---     -- "sass",
---     "html",
---     "heex",
---     "svelte",
---     -- "elixir",
---     "javascript",
---     "javascriptreact",
---     "typescript",
---     "typescriptreact",
---   },
--- }
