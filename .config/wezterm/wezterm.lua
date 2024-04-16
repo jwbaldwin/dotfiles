@@ -7,13 +7,15 @@ local config = {
 	hide_tab_bar_if_only_one_tab = true,
 	window_decorations = "RESIZE",
 	font_size = 15,
-	-- font = wezterm.font("Monaspace Argon", { weight = "Regular" }),
-	font = wezterm.font("Berkeley Mono", { weight = "Regular" }),
+	font = wezterm.font("Monaspace Neon", { weight = "Regular" }),
 	-- font = wezterm.font("DankMono Nerd Font", { weight = "Regular" }),
+	-- font = wezterm.font("MonoLisa", { weight = "Regular" }),
+	-- font = wezterm.font("Operator Mono", { weight = 325 }),
+	-- font = wezterm.font("Berkeley Mono", { weight = "Regular" }),
 	font_rules = {
 		{
 			italic = true,
-			font = wezterm.font("Berkeley Mono", { weight = "Regular", style = "Italic" }),
+			font = wezterm.font("Operator Mono", { weight = "Regular", style = "Italic" }),
 		},
 	},
 	harfbuzz_features = {
@@ -46,6 +48,13 @@ local config = {
 			mods = "CMD",
 			action = wezterm.action.SendKey({ key = "\x13", mods = "CMD" }),
 		},
+		{
+			key = "l",
+			mods = "CMD",
+			action = wezterm.action.ActivateLastTab,
+		},
+		{ key = "[", mods = "CMD", action = wezterm.action.MoveTabRelative(-1) },
+		{ key = "]", mods = "CMD", action = wezterm.action.MoveTabRelative(1) },
 	},
 }
 
