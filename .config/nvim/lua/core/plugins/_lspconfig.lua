@@ -1,7 +1,8 @@
 local lspconfig = require("lspconfig")
 local configs = require("lspconfig.configs")
-
 local utils = require("core.utils")
+
+local username = os.getenv("USER")
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem = {
@@ -107,7 +108,7 @@ lspconfig.emmet_language_server.setup({
 -- Lexical
 local lexical_config = {
 	filetypes = { "elixir", "eelixir", "heex", "eex", "surface" },
-	cmd = { "/Users/jwbaldwin/repos/lexical/_build/dev/package/lexical/bin/start_lexical.sh" },
+	cmd = { "/Users/" .. username .. "/repos/lexical/_build/dev/package/lexical/bin/start_lexical.sh" },
 	settings = {},
 }
 

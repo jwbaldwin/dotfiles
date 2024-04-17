@@ -38,7 +38,13 @@ local config = {
 	audible_bell = "Disabled",
 	adjust_window_size_when_changing_font_size = true,
 	native_macos_fullscreen_mode = true,
+	leader = { key = "a", mods = "CTRL" },
 	keys = {
+		{
+			key = "p",
+			mods = "LEADER",
+			action = wezterm.action.ActivateCommandPalette,
+		},
 		{
 			key = "f",
 			mods = "CMD|CTRL",
@@ -54,13 +60,65 @@ local config = {
 			mods = "CTRL",
 			action = wezterm.action.SendKey({ key = "\x1F", mods = "CMD" }),
 		},
+		-- Tab and Pane management
 		{
 			key = "l",
-			mods = "CMD",
+			mods = "LEADER",
 			action = wezterm.action.ActivateLastTab,
 		},
-		{ key = "[", mods = "CMD", action = wezterm.action.MoveTabRelative(-1) },
-		{ key = "]", mods = "CMD", action = wezterm.action.MoveTabRelative(1) },
+		-- Split horizontal and vertical
+		{
+			key = "s",
+			mods = "LEADER",
+			action = wezterm.action.SplitPane({
+				direction = "Right",
+				size = { Percent = 50 },
+			}),
+		},
+		{
+			key = "v",
+			mods = "LEADER",
+			action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }),
+		},
+		-- Kill pane
+		{
+			key = "k",
+			mods = "LEADER",
+			action = wezterm.action.CloseCurrentPane({ confirm = true }),
+		},
+		-- Move tab left or right, move panes
+		{ key = "[", mods = "LEADER", action = wezterm.action.MoveTabRelative(-1) },
+		{ key = "]", mods = "LEADER", action = wezterm.action.MoveTabRelative(1) },
+		{
+			key = "LeftArrow",
+			mods = "LEADER",
+			action = wezterm.action.ActivatePaneDirection("Left"),
+		},
+		{
+			key = "RightArrow",
+			mods = "LEADER",
+			action = wezterm.action.ActivatePaneDirection("Right"),
+		},
+		{
+			key = "UpArrow",
+			mods = "LEADER",
+			action = wezterm.action.ActivatePaneDirection("Up"),
+		},
+		{
+			key = "DownArrow",
+			mods = "LEADER",
+			action = wezterm.action.ActivatePaneDirection("Down"),
+		},
+		{
+			key = "n",
+			mods = "LEADER",
+			action = wezterm.action.ActivatePaneDirection("Next"),
+		},
+		{
+			key = "p",
+			mods = "LEADER",
+			action = wezterm.action.ActivatePaneDirection("Prev"),
+		},
 	},
 }
 
