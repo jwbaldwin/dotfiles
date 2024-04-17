@@ -38,7 +38,7 @@ local default_on_attach = function(client, bufnr)
 	-- vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format({bufnr = bufnr})]]
 end
 
-local servers = { "html", "cssls", "jsonls", "bashls", "tsserver", "eslint", "svelte", "marksman" }
+local servers = { "html", "cssls", "jsonls", "bashls", "tsserver", "eslint", "svelte", "marksman", "tailwindcss" }
 
 for _, lsp in ipairs(servers) do
 	lspconfig[lsp].setup({
@@ -65,6 +65,21 @@ lspconfig.lua_ls.setup({
 				preloadFileSize = 10000,
 			},
 		},
+	},
+})
+
+lspconfig.emmet_language_server.setup({
+	filetypes = {
+		"css",
+		"html",
+		"javascript",
+		"javascriptreact",
+		"less",
+		"sass",
+		"scss",
+		"typescriptreact",
+		"elixir",
+		"eelixir",
 	},
 })
 
