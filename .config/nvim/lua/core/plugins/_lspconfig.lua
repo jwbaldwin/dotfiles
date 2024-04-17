@@ -4,6 +4,10 @@ local utils = require("core.utils")
 
 local username = os.getenv("USER")
 
+if username == "james.baldwin" then
+	username = "jwbaldwin"
+end
+
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem = {
 	documentationFormat = { "markdown", "plaintext" },
@@ -108,7 +112,8 @@ lspconfig.emmet_language_server.setup({
 -- Lexical
 local lexical_config = {
 	filetypes = { "elixir", "eelixir", "heex", "eex", "surface" },
-	cmd = { "/Users/" .. username .. "/repos/lexical/_build/dev/package/lexical/bin/start_lexical.sh" },
+	cmd = { "/Users/" .. username .. "/.local/share/nvim/mason/bin/lexical", "server" },
+	root_dir = require("lspconfig.util").root_pattern({ "mix.exs" }),
 	settings = {},
 }
 
