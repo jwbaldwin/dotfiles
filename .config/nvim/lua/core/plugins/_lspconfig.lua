@@ -107,7 +107,7 @@ lspconfig.emmet_language_server.setup({
 -- Lexical
 local lexical_config = {
 	filetypes = { "elixir", "eelixir", "heex", "eex", "surface" },
-	cmd = { "/Users/jbaldwin/repos/lexical/_build/dev/package/lexical/bin/start_lexical.sh" },
+	cmd = { "/Users/jwbaldwin/repos/lexical/_build/dev/package/lexical/bin/start_lexical.sh" },
 	settings = {},
 }
 
