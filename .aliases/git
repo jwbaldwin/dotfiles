@@ -8,7 +8,7 @@ alias gd='git diff --color | sed "s/^\([^-+ ]*\)[-+ ]/\\1/" | less -r'
 
 alias gl="git log --all --graph --pretty=oneline --decorate --abbrev-commit"
 alias gl='git log --oneline'
-alias gs='git status -sb'
+alias gs='git status'
 alias ga='git add -A'
 alias gcm='git commit -m'
 alias gacm='git add -A && git commit -m'
