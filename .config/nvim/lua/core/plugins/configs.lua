@@ -105,10 +105,10 @@ M.gitsigns = function()
 	end
 
 	local options = {
-		-- signs = {
-		--   add = { hl = "DiffAdd", text = "│", numhl = "GitSignsAddNr" },
-		--   change = { hl = "DiffChange", text = "│", numhl = "GitSignsChangeNr" },
-		-- },
+		signs = {
+			add = { text = "│" },
+			change = { text = "│" },
+		},
 	}
 
 	gitsigns.setup(options)
