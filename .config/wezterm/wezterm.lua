@@ -39,7 +39,7 @@ local config = {
 	},
 	bold_brightens_ansi_colors = "BrightAndBold",
 	line_height = 1.35,
-	cell_width = 0.9,
+	cell_width = 0.90,
 	front_end = "WebGpu",
 	audible_bell = "Disabled",
 	adjust_window_size_when_changing_font_size = true,
