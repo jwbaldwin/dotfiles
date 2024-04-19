@@ -12,12 +12,12 @@ local config = {
 		top = 5,
 		bottom = 0,
 	},
-	font_size = 15,
+	font_size = 16,
 	-- font = wezterm.font("Monaspace Neon", { weight = "Regular" }),
 	-- font = wezterm.font("DankMono Nerd Font", { weight = "Bold" }),
-	font = wezterm.font("MonoLisa", { weight = "Book" }),
+	-- font = wezterm.font("MonoLisa", { weight = "Book" }),
 	-- font = wezterm.font("Operator Mono", { weight = 325 }),
-	-- font = wezterm.font("Berkeley Mono", { weight = "Regular" }),
+	font = wezterm.font("Berkeley Mono", { weight = "Regular" }),
 	-- font_rules = {
 	-- 	{
 	-- 		italic = true,
