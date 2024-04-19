@@ -7,9 +7,9 @@ local config = {
 	hide_tab_bar_if_only_one_tab = true,
 	window_decorations = "RESIZE | MACOS_FORCE_ENABLE_SHADOW",
 	window_padding = {
-		left = 2,
-		right = 2,
-		top = 5,
+		-- 	left = 2,
+		-- 	right = 2,
+		-- 	top = 10,
 		bottom = 0,
 	},
 	font_size = 16,
