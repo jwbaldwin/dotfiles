@@ -82,7 +82,7 @@ local config = {
 			}),
 		},
 		{
-			key = "v",
+			key = "h",
 			mods = "LEADER",
 			action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }),
 		},

@@ -355,6 +355,13 @@ M.gitsigns = {
 	},
 }
 
+M.fugitive = {
+	n = {
+		["<leader>G"] = { "<cmd>0Git<CR>", "Full buffer git" },
+		["<leader>gg"] = { "<cmd>Git<CR>", "Full buffer git" },
+	},
+}
+
 M.projectionist = {
 	n = {
 		["<leader>ta"] = { "<cmd> A <CR>", "Go to alternate file" },
