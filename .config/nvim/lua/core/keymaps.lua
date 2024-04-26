@@ -359,6 +359,8 @@ M.fugitive = {
 	n = {
 		["<leader>G"] = { "<cmd>0Git<CR>", "Full buffer git" },
 		["<leader>gg"] = { "<cmd>Git<CR>", "Full buffer git" },
+		["<leader>ga"] = { "<cmd>Git add . | Git commit<CR>", "Git add and commit all changes" },
+		["<leader>gp"] = { "<cmd>Git push<CR>", "Git push" },
 	},
 }
 
