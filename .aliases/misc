@@ -35,6 +35,15 @@ alias vi="nvim"
 # Program related
 alias xs="iex -S mix phx.server"
 alias mdc="mix do deps.get, compile"
+# find mix route
+findr () {
+  mix phx.routes | grep "$1" | awk '{
+    if (NF > 0) {
+        $1 = $1;
+        print;
+    }
+}' OFS="\t"
+}
 
 # Docker related
 alias dcu="docker-compose up -d"
