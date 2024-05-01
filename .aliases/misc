@@ -39,11 +39,9 @@ alias mdc="mix do deps.get, compile"
 findr () {
   mix phx.routes | grep "$1" | awk '{
     if (NF > 0) {
-        $1 = $1;
-        print;
+        printf "%-40s %-7s %-75s %-30s\n", $1, $2, $3, $4;
     }
-}' OFS="\t"
-}
+}'}
 
 # Docker related
 alias dcu="docker-compose up -d"
