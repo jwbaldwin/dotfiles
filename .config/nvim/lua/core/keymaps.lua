@@ -117,6 +117,22 @@ M.general = {
 	},
 }
 
+M.copilot = {
+	i = {
+		["<C-Tab>"] = {
+			'copilot#Accept("")',
+			"Accept copilot with Control-Tab",
+			opts = { expr = true, replace_keycodes = false },
+		},
+		["<C-]>"] = { "<Plug>(copilot-next)", "Next copilot suggestion" },
+		["<C-[>"] = { "<Plug>(copilot-previous)", "Previous copilot suggestion" },
+		["<C-w>"] = { "<Plug>(copilot-accept-word)", "Accept copilot word" },
+		["<C-l>"] = { "<Plug>(copilot-accept-line)", "Accept copilot word" },
+		["<C-c>"] = { "<Plug>(copilot-dismiss)", "Dismiss copilot" },
+		["<C-.>"] = { "<Plug>(copilot-suggest)", "Toggle copilot suggestions" },
+	},
+}
+
 M.comment = {
 	-- toggle comment in both modes
 	n = {
@@ -350,7 +366,6 @@ M.gitsigns = {
 		["<leader>gB"] = { "<cmd> Gitsigns toggle_current_line_blame<CR>", "git blame" },
 		["<leader>gr"] = { "<cmd> Gitsigns reset_hunk <CR>", "git reset hunk" },
 		["<leader>gR"] = { "<cmd> Gitsigns reset_buffer <CR>", "git reset buffer" },
-		["<leader>gp"] = { "<cmd> Gitsigns preview_hunk <CR>", "preview hunk" },
 		["<leader>gl"] = { "<cmd> Telescope git_branches <CR>", "List git branches" },
 	},
 }
@@ -358,8 +373,8 @@ M.gitsigns = {
 M.fugitive = {
 	n = {
 		["<leader>G"] = { "<cmd>0Git<CR>", "Full buffer git" },
-		["<leader>gg"] = { "<cmd>Git<CR>", "Full buffer git" },
-		["<leader>ga"] = { "<cmd>Git add . | Git commit<CR>", "Git add and commit all changes" },
+		["<leader>gg"] = { "<cmd>Git<CR>", "Half buffer git" },
+		["<leader>ga"] = { "<cmd>Git add . | 0Git commit<CR>", "Git add and commit all changes" },
 		["<leader>gp"] = { "<cmd>Git push<CR>", "Git push" },
 	},
 }

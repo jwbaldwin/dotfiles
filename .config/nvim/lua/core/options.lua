@@ -70,6 +70,10 @@ vim.g["test#neovim#start_normal"] = 1 -- start in normal mode
 vim.g["test#neovim#term_position"] = "vert" -- split right
 vim.g["test#echo_command"] = 1 -- echo the command
 
+-- Copilot setup
+vim.g.copilot_no_tab_map = true
+vim.g.copilot_enabled = false
+
 -- Elixir/phoenix projectionist mappings
 vim.g.projectionist_heuristics = {
 	["mix.exs"] = {
