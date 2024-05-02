@@ -117,6 +117,22 @@ M.general = {
 	},
 }
 
+M.copilot = {
+	i = {
+		["<C-Tab>"] = {
+			'copilot#Accept("")',
+			"Accept copilot with Control-Tab",
+			opts = { expr = true, replace_keycodes = false },
+		},
+		["<C-]>"] = { "<Plug>(copilot-next)", "Next copilot suggestion" },
+		["<C-[>"] = { "<Plug>(copilot-previous)", "Previous copilot suggestion" },
+		["<C-w>"] = { "<Plug>(copilot-accept-word)", "Accept copilot word" },
+		["<C-l>"] = { "<Plug>(copilot-accept-line)", "Accept copilot word" },
+		["<C-c>"] = { "<Plug>(copilot-dismiss)", "Dismiss copilot" },
+		["<C-.>"] = { "<Plug>(copilot-suggest)", "Toggle copilot suggestions" },
+	},
+}
+
 M.comment = {
 	-- toggle comment in both modes
 	n = {
