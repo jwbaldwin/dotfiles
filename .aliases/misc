@@ -1,19 +1,20 @@
 #!/bin/zsh
 # vim: filetype=sh
 
+#### COLOR UTILS ####
 RED='\033[0;31m'
 YELLOW='\033[1;33m'
 GREEN='\033[0;32m'
 NC='\033[0m'
 
-# Edit and Source shortuts
+#### EDIT AND SOURCE SHORTUTS ####
 alias ebash="nvim ~/.bashrc"
 alias sbash="source ~/.bashrc"
 alias ezsh="nvim ~/.zshrc"
 alias szsh="source ~/.zshrc"
 alias edotfiles="nvim ~/.aliases"
 
-# EMACS ALIASES
+#### EMACS ALIASES ####
 alias e="emacsclient -nc"
 alias em="emacsclient -n"
 alias et="emacsclient -nw"
@@ -27,14 +28,16 @@ export ALTERNATE_EDITOR=""
 export EDITOR="nvim"          # $EDITOR opens in GUI mode
 export VISUAL="nvim" # $VISUAL opens in GUI mode
 
-# NVIM ALIASES
+#### NVIM ALIASES ####
 alias v="nvim"
 # alias vim="lvim" except this
 alias vi="nvim"
 
-# Program related
+#### PROGRAM RELATED ####
 alias xs="iex -S mix phx.server"
 alias mdc="mix do deps.get, compile"
+# install from root phoenix app 
+alias mpm="npm --prefix assets"
 # find mix route
 findr () {
   mix phx.routes | grep "$1" | awk '{
