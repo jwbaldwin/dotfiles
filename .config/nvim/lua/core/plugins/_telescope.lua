@@ -79,6 +79,7 @@ local options = {
 				["<C-q>"] = require("telescope.actions").smart_send_to_qflist
 					+ require("telescope.actions").open_qflist,
 				["<CR>"] = require("telescope.actions").select_default,
+				["<Esc>"] = require("telescope.actions").close,
 			},
 		},
 	},
