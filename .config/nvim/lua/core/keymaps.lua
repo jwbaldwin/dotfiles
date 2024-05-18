@@ -1,6 +1,7 @@
 -- n, v, i, t = mode names
 local utils = require("core.utils")
 local yank = utils["yank"]
+local dap = require("dap")
 
 local function termcodes(str)
 	return vim.api.nvim_replace_termcodes(str, true, true, true)
