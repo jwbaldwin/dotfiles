@@ -382,7 +382,7 @@ M.fugitive = {
 
 M.projectionist = {
 	n = {
-		["<leader>ta"] = { "<cmd> A <CR>", "Go to alternate file" },
+		["<leader>a"] = { "<cmd> A <CR>", "Go to alternate file" },
 	},
 }
 
@@ -393,14 +393,83 @@ M.mix = {
 	},
 }
 
+M.notify = {
+	n = {
+		["<leader>nd"] = { "<cmd>lua require('notify').dismiss()<CR>", "Dismiss notifications" },
+		["<leader>nn"] = { "<cmd>Telescope notify<CR>", "Telescope notifications" },
+		["<leader>nl"] = { "<cmd>Notifications<CR>", "List notifications" },
+	},
+}
+
 M.test = {
 	n = {
-		["<leader>tm"] = { "<cmd> TestFile <CR>", "Test file" },
-		["<leader>tf"] = { "<cmd> TestFile <CR>", "Test file" },
-		["<leader>ts"] = { "<cmd> TestNearest <CR>", "Test single" },
-		["<leader>tl"] = { "<cmd> TestLast <CR>", "Test last run" },
-		["<leader>tp"] = { "<cmd> TestSuite <CR>", "Run tests for whole project" },
-		["<leader>tv"] = { "<cmd> TestVisit <CR>", "Go back to last-run test file" },
+		-- ["<leader>tp"] = { "<cmd> TestSuite <CR>", "Run tests for whole project" },
+		-- ["<leader>tv"] = { "<cmd> TestVisit <CR>", "Go back to last-run test file" },
+		-- ["<leader>tvf"] = { "<cmd> TestFile <CR>", "Test file" },
+		["<leader>tvm"] = { "<cmd> TestFile <CR>", "Test file" },
+		["<leader>tvs"] = { "<cmd> TestNearest <CR>", "Test single" },
+		["<leader>tvl"] = { "<cmd> TestLast <CR>", "Test last run" },
+		["<leader>tm"] = {
+			function()
+				require("neotest").output_panel.clear()
+				require("neotest").run.run(vim.fn.expand("%"))
+			end,
+			"Test file",
+		},
+		["<leader>tf"] = {
+			function()
+				require("neotest").output_panel.clear()
+				require("neotest").run.run(vim.fn.expand("%"))
+			end,
+			"Test file",
+		},
+		["<leader>ts"] = {
+			function()
+				require("neotest").output_panel.clear()
+				require("neotest").run.run()
+			end,
+			"Test single",
+		},
+		["<leader>td"] = {
+			function()
+				require("neotest").output_panel.clear()
+				require("neotest").run.run({ strategy = "dap" })
+			end,
+			"Test debug",
+		},
+		["<leader>tl"] = {
+			function()
+				require("neotest").output_panel.clear()
+				require("neotest").run.run_last()
+			end,
+			"Test run last",
+		},
+		["<leader>tws"] = { "<cmd> lua require('neotest').watch.toggle() <CR>", "Test toggle watch single" },
+		["<leader>twf"] = {
+			"<cmd> lua require('neotest').watch.toggle(vim.fn.expand('%')) <CR>",
+			"Test toggle watch file",
+		},
+		["<leader>to"] = {
+			"<cmd>lua require('neotest').output.open({ auto_close = true })<CR>",
+			"Test output",
+		},
+		-- ["<leader>tol"] = {
+		-- 	"<cmd>lua require('neotest').output.open({ last_run = true, auto_close = true })<CR>",
+		-- 	"Test open last output",
+		-- },
+		["<leader>tp"] = { "<cmd> lua require('neotest').output_panel.toggle() <CR>", "Test output pannel" },
+		["<leader>tc"] = { "<cmd> lua require('neotest').output_panel.clear() <CR>", "Test clear output pannel" },
+		["<leader>tu"] = { "<cmd>lua require('neotest').summary.toggle() <CR>", "Test summary (ui)" },
+		["<leader>tx"] = { "<cmd> lua require('neotest').run.stop() <CR>", "Stop nearest test" },
+		["<leader>ta"] = { "<cmd> lua require('neotest').run.attach() <CR>", "Test attach" },
+		["<leader>t]"] = {
+			"<cmd> lua require('neotest').jump.prev({ status = 'failed' }) <CR>",
+			"Go to prev test failure",
+		},
+		["<leader>t["] = {
+			"<cmd> lua require('neotest').jump.next({ status = 'failed' }) <CR>",
+			"Go to next test failure",
+		},
 	},
 }
 
