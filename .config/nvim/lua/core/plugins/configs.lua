@@ -44,6 +44,9 @@ M.formatter = function()
 			typescriptreact = {
 				require("formatter/defaults/prettier"),
 			},
+			javascriptreact = {
+				require("formatter/defaults/prettier"),
+			},
 		},
 		-- All formatter configurations are opt-in
 	})
