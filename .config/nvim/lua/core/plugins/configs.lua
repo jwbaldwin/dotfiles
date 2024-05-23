@@ -1,14 +1,7 @@
 local M = {}
 
 M.notify = function()
-	local present, notify = pcall(require, "nvim-notify")
-
-	if not present then
-		return
-	end
-	notify.setup({
-		background_color = "#000000",
-	})
+	vim.notify = require("notify").notify
 end
 
 M.todo = function()

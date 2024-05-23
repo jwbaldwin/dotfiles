@@ -61,6 +61,7 @@ require("lazy").setup({
 			require("core.plugins._treesitter")
 		end,
 	},
+	{ "nvim-treesitter/playground", event = "VeryLazy" },
 
 	-- git stuff
 	{
@@ -88,37 +89,44 @@ require("lazy").setup({
 		end,
 	},
 	-- {
-	--   "elixir-tools/elixir-tools.nvim",
-	--   version = "*",
-	--   event = { "BufReadPre", "BufNewFile" },
-	--   config = function()
-	--     local elixir = require("elixir")
-	--     local elixirls = require("elixir.elixirls")
+	-- 	"elixir-tools/elixir-tools.nvim",
+	-- 	version = "*",
+	-- 	event = { "BufReadPre", "BufNewFile" },
+	-- 	config = function()
+	-- 		local elixir = require("elixir")
+	-- 		local elixirls = require("elixir.elixirls")
 	--
-	--     elixir.setup {
-	--       nextls = { enable = true },
-	--       credo = {},
-	--       elixirls = {
-	--         enable = true,
-	--         filetypes = { "elixir", "eelixir", "heex", "surface", "eex" },
-	--         settings = elixirls.settings {
-	--           dialyzerEnabled = false,
-	--           enableTestLenses = false,
-	--           fetchDeps = true,
-	--         },
-	--         on_attach = function(client, bufnr)
-	--           vim.keymap.set("n", "<space>fp", ":ElixirFromPipe<cr>", { buffer = true, noremap = true })
-	--           vim.keymap.set("n", "<space>tp", ":ElixirToPipe<cr>", { buffer = true, noremap = true })
-	--           vim.keymap.set("v", "<space>em", ":ElixirExpandMacro<cr>", { buffer = true, noremap = true })
-	--         end,
-	--       }
-	--     }
-	--   end,
-	--   dependencies = {
-	--     "nvim-lua/plenary.nvim",
-	--   },
+	-- 		elixir.setup({
+	-- 			nextls = {
+	-- 				enable = true,
+	-- 				cmd = "/Users/jwbaldwin/.local/share/nvim/mason/packages/nextls/next_ls_darwin_arm64",
+	-- 				init_options = {
+	-- 					experimental = {
+	-- 						completions = {
+	-- 							enable = true,
+	-- 						},
+	-- 					},
+	-- 				},
+	-- 			},
+	-- 			credo = {},
+	-- 			elixirls = {
+	-- 				enable = true,
+	-- 				settings = elixirls.settings({
+	-- 					dialyzerEnabled = false,
+	-- 					enableTestLenses = false,
+	-- 				}),
+	-- 				on_attach = function(client, bufnr)
+	-- 					vim.keymap.set("n", "<space>lfp", ":ElixirFromPipe<cr>", { buffer = true, noremap = true })
+	-- 					vim.keymap.set("n", "<space>ltp", ":ElixirToPipe<cr>", { buffer = true, noremap = true })
+	-- 					vim.keymap.set("v", "<space>lem", ":ElixirExpandMacro<cr>", { buffer = true, noremap = true })
+	-- 				end,
+	-- 			},
+	-- 		})
+	-- 	end,
+	-- 	dependencies = {
+	-- 		"nvim-lua/plenary.nvim",
+	-- 	},
 	-- },
-
 	{
 		"mhartington/formatter.nvim",
 		config = function()
@@ -260,12 +268,17 @@ require("lazy").setup({
 			require("core.plugins.configs").notify()
 		end,
 	},
-	{ "nvim-neotest/neotest-vim-test", lazy = true },
-	"jfpedroza/neotest-elixir",
+	-- { "nvim-neotest/neotest-vim-test", lazy = true },
 	"antoinemadec/FixCursorHold.nvim",
 	{
 		"nvim-neotest/neotest",
-		lazy = true,
+		dependencies = {
+			"nvim-neotest/nvim-nio",
+			"nvim-lua/plenary.nvim",
+			"antoinemadec/FixCursorHold.nvim",
+			"nvim-treesitter/nvim-treesitter",
+			"jfpedroza/neotest-elixir",
+		},
 		config = function()
 			require("core.plugins._neotest")
 		end,
