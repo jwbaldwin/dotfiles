@@ -270,19 +270,19 @@ require("lazy").setup({
 	},
 	-- { "nvim-neotest/neotest-vim-test", lazy = true },
 	"antoinemadec/FixCursorHold.nvim",
-	{
-		"nvim-neotest/neotest",
-		dependencies = {
-			"nvim-neotest/nvim-nio",
-			"nvim-lua/plenary.nvim",
-			"antoinemadec/FixCursorHold.nvim",
-			"nvim-treesitter/nvim-treesitter",
-			"jfpedroza/neotest-elixir",
-		},
-		config = function()
-			require("core.plugins._neotest")
-		end,
-	},
+	-- {
+	-- 	"nvim-neotest/neotest",
+	-- 	dependencies = {
+	-- 		"nvim-neotest/nvim-nio",
+	-- 		"nvim-lua/plenary.nvim",
+	-- 		"antoinemadec/FixCursorHold.nvim",
+	-- 		"nvim-treesitter/nvim-treesitter",
+	-- 		"jfpedroza/neotest-elixir",
+	-- 	},
+	-- 	config = function()
+	-- 		require("core.plugins._neotest")
+	-- 	end,
+	-- },
 	{
 		"ahmedkhalf/project.nvim",
 		config = function()
@@ -325,4 +325,12 @@ require("lazy").setup({
 	},
 	"tpope/vim-fugitive",
 	"github/copilot.vim",
+	{
+		"stevearc/oil.nvim",
+		opts = {},
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		config = function()
+			require("core.plugins._oil")
+		end,
+	},
 })
