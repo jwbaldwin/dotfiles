@@ -1,7 +1,6 @@
 -- n, v, i, t = mode names
 local utils = require("core.utils")
 local yank = utils["yank"]
-local dap = require("dap")
 
 local function termcodes(str)
 	return vim.api.nvim_replace_termcodes(str, true, true, true)
@@ -63,13 +62,13 @@ M.general = {
 		-- misc movement
 		["<S-Up>"] = { ":move-2<cr>", "shift line up" },
 		["<S-Down>"] = { ":move+<cr>", "shift line down" },
-		["<C-d>"] = { "<C-d>zz", "move down and center" },
-		["<C-u>"] = { "<C-u>zz", "move up and center" },
+		["<C-d>"] = { "<C-d>", "move down and center" },
+		["<C-u>"] = { "<C-u>", "move up and center" },
 
 		-- list movement
 		["<C-q>"] = { "<cmd> lua require('core.utils').toggle_qf_list()<CR>", "toggle qf list" },
-		["<C-n>"] = { "<cmd> cnext<CR>zz", "next qfix list item" },
-		["<C-p>"] = { "<cmd> cprev<CR>zz", "prev qfix list item" },
+		["<C-n>"] = { "<cmd> cnext<CR>zz", "next qfix list item", { noremap = true, silent = true } },
+		["<C-p>"] = { "<cmd> cprev<CR>zz", "prev qfix list item", { noremap = true, silent = true } },
 
 		-- A better escape (removes highlights)
 		["<ESC>"] = { "<cmd> noh <CR>", "no highlight" },
