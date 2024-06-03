@@ -307,14 +307,14 @@ require("lazy").setup({
 	--     require("core.plugins._leap")
 	--   end,
 	-- },
-	{
-		"mg979/vim-visual-multi",
-		init = function()
-			vim.g.VM_maps = {
-				["Find Under"] = "<C-m>",
-			}
-		end,
-	},
+	-- {
+	-- 	"mg979/vim-visual-multi",
+	-- 	init = function()
+	-- 		vim.g.VM_maps = {
+	-- 			["Find Under"] = "<C-m>",
+	-- 		}
+	-- 	end,
+	-- },
 
 	-- ui plugins
 	{

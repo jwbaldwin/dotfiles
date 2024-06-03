@@ -266,7 +266,8 @@ M.nvimtree = {
 	n = {
 		-- toggle
 		["<leader>e"] = { "<cmd> NvimTreeToggle <CR>", "toggle nvimtree" },
-		["<leader>o"] = { "<cmd> lua require('core.utils').oil_toggle() <CR>", "toggle oil" },
+		-- ["<leader>o"] = { "<cmd> lua require('core.utils').oil_toggle() <CR>", "toggle oil" },
+		["<leader>o"] = { "<cmd> lua require('oil').toggle_float() <CR>", "toggle oil" },
 	},
 }
 
