@@ -62,7 +62,6 @@ require("lazy").setup({
 		end,
 	},
 	{ "nvim-treesitter/playground", event = "VeryLazy" },
-
 	-- git stuff
 	{
 		"lewis6991/gitsigns.nvim",
@@ -331,13 +330,58 @@ require("lazy").setup({
 		end,
 	},
 	"tpope/vim-fugitive",
-	"github/copilot.vim",
+	{
+		"github/copilot.vim",
+		cond = function()
+			return os.getenv("USER") == "jwbaldwin"
+		end,
+	},
 	{
 		"stevearc/oil.nvim",
 		opts = {},
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		config = function()
 			require("core.plugins._oil")
+		end,
+	},
+
+	-- AI stuff
+	-- {
+	-- 	"Exafunction/codeium.vim",
+	-- 	event = "LspAttach",
+	-- 	config = function()
+	-- 		-- Change '<C-g>' here to any keycode you like.
+	-- 		vim.keymap.set("i", "<C-l>", function()
+	-- 			return vim.fn["codeium#Accept"]()
+	-- 		end, { expr = true, silent = true })
+	-- 		vim.keymap.set("i", "<c-.>", function()
+	-- 			return vim.fn["codeium#Complete"]()
+	-- 		end, { expr = true, silent = true })
+	-- 		vim.keymap.set("i", "<c-]>", function()
+	-- 			return vim.fn["codeium#CycleCompletions"](1)
+	-- 		end, { expr = true, silent = true })
+	-- 		vim.keymap.set("i", "<c-[>", function()
+	-- 			return vim.fn["codeium#CycleCompletions"](-1)
+	-- 		end, { expr = true, silent = true })
+	-- 		vim.keymap.set("i", "<c-x>", function()
+	-- 			return vim.fn["codeium#Clear"]()
+	-- 		end, { expr = true, silent = true })
+	-- 	end,
+	-- },
+	{
+		"supermaven-inc/supermaven-nvim",
+		cond = function()
+			return os.getenv("USER") == "jbaldwin"
+		end,
+		config = function()
+			require("supermaven-nvim").setup({
+				keymaps = {
+					accept_suggestion = "<C-l>",
+					clear_suggestion = "<C-x>",
+					accept_word = "<C-w>",
+				},
+				disable_keymaps = false,
+			})
 		end,
 	},
 })
