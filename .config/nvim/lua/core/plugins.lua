@@ -246,7 +246,17 @@ require("lazy").setup({
 		lazy = false, -- make sure we load this during startup if it is your main colorscheme
 		priority = 1000, -- make sure to load this before all the other start plugins
 		config = function()
-			require("core.plugins._tokyonight")
+			-- require("core.plugins._tokyonight")
+		end,
+	},
+	{
+		"sainnhe/everforest",
+		lazy = false,
+		priority = 1000,
+		config = function()
+			vim.g.everforest_enable_italic = true
+			vim.g.everforest_background = "hard"
+			vim.cmd.colorscheme("everforest")
 		end,
 	},
 
@@ -306,14 +316,14 @@ require("lazy").setup({
 	--     require("core.plugins._leap")
 	--   end,
 	-- },
-	{
-		"mg979/vim-visual-multi",
-		init = function()
-			vim.g.VM_maps = {
-				["Find Under"] = "<C-m>",
-			}
-		end,
-	},
+	-- {
+	-- 	"mg979/vim-visual-multi",
+	-- 	init = function()
+	-- 		vim.g.VM_maps = {
+	-- 			["Find Under"] = "<C-m>",
+	-- 		}
+	-- 	end,
+	-- },
 
 	-- ui plugins
 	{
