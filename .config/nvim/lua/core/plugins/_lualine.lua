@@ -65,8 +65,8 @@ end
 local options = {
 	options = {
 		icons_enabled = true,
-		-- theme = "tokyonight",
-		theme = "everforest",
+		theme = "tokyonight",
+		-- theme = "everforest",
 		component_separators = { left = "", right = "" },
 		section_separators = { left = "", right = "" },
 		disabled_filetypes = {
@@ -85,16 +85,16 @@ local options = {
 	sections = {
 		lualine_a = { mode },
 		lualine_b = {
-			-- { cwd, color = { fg = "#7aa2f7", bg = "#2f344d" } }, -- tokyonight
-			{ cwd, color = { fg = "#83c092", bg = "#374145" } }, -- everforest
+			{ cwd, color = { fg = "#7aa2f7", bg = "#2f344d" } }, -- tokyonight
+			-- { cwd, color = { fg = "#83c092", bg = "#374145" } }, -- everforest
 			{
 				"filename",
 				file_status = true,
 				newfile_status = true,
 				path = 1,
 				shorting_target = 30,
-				-- color = { fg = "#c0caf5", bg = "#292e42" }, -- tokyonight
-				color = { fg = "#9da9a0", bg = "#2e383c" }, -- everforest
+				color = { fg = "#c0caf5", bg = "#292e42" }, -- tokyonight
+				-- color = { fg = "#9da9a0", bg = "#2e383c" }, -- everforest
 			},
 		},
 		lualine_c = { { "branch", icon = "" }, "diff", "diagnostics" },
@@ -112,8 +112,8 @@ local options = {
 				newfile_status = true,
 				path = 1,
 				shorting_target = 30,
-				-- color = { fg = "#c0caf5", bg = "#292e42" }, -- tokyonight
-				color = { fg = "#9da9a0", bg = "#2e383c" }, -- everforest
+				color = { fg = "#c0caf5", bg = "#292e42" }, -- tokyonight
+				-- color = { fg = "#9da9a0", bg = "#2e383c" }, -- everforest
 			},
 		},
 		lualine_c = { { "branch", icon = "" }, "diff", "diagnostics" },
