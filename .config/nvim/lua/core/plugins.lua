@@ -344,7 +344,7 @@ require("lazy").setup({
 	{
 		"github/copilot.vim",
 		cond = function()
-			return os.getenv("USER") == "jwbaldwin"
+			return os.getenv("USER") == "james.baldwin"
 		end,
 	},
 	{

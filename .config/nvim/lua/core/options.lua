@@ -72,7 +72,7 @@ vim.g["test#echo_command"] = 1 -- echo the command
 
 -- Copilot setup
 vim.g.copilot_no_tab_map = true
-vim.g.copilot_enabled = false
+vim.g.copilot_enabled = true
 
 -- Elixir/phoenix projectionist mappings
 vim.g.projectionist_heuristics = {
