@@ -1,29 +1,4 @@
--- local separators = require("core.icons").statusline_separators["block"]
--- local sep_l = separators["right"]
 local fn = vim.fn
-
--- LSP STUFF
--- local function lsp_progress()
---   if not rawget(vim, "lsp") then
---     return ""
---   end
---
---   local Lsp = vim.lsp.util.get_progress_messages()[1]
---
---   if vim.o.columns < 120 or not Lsp then
---     return ""
---   end
---
---   local msg = Lsp.message or ""
---   local percentage = Lsp.percentage or 0
---   local title = Lsp.title or ""
---   local spinners = { "", "" }
---   local ms = vim.loop.hrtime() / 1000000
---   local frame = math.floor(ms / 120) % #spinners
---   local content = string.format(" %%<%s %s %s (%s%%%%) ", spinners[frame + 1], title, msg, percentage)
---
---   return ("%#St_LspProgress#" .. content) or ""
---  -- end
 
 local function lsp_status()
 	local ok, devicons = pcall(require, "nvim-web-devicons")
@@ -65,8 +40,8 @@ end
 local options = {
 	options = {
 		icons_enabled = true,
-		-- theme = "tokyonight",
-		theme = "everforest",
+		theme = "tokyonight",
+		-- theme = "everforest",
 		component_separators = { left = "", right = "" },
 		section_separators = { left = "", right = "" },
 		disabled_filetypes = {
@@ -85,16 +60,16 @@ local options = {
 	sections = {
 		lualine_a = { mode },
 		lualine_b = {
-			-- { cwd, color = { fg = "#7aa2f7", bg = "#2f344d" } }, -- tokyonight
-			{ cwd, color = { fg = "#83c092", bg = "#374145" } }, -- everforest
+			{ cwd, color = { fg = "#7aa2f7", bg = "#2f344d" } }, -- tokyonight
+			-- { cwd, color = { fg = "#83c092", bg = "#374145" } }, -- everforest
 			{
 				"filename",
 				file_status = true,
 				newfile_status = true,
 				path = 1,
 				shorting_target = 30,
-				-- color = { fg = "#c0caf5", bg = "#292e42" }, -- tokyonight
-				color = { fg = "#9da9a0", bg = "#2e383c" }, -- everforest
+				color = { fg = "#c0caf5", bg = "#292e42" }, -- tokyonight
+				-- color = { fg = "#9da9a0", bg = "#2e383c" }, -- everforest
 			},
 		},
 		lualine_c = { { "branch", icon = "" }, "diff", "diagnostics" },
@@ -112,8 +87,8 @@ local options = {
 				newfile_status = true,
 				path = 1,
 				shorting_target = 30,
-				-- color = { fg = "#c0caf5", bg = "#292e42" }, -- tokyonight
-				color = { fg = "#9da9a0", bg = "#2e383c" }, -- everforest
+				color = { fg = "#c0caf5", bg = "#292e42" }, -- tokyonight
+				-- color = { fg = "#9da9a0", bg = "#2e383c" }, -- everforest
 			},
 		},
 		lualine_c = { { "branch", icon = "" }, "diff", "diagnostics" },

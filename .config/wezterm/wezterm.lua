@@ -141,8 +141,8 @@ local config = {
 local appearance = wezterm.gui.get_appearance()
 
 if appearance:find("Dark") then
-	-- config.color_scheme = "tokyonight_night"
-	config.color_scheme = "Everforest Dark Hard (Gogh)"
+	config.color_scheme = "tokyonight_night"
+	-- config.color_scheme = "Everforest Dark Hard (Gogh)"
 else
 	config.color_scheme = "tokyonight_day"
 	config.window_background_opacity = 1
