@@ -340,10 +340,11 @@ require("lazy").setup({
 		end,
 	},
 	"tpope/vim-fugitive",
+	"shumphrey/fugitive-gitlab.vim",
 	{
 		"github/copilot.vim",
 		cond = function()
-			return os.getenv("USER") == "jwbaldwin"
+			return os.getenv("USER") == "james.baldwin"
 		end,
 	},
 	{
