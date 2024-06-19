@@ -20,8 +20,10 @@ local function lsp_status()
 	end
 	if rawget(vim, "lsp") then
 		for _, client in ipairs(vim.lsp.get_active_clients()) do
-			if client.attached_buffers[vim.api.nvim_get_current_buf()] then
-				return (vim.o.columns > 100 and client.name .. " " .. icon) or "LSP  "
+			if client.name ~= "tailwindcss" then
+				if client.attached_buffers[vim.api.nvim_get_current_buf()] then
+					return (vim.o.columns > 100 and client.name .. " " .. icon) or "LSP  "
+				end
 			end
 		end
 	end

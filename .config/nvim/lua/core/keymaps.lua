@@ -121,7 +121,7 @@ M.general = {
 if os.getenv("USER") == "james.baldwin" then
 	M.copilot = {
 		i = {
-			["<C-Tab>"] = {
+			["<C-y>"] = {
 				'copilot#Accept("")',
 				"Accept copilot with Control-Tab",
 				opts = { expr = true, replace_keycodes = false },

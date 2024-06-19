@@ -87,47 +87,47 @@ lspconfig.emmet_language_server.setup({
 	},
 })
 
--- local elixirls = ""
--- if os.getenv("USER") == "jbaldwin" then
---   elixirls = "/Users/jbaldwin/.local/share/nvim/mason/packages/elixir-ls/language_server.sh"
--- else
---   -- Mason's install location
---   elixirls = "/Users/jwbaldwin/.local/share/nvim/mason/packages/elixir-ls/language_server.sh"
--- end
---
--- lspconfig.elixirls.setup {
---   cmd = { elixirls },
---   on_attach = default_on_attach,
---   capabilities = capabilities,
---   filetypes = { "elixir", "eelixir", "heex", "surface", "eex" },
---   settings = {
---     elixirLS = {
---       dialyzerEnabled = false,
---       fetchDeps = true,
---     },
---   },
--- }
-
--- Lexical
-local lexical_config = {
-	filetypes = { "elixir", "eelixir", "heex", "eex", "surface" },
-	cmd = { "/Users/" .. username .. "/.local/share/nvim/mason/bin/lexical", "server" },
-	root_dir = require("lspconfig.util").root_pattern({ "mix.exs" }),
-	settings = {},
-}
-
-if not configs.lexical then
-	configs.lexical = {
-		default_config = {
-			filetypes = lexical_config.filetypes,
-			cmd = lexical_config.cmd,
-			root_dir = function(fname)
-				return lspconfig.util.root_pattern("mix.exs", ".git")(fname) or vim.loop.os_homedir()
-			end,
-			-- optional settings
-			settings = lexical_config.settings,
-		},
-	}
+local elixirls = ""
+if os.getenv("USER") == "jbaldwin" then
+	elixirls = "/Users/jbaldwin/.local/share/nvim/mason/packages/elixir-ls/language_server.sh"
+else
+	-- Mason's install location
+	elixirls = "/Users/jwbaldwin/.local/share/nvim/mason/packages/elixir-ls/language_server.sh"
 end
 
-lspconfig.lexical.setup({})
+lspconfig.elixirls.setup({
+	cmd = { elixirls },
+	on_attach = default_on_attach,
+	capabilities = capabilities,
+	filetypes = { "elixir", "eelixir", "heex", "surface", "eex" },
+	settings = {
+		elixirLS = {
+			dialyzerEnabled = false,
+			fetchDeps = true,
+		},
+	},
+})
+
+-- Lexical
+-- local lexical_config = {
+-- 	filetypes = { "elixir", "eelixir", "heex", "eex", "surface" },
+-- 	cmd = { "/Users/" .. username .. "/.local/share/nvim/mason/bin/lexical", "server" },
+-- 	root_dir = require("lspconfig.util").root_pattern({ "mix.exs" }),
+-- 	settings = {},
+-- }
+--
+-- if not configs.lexical then
+-- 	configs.lexical = {
+-- 		default_config = {
+-- 			filetypes = lexical_config.filetypes,
+-- 			cmd = lexical_config.cmd,
+-- 			root_dir = function(fname)
+-- 				return lspconfig.util.root_pattern("mix.exs", ".git")(fname) or vim.loop.os_homedir()
+-- 			end,
+-- 			-- optional settings
+-- 			settings = lexical_config.settings,
+-- 		},
+-- 	}
+-- end
+--
+-- lspconfig.lexical.setup({})
