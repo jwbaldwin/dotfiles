@@ -44,7 +44,7 @@ local config = {
 	audible_bell = "Disabled",
 	adjust_window_size_when_changing_font_size = true,
 	native_macos_fullscreen_mode = true,
-	leader = { key = "a", mods = "CTRL" },
+	-- leader = { key = "a", mods = "CTRL" },
 	keys = {
 		{
 			key = "p",
@@ -67,74 +67,74 @@ local config = {
 			action = wezterm.action.SendKey({ key = "\x1F", mods = "CMD" }),
 		},
 		-- Tab and Pane management
-		{
-			key = "l",
-			mods = "LEADER",
-			action = wezterm.action.ActivateLastTab,
-		},
+		-- {
+		-- 	key = "l",
+		-- 	mods = "LEADER",
+		-- 	action = wezterm.action.ActivateLastTab,
+		-- },
 		-- Split horizontal and vertical
-		{
-			key = "s",
-			mods = "LEADER",
-			action = wezterm.action.SplitPane({
-				direction = "Right",
-				size = { Percent = 50 },
-			}),
-		},
-		{
-			key = "h",
-			mods = "LEADER",
-			action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }),
-		},
-		-- Kill pane
-		{
-			key = "k",
-			mods = "LEADER",
-			action = wezterm.action.CloseCurrentPane({ confirm = true }),
-		},
-		-- Move tab left or right, move panes
-		{ key = "[", mods = "LEADER", action = wezterm.action.MoveTabRelative(-1) },
-		{ key = "]", mods = "LEADER", action = wezterm.action.MoveTabRelative(1) },
-		{
-			key = "LeftArrow",
-			mods = "LEADER",
-			action = wezterm.action.ActivatePaneDirection("Left"),
-		},
-		{
-			key = "RightArrow",
-			mods = "LEADER",
-			action = wezterm.action.ActivatePaneDirection("Right"),
-		},
-		{
-			key = "UpArrow",
-			mods = "LEADER",
-			action = wezterm.action.ActivatePaneDirection("Up"),
-		},
-		{
-			key = "DownArrow",
-			mods = "LEADER",
-			action = wezterm.action.ActivatePaneDirection("Down"),
-		},
-		{
-			key = "n",
-			mods = "LEADER",
-			action = wezterm.action.ActivatePaneDirection("Next"),
-		},
-		{
-			key = "p",
-			mods = "LEADER",
-			action = wezterm.action.ActivatePaneDirection("Prev"),
-		},
-		{ key = "Tab", mods = "CTRL", action = "DisableDefaultAssignment" },
-		{ key = "1", mods = "CTRL", action = wezterm.action({ ActivateTab = 0 }) },
-		{ key = "2", mods = "CTRL", action = wezterm.action({ ActivateTab = 1 }) },
-		{ key = "3", mods = "CTRL", action = wezterm.action({ ActivateTab = 2 }) },
-		{ key = "4", mods = "CTRL", action = wezterm.action({ ActivateTab = 3 }) },
-		{ key = "5", mods = "CTRL", action = wezterm.action({ ActivateTab = 4 }) },
-		{ key = "6", mods = "CTRL", action = wezterm.action({ ActivateTab = 5 }) },
-		{ key = "7", mods = "CTRL", action = wezterm.action({ ActivateTab = 6 }) },
-		{ key = "8", mods = "CTRL", action = wezterm.action({ ActivateTab = 7 }) },
-		{ key = "9", mods = "CTRL", action = wezterm.action({ ActivateTab = 8 }) },
+		-- {
+		-- 	key = "s",
+		-- 	mods = "LEADER",
+		-- 	action = wezterm.action.SplitPane({
+		-- 		direction = "Right",
+		-- 		size = { Percent = 50 },
+		-- 	}),
+		-- },
+		-- {
+		-- 	key = "h",
+		-- 	mods = "LEADER",
+		-- 	action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }),
+		-- },
+		-- -- Kill pane
+		-- {
+		-- 	key = "k",
+		-- 	mods = "LEADER",
+		-- 	action = wezterm.action.CloseCurrentPane({ confirm = true }),
+		-- },
+		-- -- Move tab left or right, move panes
+		-- { key = "[", mods = "LEADER", action = wezterm.action.MoveTabRelative(-1) },
+		-- { key = "]", mods = "LEADER", action = wezterm.action.MoveTabRelative(1) },
+		-- {
+		-- 	key = "LeftArrow",
+		-- 	mods = "LEADER",
+		-- 	action = wezterm.action.ActivatePaneDirection("Left"),
+		-- },
+		-- {
+		-- 	key = "RightArrow",
+		-- 	mods = "LEADER",
+		-- 	action = wezterm.action.ActivatePaneDirection("Right"),
+		-- },
+		-- {
+		-- 	key = "UpArrow",
+		-- 	mods = "LEADER",
+		-- 	action = wezterm.action.ActivatePaneDirection("Up"),
+		-- },
+		-- {
+		-- 	key = "DownArrow",
+		-- 	mods = "LEADER",
+		-- 	action = wezterm.action.ActivatePaneDirection("Down"),
+		-- },
+		-- {
+		-- 	key = "n",
+		-- 	mods = "LEADER",
+		-- 	action = wezterm.action.ActivatePaneDirection("Next"),
+		-- },
+		-- {
+		-- 	key = "p",
+		-- 	mods = "LEADER",
+		-- 	action = wezterm.action.ActivatePaneDirection("Prev"),
+		-- },
+		-- { key = "Tab", mods = "CTRL", action = "DisableDefaultAssignment" },
+		-- { key = "1", mods = "CTRL", action = wezterm.action({ ActivateTab = 0 }) },
+		-- { key = "2", mods = "CTRL", action = wezterm.action({ ActivateTab = 1 }) },
+		-- { key = "3", mods = "CTRL", action = wezterm.action({ ActivateTab = 2 }) },
+		-- { key = "4", mods = "CTRL", action = wezterm.action({ ActivateTab = 3 }) },
+		-- { key = "5", mods = "CTRL", action = wezterm.action({ ActivateTab = 4 }) },
+		-- { key = "6", mods = "CTRL", action = wezterm.action({ ActivateTab = 5 }) },
+		-- { key = "7", mods = "CTRL", action = wezterm.action({ ActivateTab = 6 }) },
+		-- { key = "8", mods = "CTRL", action = wezterm.action({ ActivateTab = 7 }) },
+		-- { key = "9", mods = "CTRL", action = wezterm.action({ ActivateTab = 8 }) },
 	},
 }
 

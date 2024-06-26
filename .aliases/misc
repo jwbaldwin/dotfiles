@@ -34,6 +34,10 @@ alias v="nvim"
 alias vi="nvim"
 alias nv="nvim"
 
+#### ZELLIJ ALIASES ####
+alias z="zellij"
+alias zls="zellij list-sessions"
+
 #### PROGRAM RELATED ####
 alias xs="iex -S mix phx.server"
 alias mdc="mix do deps.get, compile"
