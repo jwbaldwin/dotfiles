@@ -90,6 +90,7 @@ plugins=(
   git
   zsh-syntax-highlighting
   zsh-autosuggestions
+  z
 )
 
 source $ZSH/oh-my-zsh.sh
