@@ -45,7 +45,7 @@ local options = {
 		theme = "tokyonight",
 		-- theme = "everforest",
 		component_separators = { left = "", right = "" },
-		section_separators = { left = "", right = "" },
+		section_separators = { left = "", right = "" },
 		disabled_filetypes = {
 			statusline = { "help", "NvimTree", "alpha" },
 			winbar = {},
@@ -62,7 +62,7 @@ local options = {
 	sections = {
 		lualine_a = { mode },
 		lualine_b = {
-			{ cwd, color = { fg = "#7aa2f7", bg = "#2f344d" } }, -- tokyonight
+			{ cwd, color = { fg = "#7aa2f7", bg = "#2f344d" }, separator = { right = "" } }, -- tokyonight
 			-- { cwd, color = { fg = "#83c092", bg = "#374145" } }, -- everforest
 			{
 				"filename",
@@ -70,14 +70,15 @@ local options = {
 				newfile_status = true,
 				path = 1,
 				shorting_target = 30,
+				separator = { right = "" },
 				color = { fg = "#c0caf5", bg = "#292e42" }, -- tokyonight
 				-- color = { fg = "#9da9a0", bg = "#2e383c" }, -- everforest
 			},
 		},
-		lualine_c = { { "branch", icon = "" }, "diff", "diagnostics" },
-		lualine_x = { lsp_status },
+		lualine_c = { { "branch", icon = "" }, "diff" },
+		lualine_x = { "diagnostics" },
 		lualine_y = { "location" },
-		lualine_z = { "progress" },
+		lualine_z = { lsp_status },
 	},
 	inactive_sections = {
 		lualine_a = { mode },
@@ -93,10 +94,10 @@ local options = {
 				-- color = { fg = "#9da9a0", bg = "#2e383c" }, -- everforest
 			},
 		},
-		lualine_c = { { "branch", icon = "" }, "diff", "diagnostics" },
-		lualine_x = { lsp_status },
+		lualine_c = { { "branch", icon = "" }, "diff" },
+		lualine_x = { "diagnostics" },
 		lualine_y = { "location" },
-		lualine_z = { "progress" },
+		lualine_z = { lsp_status },
 	},
 	tabline = {},
 	winbar = {},
