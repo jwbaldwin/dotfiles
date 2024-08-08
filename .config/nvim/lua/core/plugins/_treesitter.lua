@@ -27,6 +27,8 @@ local options = {
 		"typescript",
 		"yaml",
 		"svelte",
+		"vimdoc",
+		"vim",
 	},
 	highlight = {
 		enable = true,

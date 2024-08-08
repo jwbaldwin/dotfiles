@@ -118,7 +118,7 @@ M.general = {
 	},
 }
 
-if os.getenv("USER") == "james.baldwin" then
+if os.getenv("USER") == "jwbaldwin" or os.getenv("USER") == "james.baldwin" then
 	M.copilot = {
 		i = {
 			["<C-y>"] = {
@@ -322,9 +322,15 @@ M.telescope = {
 	},
 }
 
+M.spectre = {
+	n = {
+		["<leader>sr"] = { "<cmd> lua require('spectre').open()<CR>", "Spectre replace" },
+	},
+}
+
 M.FTerm = {
 	t = {
-		["<C-t>"] = {
+		["<C-\\>"] = {
 			function()
 				require("FTerm").toggle()
 			end,
@@ -332,7 +338,7 @@ M.FTerm = {
 		},
 	},
 	n = {
-		["<C-t>"] = {
+		["<C-\\>"] = {
 			function()
 				require("FTerm").toggle()
 			end,
@@ -409,6 +415,19 @@ M.notify = {
 	},
 }
 
+function TestCurrentFile()
+	local file = vim.fn.expand("%:s")
+	local cmd = 'IexTests.test_watch("' .. file .. '")'
+	require("FTerm").run(cmd)
+end
+
+function TestCurrentLine()
+	local file = vim.fn.expand("%:s")
+	local line = vim.fn.line(".")
+	local cmd = 'IexTests.test("' .. file .. '", ' .. line .. ")"
+	require("FTerm").run(cmd)
+end
+
 M.test = {
 	n = {
 		["<leader>tp"] = { "<cmd> TestSuite <CR>", "Run tests for whole project" },
@@ -417,6 +436,8 @@ M.test = {
 		["<leader>tm"] = { "<cmd> TestFile <CR>", "Test file" },
 		["<leader>ts"] = { "<cmd> TestNearest <CR>", "Test single" },
 		["<leader>tl"] = { "<cmd> TestLast <CR>", "Test last run" },
+		["<leader>tif"] = { "<cmd>lua TestCurrentFile()<CR>", "IEX test file" },
+		["<leader>tis"] = { "<cmd>lua TestCurrentFile()<CR>", "IEX test single" },
 		-- ["<leader>tm"] = {
 		-- 	function()
 		-- 		require("neotest").output_panel.clear()

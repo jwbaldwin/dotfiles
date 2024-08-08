@@ -310,6 +310,7 @@ require("lazy").setup({
 		opts = require("core.plugins.configs").flash.otps,
 		keys = require("core.plugins.configs").flash.keys,
 	},
+	{ "nvim-pack/nvim-spectre" },
 	-- {
 	--   "ggandor/leap.nvim",
 	--   config = function()
@@ -344,7 +345,7 @@ require("lazy").setup({
 	{
 		"github/copilot.vim",
 		cond = function()
-			return os.getenv("USER") == "james.baldwin"
+			return os.getenv("USER") == "jwbaldwin" or os.getenv("USER") == "james.baldwin"
 		end,
 	},
 	{
@@ -357,28 +358,6 @@ require("lazy").setup({
 	},
 
 	-- AI stuff
-	-- {
-	-- 	"Exafunction/codeium.vim",
-	-- 	event = "LspAttach",
-	-- 	config = function()
-	-- 		-- Change '<C-g>' here to any keycode you like.
-	-- 		vim.keymap.set("i", "<C-l>", function()
-	-- 			return vim.fn["codeium#Accept"]()
-	-- 		end, { expr = true, silent = true })
-	-- 		vim.keymap.set("i", "<c-.>", function()
-	-- 			return vim.fn["codeium#Complete"]()
-	-- 		end, { expr = true, silent = true })
-	-- 		vim.keymap.set("i", "<c-]>", function()
-	-- 			return vim.fn["codeium#CycleCompletions"](1)
-	-- 		end, { expr = true, silent = true })
-	-- 		vim.keymap.set("i", "<c-[>", function()
-	-- 			return vim.fn["codeium#CycleCompletions"](-1)
-	-- 		end, { expr = true, silent = true })
-	-- 		vim.keymap.set("i", "<c-x>", function()
-	-- 			return vim.fn["codeium#Clear"]()
-	-- 		end, { expr = true, silent = true })
-	-- 	end,
-	-- },
 	{
 		"supermaven-inc/supermaven-nvim",
 		cond = function()
