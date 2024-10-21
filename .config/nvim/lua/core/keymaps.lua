@@ -118,6 +118,13 @@ M.general = {
 	},
 }
 
+M.avanted = {
+	n = {
+		["<leader>aa"] = { "<cmd>AvanteAsk <CR>", "ai ask" },
+		["<leader>ae"] = { "<cmd>AvanteEdit <CR>", "ai edit" },
+	},
+}
+
 if os.getenv("USER") == "jwbaldwin" or os.getenv("USER") == "james.baldwin" then
 	M.copilot = {
 		i = {
@@ -424,7 +431,7 @@ end
 function TestCurrentLine()
 	local file = vim.fn.expand("%:s")
 	local line = vim.fn.line(".")
-	local cmd = 'IexTests.test("' .. file .. '", ' .. line .. ")"
+	local cmd = 'IexTests.test_watch("' .. file .. '", ' .. line .. ")"
 	require("FTerm").run(cmd)
 end
 
@@ -437,7 +444,7 @@ M.test = {
 		["<leader>ts"] = { "<cmd> TestNearest <CR>", "Test single" },
 		["<leader>tl"] = { "<cmd> TestLast <CR>", "Test last run" },
 		["<leader>tif"] = { "<cmd>lua TestCurrentFile()<CR>", "IEX test file" },
-		["<leader>tis"] = { "<cmd>lua TestCurrentFile()<CR>", "IEX test single" },
+		["<leader>tis"] = { "<cmd>lua TestCurrentLine()<CR>", "IEX test single" },
 		-- ["<leader>tm"] = {
 		-- 	function()
 		-- 		require("neotest").output_panel.clear()

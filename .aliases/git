@@ -18,6 +18,7 @@ alias gpr='hub pull-request'
 alias gm='git checkout $primary_branch && git pull'
 alias gmain="git checkout main && git pull"
 alias gmas="git checkout master && git pull"
+alias grbc="git add . && git rebase --continue"
 
 # Start a new branch with last commit, then revert the commit in the previous branch
 function branchify {
