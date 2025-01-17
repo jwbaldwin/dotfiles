@@ -1,26 +1,27 @@
 theme = tokyonight
+
 font-family = Berkeley Mono
 font-size = 16
 bold-is-bright = true
 
 cursor-style = block
+cursor-style-blink = false
+shell-integration-features = no-cursor
+
 mouse-hide-while-typing = true
-shell-integration-features = true
 
 confirm-close-surface = false
 window-save-state = always
 window-padding-x = 8
 window-padding-y = 8
 
-macos-titlebar-style = hidden
+macos-titlebar-style = tabs
 macos-icon = custom-style
 macos-icon-ghost-color = "#123524"
-macos-icon-screen-color = "#ffffff"
+macos-icon-screen-color = "#123524"
 
 background-blur-radius = 20
 background-opacity = 0.95
 
 keybind = cmd+s=text:\x13
-# keybind = cmd+h=previous_tab
-# keybind = cmd+l=next_tab
 

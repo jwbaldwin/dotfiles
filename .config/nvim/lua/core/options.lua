@@ -9,6 +9,10 @@ vim.opt.title = true
 vim.opt.clipboard = "unnamedplus"
 vim.opt.cursorline = true
 
+-- Disable backups
+vim.opt.backup = false
+vim.opt.writebackup = false
+
 -- Indenting
 vim.opt.expandtab = true
 vim.opt.shiftwidth = 2
