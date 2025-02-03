@@ -1,4 +1,3 @@
---
 -- load my globals, autocmds here or anything
 --
 

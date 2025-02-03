@@ -48,5 +48,3 @@ local options = {
 }
 
 require("tokyonight").setup(options)
-
-vim.cmd([[colorscheme tokyonight]])

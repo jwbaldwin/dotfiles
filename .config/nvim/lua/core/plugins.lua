@@ -239,7 +239,6 @@ require("lazy").setup({
 	},
 
 	-- theme related
-	{ "jwbaldwin/moonlight-material.vim", lazy = true },
 	{
 		"jwbaldwin/tokyonight.nvim",
 		dir = "~/repos/tokyonight.nvim",
@@ -247,6 +246,7 @@ require("lazy").setup({
 		priority = 1000, -- make sure to load this before all the other start plugins
 		config = function()
 			require("core.plugins._tokyonight")
+			vim.cmd([[colorscheme tokyonight]])
 		end,
 	},
 	{
