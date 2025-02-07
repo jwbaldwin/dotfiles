@@ -20,6 +20,25 @@ vim.g.maplocalleader = " "
 require("lazy").setup({
 	-- base
 	{ "folke/lazy.nvim", version = "*" },
+	{
+		"folke/snacks.nvim",
+		priority = 1000,
+		lazy = false,
+		---@type snacks.Config
+		opts = {
+			-- your configuration comes here
+			-- or leave it empty to use the default settings
+			-- refer to the configuration section below
+			input = { enabled = true },
+			picker = { enabled = false },
+			notifier = { enabled = true },
+			notify = { enabled = true },
+			quickfile = { enabled = true },
+			rename = { enabled = true },
+			scratch = { enabled = true },
+			statuscolumn = { enabled = true },
+		},
+	},
 	"nvim-lua/plenary.nvim",
 	{
 		"danielfalk/smart-open.nvim",
@@ -271,27 +290,14 @@ require("lazy").setup({
 	"tpope/vim-surround",
 	"tpope/vim-projectionist",
 	"vim-test/vim-test",
-	{
-		"rcarriga/nvim-notify",
-		config = function()
-			require("core.plugins.configs").notify()
-		end,
-	},
-	-- { "nvim-neotest/neotest-vim-test", lazy = true },
-	"antoinemadec/FixCursorHold.nvim",
 	-- {
-	-- 	"nvim-neotest/neotest",
-	-- 	dependencies = {
-	-- 		"nvim-neotest/nvim-nio",
-	-- 		"nvim-lua/plenary.nvim",
-	-- 		"antoinemadec/FixCursorHold.nvim",
-	-- 		"nvim-treesitter/nvim-treesitter",
-	-- 		"jfpedroza/neotest-elixir",
-	-- 	},
+	-- 	"rcarriga/nvim-notify",
 	-- 	config = function()
-	-- 		require("core.plugins._neotest")
+	-- 		require("core.plugins.configs").notify()
 	-- 	end,
 	-- },
+	-- { "nvim-neotest/neotest-vim-test", lazy = true },
+	"antoinemadec/FixCursorHold.nvim",
 	{
 		"ahmedkhalf/project.nvim",
 		config = function()
