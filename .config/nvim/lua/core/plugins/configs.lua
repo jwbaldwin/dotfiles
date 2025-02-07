@@ -1,9 +1,5 @@
 local M = {}
 
-M.notify = function()
-	vim.notify = require("notify").notify
-end
-
 M.todo = function()
 	local present, todo = pcall(require, "todo-comments")
 

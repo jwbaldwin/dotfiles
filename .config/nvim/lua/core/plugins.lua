@@ -290,13 +290,6 @@ require("lazy").setup({
 	"tpope/vim-surround",
 	"tpope/vim-projectionist",
 	"vim-test/vim-test",
-	-- {
-	-- 	"rcarriga/nvim-notify",
-	-- 	config = function()
-	-- 		require("core.plugins.configs").notify()
-	-- 	end,
-	-- },
-	-- { "nvim-neotest/neotest-vim-test", lazy = true },
 	"antoinemadec/FixCursorHold.nvim",
 	{
 		"ahmedkhalf/project.nvim",
