@@ -22,7 +22,7 @@ M.general = {
 	},
 	n = {
 		-- dashboard
-		["<leader>;"] = { ":Alpha <CR>", "dashboard" },
+		-- ["<leader>;"] = { ":Alpha <CR>", "dashboard" },
 		["<leader>fe"] = { ":e ~/.config/nvim/init.lua | :cd %:p:h <CR>", "edit config" },
 		["<leader>fd"] = { ":e ~/.aliases/ | :cd %:p:h | :e .<CR>", "edit dotfiles" },
 
@@ -273,20 +273,20 @@ M.lspconfig = {
 }
 
 M.nvimtree = {
-	n = {
-		-- toggle
-		["<leader>e"] = { "<cmd> NvimTreeToggle <CR>", "toggle nvimtree" },
-		-- ["<leader>o"] = { "<cmd> lua require('core.utils').oil_toggle() <CR>", "toggle oil" },
-		["<leader>o"] = { "<cmd> lua require('oil').toggle_float() <CR>", "toggle oil" },
-	},
+	-- n = {
+	-- 	-- toggle
+	-- 	["<leader>e"] = { "<cmd> NvimTreeToggle <CR>", "toggle nvimtree" },
+	-- 	-- ["<leader>o"] = { "<cmd> lua require('core.utils').oil_toggle() <CR>", "toggle oil" },
+	-- 	["<leader>o"] = { "<cmd> lua require('oil').toggle_float() <CR>", "toggle oil" },
+	-- },
 }
 
 M.telescope = {
 	n = {
 		-- find
-		["<leader>."] = { "<cmd> Telescope smart_open theme=ivy hidden=true <CR>", "find files" },
-		["<leader>,"] = { "<cmd> Telescope buffers theme=ivy<CR>", "find buffers" },
-		["<leader>'"] = { "<cmd> lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>", "live grep" },
+		-- ["<leader>."] = { "<cmd> Telescope smart_open theme=ivy hidden=true <CR>", "find files" },
+		-- ["<leader>,"] = { "<cmd> Telescope buffers theme=ivy<CR>", "find buffers" },
+		-- ["<leader>'"] = { "<cmd> lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>", "live grep" },
 		["<leader>sw"] = {
 			function()
 				local live_grep_args_shortcuts = require("telescope-live-grep-args.shortcuts")
@@ -311,7 +311,7 @@ M.telescope = {
 		["<leader>sp"] = { "<cmd> Telescope projects theme=ivy<CR>", "projects" },
 
 		-- more find
-		["<leader>ff"] = { "<cmd> Telescope enhanced_find_files theme=ivy hidden=true <CR>", "find files" },
+		-- ["<leader>ff"] = { "<cmd> Telescope enhanced_find_files theme=ivy hidden=true <CR>", "find files" },
 		["<leader>fa"] = { "<cmd> Telescope find_files follow=true no_ignore=true hidden=true <CR>", "find all" },
 		["<leader>f0"] = { "<cmd> Telescope live_grep <CR>", "live grep old" },
 		["<leader>fw"] = { "<cmd> Telescope live_grep theme=ivy previewer=false<CR>", "live grep" },
@@ -336,22 +336,22 @@ M.spectre = {
 }
 
 M.FTerm = {
-	t = {
-		["<C-\\>"] = {
-			function()
-				require("FTerm").toggle()
-			end,
-			"toggle floating term",
-		},
-	},
-	n = {
-		["<C-\\>"] = {
-			function()
-				require("FTerm").toggle()
-			end,
-			"toggle floating term",
-		},
-	},
+	-- t = {
+	-- 	["<C-\\>"] = {
+	-- 		function()
+	-- 			require("FTerm").toggle()
+	-- 		end,
+	-- 		"toggle floating term",
+	-- 	},
+	-- },
+	-- n = {
+	-- 	["<C-\\>"] = {
+	-- 		function()
+	-- 			require("FTerm").toggle()
+	-- 		end,
+	-- 		"toggle floating term",
+	-- 	},
+	-- },
 }
 
 M.whichkey = {
@@ -378,13 +378,12 @@ M.harpoon = {
 
 M.gitsigns = {
 	n = {
-		["<leader>gm"] = { "<cmd> Telescope git_commits theme=ivy<CR>", "git commits" },
-		["<leader>gs"] = { "<cmd> Telescope git_status <CR>", "git status" },
+		-- ["<leader>gm"] = { "<cmd> Telescope git_commits theme=ivy<CR>", "git commits" },
+		-- ["<leader>gs"] = { "<cmd> Telescope git_status <CR>", "git status" },
 		["<leader>gb"] = { "<cmd> Gitsigns blame_line<CR>", "git blame" },
-		["<leader>gB"] = { "<cmd> Gitsigns toggle_current_line_blame<CR>", "git blame" },
 		["<leader>gr"] = { "<cmd> Gitsigns reset_hunk <CR>", "git reset hunk" },
 		["<leader>gR"] = { "<cmd> Gitsigns reset_buffer <CR>", "git reset buffer" },
-		["<leader>gl"] = { "<cmd> Telescope git_branches <CR>", "List git branches" },
+		-- ["<leader>gl"] = { "<cmd> Telescope git_branches <CR>", "List git branches" },
 	},
 }
 
@@ -416,9 +415,9 @@ M.mix = {
 
 M.notify = {
 	n = {
-		["<leader>nd"] = { "<cmd>lua require('notify').dismiss()<CR>", "Dismiss notifications" },
-		["<leader>nn"] = { "<cmd>Telescope notify<CR>", "Telescope notifications" },
-		["<leader>nl"] = { "<cmd>Notifications<CR>", "List notifications" },
+		-- ["<leader>nd"] = { "<cmd>lua require('notify').dismiss()<CR>", "Dismiss notifications" },
+		-- ["<leader>nn"] = { "<cmd>Telescope notify<CR>", "Telescope notifications" },
+		-- ["<leader>nl"] = { "<cmd>Notifications<CR>", "List notifications" },
 	},
 }
 

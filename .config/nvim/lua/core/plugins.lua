@@ -24,20 +24,9 @@ require("lazy").setup({
 		"folke/snacks.nvim",
 		priority = 1000,
 		lazy = false,
-		---@type snacks.Config
-		opts = {
-			-- your configuration comes here
-			-- or leave it empty to use the default settings
-			-- refer to the configuration section below
-			input = { enabled = true },
-			picker = { enabled = false },
-			notifier = { enabled = true },
-			notify = { enabled = true },
-			quickfile = { enabled = true },
-			rename = { enabled = true },
-			scratch = { enabled = true },
-			statuscolumn = { enabled = true },
-		},
+		opts = require("core.plugins._snacks").opts,
+		keys = require("core.plugins._snacks").keys,
+		init = require("core.plugins._snacks").init(),
 	},
 	"nvim-lua/plenary.nvim",
 	{
@@ -198,12 +187,12 @@ require("lazy").setup({
 		end,
 	},
 
-	{
-		"goolord/alpha-nvim",
-		config = function()
-			require("core.plugins._alpha")
-		end,
-	},
+	-- {
+	-- 	"goolord/alpha-nvim",
+	-- 	config = function()
+	-- 		require("core.plugins._alpha")
+	-- 	end,
+	-- },
 
 	{
 		"numToStr/Comment.nvim",
@@ -217,17 +206,17 @@ require("lazy").setup({
 	},
 
 	-- file managing , picker etc
-	{
-		"nvim-tree/nvim-tree.lua",
-		ft = "alpha",
-		cmd = { "NvimTreeToggle", "NvimTreeFocus" },
-		config = function()
-			require("core.plugins._nvimtree")
-		end,
-		init = function()
-			require("core.utils").load_mappings("nvimtree")
-		end,
-	},
+	-- {
+	-- 	"nvim-tree/nvim-tree.lua",
+	-- 	ft = "alpha",
+	-- 	cmd = { "NvimTreeToggle", "NvimTreeFocus" },
+	-- 	config = function()
+	-- 		require("core.plugins._nvimtree")
+	-- 	end,
+	-- 	init = function()
+	-- 		require("core.utils").load_mappings("nvimtree")
+	-- 	end,
+	-- },
 
 	{
 		"nvim-telescope/telescope.nvim",
@@ -297,12 +286,12 @@ require("lazy").setup({
 			require("core.plugins._projects")
 		end,
 	},
-	{
-		"numToStr/FTerm.nvim",
-		config = function()
-			require("core.plugins._fterm")
-		end,
-	},
+	-- {
+	-- 	"numToStr/FTerm.nvim",
+	-- 	config = function()
+	-- 		require("core.plugins._fterm")
+	-- 	end,
+	-- },
 	{
 		"folke/flash.nvim",
 		event = "VeryLazy",
