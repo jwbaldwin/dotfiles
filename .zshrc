@@ -158,4 +158,3 @@ case ":$PATH:" in
 esac
 
 source ~/.anthropic_api_key.sh
-# pnpm end

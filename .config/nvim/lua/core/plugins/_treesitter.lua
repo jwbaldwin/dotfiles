@@ -20,8 +20,6 @@ local options = {
 		"heex",
 		"html",
 		"lua",
-		"markdown",
-		"markdown_inline",
 		"norg",
 		"tsx",
 		"typescript",
