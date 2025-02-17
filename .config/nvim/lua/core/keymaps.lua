@@ -273,12 +273,11 @@ M.lspconfig = {
 }
 
 M.nvimtree = {
-	-- n = {
-	-- 	-- toggle
-	-- 	["<leader>e"] = { "<cmd> NvimTreeToggle <CR>", "toggle nvimtree" },
-	-- 	-- ["<leader>o"] = { "<cmd> lua require('core.utils').oil_toggle() <CR>", "toggle oil" },
-	-- 	["<leader>o"] = { "<cmd> lua require('oil').toggle_float() <CR>", "toggle oil" },
-	-- },
+	n = {
+		-- toggle
+		-- 	["<leader>e"] = { "<cmd> NvimTreeToggle <CR>", "toggle nvimtree" },
+		["<leader>o"] = { "<cmd> lua require('oil').toggle_float() <CR>", "toggle oil" },
+	},
 }
 
 M.telescope = {
@@ -336,22 +335,12 @@ M.spectre = {
 }
 
 M.FTerm = {
-	-- t = {
-	-- 	["<C-\\>"] = {
-	-- 		function()
-	-- 			require("FTerm").toggle()
-	-- 		end,
-	-- 		"toggle floating term",
-	-- 	},
-	-- },
-	-- n = {
-	-- 	["<C-\\>"] = {
-	-- 		function()
-	-- 			require("FTerm").toggle()
-	-- 		end,
-	-- 		"toggle floating term",
-	-- 	},
-	-- },
+	t = {
+		["<C-\\>"] = { "<cmd>ToggleTerm direction='float'<CR>", "toggle floating term" },
+	},
+	n = {
+		["<C-\\>"] = { "<cmd>ToggleTerm direction='float'<CR>", "toggle floating term" },
+	},
 }
 
 M.whichkey = {
@@ -424,14 +413,14 @@ M.notify = {
 function TestCurrentFile()
 	local file = vim.fn.expand("%:s")
 	local cmd = 'IexTests.test_watch("' .. file .. '")'
-	require("FTerm").run(cmd)
+	vim.cmd("TermExec direction=float cmd='" .. cmd .. "'")
 end
 
 function TestCurrentLine()
 	local file = vim.fn.expand("%:s")
 	local line = vim.fn.line(".")
 	local cmd = 'IexTests.test_watch("' .. file .. '", ' .. line .. ")"
-	require("FTerm").run(cmd)
+	vim.cmd("TermExec direction=float cmd='" .. cmd .. "'")
 end
 
 M.test = {
