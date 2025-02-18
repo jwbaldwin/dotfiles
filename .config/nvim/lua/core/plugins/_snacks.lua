@@ -332,7 +332,6 @@ return {
 		scope = { enabled = true },
 		scratch = { enabled = true },
 		statuscolumn = { enabled = true },
-		terminal = { enabled = true },
 		toggle = { enabled = true },
 		words = { enabled = true },
 		styles = {
@@ -778,20 +777,6 @@ return {
 				Snacks.notifier.hide()
 			end,
 			desc = "Dismiss All Notifications",
-		},
-		{
-			"<leader-\\>",
-			function()
-				Snacks.terminal()
-			end,
-			desc = "Toggle Terminal",
-		},
-		{
-			"<c-_>",
-			function()
-				Snacks.terminal()
-			end,
-			desc = "which_key_ignore",
 		},
 		{
 			"]]",

@@ -256,7 +256,7 @@ require("lazy").setup({
 		"jwbaldwin/tokyonight.nvim",
 		dir = "~/repos/tokyonight.nvim",
 		lazy = false, -- make sure we load this during startup if it is your main colorscheme
-		priority = 1000, -- make sure to load this before all the other start plugins
+		priority = 10000, -- make sure to load this before all the other start plugins
 		config = function()
 			require("core.plugins._tokyonight")
 			vim.cmd([[colorscheme tokyonight]])
@@ -291,12 +291,6 @@ require("lazy").setup({
 			require("core.plugins._projects")
 		end,
 	},
-	-- {
-	-- 	"numToStr/FTerm.nvim",
-	-- 	config = function()
-	-- 		require("core.plugins._fterm")
-	-- 	end,
-	-- },
 	{
 		"folke/flash.nvim",
 		event = "VeryLazy",
@@ -304,20 +298,12 @@ require("lazy").setup({
 		keys = require("core.plugins.configs").flash.keys,
 	},
 	{ "nvim-pack/nvim-spectre" },
-	-- {
-	--   "ggandor/leap.nvim",
-	--   config = function()
-	--     require("core.plugins._leap")
-	--   end,
-	-- },
-	-- {
-	-- 	"mg979/vim-visual-multi",
-	-- 	init = function()
-	-- 		vim.g.VM_maps = {
-	-- 			["Find Under"] = "<C-m>",
-	-- 		}
-	-- 	end,
-	-- },
+	{
+		"akinsho/toggleterm.nvim",
+		version = "*",
+		opts = require("core.plugins.configs").toggleterm.opts,
+		dependencies = { "jwbaldwin/tokyonight.nvim" },
+	},
 
 	-- ui plugins
 	{

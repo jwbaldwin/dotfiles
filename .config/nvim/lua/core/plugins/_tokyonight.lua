@@ -11,7 +11,7 @@ local options = {
 		floats = "transparent",
 		sidebars = "transparent",
 	},
-	sidebars = { "qf", "vista_kind", "terminal", "packer" },
+	sidebars = { "qf", "vista_kind", "packer" },
 	hide_inactive_statusline = true,
 	lualine_bold = true,
 	on_highlights = function(hl, c)
