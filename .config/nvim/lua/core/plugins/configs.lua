@@ -89,23 +89,6 @@ M.harpoon = function()
 	harpoon.setup(options)
 end
 
-M.gitsigns = function()
-	local present, gitsigns = pcall(require, "gitsigns")
-
-	if not present then
-		return
-	end
-
-	local options = {
-		signs = {
-			add = { text = "│" },
-			change = { text = "│" },
-		},
-	}
-
-	gitsigns.setup(options)
-end
-
 M.autopairs = function()
 	local present1, autopairs = pcall(require, "nvim-autopairs")
 	local present2, cmp = pcall(require, "cmp")
