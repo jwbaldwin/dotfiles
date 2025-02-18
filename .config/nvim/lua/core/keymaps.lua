@@ -47,13 +47,13 @@ M.general = {
 		["<leader>yg"] = { "<cmd>GBrowse!<CR>", "copy gitlab source" },
 
 		-- copy elixr module name (local and absolute)
-		["<leader>ym"] = {
+		["<leader>yM"] = {
 			function()
 				yank(utils.current_local_module())
 			end,
 			"copy the elixir module name",
 		},
-		["<leader>yM"] = {
+		["<leader>ym"] = {
 			function()
 				yank(utils.current_absolute_module())
 			end,
@@ -296,14 +296,21 @@ M.telescope = {
 		["<leader>sm"] = {
 			function()
 				local module = utils.current_local_module()
-				require("telescope").extensions.live_grep_args.live_grep_args({ default_text = module })
+				require("snacks").picker.grep({ search = module })
 			end,
 			"search with current module name",
+		},
+		["<leader>sd"] = {
+			function()
+				local module = utils.current_absolute_module()
+				require("snacks").picker.grep({ search = module .. " do" })
+			end,
+			"search with current module name and do at the end to find the definition",
 		},
 		["<leader>sM"] = {
 			function()
 				local module = utils.current_absolute_module()
-				require("telescope").extensions.live_grep_args.live_grep_args({ default_text = module })
+				require("snacks").picker.grep({ search = module })
 			end,
 			"search with current absolute module name",
 		},
