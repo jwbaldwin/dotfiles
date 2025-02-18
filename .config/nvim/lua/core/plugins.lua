@@ -75,7 +75,12 @@ require("lazy").setup({
 		"lewis6991/gitsigns.nvim",
 		event = "BufReadPre",
 		config = function()
-			require("core.plugins.configs").gitsigns()
+			require("gitsigns").setup({
+				signs = {
+					add = { text = "│" },
+					change = { text = "│" },
+				},
+			})
 		end,
 	},
 
