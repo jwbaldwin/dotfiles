@@ -189,8 +189,13 @@ end
 
 M.toggleterm = {
 	opts = {
-		shade_terminals = false,
+		start_in_insert = true,
+		highlights = {
+			NormalFloat = { guibg = "#1a1b26" },
+			FloatBorder = { guifg = "#565f89", guibg = "#1a1b26" },
+		},
 		float_opts = {
+			border = "curved",
 			width = function(_term)
 				return math.ceil(math.max(30, vim.o.columns * 0.55))
 			end,

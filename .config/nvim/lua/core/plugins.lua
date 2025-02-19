@@ -299,6 +299,12 @@ require("lazy").setup({
 	},
 	{ "nvim-pack/nvim-spectre" },
 	{
+		"smjonas/inc-rename.nvim",
+		config = function()
+			require("inc_rename").setup()
+		end,
+	},
+	{
 		"akinsho/toggleterm.nvim",
 		version = "*",
 		opts = require("core.plugins.configs").toggleterm.opts,
