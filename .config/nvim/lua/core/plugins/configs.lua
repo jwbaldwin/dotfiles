@@ -192,10 +192,10 @@ M.toggleterm = {
 		shade_terminals = false,
 		float_opts = {
 			width = function(_term)
-				return math.ceil(math.max(40, vim.o.columns * 0.55))
+				return math.ceil(math.max(30, vim.o.columns * 0.55))
 			end,
 			height = function(_term)
-				return math.ceil(math.max(60, vim.o.lines * 0.7))
+				return math.ceil(math.max(30, vim.o.lines * 0.7))
 			end,
 			winblend = 10,
 		},
