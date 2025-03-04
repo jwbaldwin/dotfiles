@@ -194,6 +194,13 @@ M.toggleterm = {
 			NormalFloat = { guibg = "#1a1b26" },
 			FloatBorder = { guifg = "#9ece6a", guibg = "#1a1b26" }, -- green: 9ece6a, orange: ff9e64, teal: 73daca, comment: 565f89
 		},
+		size = function(term)
+			if term.direction == "horizontal" then
+				return vim.o.lines * 0.4
+			elseif term.direction == "vertical" then
+				return vim.o.columns * 0.4
+			end
+		end,
 		float_opts = {
 			border = "curved",
 			width = function(_term)

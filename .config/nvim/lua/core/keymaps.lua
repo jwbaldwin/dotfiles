@@ -343,9 +343,11 @@ M.spectre = {
 M.FTerm = {
 	t = {
 		["<C-\\>"] = { "<cmd>ToggleTerm direction='float'<CR>", "toggle floating term" },
+		["<C-t>"] = { "<cmd>ToggleTerm direction='vertical'<CR>", "toggle side pane term" },
 	},
 	n = {
 		["<C-\\>"] = { "<cmd>ToggleTerm direction='float'<CR>", "toggle floating term" },
+		["<C-t>"] = { "<cmd>ToggleTerm direction='vertical'<CR>", "toggle side pane term" },
 	},
 }
 
