@@ -39,7 +39,8 @@ alias zj="zellij"
 
 #### PROGRAM RELATED ####
 alias xs="iex -S mix phx.server"
-alias mdc="mix do deps.get, compile"
+alias mdc="~/.scripts/notify_command.sh \"mix do deps.get, compile\""
+alias itest="~/.scripts/notify_command.sh \"make iex_tests\""
 # install from root phoenix app 
 alias mpm="npm --prefix assets"
 # find mix route
