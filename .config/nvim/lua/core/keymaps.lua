@@ -390,7 +390,8 @@ M.fugitive = {
 		["<leader>gg"] = { "<cmd>Git<CR>", "Half buffer git" },
 		["<leader>ga"] = { "<cmd>Git add . | 0Git commit<CR>", "Git add and commit all changes" },
 		["<leader>gp"] = { "<cmd>Git push<CR>", "Git push" },
-		["<leader>gy"] = { "<cmd>GBrowse!<CR>", "copy gitlab link" },
+		["<leader>gy"] = { "<cmd>GBrowse! master:%<CR>", "copy gitlab link in master" },
+		["<leader>gY"] = { "<cmd>GBrowse!<CR>", "copy gitlab link in current branch" },
 	},
 	v = {
 		["<leader>gy"] = { "<cmd>GBrowse!<CR>", "copy gitlab link with line number" },
