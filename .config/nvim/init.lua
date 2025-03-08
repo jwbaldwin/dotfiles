@@ -1,7 +1,9 @@
 require("core.options")
+require("core.plugins.statusline")
 require("core.plugins")
 
 require("core.utils").load_mappings()
+require("core.highlights").setup()
 
 -- add binaries installed by mason.nvim to path
 local is_windows = vim.loop.os_uname().sysname == "Windows_NT"

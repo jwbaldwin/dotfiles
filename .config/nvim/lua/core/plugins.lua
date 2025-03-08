@@ -24,9 +24,9 @@ require("lazy").setup({
 		"folke/snacks.nvim",
 		priority = 1000,
 		lazy = false,
-		opts = require("core.plugins._snacks").opts,
-		keys = require("core.plugins._snacks").keys,
-		init = require("core.plugins._snacks").init(),
+		opts = require("core.plugins.snacks").opts,
+		keys = require("core.plugins.snacks").keys,
+		init = require("core.plugins.snacks").init(),
 	},
 	"nvim-lua/plenary.nvim",
 	{
@@ -66,7 +66,7 @@ require("lazy").setup({
 		build = ":TSUpdate",
 		event = { "BufReadPost", "BufNewFile" },
 		config = function()
-			require("core.plugins._treesitter")
+			require("core.plugins.treesitter")
 		end,
 	},
 	{ "nvim-treesitter/playground", event = "VeryLazy" },
@@ -89,7 +89,7 @@ require("lazy").setup({
 		"williamboman/mason.nvim",
 		cmd = require("core.utils").mason_cmds,
 		config = function()
-			require("core.plugins._mason")
+			require("core.plugins.mason")
 		end,
 	},
 
@@ -97,7 +97,7 @@ require("lazy").setup({
 		"neovim/nvim-lspconfig",
 		lazy = true,
 		config = function()
-			require("core.plugins._lspconfig")
+			require("core.plugins.lspconfig")
 		end,
 	},
 	-- {
@@ -152,7 +152,7 @@ require("lazy").setup({
 	{
 		"hrsh7th/nvim-cmp",
 		config = function()
-			require("core.plugins._cmp")
+			require("core.plugins.cmp")
 		end,
 	},
 
@@ -165,7 +165,7 @@ require("lazy").setup({
 			"williamboman/mason.nvim",
 		},
 		config = function()
-			require("core.plugins._dap")
+			require("core.plugins.dap")
 		end,
 	},
 
@@ -195,7 +195,7 @@ require("lazy").setup({
 	-- {
 	-- 	"goolord/alpha-nvim",
 	-- 	config = function()
-	-- 		require("core.plugins._alpha")
+	-- 		require("core.plugins.alpha")
 	-- 	end,
 	-- },
 
@@ -216,7 +216,7 @@ require("lazy").setup({
 	-- 	ft = "alpha",
 	-- 	cmd = { "NvimTreeToggle", "NvimTreeFocus" },
 	-- 	config = function()
-	-- 		require("core.plugins._nvimtree")
+	-- 		require("core.plugins.nvimtree")
 	-- 	end,
 	-- 	init = function()
 	-- 		require("core.utils").load_mappings("nvimtree")
@@ -232,7 +232,7 @@ require("lazy").setup({
 			build = "make",
 		},
 		config = function()
-			require("core.plugins._telescope")
+			require("core.plugins.telescope")
 		end,
 		init = function()
 			require("core.utils").load_mappings("telescope")
@@ -244,7 +244,7 @@ require("lazy").setup({
 		"folke/which-key.nvim",
 		keys = "<leader>",
 		config = function()
-			require("core.plugins._whichkey")
+			require("core.plugins.whichkey")
 		end,
 		init = function()
 			require("core.utils").load_mappings("whichkey")
@@ -258,18 +258,23 @@ require("lazy").setup({
 		lazy = false, -- make sure we load this during startup if it is your main colorscheme
 		priority = 10000, -- make sure to load this before all the other start plugins
 		config = function()
-			require("core.plugins._tokyonight")
-			vim.cmd([[colorscheme tokyonight]])
+			require("core.plugins.tokyonight")
+			-- vim.cmd([[colorscheme tokyonight]])
 		end,
 	},
 	{
-		"sainnhe/everforest",
+		"gmr458/cold.nvim",
 		lazy = false,
 		priority = 1000,
+		build = ":ColdCompile",
 		config = function()
-			vim.g.everforest_enable_italic = true
-			vim.g.everforest_background = "hard"
-			-- vim.cmd.colorscheme("everforest")
+			require("cold").setup({
+				transparent_background = false,
+				cursorline = false,
+				treesitter_context_bg = false,
+				float_borderless = false,
+			})
+			vim.cmd.colorscheme("cold")
 		end,
 	},
 
@@ -288,7 +293,7 @@ require("lazy").setup({
 	{
 		"ahmedkhalf/project.nvim",
 		config = function()
-			require("core.plugins._projects")
+			require("core.plugins.projects")
 		end,
 	},
 	{
@@ -312,13 +317,13 @@ require("lazy").setup({
 	},
 
 	-- ui plugins
-	{
-		"nvim-lualine/lualine.nvim",
-		dependencies = { "nvim-tree/nvim-web-devicons" },
-		config = function()
-			require("core.plugins._lualine")
-		end,
-	},
+	-- {
+	-- 	"nvim-lualine/lualine.nvim",
+	-- 	dependencies = { "nvim-tree/nvim-web-devicons" },
+	-- 	config = function()
+	-- 		require("core.plugins.lualine")
+	-- 	end,
+	-- },
 	{
 		"folke/todo-comments.nvim",
 		config = function()
@@ -338,7 +343,7 @@ require("lazy").setup({
 		opts = {},
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		config = function()
-			require("core.plugins._oil")
+			require("core.plugins.oil")
 		end,
 	},
 
