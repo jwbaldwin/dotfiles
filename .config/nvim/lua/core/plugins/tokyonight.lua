@@ -27,3 +27,5 @@ local options = {
 }
 
 require("tokyonight").setup(options)
+
+-- :TSHighlightCapturesUnderCursor for finding HL group under cursor

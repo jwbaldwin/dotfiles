@@ -53,7 +53,7 @@ return {
 				-- so this can have a performance impact for large lists and increase memory usage
 				cwd_bonus = true, -- give bonus for matching files in the cwd
 				frecency = true, -- frecency bonus
-				history_bonus = false, -- give more weight to chronological order
+				history_bonus = true, -- give more weight to chronological order
 			},
 			sort = {
 				-- default sort is by score, text length and index
@@ -344,7 +344,16 @@ return {
 		{
 			"<leader>.",
 			function()
-				Snacks.picker.smart()
+				Snacks.picker.smart({
+					multi = { "buffers", "recent", { source = "files", exclude = "docs/**" } },
+					format = "file", -- use `file` format for all sources
+					matcher = {
+						cwd_bonus = true, -- boost cwd matches
+						frecency = true, -- use frecency boosting
+						sort_empty = true, -- sort even when the filter is empty
+					},
+					transform = "unique_file",
+				})
 			end,
 			desc = "Smart Find Files",
 		},
