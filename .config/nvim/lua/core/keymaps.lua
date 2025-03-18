@@ -25,6 +25,8 @@ M.general = {
 		-- ["<leader>;"] = { ":Alpha <CR>", "dashboard" },
 		["<leader>fe"] = { ":e ~/.config/nvim/init.lua | :cd %:p:h <CR>", "edit config" },
 		["<leader>fd"] = { ":e ~/.aliases/ | :cd %:p:h | :e .<CR>", "edit dotfiles" },
+		-- reload neovim config
+		["<leader>rc"] = { ":so $MYVIMRC<CR>:colorscheme tokyonight<CR>", "reload neovim config" },
 
 		-- switch between windows
 		["<leader>wh"] = { ":wincmd h<cr>", "window left" },

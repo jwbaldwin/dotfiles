@@ -51,8 +51,8 @@ return {
 				file_pos = true, -- support patterns like `file:line:col` and `file:line`
 				-- the bonusses below, possibly require string concatenation and path normalization,
 				-- so this can have a performance impact for large lists and increase memory usage
-				cwd_bonus = false, -- give bonus for matching files in the cwd
-				frecency = false, -- frecency bonus
+				cwd_bonus = true, -- give bonus for matching files in the cwd
+				frecency = true, -- frecency bonus
 				history_bonus = false, -- give more weight to chronological order
 			},
 			sort = {

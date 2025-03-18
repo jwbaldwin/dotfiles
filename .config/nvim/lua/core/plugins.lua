@@ -253,13 +253,29 @@ require("lazy").setup({
 
 	-- theme related
 	{
-		"jwbaldwin/tokyonight.nvim",
-		dir = "~/repos/tokyonight.nvim",
+		"folke/tokyonight.nvim",
 		lazy = false, -- make sure we load this during startup if it is your main colorscheme
 		priority = 10000, -- make sure to load this before all the other start plugins
 		config = function()
 			require("core.plugins.tokyonight")
-			-- vim.cmd([[colorscheme tokyonight]])
+		end,
+		init = function()
+			vim.cmd([[colorscheme tokyonight]])
+		end,
+	},
+	{
+		"olivercederborg/poimandres.nvim",
+		lazy = false,
+		priority = 1000,
+		config = function()
+			require("poimandres").setup({
+				-- leave this setup function empty for default config
+				-- or refer to the configuration section
+				-- for configuration options
+			})
+		end,
+		init = function()
+			-- vim.cmd([[colorscheme poimandres]])
 		end,
 	},
 	{
@@ -274,7 +290,7 @@ require("lazy").setup({
 				treesitter_context_bg = false,
 				float_borderless = false,
 			})
-			vim.cmd.colorscheme("cold")
+			-- vim.cmd.colorscheme("cold")
 		end,
 	},
 

@@ -44,7 +44,7 @@ local function file_path_from_root()
 
 	-- If we're at the root, just show the filename
 	if dir_path == "." then
-		return string.format("%%#StatusLineMedium# %s %%*", filename)
+		return string.format("%%#StatusLineMedium# %%#StatusLineFilename#%s%%* %%*", filename)
 	end
 
 	-- Shorten the directory path to first letters only
@@ -53,22 +53,13 @@ local function file_path_from_root()
 		shortened_path = shortened_path .. part:sub(1, 1) .. "/"
 	end
 
-	return string.format("%%#StatusLineMedium# %s%s %%*", shortened_path, filename)
+	return string.format("%%#StatusLineMedium# %s%%#StatusLineFilename#%s%%* %%*", shortened_path, filename)
 end
 
 --- @return string
 local function modified_indicator()
 	if vim.bo.modified then
-		return "%#StatusLineModified# ● %*"
-	else
-		return ""
-	end
-end
-
---- @return string
-local function modified_indicator()
-	if vim.bo.modified then
-		return "%#StatusLineModified# ● %*"
+		return "%#StatusLineModified#•%*"
 	else
 		return ""
 	end
@@ -269,7 +260,7 @@ local function git_branch()
 		return ""
 	end
 
-	return string.format("%%#StatusLineMedium#%s%%*", branch)
+	return string.format("%%#StatusLineBranch#%s%%*", branch)
 end
 
 --- @return string

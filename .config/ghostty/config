@@ -1,6 +1,6 @@
-theme = Twilight 
+theme = tokyonight 
 
-mouse-scroll-multiplier = 0.2
+mouse-scroll-multiplier = 0.25
 
 font-family = Berkeley Mono
 font-size = 16
@@ -10,7 +10,7 @@ cursor-style = block
 cursor-style-blink = false
 shell-integration-features = no-cursor
 
-mouse-hide-while-typing = true
+mouse-hide-while-typing = false
 
 confirm-close-surface = false
 window-save-state = always
