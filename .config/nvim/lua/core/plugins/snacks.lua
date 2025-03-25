@@ -345,7 +345,7 @@ return {
 			"<leader>.",
 			function()
 				Snacks.picker.smart({
-					multi = { "buffers", "recent", { source = "files", exclude = "docs/**" } },
+					multi = { "buffers", "recent", { source = "files", exclude = { "docs/**" } } },
 					format = "file", -- use `file` format for all sources
 					matcher = {
 						cwd_bonus = true, -- boost cwd matches
