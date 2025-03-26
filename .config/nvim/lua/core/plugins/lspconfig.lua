@@ -2,12 +2,6 @@ local lspconfig = require("lspconfig")
 local configs = require("lspconfig.configs")
 local utils = require("core.utils")
 
-local username = os.getenv("USER")
-
-if username == "james.baldwin" then
-	username = "jwbaldwin"
-end
-
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem = {
 	documentationFormat = { "markdown", "plaintext" },
@@ -92,7 +86,7 @@ if os.getenv("USER") == "jbaldwin" then
 	elixirls = "/Users/jbaldwin/.local/share/nvim/mason/packages/elixir-ls/language_server.sh"
 else
 	-- Mason's install location
-	elixirls = "/Users/jwbaldwin/.local/share/nvim/mason/packages/elixir-ls/language_server.sh"
+	elixirls = "/Users/james.baldwin/.local/share/nvim/mason/packages/elixir-ls/language_server.sh"
 end
 
 lspconfig.elixirls.setup({
