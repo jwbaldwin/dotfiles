@@ -1,0 +1,20 @@
+# This is Git's per-user configuration file.
+[user]
+	name = James Baldwin
+	email = james.baldwin@remote.com
+# Please adapt and uncomment the following lines:
+#	name = James Baldwin
+#	email = jwbaldwin3@gmail.com
+[push]
+	default = current
+	autoSetupRemote = true
+[alias]
+	co = checkout
+  si = switch
+	br = branch
+	st = status
+	ci = commit
+[pull]
+	ff = only
+[branch]
+	autoSetupMerge = false
