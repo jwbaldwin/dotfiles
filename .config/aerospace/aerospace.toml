@@ -102,6 +102,8 @@ automatically-unhide-macos-hidden-apps = false
     # Additional commands
     alt-b = 'balance-sizes'
     alt-shift-f = 'fullscreen'
+    alt-f = 'workspace-back-and-forth'
+
 
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#workspace
