@@ -338,7 +338,7 @@ copy_on_select true
 // layout_dir "/path/to/my/layout_dir"
 
 // The folder in which Zellij will look for themes
-theme_dir "/Users/jwbaldwin/.config/zellij/themes"
+theme_dir "/Users/james.baldwin/.config/zellij/themes"
 
 // Enable or disable the rendering of styled and colored underlines (undercurl).
 // May need to be disabled for certain unsupported terminals

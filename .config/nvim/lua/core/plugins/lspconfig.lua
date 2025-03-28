@@ -2,25 +2,6 @@ local lspconfig = require("lspconfig")
 local configs = require("lspconfig.configs")
 local utils = require("core.utils")
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem = {
-	documentationFormat = { "markdown", "plaintext" },
-	snippetSupport = true,
-	preselectSupport = true,
-	insertReplaceSupport = true,
-	labelDetailsSupport = true,
-	deprecatedSupport = true,
-	commitCharactersSupport = true,
-	tagSupport = { valueSet = { 1 } },
-	resolveSupport = {
-		properties = {
-			"documentation",
-			"detail",
-			"additionalTextEdits",
-		},
-	},
-}
-
 local default_on_attach = function(client, bufnr)
 	if vim.g.vim_version > 7 then
 		-- nightly
@@ -37,6 +18,7 @@ local default_on_attach = function(client, bufnr)
 	-- vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format({bufnr = bufnr})]]
 end
 
+local capabilities = require("blink.cmp").get_lsp_capabilities()
 local servers = { "html", "cssls", "jsonls", "bashls", "ts_ls", "svelte", "tailwindcss" }
 
 for _, lsp in ipairs(servers) do

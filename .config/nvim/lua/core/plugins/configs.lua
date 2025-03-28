@@ -148,34 +148,6 @@ M.comment = function()
 	nvim_comment.setup(options)
 end
 
-M.luasnip = function()
-	local present, luasnip = pcall(require, "luasnip")
-
-	if not present then
-		return
-	end
-
-	local options = {
-		history = true,
-		updateevents = "TextChanged,TextChangedI",
-	}
-
-	luasnip.config.set_config(options)
-	require("luasnip.loaders.from_vscode").lazy_load({ paths = "~/.config/nvim/snippets" })
-	require("luasnip.loaders.from_vscode").lazy_load()
-
-	vim.api.nvim_create_autocmd("InsertLeave", {
-		callback = function()
-			if
-				require("luasnip").session.current_nodes[vim.api.nvim_get_current_buf()]
-				and not require("luasnip").session.jump_active
-			then
-				require("luasnip").unlink_current()
-			end
-		end,
-	})
-end
-
 M.devicons = function()
 	local present, devicons = pcall(require, "nvim-web-devicons")
 
