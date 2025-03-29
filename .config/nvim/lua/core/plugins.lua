@@ -95,50 +95,15 @@ require("lazy").setup({
 
 	{
 		"neovim/nvim-lspconfig",
-		lazy = true,
+		dependencies = {
+			"williamboman/mason-lspconfig.nvim",
+			"williamboman/mason.nvim",
+			"saghen/blink.cmp",
+		},
 		config = function()
 			require("core.plugins.lspconfig")
 		end,
 	},
-	-- {
-	-- 	"elixir-tools/elixir-tools.nvim",
-	-- 	version = "*",
-	-- 	event = { "BufReadPre", "BufNewFile" },
-	-- 	config = function()
-	-- 		local elixir = require("elixir")
-	-- 		local elixirls = require("elixir.elixirls")
-	--
-	-- 		elixir.setup({
-	-- 			nextls = {
-	-- 				enable = true,
-	-- 				cmd = "/Users/jwbaldwin/.local/share/nvim/mason/packages/nextls/next_ls_darwin_arm64",
-	-- 				init_options = {
-	-- 					experimental = {
-	-- 						completions = {
-	-- 							enable = true,
-	-- 						},
-	-- 					},
-	-- 				},
-	-- 			},
-	-- 			credo = {},
-	-- 			elixirls = {
-	-- 				enable = true,
-	-- 				settings = elixirls.settings({
-	-- 					dialyzerEnabled = false,
-	-- 					enableTestLenses = false,
-	-- 				}),
-	-- 				on_attach = function(client, bufnr)
-	-- 					vim.keymap.set("n", "<space>lfp", ":ElixirFromPipe<cr>", { buffer = true, noremap = true })
-	-- 					vim.keymap.set("n", "<space>ltp", ":ElixirToPipe<cr>", { buffer = true, noremap = true })
-	-- 					vim.keymap.set("v", "<space>lem", ":ElixirExpandMacro<cr>", { buffer = true, noremap = true })
-	-- 				end,
-	-- 			},
-	-- 		})
-	-- 	end,
-	-- 	dependencies = {
-	-- 		"nvim-lua/plenary.nvim",
-	-- 	},
-	-- },
 	{
 		"mhartington/formatter.nvim",
 		config = function()
@@ -146,16 +111,17 @@ require("lazy").setup({
 		end,
 	},
 
-	-- loadsnips + cmp related in insert mode only
-	{ "rafamadriz/friendly-snippets", event = "InsertEnter" },
-
+	-- nvim.cmp + snippets replacement
 	{
-		"hrsh7th/nvim-cmp",
-		config = function()
-			require("core.plugins.cmp")
-		end,
+		"saghen/blink.cmp",
+		version = "*",
+		event = "LspAttach",
+		dependencies = {
+			"rafamadriz/friendly-snippets",
+		},
+		opts = require("core.plugins.blink").opts,
+		opts_extend = require("core.plugins.blink").opts_extend,
 	},
-
 	{
 		"mfussenegger/nvim-dap",
 		dependencies = {
@@ -168,22 +134,6 @@ require("lazy").setup({
 			require("core.plugins.dap")
 		end,
 	},
-
-	{
-		"L3MON4D3/LuaSnip",
-		dependencies = { "rafamadriz/friendly-snippets", event = "InsertEnter" },
-		config = function()
-			require("core.plugins.configs").luasnip()
-		end,
-	},
-
-	-- cmp sources
-	"saadparwaiz1/cmp_luasnip",
-	"hrsh7th/cmp-nvim-lua",
-	"hrsh7th/cmp-nvim-lsp",
-	"hrsh7th/cmp-buffer",
-	"hrsh7th/cmp-path",
-
 	-- misc plugins
 	{
 		"windwp/nvim-autopairs",
@@ -191,14 +141,6 @@ require("lazy").setup({
 			require("core.plugins.configs").autopairs()
 		end,
 	},
-
-	-- {
-	-- 	"goolord/alpha-nvim",
-	-- 	config = function()
-	-- 		require("core.plugins.alpha")
-	-- 	end,
-	-- },
-
 	{
 		"numToStr/Comment.nvim",
 		keys = { "gc", "gb" },
@@ -211,18 +153,6 @@ require("lazy").setup({
 	},
 
 	-- file managing , picker etc
-	-- {
-	-- 	"nvim-tree/nvim-tree.lua",
-	-- 	ft = "alpha",
-	-- 	cmd = { "NvimTreeToggle", "NvimTreeFocus" },
-	-- 	config = function()
-	-- 		require("core.plugins.nvimtree")
-	-- 	end,
-	-- 	init = function()
-	-- 		require("core.utils").load_mappings("nvimtree")
-	-- 	end,
-	-- },
-
 	{
 		"nvim-telescope/telescope.nvim",
 		cmd = "Telescope",

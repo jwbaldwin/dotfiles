@@ -140,8 +140,9 @@ done
 
 # Enables IEx shell history
 export ERL_AFLAGS="-kernel shell_history enabled"
-
-source ~/.bashrc
+export GOROOT=/usr/local/opt/go/libexec
+export GOPATH=$HOME/.go
+export AWS_PROFILE=sts
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
@@ -157,4 +158,8 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 
-source ~/.anthropic_api_key.sh
+# Rust & cargo
+source $HOME/.cargo/env
+
+
+source ~/.anthropic_key.sh

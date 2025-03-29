@@ -17,15 +17,6 @@ vim.diagnostic.config({
 	update_in_insert = false,
 })
 
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-	border = "single",
-})
-vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-	border = "single",
-	focusable = false,
-	relative = "cursor",
-})
-
 -- suppress error messages from lang servers
 vim.notify = function(msg, log_level)
 	if msg:match("exit code") then

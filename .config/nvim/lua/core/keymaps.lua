@@ -164,14 +164,6 @@ M.comment = {
 }
 
 M.lspconfig = {
-	i = {
-		["<C-leader>"] = {
-			function()
-				vim.lsp.buf.completion()
-			end,
-			"trigger completion",
-		},
-	},
 	n = {
 		["gD"] = {
 			function()

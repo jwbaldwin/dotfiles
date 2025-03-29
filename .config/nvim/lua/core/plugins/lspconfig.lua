@@ -2,31 +2,6 @@ local lspconfig = require("lspconfig")
 local configs = require("lspconfig.configs")
 local utils = require("core.utils")
 
-local username = os.getenv("USER")
-
-if username == "james.baldwin" then
-	username = "jwbaldwin"
-end
-
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem = {
-	documentationFormat = { "markdown", "plaintext" },
-	snippetSupport = true,
-	preselectSupport = true,
-	insertReplaceSupport = true,
-	labelDetailsSupport = true,
-	deprecatedSupport = true,
-	commitCharactersSupport = true,
-	tagSupport = { valueSet = { 1 } },
-	resolveSupport = {
-		properties = {
-			"documentation",
-			"detail",
-			"additionalTextEdits",
-		},
-	},
-}
-
 local default_on_attach = function(client, bufnr)
 	if vim.g.vim_version > 7 then
 		-- nightly
@@ -43,6 +18,7 @@ local default_on_attach = function(client, bufnr)
 	-- vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format({bufnr = bufnr})]]
 end
 
+local capabilities = require("blink.cmp").get_lsp_capabilities()
 local servers = { "html", "cssls", "jsonls", "bashls", "ts_ls", "svelte", "tailwindcss" }
 
 for _, lsp in ipairs(servers) do
@@ -92,7 +68,7 @@ if os.getenv("USER") == "jbaldwin" then
 	elixirls = "/Users/jbaldwin/.local/share/nvim/mason/packages/elixir-ls/language_server.sh"
 else
 	-- Mason's install location
-	elixirls = "/Users/jwbaldwin/.local/share/nvim/mason/packages/elixir-ls/language_server.sh"
+	elixirls = "/Users/james.baldwin/.local/share/nvim/mason/packages/elixir-ls/language_server.sh"
 end
 
 lspconfig.elixirls.setup({
