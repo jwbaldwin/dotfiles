@@ -260,7 +260,18 @@ require("lazy").setup({
 			require("core.plugins.tokyonight")
 		end,
 		init = function()
-			vim.cmd([[colorscheme tokyonight]])
+			-- vim.cmd([[colorscheme tokyonight]])
+		end,
+	},
+	{
+		dir = "~/repos/_projects/oscura.nvim",
+		lazy = false,
+		priority = 10000,
+		config = function()
+			require("oscura").setup()
+		end,
+		init = function()
+			vim.cmd([[colorscheme oscura]])
 		end,
 	},
 	{
