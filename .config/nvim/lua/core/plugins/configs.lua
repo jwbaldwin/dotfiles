@@ -155,10 +155,10 @@ M.toggleterm = {
 	opts = {
 		start_in_insert = true,
 		highlights = {
-			-- NormalFloat = { guibg = "#1a1a1a" }, -- cold
-			-- FloatBorder = { guifg = "#9ece6a", guibg = "#1a1a1a" }, -- green: 9ece6a, orange: ff9e64, teal: 73daca, comment: 565f89
-			NormalFloat = { guibg = "#1a1b26" }, -- tokyonight
-			FloatBorder = { guifg = "#9ece6a", guibg = "#1a1b26" }, -- green: 9ece6a, orange: ff9e64, teal: 73daca, comment: 565f89
+			-- NormalFloat = { guibg = "#1a1b26" }, -- tokyonight
+			-- FloatBorder = { guifg = "#9ece6a", -- tokyonight
+			NormalFloat = { guibg = "#1a1a1a" },
+			FloatBorder = { guifg = "#9ece6a", guibg = "#1a1a1a" },
 		},
 		size = function(term)
 			if term.direction == "horizontal" then
