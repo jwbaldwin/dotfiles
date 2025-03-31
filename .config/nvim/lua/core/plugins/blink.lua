@@ -71,12 +71,12 @@ M.opts = {
 		},
 
 		menu = {
-			border = "single",
+			border = "none",
 		},
 		documentation = {
 			auto_show = false,
 			window = {
-				border = "single",
+				border = "none",
 			},
 		},
 	},

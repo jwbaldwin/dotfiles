@@ -183,6 +183,12 @@ require("lazy").setup({
 
 	-- theme related
 	{
+		"brenoprata10/nvim-highlight-colors",
+		init = function()
+			require("nvim-highlight-colors").setup({})
+		end,
+	},
+	{
 		"folke/tokyonight.nvim",
 		lazy = false, -- make sure we load this during startup if it is your main colorscheme
 		priority = 10000, -- make sure to load this before all the other start plugins
@@ -190,20 +196,22 @@ require("lazy").setup({
 			require("core.plugins.tokyonight")
 		end,
 		init = function()
-			-- vim.cmd([[colorscheme tokyonight]])
+			vim.cmd([[colorscheme tokyonight]])
 		end,
 	},
-	{
-		dir = "~/repos/_projects/oscura.nvim",
-		lazy = false,
-		priority = 10000,
-		config = function()
-			require("oscura").setup()
-		end,
-		init = function()
-			vim.cmd([[colorscheme oscura]])
-		end,
-	},
+	-- {
+	-- 	-- "jwbaldwin/oscura.nvim",
+	-- 	dir = "~/repos/oscura.nvim",
+	-- 	branch = "color-tweaks-and-fixes",
+	-- 	lazy = false,
+	-- 	priority = 10000,
+	-- 	config = function()
+	-- 		require("oscura").setup()
+	-- 	end,
+	-- 	init = function()
+	-- 		vim.cmd([[colorscheme oscura]])
+	-- 	end,
+	-- },
 	{
 		"olivercederborg/poimandres.nvim",
 		lazy = false,
@@ -238,7 +246,7 @@ require("lazy").setup({
 	-- utility
 	{
 		"ThePrimeagen/harpoon",
-		branch = "harpoon2",
+		-- branch = "harpoon2",
 		dependencies = { "nvim-lua/plenary.nvim" },
 		config = function()
 			require("core.plugins.configs").harpoon()

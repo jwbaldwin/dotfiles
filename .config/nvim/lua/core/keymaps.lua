@@ -26,7 +26,10 @@ M.general = {
 		["<leader>fe"] = { ":e ~/.config/nvim/init.lua | :cd %:p:h <CR>", "edit config" },
 		["<leader>fd"] = { ":e ~/.aliases/ | :cd %:p:h | :e .<CR>", "edit dotfiles" },
 		-- reload neovim config
-		["<leader>rc"] = { ":so $MYVIMRC<CR>:colorscheme tokyonight<CR>", "reload neovim config" },
+		["<leader>rc"] = {
+			":lua package.loaded['oscura'] = nil; require('oscura').setup(); vim.cmd('colorscheme oscura')",
+			"reload neovim config",
+		},
 
 		-- switch between windows
 		["<leader>wh"] = { ":wincmd h<cr>", "window left" },

@@ -8,7 +8,7 @@ vim.opt.showmode = false
 vim.opt.title = true
 vim.opt.clipboard = "unnamedplus"
 vim.opt.cursorline = true
-vim.opt.winborder = "single"
+vim.opt.winborder = "none"
 
 -- Disable backups
 vim.opt.backup = false
