@@ -93,7 +93,11 @@ local function lsp_active()
 	local space = "%#StatusLineMedium# %*"
 
 	if #clients > 0 then
-		return space .. "%#StatusLineMedium#LSP%*"
+		local client_names = {}
+		for _, client in ipairs(clients) do
+			table.insert(client_names, client.name)
+		end
+		return space .. "%#StatusLineMedium#" .. table.concat(client_names, ",") .. "%*"
 	end
 
 	return ""
@@ -103,7 +107,7 @@ end
 local function diagnostics_error()
 	local count = get_lsp_diagnostics_count(vim.diagnostic.severity.ERROR)
 	if count > 0 then
-		return string.format("%%#StatusLineLspError# %se%%*", count)
+		return string.format("%%#StatusLineLspError# %s  %%*", count)
 	end
 
 	return ""
@@ -113,7 +117,7 @@ end
 local function diagnostics_warns()
 	local count = get_lsp_diagnostics_count(vim.diagnostic.severity.WARN)
 	if count > 0 then
-		return string.format("%%#StatusLineLspWarn# %sw%%*", count)
+		return string.format("%%#StatusLineLspWarn# %s  %%*", count)
 	end
 
 	return ""
@@ -123,7 +127,7 @@ end
 local function diagnostics_hint()
 	local count = get_lsp_diagnostics_count(vim.diagnostic.severity.HINT)
 	if count > 0 then
-		return string.format("%%#StatusLineLspHint# %sh%%*", count)
+		return string.format("%%#StatusLineLspHint# %s %%*", count)
 	end
 
 	return ""
@@ -133,11 +137,27 @@ end
 local function diagnostics_info()
 	local count = get_lsp_diagnostics_count(vim.diagnostic.severity.INFO)
 	if count > 0 then
-		return string.format("%%#StatusLineLspInfo# %si%%*", count)
+		return string.format("%%#StatusLineLspInfo# %s  %%*", count)
 	end
 
 	return ""
 end
+
+vim.diagnostic.config({
+	virtual_text = {
+		prefix = "",
+	},
+	signs = {
+		text = {
+			[vim.diagnostic.severity.ERROR] = "",
+			[vim.diagnostic.severity.WARN] = "",
+			[vim.diagnostic.severity.HINT] = "",
+			[vim.diagnostic.severity.INFO] = "",
+		},
+	},
+	underline = true,
+	update_in_insert = false,
+})
 
 --- @class LspProgress
 --- @field client vim.lsp.Client?
@@ -212,6 +232,11 @@ local function lsp_status()
 
 	if percentage ~= "" then
 		lsp_message = string.format("%s %s", lsp_message, percentage)
+	end
+
+	-- Skip lexical tiger compiling messages
+	if lsp_message:match("lexical: Building tiger compiling") then
+		return ""
 	end
 
 	return string.format("%%#StatusLineLspMessages#%s%%* ", lsp_message)
@@ -294,10 +319,11 @@ end
 
 --- @return string
 local function file_percentage()
-	local current_line = vim.api.nvim_win_get_cursor(0)[1]
-	local lines = vim.api.nvim_buf_line_count(0)
+	local cursor_pos = vim.api.nvim_win_get_cursor(0)
+	local row = cursor_pos[1]
+	local col = cursor_pos[2] + 1 -- Convert 0-indexed column to 1-indexed
 
-	return string.format("%%#StatusLineMedium#  %d%%%% %%*", math.ceil(current_line / lines * 100))
+	return string.format("%%#StatusLineMedium#  %d:%d %%*", row, col)
 end
 
 --- @return string
@@ -356,7 +382,7 @@ StatusLine.active = function()
 		"%=",
 		"%=",
 		"%S ",
-		lsp_status(),
+		-- lsp_status(),
 		diagnostics_error(),
 		diagnostics_warns(),
 		diagnostics_hint(),

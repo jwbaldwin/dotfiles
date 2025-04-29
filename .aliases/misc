@@ -32,7 +32,39 @@ export VISUAL="nvim" # $VISUAL opens in GUI mode
 #### NVIM ALIASES ####
 alias v="nvim"
 alias vi="nvim"
+alias vim="nvim"
 alias nv="nvim"
+
+# Function to fzf files (using rg if possible) in a directory (default .) and open in nvim
+fv() {
+  # Determine the search directory (default: current directory)
+  local search_dir="."
+  if [ -d "$1" ]; then
+    search_dir="$1"
+  elif [ -n "$1" ]; then
+    printf "Warning: '%s' is not a directory. Searching from current directory.\n" "$1" >&2
+  fi
+
+  # Define fzf options - use array for safer handling of preview command
+  local fzf_opts=(
+      --multi       # Allow multiple selections with Tab
+      --height '50%' --border # Appearance (optional)
+      --preview 'command -v bat >/dev/null && bat --color=always --style=plain --line-range=:200 {} || head -n 200 {}'
+      --bind 'enter:execute(nvim {+})'
+  )
+
+  if command -v rg > /dev/null; then
+   # The directory argument comes last for rg
+    rg --files --hidden --follow "$search_dir" | fzf "${fzf_opts[@]}"
+  else
+    printf "Warning: 'rg' (ripgrep) not found. Falling back to 'find'. For better performance and ignore file handling, please install rg.\n" >&2
+    find "$search_dir" \( -path "$search_dir/.git" -prune \) -o -type f -print | fzf "${fzf_opts[@]}"
+  fi
+
+  return $?
+}
+
+alias fv="fv"
 
 #### ZELLIJ ALIASES ####
 alias zj="zellij"

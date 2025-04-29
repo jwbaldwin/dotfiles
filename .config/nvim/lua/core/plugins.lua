@@ -284,13 +284,13 @@ require("lazy").setup({
 	},
 
 	-- ui plugins
-	-- {
-	-- 	"nvim-lualine/lualine.nvim",
-	-- 	dependencies = { "nvim-tree/nvim-web-devicons" },
-	-- 	config = function()
-	-- 		require("core.plugins.lualine")
-	-- 	end,
-	-- },
+	{
+		"nvim-lualine/lualine.nvim",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		config = function()
+			require("core.plugins.lualine")
+		end,
+	},
 	{
 		"folke/todo-comments.nvim",
 		config = function()

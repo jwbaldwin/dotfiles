@@ -2,7 +2,7 @@
 --
 return {
 	-- Mode indicator
-	StatusLineMode = { bg = "#6d91db", fg = "#1a1b26", bold = true },
+	StatusLineMode = {},
 
 	-- Git highlights
 	StatusLineGitBranchIcon = { fg = "#ff9e64" },
@@ -23,25 +23,3 @@ return {
 	StatusLineModified = { fg = "#41a6b5" },
 	StatusLineFilename = { fg = "#a9b1d6" },
 }
-
--- return {
--- 	-- Mode indicator
--- 	StatusLineMode = { bg = "#a7c080", fg = "#2d353b", bold = true },
---
--- 	-- Git highlights
--- 	StatusLineGitBranchIcon = { fg = "#d699b6" },
--- 	StatusLineGitDiffAdded = { fg = "#83c092" },
--- 	StatusLineGitDiffChanged = { fg = "#dbbc7f" },
--- 	StatusLineGitDiffRemoved = { fg = "#e67e80" },
---
--- 	-- LSP highlights
--- 	StatusLineLspError = { fg = "#e67e80" },
--- 	StatusLineLspWarn = { fg = "#dbbc7f" },
--- 	StatusLineLspHint = { fg = "#7fbbb3" },
--- 	StatusLineLspInfo = { fg = "#83c092" },
--- 	StatusLineLspMessages = { fg = "#7fbbb3", italic = true },
---
--- 	-- General highlights
--- 	StatusLineMedium = { fg = "#9da9a0" },
--- 	StatusLineModified = { fg = "#9EBC9F" },
--- }
