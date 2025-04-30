@@ -64,6 +64,7 @@
           - jq
           - ripgrep
           - aeorspace
+          - fzf
         state: present
       tags: [brew, core, cli]
 

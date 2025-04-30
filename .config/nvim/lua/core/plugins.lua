@@ -283,15 +283,33 @@ require("lazy").setup({
 		opts = require("core.plugins.configs").toggleterm.opts,
 		dependencies = { "jwbaldwin/tokyonight.nvim" },
 	},
+	{
+		"christoomey/vim-tmux-navigator",
+		cmd = {
+			"TmuxNavigateLeft",
+			"TmuxNavigateDown",
+			"TmuxNavigateUp",
+			"TmuxNavigateRight",
+			"TmuxNavigatePrevious",
+			"TmuxNavigatorProcessList",
+		},
+		keys = {
+			{ "<leader>h", "<cmd><C-U>TmuxNavigateLeft<cr>" },
+			{ "<leader>j", "<cmd><C-U>TmuxNavigateDown<cr>" },
+			{ "<leader>k", "<cmd><C-U>TmuxNavigateUp<cr>" },
+			{ "<leader>l", "<cmd><C-U>TmuxNavigateRight<cr>" },
+			{ "<leader>p", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
+		},
+	},
 
 	-- ui plugins
-	-- {
-	-- 	"nvim-lualine/lualine.nvim",
-	-- 	dependencies = { "nvim-tree/nvim-web-devicons" },
-	-- 	config = function()
-	-- 		require("core.plugins.lualine")
-	-- 	end,
-	-- },
+	{
+		"nvim-lualine/lualine.nvim",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		config = function()
+			require("core.plugins.lualine")
+		end,
+	},
 	{
 		"folke/todo-comments.nvim",
 		config = function()

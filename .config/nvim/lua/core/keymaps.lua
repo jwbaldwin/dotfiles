@@ -32,10 +32,10 @@ M.general = {
 		},
 
 		-- switch between windows
-		["<leader>wh"] = { ":wincmd h<cr>", "window left" },
-		["<leader>wj"] = { ":wincmd j<cr>", "window down" },
-		["<leader>wk"] = { ":wincmd k<cr>", "window up" },
-		["<leader>wl"] = { ":wincmd l<cr>", "window right" },
+		["<leader>h"] = { ":wincmd h<cr>", "window left" },
+		["<leader>j"] = { ":wincmd j<cr>", "window down" },
+		["<leader>k"] = { ":wincmd k<cr>", "window up" },
+		["<leader>l"] = { ":wincmd l<cr>", "window right" },
 
 		-- copy and save
 		["<C-y>"] = { "<cmd> w <CR>", "save file" },
@@ -187,13 +187,6 @@ M.lspconfig = {
 			end,
 			"lsp implementation",
 		},
-		["<leader>lh"] = {
-			function()
-				vim.lsp.buf.signature_help()
-			end,
-			"lsp signature_help",
-		},
-		["<leader>ls"] = { "<cmd> Telescope lsp_document_symbols <CR>", "list document symbols" },
 		["<leader>D"] = {
 			function()
 				vim.lsp.buf.type_definition()
