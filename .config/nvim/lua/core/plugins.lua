@@ -255,6 +255,7 @@ require("lazy").setup({
 
 	"tpope/vim-surround",
 	"tpope/vim-projectionist",
+	"andyl/vim-projectionist-elixir",
 	"vim-test/vim-test",
 	"antoinemadec/FixCursorHold.nvim",
 	{
