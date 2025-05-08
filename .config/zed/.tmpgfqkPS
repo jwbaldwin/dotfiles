@@ -1,0 +1,12 @@
+{"signed_in":false,"milliseconds_since_first_event":0,"type":"Setting","setting":"theme","value":"Rosé Pine"}
+{"signed_in":false,"milliseconds_since_first_event":0,"type":"Setting","setting":"keymap","value":"VSCode"}
+{"signed_in":false,"milliseconds_since_first_event":0,"type":"App","operation":"open"}
+{"signed_in":false,"milliseconds_since_first_event":0,"type":"Editor","operation":"open","file_extension":null,"vim_mode":true,"copilot_enabled":true,"copilot_enabled_for_language":true}
+{"signed_in":false,"milliseconds_since_first_event":9247,"type":"App","operation":"open project"}
+{"signed_in":false,"milliseconds_since_first_event":52119,"type":"Editor","operation":"open","file_extension":"json","vim_mode":true,"copilot_enabled":true,"copilot_enabled_for_language":true}
+{"signed_in":false,"milliseconds_since_first_event":57402,"type":"App","operation":"extensions page: open"}
+{"signed_in":false,"milliseconds_since_first_event":64951,"type":"App","operation":"extensions: install extension"}
+{"signed_in":false,"milliseconds_since_first_event":68600,"type":"Setting","setting":"theme","value":"Tokyo Night"}
+{"signed_in":false,"milliseconds_since_first_event":129040,"type":"Memory","memory_in_bytes":142028800,"virtual_memory_in_bytes":46606016512}
+{"signed_in":false,"milliseconds_since_first_event":129040,"type":"Cpu","usage_as_percentage":6.224404,"core_count":8}
+{"signed_in":false,"milliseconds_since_first_event":279544,"type":"App","operation":"extensions page: open"}
