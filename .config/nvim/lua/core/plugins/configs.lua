@@ -24,6 +24,9 @@ M.formatter = function()
 			elixir = {
 				require("formatter.filetypes.elixir").mixformat,
 			},
+			go = {
+				require("formatter.filetypes.go").gofmt,
+			},
 			javascript = {
 				require("formatter/defaults/prettier"),
 			},

@@ -19,7 +19,7 @@ local default_on_attach = function(client, bufnr)
 end
 
 local capabilities = require("blink.cmp").get_lsp_capabilities()
-local servers = { "html", "cssls", "jsonls", "bashls", "ts_ls", "svelte", "tailwindcss" }
+local servers = { "html", "cssls", "jsonls", "bashls", "ts_ls", "svelte", "tailwindcss", "gopls" }
 
 for _, lsp in ipairs(servers) do
 	lspconfig[lsp].setup({
