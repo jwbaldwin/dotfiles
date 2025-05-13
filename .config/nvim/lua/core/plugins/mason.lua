@@ -43,6 +43,9 @@ local ensure_installed = {
 	"yamllint",
 	"yaml-language-server",
 
+	-- go
+	"gopls",
+
 	-- web dev
 	"html-lsp",
 	"css-lsp",

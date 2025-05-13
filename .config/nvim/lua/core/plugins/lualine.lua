@@ -197,7 +197,7 @@ local function path()
 	end
 
 	if count == 0 then
-		return "" -- Should not happen if relative_dir was not empty, but safety check
+		return " " -- Should not happen if relative_dir was not empty, but safety check
 	elseif count == 1 then
 		-- Don't shorten if only one directory deep
 		return parts[1] .. path_sep

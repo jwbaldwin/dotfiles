@@ -4,6 +4,7 @@
 // documentation: https://zed.dev/docs/configuring-zed
 //
 // To see all of Zed's default settings without changing your
+<<<<<<< HEAD
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
@@ -18,4 +19,14 @@
     "light": "Ayu Light",
     "dark": "Tokyo Night"
   }
+||||||| 1b774de
+=======
+// custom settings, run the `open default settings` command
+// from the command palette or from `Zed` application menu.
+{
+  "base_keymap": "VSCode",
+  "theme": "Tokyo Night",
+  "buffer_font_size": 15,
+  "vim_mode": true
+>>>>>>> b58749e20b5906e8ed69b5b08cbe537e31d895ed
 }
