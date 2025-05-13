@@ -1,0 +1,61 @@
+// Zed keymap
+//
+// For information on binding keys, see the Zed
+// documentation: https://zed.dev/docs/key-bindings
+//
+// To see the default key bindings run `zed: open default keymap`
+// from the command palette.
+[
+  {
+    "context": "Workspace",
+    "bindings": {
+      // "shift shift": "file_finder::Toggle"
+    }
+  },
+  {
+    "context": "Editor",
+    "bindings": {
+      "space /": ["editor::ToggleComments", { "advance_downwards": false }],
+      "space .": ["editor::s", { "advance_downwards": false }],
+      "space ,": ["editor::ToggleComments", { "advance_downwards": false }],
+      "space '": ["editor::ToggleComments", { "advance_downwards": false }]
+      //   		{
+      // 	"<leader>.",
+      // 	function()
+      // 		Snacks.picker.smart({
+      // 			multi = { "buffers", "recent", { source = "files", exclude = { "docs/**" } } },
+      // 			format = "file", -- use `file` format for all sources
+      // 			matcher = {
+      // 				cwd_bonus = true, -- boost cwd matches
+      // 				frecency = true, -- use frecency boosting
+      // 				sort_empty = true, -- sort even when the filter is empty
+      // 			},
+      // 			transform = "unique_file",
+      // 		})
+      // 	end,
+      // 	desc = "Smart Find Files",
+      // },
+      // {
+      // 	"<leader>,",
+      // 	function()
+      // 		Snacks.picker.buffers()
+      // 	end,
+      // 	desc = "Buffers",
+      // },
+      // {
+      // 	"<leader>'",
+      // 	function()
+      // 		Snacks.picker.grep()
+      // 	end,
+      // 	desc = "Grep",
+      // },
+    }
+  },
+  {
+    "context": "Editor && vim_mode == insert && !menu",
+    "bindings": {
+      "k j": ["workspace::SendKeystrokes", "escape"],
+      "j k": ["workspace::SendKeystrokes", "escape"]
+    }
+  }
+]
