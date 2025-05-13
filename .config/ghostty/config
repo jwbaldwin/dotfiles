@@ -18,7 +18,7 @@ window-padding-y = 8
 macos-titlebar-style = hidden
 macos-icon = retro
 
-background-blur-radius = 20
+background-blur-radius = true
 background-opacity = 0.95
 
 keybind = cmd+s=text:\x13

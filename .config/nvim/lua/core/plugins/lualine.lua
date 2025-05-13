@@ -152,14 +152,14 @@ local function path()
 
 	-- Handle unnamed buffers or buffers without a file path
 	if current_file_path == "" then
-		return ""
+		return " "
 	end
 
 	local root_dir = get_project_root(bufnr)
 
 	-- If we couldn't determine a root (e.g., getcwd failed - very unlikely), bail out
 	if not root_dir then
-		return ""
+		return " "
 	end
 
 	-- Ensure root_dir ends with a path separator for reliable matching
@@ -175,7 +175,7 @@ local function path()
 		relative_path = current_file_path:sub(#root_dir + 1)
 	else
 		-- File is not inside the determined project root, display nothing for relative path
-		return ""
+		return " "
 	end
 
 	-- Get the directory part of the relative path
@@ -184,7 +184,7 @@ local function path()
 	-- If the file is directly in the root (e.g., "README.md"), :h returns "."
 	-- Or if the relative path had no directory part (e.g. root was '/')
 	if relative_dir == "." or relative_dir == "" then
-		return "" -- Don't show anything if it's directly in the root
+		return " " -- Don't show anything if it's directly in the root
 	end
 
 	-- Shorten the directory path: f/b/baz/ -> f/b/baz/

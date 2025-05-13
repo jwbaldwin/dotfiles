@@ -30,7 +30,7 @@ M.opts = {
 	--
 	-- See :h blink-cmp-config-keymap for defining your own keymap
 	keymap = {
-		preset = "super-tab",
+		preset = "enter",
 		["<C-d>"] = { "show", "show_documentation", "hide_documentation" },
 		["<C-e>"] = { "hide", "fallback" },
 
