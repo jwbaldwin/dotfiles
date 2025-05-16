@@ -382,6 +382,9 @@ M.fugitive = {
 		["<leader>gp"] = { "<cmd>Git push<CR>", "Git push" },
 		["<leader>gy"] = { "<cmd>GBrowse! master:%<CR>", "copy gitlab link in master" },
 		["<leader>gY"] = { "<cmd>GBrowse!<CR>", "copy gitlab link in current branch" },
+		["<leader>gD"] = { "<cmd>Gvdiffsplit!<CR>", "git diff 3 way split" },
+		["<leader>gdl"] = { "<cmd>:diffget //2<CR>", "take change from left (HEAD aka MASTER)" },
+		["<leader>gdr"] = { "<cmd>:diffget //3<CR>", "take change from right (BRANCH aka my changes)" },
 	},
 	v = {
 		["<leader>gy"] = { "<cmd>GBrowse!<CR>", "copy gitlab link with line number" },
