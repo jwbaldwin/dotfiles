@@ -85,8 +85,8 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
+
 plugins=(
-  asdf
   git
   zsh-syntax-highlighting
   zsh-autosuggestions
@@ -94,6 +94,9 @@ plugins=(
 )
 
 source $ZSH/oh-my-zsh.sh
+
+plugins=(...mise)
+
 
 # User configuration
 
@@ -162,4 +165,5 @@ esac
 source $HOME/.cargo/env
 
 
-source ~/.anthropic_key.sh
+source ~/.ai_keys.sh
+eval "$(mise activate zsh)"
