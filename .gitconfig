@@ -35,3 +35,5 @@
   line-numbers-zero-style       = "#3b4261"
 [merge]
 	conflictStyle = zdiff3
+[rerere]
+	enabled = true
