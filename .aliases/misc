@@ -69,8 +69,8 @@ alias zj="zellij"
 
 #### PROGRAM RELATED ####
 alias xs="iex -S mix phx.server"
-alias mdc="~/.scripts/notify_command.sh \"mix do deps.get, compile\""
-alias itest="~/.scripts/notify_command.sh \"make iex_tests\""
+alias mdc="~/dev/scripts/notify_command.sh \"mix do deps.get, compile\""
+alias itest="~/dev/scripts/notify_command.sh \"make iex_tests\""
 
 # install from root phoenix app 
 alias mpm="npm --prefix assets"
