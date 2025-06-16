@@ -3,10 +3,25 @@ return {
 		bigfile = { enabled = true },
 		git = { enabled = true },
 		gitbrowse = { enabled = true },
+		explorer = { enabled = true },
+		input = { enabled = true },
+		quickfile = { enabled = true },
+		rename = { enabled = true },
+		scope = { enabled = true },
+		scratch = { enabled = true },
+		statuscolumn = { enabled = true },
+		toggle = { enabled = true },
+		words = { enabled = true },
+
+		-- Dashboard Configuration
 		dashboard = {
 			formats = {
 				key = function(item)
-					return { { "[", hl = "special" }, { item.key, hl = "key" }, { "]", hl = "special" } }
+					return {
+						{ "[", hl = "special" },
+						{ item.key, hl = "key" },
+						{ "]", hl = "special" },
+					}
 				end,
 			},
 			sections = {
@@ -24,84 +39,92 @@ return {
 				{ key = "q", action = ":qa" },
 			},
 		},
-		explorer = { enabled = true },
-		input = { enabled = true },
+
+		-- Notifier Configuration
 		notifier = {
 			enabled = true,
 			timeout = 3000,
 		},
+
+		-- Picker Configuration
 		picker = {
-			prompt = " ",
+			prompt = " ",
 			sources = {},
 			focus = "input",
+
+			-- Picker - Layout
 			layout = {
 				cycle = true,
-				--- Use the default layout or vertical if the window is too narrow
 				preset = function()
 					return vim.o.columns >= 120 and "default" or "vertical"
 				end,
 			},
-			---@class snacks.picker.matcher.Config
+
+			-- Picker - Matcher Configuration
 			matcher = {
-				fuzzy = true, -- use fuzzy matching
-				smartcase = true, -- use smartcase
-				ignorecase = true, -- use ignorecase
-				sort_empty = false, -- sort results when the search string is empty
-				filename_bonus = true, -- give bonus for matching file names (last part of the path)
-				file_pos = true, -- support patterns like `file:line:col` and `file:line`
-				-- the bonusses below, possibly require string concatenation and path normalization,
-				-- so this can have a performance impact for large lists and increase memory usage
-				cwd_bonus = true, -- give bonus for matching files in the cwd
-				frecency = true, -- frecency bonus
-				history_bonus = true, -- give more weight to chronological order
+				fuzzy = true,
+				smartcase = true,
+				ignorecase = true,
+				sort_empty = false,
+				filename_bonus = true,
+				file_pos = true,
+				cwd_bonus = true,
+				frecency = true,
+				history_bonus = true,
 			},
+
+			-- Picker - Sort Configuration
 			sort = {
-				-- default sort is by score, text length and index
 				fields = { "score:desc", "#text", "idx" },
 			},
-			ui_select = true, -- replace `vim.ui.select` with the snacks picker
-			---@class snacks.picker.formatters.Config
+
+			ui_select = true,
+
+			-- Picker - Formatters
 			formatters = {
 				text = {
-					ft = nil, ---@type string? filetype for highlighting
+					ft = nil,
 				},
 				file = {
-					filename_first = false, -- display filename before the file path
-					truncate = 40, -- truncate the file path to (roughly) this length
-					filename_only = false, -- only show the filename
-					icon_width = 2, -- width of the icon (in characters)
+					filename_first = false,
+					truncate = 40,
+					filename_only = false,
+					icon_width = 2,
 				},
 				selected = {
-					show_always = false, -- only show the selected column when there are multiple selections
-					unselected = true, -- use the unselected icon for unselected items
+					show_always = false,
+					unselected = true,
 				},
 				severity = {
-					icons = true, -- show severity icons
-					level = false, -- show severity level
-					---@type "left"|"right"
-					pos = "left", -- position of the diagnostics
+					icons = true,
+					level = false,
+					pos = "left",
 				},
 			},
-			---@class snacks.picker.previewers.Config
+
+			-- Picker - Previewers
 			previewers = {
 				git = {
-					native = false, -- use native (terminal) or Neovim for previewing git diffs and commits
+					native = false,
 				},
 				file = {
 					max_size = 1024 * 1024, -- 1MB
-					max_line_length = 500, -- max line length
-					ft = nil, ---@type string? filetype for highlighting. Use `nil` for auto detect
+					max_line_length = 500,
+					ft = nil,
 				},
-				man_pager = nil, ---@type string? MANPAGER env to use for `man` preview
+				man_pager = nil,
 			},
-			---@class snacks.picker.jump.Config
+
+			-- Picker - Jump Configuration
 			jump = {
-				jumplist = true, -- save the current position in the jumplist
-				tagstack = false, -- save the current position in the tagstack
-				reuse_win = false, -- reuse an existing window if the buffer is already open
-				close = true, -- close the picker when jumping/editing to a location (defaults to true)
-				match = false, -- jump to the first match position. (useful for `lines`)
+				jumplist = true,
+				tagstack = false,
+				reuse_win = false,
+				close = true,
+				match = false,
 			},
+
+			-- Picker - Toggles
 			toggles = {
 				follow = "f",
 				hidden = "h",
@@ -109,12 +132,11 @@ return {
 				modified = "m",
 				regex = { icon = "R", value = false },
 			},
+
+			-- Picker - Window Configuration
 			win = {
-				-- input window
 				input = {
 					keys = {
-						-- to close the picker on ESC instead of going to normal mode,
-						-- add the following keymap to your config
 						["<Esc>"] = { "close", mode = { "n", "i" } },
 						["/"] = "toggle_focus",
 						["<C-Down>"] = { "history_forward", mode = { "i", "n" } },
@@ -166,7 +188,6 @@ return {
 						minipairs_disable = true,
 					},
 				},
-				-- result list window
 				list = {
 					keys = {
 						["/"] = "toggle_focus",
@@ -220,7 +241,6 @@ return {
 						concealcursor = "nvc",
 					},
 				},
-				-- preview window
 				preview = {
 					keys = {
 						["<Esc>"] = "close",
@@ -232,22 +252,17 @@ return {
 					},
 				},
 			},
-			---@class snacks.picker.icons
+
+			-- Icons Configuration
 			icons = {
-				files = {
-					enabled = true, -- show file icons
-				},
-				keymaps = {
-					nowait = "󰓅 ",
-				},
+				files = { enabled = true },
+				keymaps = { nowait = "󰓅 " },
 				tree = {
 					vertical = "│ ",
 					middle = "├╴",
 					last = "└╴",
 				},
-				undo = {
-					saved = " ",
-				},
+				undo = { saved = " " },
 				ui = {
 					live = "󰐰 ",
 					hidden = "h",
@@ -255,102 +270,100 @@ return {
 					follow = "f",
 					selected = "● ",
 					unselected = "○ ",
-					-- selected = " ",
 				},
 				git = {
-					enabled = true, -- show git icons
-					commit = "󰜘 ", -- used by git log
-					staged = "●", -- staged changes. always overrides the type icons
-					added = "",
-					deleted = "",
-					ignored = " ",
+					enabled = true,
+					commit = "󰜘 ",
+					staged = "●",
+					added = "",
+					deleted = "",
+					ignored = " ",
 					modified = "○",
-					renamed = "",
-					unmerged = " ",
+					renamed = "",
+					unmerged = " ",
 					untracked = "?",
 				},
 				diagnostics = {
-					Error = " ",
-					Warn = " ",
-					Hint = " ",
-					Info = " ",
+					Error = " ",
+					Warn = " ",
+					Hint = " ",
+					Info = " ",
 				},
 				kinds = {
-					Array = " ",
+					Array = " ",
 					Boolean = "󰨙 ",
-					Class = " ",
-					Color = " ",
-					Control = " ",
-					Collapsed = " ",
+					Class = " ",
+					Color = " ",
+					Control = " ",
+					Collapsed = " ",
 					Constant = "󰏿 ",
-					Constructor = " ",
-					Copilot = " ",
-					Enum = " ",
-					EnumMember = " ",
-					Event = " ",
-					Field = " ",
-					File = " ",
-					Folder = " ",
+					Constructor = " ",
+					Copilot = " ",
+					Enum = " ",
+					EnumMember = " ",
+					Event = " ",
+					Field = " ",
+					File = " ",
+					Folder = " ",
 					Function = "󰊕 ",
-					Interface = " ",
-					Key = " ",
-					Keyword = " ",
+					Interface = " ",
+					Key = " ",
+					Keyword = " ",
 					Method = "󰊕 ",
-					Module = " ",
+					Module = " ",
 					Namespace = "󰦮 ",
-					Null = " ",
+					Null = " ",
 					Number = "󰎠 ",
-					Object = " ",
-					Operator = " ",
-					Package = " ",
-					Property = " ",
-					Reference = " ",
+					Object = " ",
+					Operator = " ",
+					Package = " ",
+					Property = " ",
+					Reference = " ",
 					Snippet = "󱄽 ",
-					String = " ",
+					String = " ",
 					Struct = "󰆼 ",
-					Text = " ",
-					TypeParameter = " ",
-					Unit = " ",
-					Unknown = " ",
-					Value = " ",
+					Text = " ",
+					TypeParameter = " ",
+					Unit = " ",
+					Unknown = " ",
+					Value = " ",
 					Variable = "󰀫 ",
 				},
 			},
-			---@class snacks.picker.debug
+
+			-- Debug Configuration
 			debug = {
-				scores = false, -- show scores in the list
-				leaks = false, -- show when pickers don't get garbage collected
-				explorer = false, -- show explorer debug info
-				files = false, -- show file debug info
-				grep = false, -- show file debug info
-				extmarks = false, -- show extmarks errors
+				scores = false,
+				leaks = false,
+				explorer = false,
+				files = false,
+				grep = false,
+				extmarks = false,
 			},
 		},
-		quickfile = { enabled = true },
-		rename = { enabled = true },
-		scope = { enabled = true },
-		scratch = { enabled = true },
-		statuscolumn = { enabled = true },
-		toggle = { enabled = true },
-		words = { enabled = true },
+
+		-- Styles
 		styles = {
 			notification = {
 				-- wo = { wrap = true } -- Wrap notifications
 			},
 		},
 	},
+
+	-- ============================================================================
+	-- KEY MAPPINGS
+	-- ============================================================================
 	keys = {
-		-- Top Pickers & Explorer
 		{
 			"<leader>.",
 			function()
 				Snacks.picker.smart({
 					multi = { "buffers", "recent", { source = "files", exclude = { "docs/**" } } },
-					format = "file", -- use `file` format for all sources
+					format = "file",
 					matcher = {
-						cwd_bonus = true, -- boost cwd matches
-						frecency = true, -- use frecency boosting
-						sort_empty = true, -- sort even when the filter is empty
+						cwd_bonus = true,
+						frecency = true,
+						sort_empty = true,
 					},
 					transform = "unique_file",
 				})
@@ -379,113 +392,131 @@ return {
 			desc = "Command History",
 		},
 		{
-			"<leader>n",
+			"<leader>nh",
 			function()
 				Snacks.picker.notifications()
 			end,
-			desc = "Notification History",
+			desc = "[N]otification [h]istory",
 		},
 		{
 			"<leader>e",
 			function()
 				Snacks.explorer()
 			end,
-			desc = "File Explorer",
+			desc = "File [e]xplorer",
 		},
-		-- find
+
+		-- Find (f)
 		{
 			"<leader>fb",
 			function()
 				Snacks.picker.buffers()
 			end,
-			desc = "Buffers",
+			desc = "[F]ind [b]uffers",
 		},
 		{
 			"<leader>fc",
 			function()
 				Snacks.picker.files({ cwd = vim.fn.stdpath("config") })
 			end,
-			desc = "Find Config File",
+			desc = "[F]ind [c]onfig File",
 		},
 		{
 			"<leader>ff",
 			function()
 				Snacks.picker.files()
 			end,
-			desc = "Find Files",
+			desc = "[F]ind [f]iles",
 		},
 		{
 			"<leader>fg",
 			function()
 				Snacks.picker.git_files()
 			end,
-			desc = "Find Git Files",
+			desc = "[F]ind [g]it giles",
 		},
 		{
 			"<leader>fp",
 			function()
 				Snacks.picker.projects()
 			end,
-			desc = "Projects",
+			desc = "[F]ind [p]rojects",
 		},
 		{
 			"<leader>fr",
 			function()
 				Snacks.picker.recent()
 			end,
-			desc = "Recent",
+			desc = "[F]ind [r]ecent",
 		},
-		-- git
+
+		-- Git (g)
 		{
 			"<leader>gl",
 			function()
 				Snacks.picker.git_branches()
 			end,
-			desc = "Git Branches",
+			desc = "[G]it [l]ist branches",
 		},
 		{
 			"<leader>gL",
 			function()
 				Snacks.picker.git_log_line()
 			end,
-			desc = "Git Log Line",
+			desc = "[G]it [L]og line",
 		},
 		{
 			"<leader>gs",
 			function()
 				Snacks.picker.git_status()
 			end,
-			desc = "Git Status",
+			desc = "[G]it [s]tatus",
 		},
 		{
 			"<leader>gS",
 			function()
 				Snacks.picker.git_stash()
 			end,
-			desc = "Git Stash",
+			desc = "[G]it [S]tash",
 		},
 		{
 			"<leader>gd",
 			function()
 				Snacks.picker.git_diff()
 			end,
-			desc = "Git Diff (Hunks)",
+			desc = "[G]it [d]iff (Hunks)",
 		},
 		{
 			"<leader>gf",
 			function()
 				Snacks.picker.git_log_file()
 			end,
-			desc = "Git Log File",
+			desc = "[G]it log [f]ile",
 		},
 		{
 			"<leader>gB",
 			function()
 				Snacks.git.blame_line()
 			end,
-			desc = "Git blame line",
+			desc = "[G]it [b]lame line",
 		},
-		-- Grep
+		{
+			"<leader>gg",
+			function()
+				Snacks.lazygit()
+			end,
+			desc = "Lazygit",
+		},
+		{
+			"<leader>gB",
+			function()
+				Snacks.gitbrowse()
+			end,
+			desc = "[G]it [B]rowse",
+			mode = { "n", "v" },
+		},
+
+		-- Search (s)
 		{
 			"<leader>sb",
 			function()
@@ -515,7 +546,6 @@ return {
 			desc = "Visual selection or word",
 			mode = { "n", "x" },
 		},
-		-- search
 		{
 			'<leader>s"',
 			function()
@@ -536,13 +566,6 @@ return {
 				Snacks.picker.autocmds()
 			end,
 			desc = "Autocmds",
-		},
-		{
-			"<leader>sb",
-			function()
-				Snacks.picker.lines()
-			end,
-			desc = "Buffer Lines",
 		},
 		{
 			"<leader>sc",
@@ -585,20 +608,6 @@ return {
 				Snacks.picker.highlights()
 			end,
 			desc = "Highlights",
-		},
-		{
-			"<leader>si",
-			function()
-				Snacks.picker.icons()
-			end,
-			desc = "Icons",
-		},
-		{
-			"<leader>sj",
-			function()
-				Snacks.picker.jumps()
-			end,
-			desc = "Jumps",
 		},
 		{
 			"<leader>sk",
@@ -657,13 +666,21 @@ return {
 			desc = "Undo History",
 		},
 		{
-			"<leader>uC",
+			"<leader>ss",
 			function()
-				Snacks.picker.colorschemes()
+				Snacks.picker.lsp_symbols()
 			end,
-			desc = "Colorschemes",
+			desc = "LSP Symbols",
 		},
-		-- LSP
+		{
+			"<leader>sS",
+			function()
+				Snacks.picker.lsp_workspace_symbols()
+			end,
+			desc = "LSP Workspace Symbols",
+		},
+
+		-- LSP Navigation
 		{
 			"gd",
 			function()
@@ -700,21 +717,24 @@ return {
 			end,
 			desc = "Goto T[y]pe Definition",
 		},
+
+		-- UI Toggles (u)
 		{
-			"<leader>ss",
+			"<leader>uC",
 			function()
-				Snacks.picker.lsp_symbols()
+				Snacks.picker.colorschemes()
 			end,
-			desc = "LSP Symbols",
+			desc = "Colorschemes",
 		},
 		{
-			"<leader>sS",
+			"<leader>nd",
 			function()
-				Snacks.picker.lsp_workspace_symbols()
+				Snacks.notifier.hide()
 			end,
-			desc = "LSP Workspace Symbols",
+			desc = "[D]ismiss all [n]otifications",
 		},
-		-- Other
+
+		-- Buffer & Window Management
 		{
 			"<leader>z",
 			function()
@@ -744,19 +764,14 @@ return {
 			desc = "Select Scratch Buffer",
 		},
 		{
-			"<leader>n",
-			function()
-				Snacks.notifier.show_history()
-			end,
-			desc = "Notification History",
-		},
-		{
 			"<leader>bd",
 			function()
 				Snacks.bufdelete()
 			end,
 			desc = "Delete Buffer",
 		},
+
+		-- File Operations (c)
 		{
 			"<leader>cR",
 			function()
@@ -764,28 +779,8 @@ return {
 			end,
 			desc = "Rename File",
 		},
-		{
-			"<leader>gB",
-			function()
-				Snacks.gitbrowse()
-			end,
-			desc = "Git Browse",
-			mode = { "n", "v" },
-		},
-		{
-			"<leader>gg",
-			function()
-				Snacks.lazygit()
-			end,
-			desc = "Lazygit",
-		},
-		{
-			"<leader>un",
-			function()
-				Snacks.notifier.hide()
-			end,
-			desc = "Dismiss All Notifications",
-		},
+
+		-- Navigation
 		{
 			"]]",
 			function()
@@ -802,30 +797,16 @@ return {
 			desc = "Prev Reference",
 			mode = { "n", "t" },
 		},
-		{
-			"<leader>N",
-			desc = "Neovim News",
-			function()
-				Snacks.win({
-					file = vim.api.nvim_get_runtime_file("doc/news.txt", false)[1],
-					width = 0.6,
-					height = 0.6,
-					wo = {
-						spell = false,
-						wrap = false,
-						signcolumn = "yes",
-						statuscolumn = " ",
-						conceallevel = 3,
-					},
-				})
-			end,
-		},
 	},
+
+	-- ============================================================================
+	-- INITIALIZATION
+	-- ============================================================================
 	init = function()
 		vim.api.nvim_create_autocmd("User", {
 			pattern = "VeryLazy",
 			callback = function()
-				-- Setup some globals for debugging (lazy-loaded)
+				-- Debug utilities
 				_G.dd = function(...)
 					Snacks.debug.inspect(...)
 				end
@@ -834,18 +815,25 @@ return {
 				end
 				vim.print = _G.dd -- Override print to use snacks for `:=` command
 
-				-- Create some toggle mappings
+				-- Toggle mappings
 				Snacks.toggle.option("spell", { name = "Spelling" }):map("<leader>us")
 				Snacks.toggle.option("wrap", { name = "Wrap" }):map("<leader>uw")
 				Snacks.toggle.option("relativenumber", { name = "Relative Number" }):map("<leader>uL")
 				Snacks.toggle.diagnostics():map("<leader>ud")
 				Snacks.toggle.line_number():map("<leader>ul")
 				Snacks.toggle
-					.option("conceallevel", { off = 0, on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2 })
+					.option("conceallevel", {
+						off = 0,
+						on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2,
+					})
 					:map("<leader>uc")
 				Snacks.toggle.treesitter():map("<leader>uT")
 				Snacks.toggle
-					.option("background", { off = "light", on = "dark", name = "Dark Background" })
+					.option("background", {
+						off = "light",
+						on = "dark",
+						name = "Dark Background",
+					})
 					:map("<leader>ub")
 				Snacks.toggle.inlay_hints():map("<leader>uh")
 				Snacks.toggle.indent():map("<leader>ug")
