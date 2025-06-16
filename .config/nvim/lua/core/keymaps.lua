@@ -412,17 +412,39 @@ M.notify = {
 	},
 }
 
-function TestCurrentFile()
-	local file = vim.fn.expand("%:s")
-	local cmd = 'IexTests.test_watch("' .. file .. '")'
-	vim.cmd("TermExec direction=float cmd='" .. cmd .. "'")
+if os.getenv("USER") == "jwbaldwin" or os.getenv("USER") == "james.baldwin" then
+	function TestCurrentFile()
+		local file = vim.fn.expand("%:s")
+		local cmd = 'IexTests.test_watch("' .. file .. '")'
+		vim.cmd("TermExec direction=float cmd='" .. cmd .. "'")
+	end
+
+	function TestCurrentLine()
+		local file = vim.fn.expand("%:s")
+		local line = vim.fn.line(".")
+		local cmd = 'IexTests.test_watch("' .. file .. '", ' .. line .. ")"
+		vim.cmd("TermExec direction=float cmd='" .. cmd .. "'")
+	end
 end
 
-function TestCurrentLine()
-	local file = vim.fn.expand("%:s")
-	local line = vim.fn.line(".")
-	local cmd = 'IexTests.test_watch("' .. file .. '", ' .. line .. ")"
-	vim.cmd("TermExec direction=float cmd='" .. cmd .. "'")
+if os.getenv("USER") == "jbaldwin" then
+	function TestCurrentFile()
+		local file = vim.fn.expand("%:s")
+		local cmd = "mix test.interactive " .. file
+		vim.cmd("TermExec direction=float cmd='" .. cmd .. "'")
+	end
+
+	function TestCurrentLine()
+		local file = vim.fn.expand("%:s")
+		local line = vim.fn.line(".")
+		local cmd = "mix test.interactive " .. file .. ":" .. line
+		vim.cmd("TermExec direction=float cmd='" .. cmd .. "'")
+	end
+
+	function TestInteractiveStart()
+		local cmd = "mix test.interactive"
+		vim.cmd("TermExec direction=float cmd='" .. cmd .. "'")
+	end
 end
 
 M.test = {
@@ -435,67 +457,7 @@ M.test = {
 		["<leader>tl"] = { "<cmd> TestLast <CR>", "Test last run" },
 		["<leader>tif"] = { "<cmd>lua TestCurrentFile()<CR>", "IEX test file" },
 		["<leader>tis"] = { "<cmd>lua TestCurrentLine()<CR>", "IEX test single" },
-		-- ["<leader>tm"] = {
-		-- 	function()
-		-- 		require("neotest").output_panel.clear()
-		-- 		require("neotest").run.run(vim.fn.expand("%"))
-		-- 	end,
-		-- 	"Test file",
-		-- },
-		-- ["<leader>tf"] = {
-		-- 	function()
-		-- 		require("neotest").output_panel.clear()
-		-- 		require("neotest").run.run(vim.fn.expand("%"))
-		-- 	end,
-		-- 	"Test file",
-		-- },
-		-- ["<leader>ts"] = {
-		-- 	function()
-		-- 		require("neotest").output_panel.clear()
-		-- 		require("neotest").run.run()
-		-- 	end,
-		-- 	"Test single",
-		-- },
-		-- ["<leader>td"] = {
-		-- 	function()
-		-- 		require("neotest").output_panel.clear()
-		-- 		require("neotest").run.run({ strategy = "dap" })
-		-- 	end,
-		-- 	"Test debug",
-		-- },
-		-- ["<leader>tl"] = {
-		-- 	function()
-		-- 		require("neotest").output_panel.clear()
-		-- 		require("neotest").run.run_last()
-		-- 	end,
-		-- 	"Test run last",
-		-- },
-		-- ["<leader>tws"] = { "<cmd> lua require('neotest').watch.toggle() <CR>", "Test toggle watch single" },
-		-- ["<leader>twf"] = {
-		-- 	"<cmd> lua require('neotest').watch.toggle(vim.fn.expand('%')) <CR>",
-		-- 	"Test toggle watch file",
-		-- },
-		-- ["<leader>to"] = {
-		-- 	"<cmd>lua require('neotest').output.open({ auto_close = true })<CR>",
-		-- 	"Test output",
-		-- },
-		-- -- ["<leader>tol"] = {
-		-- -- 	"<cmd>lua require('neotest').output.open({ last_run = true, auto_close = true })<CR>",
-		-- -- 	"Test open last output",
-		-- -- },
-		-- ["<leader>tp"] = { "<cmd> lua require('neotest').output_panel.toggle() <CR>", "Test output pannel" },
-		-- ["<leader>tc"] = { "<cmd> lua require('neotest').output_panel.clear() <CR>", "Test clear output pannel" },
-		-- ["<leader>tu"] = { "<cmd>lua require('neotest').summary.toggle() <CR>", "Test summary (ui)" },
-		-- ["<leader>tx"] = { "<cmd> lua require('neotest').run.stop() <CR>", "Stop nearest test" },
-		-- ["<leader>ta"] = { "<cmd> lua require('neotest').run.attach() <CR>", "Test attach" },
-		-- ["<leader>t]"] = {
-		-- 	"<cmd> lua require('neotest').jump.prev({ status = 'failed' }) <CR>",
-		-- 	"Go to prev test failure",
-		-- },
-		-- ["<leader>t["] = {
-		-- 	"<cmd> lua require('neotest').jump.next({ status = 'failed' }) <CR>",
-		-- 	"Go to next test failure",
-		-- },
+		["<leader>ti"] = { "<cmd>lua TestInteractiveStart()<CR>", "IEX test interactive" },
 	},
 }
 
