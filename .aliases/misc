@@ -93,7 +93,6 @@ alias personal="cd ~/repos/_projects"
 alias proj="cd ~/repos/_projects/anor"
 alias pfind="lsof -i"
 
-### Asdf Updating nvim ###
-alias update-nvim-stable='asdf uninstall neovim stable && asdf install neovim stable'
-alias update-nvim-nightly='asdf uninstall neovim nightly && asdf install neovim nightly'
-alias update-nvim-master='asdf uninstall neovim ref:master && asdf install neovim ref:master'
+### Mise updating nvim ###
+alias update-nvim='mise upgrade neovim@nightly'
+

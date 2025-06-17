@@ -252,7 +252,7 @@ require("lazy").setup({
 			require("core.plugins.configs").harpoon()
 		end,
 	},
-
+	"mg979/vim-visual-multi",
 	"tpope/vim-surround",
 	"tpope/vim-projectionist",
 	"andyl/vim-projectionist-elixir",
@@ -373,17 +373,24 @@ require("lazy").setup({
 	{
 		"yetone/avante.nvim",
 		event = "VeryLazy",
-		lazy = false,
-		version = false, -- set this if you want to always pull the latest change
+		version = false,
 		opts = {
 			provider = "claude",
+			providers = {
+				claude = {
+					endpoint = "https://api.anthropic.com",
+					model = "claude-sonnet-4-20250514",
+				},
+			},
+			disabled_tools = { "python", "git_commit" },
 		},
 		build = "make",
 		dependencies = {
+			"nvim-treesitter/nvim-treesitter",
 			"stevearc/dressing.nvim",
 			"nvim-lua/plenary.nvim",
 			"MunifTanjim/nui.nvim",
-			--- The below dependencies are optional,
+			"nvim-telescope/telescope.nvim", -- for file_selector provider telescope
 			"nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
 			{
 				"MeanderingProgrammer/render-markdown.nvim",

@@ -167,3 +167,4 @@ source $HOME/.cargo/env
 
 source ~/.ai_keys.sh
 eval "$(mise activate zsh)"
+eval "$(/opt/homebrew/bin/mise activate zsh)"
