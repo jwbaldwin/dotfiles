@@ -1,13 +1,14 @@
 #!/usr/bin/env zsh
 
 # PostgreSQL Connection Management Utility
-# Manages PostgreSQL connections using asdf version manager
+# Manages PostgreSQL connections using mise version manager
 
 set -euo pipefail
 
 # Configuration
 readonly SCRIPT_NAME="${0:t}"
-readonly ASDF_POSTGRES_PATH="$HOME/.asdf/installs/postgres"
+readonly MISE_POSTGRES_PATH="$HOME/.local/share/mise/installs/postgres"
+readonly MISE_BIN="/opt/homebrew/bin/mise"
 
 # Logging functions
 log_info() {
@@ -22,15 +23,25 @@ log_debug() {
     print "[DEBUG] $*"
 }
 
-# Get PostgreSQL version from asdf
+# Get PostgreSQL version - try running instance first, then mise config
 get_postgres_version() {
     local version
-    version=$(asdf current postgres 2>/dev/null | grep -v "Name" | awk '{print $2}' | head -1)
     
-    if [[ -z "$version" || "$version" == "No" ]]; then
-        log_error "No PostgreSQL version configured in asdf"
-        log_info "Available versions: asdf list postgres"
-        log_info "Set version: asdf local postgres <version>"
+    # First try to detect running postgres instance
+    version=$(pgrep postgres | head -1 | xargs ps -p 2>/dev/null | tail -1 | awk '{print $4}' | sed 's|.*/postgres/\([^/]*\)/bin/postgres.*|\1|' 2>/dev/null)
+    
+    if [[ -n "$version" ]]; then
+        print "$version"
+        return 0
+    fi
+    
+    # Fallback to mise configuration for current directory
+    version=$($MISE_BIN ls postgres 2>/dev/null | grep "$(pwd)" | awk '{print $2}' | head -1)
+    
+    if [[ -z "$version" ]]; then
+        log_error "No PostgreSQL version found (not running and not configured in mise)"
+        log_info "Available versions: $MISE_BIN list postgres"
+        log_info "Set version: $MISE_BIN use postgres@<version>"
         exit 1
     fi
     
@@ -40,13 +51,13 @@ get_postgres_version() {
 # Validate PostgreSQL installation
 validate_installation() {
     local version="$1"
-    local pg_bin="$ASDF_POSTGRES_PATH/$version/bin"
-    local pg_data="$ASDF_POSTGRES_PATH/$version/data"
+    local pg_bin="$MISE_POSTGRES_PATH/$version/bin"
+    local pg_data="$MISE_POSTGRES_PATH/$version/data"
     
     if [[ ! -d "$pg_bin" ]]; then
         log_error "PostgreSQL $version installation not found at $pg_bin"
-        log_debug "Current asdf postgres configuration:"
-        asdf current postgres 2>/dev/null || true
+        log_debug "Current mise postgres configuration:"
+        $MISE_BIN ls postgres 2>/dev/null || true
         exit 1
     fi
     
@@ -57,7 +68,7 @@ validate_installation() {
 count_connections() {
     local count
     count=$(ps aux | grep 'postgres:' | grep -v grep | wc -l)
-    print ${count// /}  # ZSH way to trim whitespace
+    print ${count// /}
 }
 
 # Check server status and responsiveness
@@ -112,21 +123,18 @@ kill_idle_connections() {
 
 # Display usage information
 show_usage() {
-    cat << 'EOF'
-Usage: $SCRIPT_NAME [COMMAND]
-
-PostgreSQL Connection Management Commands:
-  check, c     Display connection status and server responsiveness
-  restart, r   Restart the PostgreSQL server
-  kill, k      Terminate idle connections
-  help, h      Show this help message
-
-Examples:
-  $SCRIPT_NAME check
-  $SCRIPT_NAME restart
-  $SCRIPT_NAME kill
-
-EOF
+    print "Usage: $SCRIPT_NAME [COMMAND]"
+    print ""
+    print "PostgreSQL Connection Management Commands:"
+    print "  check, c     Display connection status and server responsiveness"
+    print "  restart, r   Restart the PostgreSQL server"
+    print "  kill, k      Terminate idle connections"
+    print "  help, h      Show this help message"
+    print ""
+    print "Examples:"
+    print "  $SCRIPT_NAME check"
+    print "  $SCRIPT_NAME restart"
+    print "  $SCRIPT_NAME kill"
 }
 
 # Main execution
@@ -142,7 +150,7 @@ main() {
     pg_bin="${pg_paths%%:*}"
     pg_data="${pg_paths##*:}"
     
-    log_info "Using PostgreSQL $postgres_version (managed by asdf)"
+    log_info "Using PostgreSQL $postgres_version (managed by mise)"
     
     # Execute command
     case "$command" in
