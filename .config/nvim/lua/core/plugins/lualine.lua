@@ -426,7 +426,34 @@ local options = {
 		lualine_y = { "location" },
 		lualine_z = { lsp_status },
 	},
-	inactive_sections = {},
+	inactive_sections = {
+		lualine_a = {
+			{
+				mode,
+				fmt = function(str)
+					return str
+				end,
+				color = { bg = "#6d91db", fg = "#1a1b26", bold = true },
+			},
+		},
+		lualine_b = {
+			{ cwd, color = { fg = "#7aa2f7", bg = "#2f344d" } },
+			{ path, color = { fg = "#737aa2", bg = "#212435" }, padding = { left = 1, right = 0 } },
+			{
+				"filename",
+				file_status = false,
+				newfile_status = false,
+				path = 0,
+				padding = { left = 0, right = 1 },
+				color = { fg = "#a9b1d6", bg = "#212435" },
+			},
+			{
+				modified_indicator,
+				color = { fg = "#41a6b5", bg = "#212435" },
+				padding = { left = 0, right = 1 },
+			},
+		},
+	},
 	tabline = {},
 	winbar = {},
 	inactive_winbar = {},
