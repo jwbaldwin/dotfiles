@@ -7,14 +7,16 @@ fi
 
 # Use `hub` as our git wrapper (http://defunkt.github.com/hub/)
 eval "$(hub alias -s)"
-
 if type brew &>/dev/null
 then
+  # local brew_zsh_functions="$(brew --prefix)/share/zsh/site-functions"
+  # local brew_zsh_completions="$(brew --prefix)/share/zsh-completions"
+  # 
+  # [[ -d "$brew_zsh_functions" ]] && FPATH="$brew_zsh_functions:${FPATH}"
+  # [[ -d "$brew_zsh_completions" ]] && FPATH="$brew_zsh_completions:$FPATH"
   FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
-  FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+  FPATH="$(brew --prefix)/share/zsh-completions:$FPATH"
 
-  autoload -Uz compinit
-  compinit
 fi
 
 export CLICOLOR=1
@@ -37,7 +39,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # If set to an empty array, this variable will have no effect.
 #ZSH_THEME_RANDOM_CANDIDATES=( "avit" "spaceship" )
 
-ZSH_DISABLE_COMPFIX=true
+ZSH_DISABLE_COMPFIX="true"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"

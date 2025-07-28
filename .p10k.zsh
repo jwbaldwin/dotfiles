@@ -1553,7 +1553,7 @@
   function prompt_jj_git_vcs() {
     local jj_info=$(jj_prompt_template 'self.change_id().shortest(5)' 2>/dev/null)
     if [[ -n "$jj_info" ]]; then
-      p10k segment -i 'jj' -f yellow -t "$jj_info"
+      p10k segment -i '' -f yellow -t "$jj_info"
     fi
   }}
 
