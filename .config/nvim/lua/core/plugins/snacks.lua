@@ -515,6 +515,12 @@ return {
 			desc = "[G]it [B]rowse",
 			mode = { "n", "v" },
 		},
+		{
+			"<leader>gc",
+			function()
+				Snacks.git.commit()
+			end,
+		},
 
 		-- Search (s)
 		{

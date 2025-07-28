@@ -35,6 +35,7 @@
     # os_icon                 # os identifier
     dir                     # current directory
     vcs                     # git status
+    jj_git_vcs              # custom jj or git status
     # =========================[ Line #2 ]=========================
     newline                 # \n
     prompt_char             # prompt symbol
@@ -1548,10 +1549,17 @@
   # If p10k is already loaded, reload configuration.
   # This works even with POWERLEVEL9K_DISABLE_HOT_RELOAD=true.
   (( ! $+functions[p10k] )) || p10k reload
-}
+
+  function prompt_jj_git_vcs() {
+    local jj_info=$(jj_prompt_template 'self.change_id().shortest(5)' 2>/dev/null)
+    if [[ -n "$jj_info" ]]; then
+      p10k segment -i 'jj' -f yellow -t "$jj_info"
+    fi
+  }}
 
 # Tell `p10k configure` which file it should overwrite.
 typeset -g POWERLEVEL9K_CONFIG_FILE=${${(%):-%x}:a}
+
 
 (( ${#p10k_config_opts} )) && setopt ${p10k_config_opts[@]}
 'builtin' 'unset' 'p10k_config_opts'

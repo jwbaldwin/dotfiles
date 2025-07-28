@@ -37,7 +37,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # If set to an empty array, this variable will have no effect.
 #ZSH_THEME_RANDOM_CANDIDATES=( "avit" "spaceship" )
 
-#ZSH_DISABLE_COMPFIX=true
+ZSH_DISABLE_COMPFIX=true
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -88,6 +88,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 
 plugins=(
   git
+  jj
   zsh-syntax-highlighting
   zsh-autosuggestions
   z
@@ -127,6 +128,9 @@ export SSH_KEY_PATH="~/.ssh/rsa_id"
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+# Disable Homebrew auto-update
+HOMEBREW_NO_AUTO_UPDATE=true
+
 # Spaceship configuration
 SPACESHIP_PROMPT_ADD_NEWLINE="false"
 SPACESHIP_CHAR_SUFFIX=(" ")
@@ -150,6 +154,7 @@ export AWS_PROFILE=sts
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+
 # Command for managing dotfiles
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias df='dotfiles'
@@ -164,7 +169,9 @@ esac
 # Rust & cargo
 source $HOME/.cargo/env
 
-
+# AI API token source
 source ~/.ai_keys.sh
+
+# Mise configuration
 eval "$(mise activate zsh)"
 eval "$(/opt/homebrew/bin/mise activate zsh)"

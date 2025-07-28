@@ -10,7 +10,6 @@ local M = {}
 
 M.general = {
 	i = {
-		["jj"] = { "<ESC>", "escape insert mode", opts = { nowait = true } },
 		["kj"] = { "<ESC>", "escape insert mode", opts = { nowait = true } },
 		["jk"] = { "<ESC>", "escape insert mode", opts = { nowait = true } },
 		["<C-h>"] = {
@@ -422,7 +421,7 @@ if os.getenv("USER") == "jwbaldwin" or os.getenv("USER") == "james.baldwin" then
 	function TestCurrentLine()
 		local file = vim.fn.expand("%:s")
 		local line = vim.fn.line(".")
-		local cmd = 'IexTests.test_watch("' .. file .. '", ' .. line .. ")"
+		local cmd = 'IexTests.test_watch("' .. file .. ":" .. line .. '")'
 		vim.cmd("TermExec direction=float cmd='" .. cmd .. "'")
 	end
 end
