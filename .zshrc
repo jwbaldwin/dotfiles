@@ -176,4 +176,3 @@ source ~/.ai_keys.sh
 
 # Mise configuration
 eval "$(mise activate zsh)"
-eval "$(/opt/homebrew/bin/mise activate zsh)"

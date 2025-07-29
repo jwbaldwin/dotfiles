@@ -1,8 +1,8 @@
 "$schema" = "https://jj-vcs.github.io/jj/latest/config-schema.json"
 
 [user]
-name = "James Baldwin"
-email = "james.baldwin@remote.com"
+name = "jwbaldwin"
+email = "jwbaldwin@gmail.com"
 
 [ui]
 default-command = "log"
@@ -24,4 +24,3 @@ log-recent = ["log", "-r", "default() & recent()"]
 # 'default()' = 'coalesce(trunk(),root())::present(@) | ancestors(visible_heads() & recent(), 2)'
 'recent()' = 'committer_date(after:"1 month ago")'
 'closest_bookmark(to)' = 'heads(::to & bookmarks())'
-ine-numbers-zero-style = "#3b4261"
