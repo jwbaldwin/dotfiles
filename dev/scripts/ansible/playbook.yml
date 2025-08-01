@@ -65,13 +65,16 @@
           - ripgrep
           - aeorspace
           - fzf
+          - jj
+          - postgres
+          - ghosty
         state: present
       tags: [brew, core, cli]
 
     # --------------------------------------------------------------------------
-    # Install Neovim via ASDF
+    # TODO: update install Neovim via Mise
     # --------------------------------------------------------------------------
-    - name: Install Neovim using asdf
+    - name: Install Neovim using Mise
       block:
         - name: Add asdf neovim plugin
           ansible.builtin.shell: >
