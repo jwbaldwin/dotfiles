@@ -20,6 +20,11 @@ alias gmain="git checkout main && git pull"
 alias gmas="git checkout master && git pull"
 alias grbc="git add . && git rebase --continue"
 
+###
+### JJ aliases
+###
+alias jjl="jj log --limit 10"
+
 # Start a new branch with last commit, then revert the commit in the previous branch
 function branchify {
   git checkout -b $1 && git checkout - && git reset --hard HEAD~ && git checkout -
