@@ -17,10 +17,5 @@ tug = ["bookmark", "move", "--from", "closest_bookmark(@-)", "--to", "@-"]
 log-recent = ["log", "-r", "default() & recent()"]
 
 [revset-aliases]
-# the default log revset defined internally:
-# 'default()' = 'present(@) | ancestors(immutable_heads().., 2) | present(trunk())'
-# or a nicer default:
-# 'default()' = 'coalesce(trunk(),root())::present(@) | ancestors(visible_heads() & recent()), 2)'
-# 'default()' = 'coalesce(trunk(),root())::present(@) | ancestors(visible_heads() & recent(), 2)'
 'recent()' = 'committer_date(after:"1 month ago")'
 'closest_bookmark(to)' = 'heads(::to & bookmarks())'
