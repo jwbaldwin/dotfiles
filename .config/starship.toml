@@ -57,9 +57,20 @@ style = "bright-black"
 
 [git_state]
 disabled = true
+format = '([$state( $progress_current/$progress_total)]($style) )'
+style = "bright-black"
 
 [git_status]
 disabled = true
+format = "[[(*$conflicted$untracked$modified$staged$renamed$deleted)](218) ($ahead_behind$stashed)]($style)"
+style = "cyan"
+conflicted = "​"
+untracked = "​"
+modified = "​"
+staged = "​"
+renamed = "​"
+deleted = "​"
+stashed = "≡"
 
 # For now, let's just show the branch
 # [custom.git_branch]
@@ -71,19 +82,8 @@ disabled = true
 when = "! jj --ignore-working-copy root"
 command = "starship module git_state"
 description = "Only show git_state if we're not in a jj repo"
-format = '([$state( $progress_current/$progress_total)]($style) )'
-style = "bright-black"
 
 [custom.git_status]
 when = "! jj --ignore-working-copy root"
 command = "starship module git_status"
 description = "Only show git_status if we're not in a jj repo"
-format = "[[(*$conflicted$untracked$modified$staged$renamed$deleted)](218) ($ahead_behind$stashed)]($style)"
-style = "cyan"
-conflicted = "​"
-untracked = "​"
-modified = "​"
-staged = "​"
-renamed = "​"
-deleted = "​"
-stashed = "≡"
