@@ -24,6 +24,10 @@ alias grbc="git add . && git rebase --continue"
 ### JJ aliases
 ###
 alias jjl="jj log --limit 10"
+alias jl="jj log --limit 10"
+alias js="jj status"
+alias jjs="jj status"
+
 
 # Start a new branch with last commit, then revert the commit in the previous branch
 function branchify {
