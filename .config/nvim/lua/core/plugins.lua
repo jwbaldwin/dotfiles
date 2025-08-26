@@ -255,6 +255,7 @@ require("lazy").setup({
 	"mg979/vim-visual-multi",
 	"tpope/vim-surround",
 	"tpope/vim-projectionist",
+	"tpope/vim-abolish",
 	"andyl/vim-projectionist-elixir",
 	"vim-test/vim-test",
 	"antoinemadec/FixCursorHold.nvim",
