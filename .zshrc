@@ -179,3 +179,5 @@ eval "$(mise activate zsh)"
 
 # Starship.rs configuration
 eval "$(starship init zsh)"
+
+. "$HOME/.local/bin/env"

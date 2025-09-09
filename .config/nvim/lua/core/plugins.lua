@@ -322,7 +322,7 @@ require("lazy").setup({
 	{
 		"github/copilot.vim",
 		cond = function()
-			return os.getenv("USER") == "jwbaldwin" or os.getenv("USER") == "james.baldwin"
+      return os.getenv("USER") == "jbaldwin" and os.getenv("WORK") == "true"
 		end,
 	},
 	{
@@ -338,7 +338,7 @@ require("lazy").setup({
 	{
 		"supermaven-inc/supermaven-nvim",
 		cond = function()
-			return os.getenv("USER") == "jbaldwin"
+      return os.getenv("USER") == "jbaldwin" and (os.getenv("WORK") == nil or os.getenv("WORK") == "false")
 		end,
 		config = function()
 			require("supermaven-nvim").setup({
