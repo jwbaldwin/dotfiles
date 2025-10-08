@@ -8,6 +8,8 @@ email = "jwbaldwin@gmail.com"
 default-command = "log"
 pager = "delta"
 diff-formatter = ":git"
+diff-editor = ["nvim", "-c", "DiffEditor $left $right $output"]
+show-cryptographic-signatures = true
 
 [git]
 push-new-bookmarks = true
@@ -15,6 +17,10 @@ push-new-bookmarks = true
 [aliases]
 tug = ["bookmark", "move", "--from", "closest_bookmark(@-)", "--to", "@-"]
 log-recent = ["log", "-r", "default() & recent()"]
+# shows commits on the working-copy commit's (anonymous) bookmark
+# compared to the `main` bookmark
+cl = ["log", "-r", "(main..@):: | (main..@)-"]
+cdiff = ["log", "-r", "main@origin..@"]
 
 [revset-aliases]
 'recent()' = 'committer_date(after:"1 month ago")'

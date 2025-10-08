@@ -37,3 +37,7 @@
 	conflictstyle = merge
 [rerere]
 	enabled = true
+[includeIf "gitdir:~/repos/"]
+  path = ~/.gitconfig-zapier-gitlab
+[gpg "ssh"]
+	allowedSignersFile = /Users/jbaldwin/.ssh/allowed_signers

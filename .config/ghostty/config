@@ -1,4 +1,4 @@
-theme = tokyonight_night
+theme = Aura
 
 font-family = Berkeley Mono
 font-size = 16
@@ -9,6 +9,8 @@ cursor-style-blink = false
 shell-integration-features = no-cursor
 
 mouse-hide-while-typing = false
+
+scrollback-limit = 100000
 
 confirm-close-surface = false
 window-save-state = always
@@ -23,3 +25,5 @@ background-opacity = 0.95
 
 keybind = cmd+s=text:\x13
 keybind = ctrl+;=text:\x1F
+keybind = shift+enter=text:\x1b\r
+keybind = ctrl+.=csi:46:5

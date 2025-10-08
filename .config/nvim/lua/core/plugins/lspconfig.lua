@@ -1,37 +1,31 @@
-local lspconfig = require("lspconfig")
-local configs = require("lspconfig.configs")
-local utils = require("core.utils")
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
 
 local default_on_attach = function(client, bufnr)
 	if vim.g.vim_version > 7 then
-		-- nightly
 		client.server_capabilities.documentFormattingProvider = true
 		client.server_capabilities.documentRangeFormattingProvider = true
 	else
-		-- stable
 		client.resolved_capabilities.document_formatting = true
 		client.resolved_capabilities.document_range_formatting = true
 	end
 
-	utils.load_mappings("lspconfig", { buffer = bufnr })
-
-	-- vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format({bufnr = bufnr})]]
+	require("core.utils").load_mappings("lspconfig", { buffer = bufnr })
 end
 
-local capabilities = require("blink.cmp").get_lsp_capabilities()
-local servers = { "html", "cssls", "jsonls", "bashls", "ts_ls", "svelte", "tailwindcss", "gopls" }
+local servers = { "html", "cssls", "jsonls", "bashls", "ts_ls", "svelte", "tailwindcss", "gopls", "marksman", "prismals" }
 
 for _, lsp in ipairs(servers) do
-	lspconfig[lsp].setup({
-		on_attach = default_on_attach,
-		capabilities = capabilities,
-	})
+	local config = vim.lsp.config[lsp] or {}
+	config.on_attach = default_on_attach
+	config.capabilities = capabilities
+	vim.lsp.config[lsp] = config
+	vim.lsp.enable(lsp)
 end
 
-lspconfig.lua_ls.setup({
-	on_attach = default_on_attach,
+vim.lsp.config.lua_ls = {
 	capabilities = capabilities,
-
+	on_attach = default_on_attach,
 	settings = {
 		Lua = {
 			diagnostics = {
@@ -47,9 +41,12 @@ lspconfig.lua_ls.setup({
 			},
 		},
 	},
-})
+}
+vim.lsp.enable("lua_ls")
 
-lspconfig.emmet_language_server.setup({
+vim.lsp.config.emmet_language_server = {
+	capabilities = capabilities,
+	on_attach = default_on_attach,
 	filetypes = {
 		"css",
 		"html",
@@ -61,49 +58,24 @@ lspconfig.emmet_language_server.setup({
 		"typescriptreact",
 		"eelixir",
 	},
-})
+}
+vim.lsp.enable("emmet_language_server")
 
--- local elixirls = ""
--- if os.getenv("USER") == "jbaldwin" then
--- 	elixirls = "/Users/jbaldwin/.local/share/nvim/mason/packages/elixir-ls/language_server.sh"
--- else
--- 	-- Mason's install location
--- 	elixirls = "/Users/james.baldwin/.local/share/nvim/mason/packages/elixir-ls/language_server.sh"
--- end
---
--- lspconfig.elixirls.setup({
--- 	cmd = { elixirls },
--- 	on_attach = default_on_attach,
--- 	capabilities = capabilities,
--- 	filetypes = { "elixir", "eelixir", "heex", "surface", "eex" },
--- 	settings = {
--- 		elixirLS = {
--- 			dialyzerEnabled = false,
--- 			fetchDeps = true,
--- 		},
--- 	},
--- })
-
--- Lexical
 local lexical_config = {
 	filetypes = { "elixir", "eelixir", "heex", "eex", "surface" },
 	cmd = { "/Users/" .. os.getenv("USER") .. "/.local/share/nvim/mason/bin/lexical", "server" },
-	root_dir = require("lspconfig.util").root_pattern({ "mix.exs" }),
+	root_markers = { "mix.exs" },
+	capabilities = capabilities,
+	on_attach = default_on_attach,
 	settings = {},
 }
 
-if not configs.lexical then
-	configs.lexical = {
-		default_config = {
-			filetypes = lexical_config.filetypes,
-			cmd = lexical_config.cmd,
-			root_dir = function(fname)
-				return lspconfig.util.root_pattern("mix.exs", ".git")(fname) or vim.loop.os_homedir()
-			end,
-			-- optional settings
-			settings = lexical_config.settings,
-		},
-	}
-end
+vim.lsp.config.lexical = lexical_config
+vim.lsp.enable("lexical")
 
-lspconfig.lexical.setup({})
+if os.getenv("WORK") == "true" then
+	local copilot_config = dofile(vim.fn.expand("~/.local/share/nvim/lazy/nvim-lspconfig/lsp/copilot.lua"))
+	copilot_config.cmd = { vim.fn.expand("~/.local/share/mise/installs/node/22.20.0/bin/node"), vim.fn.expand("~/.local/share/nvim/lazy/copilot.vim/copilot-language-server/dist/language-server.js"), "--stdio" }
+	vim.lsp.config.copilot = copilot_config
+	vim.lsp.enable("copilot")
+end

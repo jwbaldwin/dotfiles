@@ -122,27 +122,19 @@ M.general = {
 	},
 }
 
-M.avanted = {
-	n = {
-		["<leader>aa"] = { "<cmd>AvanteAsk <CR>", "ai ask" },
-		["<leader>ae"] = { "<cmd>AvanteEdit <CR>", "ai edit" },
-	},
-}
-
-if os.getenv("USER") == "jwbaldwin" or os.getenv("USER") == "james.baldwin" then
+if os.getenv("USER") == "jbaldwin" and os.getenv("WORK") == "true" then
 	M.copilot = {
 		i = {
 			["<C-y>"] = {
 				'copilot#Accept("")',
-				"Accept copilot with Control-Tab",
+				"Accept copilot with Control-y",
 				opts = { expr = true, replace_keycodes = false },
 			},
 			["<C-]>"] = { "<Plug>(copilot-next)", "Next copilot suggestion" },
 			["<C-[>"] = { "<Plug>(copilot-previous)", "Previous copilot suggestion" },
 			["<C-w>"] = { "<Plug>(copilot-accept-word)", "Accept copilot word" },
-			["<C-l>"] = { "<Plug>(copilot-accept-line)", "Accept copilot word" },
+			["<C-l>"] = { "<Plug>(copilot-accept-line)", "Accept copilot line" },
 			["<C-c>"] = { "<Plug>(copilot-dismiss)", "Dismiss copilot" },
-			["<C-.>"] = { "<Plug>(copilot-suggest)", "Toggle copilot suggestions" },
 		},
 	}
 end

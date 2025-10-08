@@ -30,20 +30,6 @@ require("lazy").setup({
 	},
 	"nvim-lua/plenary.nvim",
 	{
-		"danielfalk/smart-open.nvim",
-		branch = "0.2.x",
-		config = function()
-			require("telescope").load_extension("smart_open")
-		end,
-		dependencies = {
-			"kkharji/sqlite.lua",
-			-- Only required if using match_algorithm fzf
-			{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
-			-- Optional.  If installed, native fzy will be used when match_algorithm is fzy
-			{ "nvim-telescope/telescope-fzy-native.nvim" },
-		},
-	},
-	{
 		"kyazdani42/nvim-web-devicons",
 		config = function()
 			require("core.plugins.configs").devicons()
@@ -81,6 +67,13 @@ require("lazy").setup({
 					change = { text = "│" },
 				},
 			})
+		end,
+	},
+	{
+		"julienvincent/hunk.nvim",
+		cmd = { "DiffEditor" },
+		config = function()
+			require("hunk").setup()
 		end,
 	},
 
@@ -144,9 +137,6 @@ require("lazy").setup({
 	{
 		"numToStr/Comment.nvim",
 		keys = { "gc", "gb" },
-		config = function()
-			require("core.plugins.configs").comment()
-		end,
 		init = function()
 			require("core.utils").load_mappings("comment")
 		end,
@@ -199,51 +189,14 @@ require("lazy").setup({
 			vim.cmd([[colorscheme tokyonight]])
 		end,
 	},
-	-- {
-	-- 	-- "jwbaldwin/oscura.nvim",
-	-- 	dir = "~/repos/oscura.nvim",
-	-- 	branch = "color-tweaks-and-fixes",
-	-- 	lazy = false,
-	-- 	priority = 10000,
-	-- 	config = function()
-	-- 		require("oscura").setup()
-	-- 	end,
-	-- 	init = function()
-	-- 		vim.cmd([[colorscheme oscura]])
-	-- 	end,
-	-- },
-	{
-		"olivercederborg/poimandres.nvim",
-		lazy = false,
-		priority = 1000,
-		config = function()
-			require("poimandres").setup({
-				-- leave this setup function empty for default config
-				-- or refer to the configuration section
-				-- for configuration options
-			})
-		end,
-		init = function()
-			-- vim.cmd([[colorscheme poimandres]])
-		end,
-	},
-	{
-		"gmr458/cold.nvim",
-		lazy = false,
-		priority = 1000,
-		build = ":ColdCompile",
-		config = function()
-			require("cold").setup({
-				transparent_background = false,
-				cursorline = false,
-				treesitter_context_bg = false,
-				float_borderless = false,
-			})
-			-- vim.cmd.colorscheme("cold")
-		end,
-	},
+	{ "rebelot/kanagawa.nvim" },
+	{ "savq/melange-nvim" },
+	{ "sainnhe/gruvbox-material" },
+	{ "xero/miasma.nvim" },
+	{ "ramojus/mellifluous.nvim" },
+	{ "datsfilipe/vesper.nvim" },
+	{ "aliqyan-21/darkvoid.nvim" },
 
-	-- utility
 	{
 		"ThePrimeagen/harpoon",
 		-- branch = "harpoon2",
@@ -322,7 +275,10 @@ require("lazy").setup({
 	{
 		"github/copilot.vim",
 		cond = function()
-      return os.getenv("USER") == "jbaldwin" and os.getenv("WORK") == "true"
+			return os.getenv("USER") == "jbaldwin" and os.getenv("WORK") == "true"
+		end,
+		init = function()
+			vim.g.copilot_node_command = vim.fn.expand("~/.local/share/mise/installs/node/22.20.0/bin/node")
 		end,
 	},
 	{
@@ -338,7 +294,7 @@ require("lazy").setup({
 	{
 		"supermaven-inc/supermaven-nvim",
 		cond = function()
-      return os.getenv("USER") == "jbaldwin" and (os.getenv("WORK") == nil or os.getenv("WORK") == "false")
+			return os.getenv("USER") == "jbaldwin" and (os.getenv("WORK") == nil or os.getenv("WORK") == "false")
 		end,
 		config = function()
 			require("supermaven-nvim").setup({
@@ -352,24 +308,82 @@ require("lazy").setup({
 		end,
 	},
 	{
-		"olimorris/codecompanion.nvim",
-		opts = {},
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-			"nvim-treesitter/nvim-treesitter",
-		},
-		config = function()
-			require("codecompanion").setup({
-				strategies = {
-					chat = {
-						adapter = "anthropic",
-					},
-					inline = {
-						adapter = "anthropic",
-					},
+		"folke/sidekick.nvim",
+		lazy = false,
+		opts = {
+			cli = {
+				mux = {
+					backend = "tmux",
+					enabled = true,
 				},
-			})
-		end,
+			},
+		},
+		keys = {
+			{
+				"<tab>",
+				function()
+					-- if there is a next edit, jump to it, otherwise apply it if any
+					if not require("sidekick").nes_jump_or_apply() then
+						return "<Tab>" -- fallback to normal tab
+					end
+				end,
+				expr = true,
+				desc = "Goto/Apply Next Edit Suggestion",
+			},
+			{
+				"<leader>aa",
+				function()
+					require("sidekick.cli").toggle()
+				end,
+				desc = "Sidekick Toggle CLI",
+			},
+			{
+				"<leader>as",
+				function()
+					require("sidekick.cli").select({ filter = { installed = true } })
+				end,
+				desc = "Select CLI",
+			},
+			{
+				"<leader>at",
+				function()
+					require("sidekick.cli").send({ msg = "{this}" })
+				end,
+				mode = { "x", "n" },
+				desc = "Send This",
+			},
+			{
+				"<leader>av",
+				function()
+					require("sidekick.cli").send({ msg = "{selection}" })
+				end,
+				mode = { "x" },
+				desc = "Send Visual Selection",
+			},
+			{
+				"<leader>ap",
+				function()
+					require("sidekick.cli").prompt()
+				end,
+				mode = { "n", "x" },
+				desc = "Sidekick Select Prompt",
+			},
+			{
+				"<c-.>",
+				function()
+					require("sidekick.cli").focus()
+				end,
+				mode = { "n", "x", "i", "t" },
+				desc = "Sidekick Switch Focus",
+			},
+			{
+				"<leader>ac",
+				function()
+					require("sidekick.cli").toggle({ name = "opencode", focus = true })
+				end,
+				desc = "Sidekick Toggle Opencode",
+			},
+		},
 	},
 	{
 		"yetone/avante.nvim",
@@ -380,10 +394,56 @@ require("lazy").setup({
 			providers = {
 				claude = {
 					endpoint = "https://api.anthropic.com",
-					model = "claude-sonnet-4-20250514",
+					model = "claude-sonnet-4-5-20250929",
 				},
 			},
 			disabled_tools = { "python", "git_commit" },
+			mappings = {
+				--- @class AvanteConflictMappings
+				diff = {
+					ours = "",
+					theirs = "",
+					all_theirs = "",
+					both = "",
+					cursor = "",
+					next = "",
+					prev = "",
+				},
+				suggestion = {
+					accept = "",
+					next = "",
+					prev = "",
+					dismiss = "",
+				},
+				jump = {
+					next = "",
+					prev = "",
+				},
+				submit = {
+					normal = "<CR>",
+					insert = "<C-s>",
+				},
+				sidebar = {
+					apply_all = "",
+					apply_cursor = "",
+					switch_windows = "",
+					reverse_toggle = "",
+				},
+				ask = "",
+				refresh = "",
+				focus = "",
+				toggle = {
+					default = "",
+					debug = "",
+					hint = "",
+					suggestion = "",
+					repomap = "",
+				},
+				sidebar_source = {
+					input = "",
+					files = "",
+				},
+			},
 		},
 		build = "make",
 		dependencies = {
@@ -391,14 +451,24 @@ require("lazy").setup({
 			"stevearc/dressing.nvim",
 			"nvim-lua/plenary.nvim",
 			"MunifTanjim/nui.nvim",
-			"nvim-telescope/telescope.nvim", -- for file_selector provider telescope
-			"nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
+			"nvim-telescope/telescope.nvim",
+			"nvim-tree/nvim-web-devicons",
 			{
 				"MeanderingProgrammer/render-markdown.nvim",
 				opts = {
 					file_types = { "markdown", "Avante" },
 				},
 				ft = { "markdown", "Avante" },
+			},
+		},
+		keys = {
+			{
+				"<leader>ae",
+				function()
+					require("avante.api").edit()
+				end,
+				desc = "Avante: Edit selection",
+				mode = "v",
 			},
 		},
 	},

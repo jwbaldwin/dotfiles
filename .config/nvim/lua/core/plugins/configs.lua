@@ -132,17 +132,6 @@ M.blankline = function()
 	blankline.setup(options)
 end
 
-M.comment = function()
-	local present, nvim_comment = pcall(require, "Comment")
-
-	if not present then
-		return
-	end
-
-	local options = {}
-	nvim_comment.setup(options)
-end
-
 M.devicons = function()
 	local present, devicons = pcall(require, "nvim-web-devicons")
 

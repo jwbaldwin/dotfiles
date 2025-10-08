@@ -3,11 +3,9 @@ $username\
 $hostname\
 $directory\
 ${custom.jj}\
-$git_branch\
 ${custom.git_state}\
 ${custom.git_status}\
 $line_break\
-$python\
 $character"""
 
 [directory]
@@ -32,7 +30,8 @@ description = "The current jj status"
 when = "jj --ignore-working-copy root"
 symbol = " "
 command = '''
-jj log --revisions @ --no-graph --ignore-working-copy --color always --limit 1 --template '
+# Get change info (id, bookmarks)
+info=$(jj log --revisions @ --no-graph --ignore-working-copy --color always --limit 1 --template '
   separate(" ",
     change_id.shortest(4),
     bookmarks,
@@ -41,13 +40,45 @@ jj log --revisions @ --no-graph --ignore-working-copy --color always --limit 1 -
       if(conflict, ">"),
       if(divergent, "\\"),
     ),
-    raw_escape_sequence("\x1b[1;32m") ++ if(empty, "(empty)"),
-    raw_escape_sequence("\x1b[1;32m") ++ coalesce(
-      truncate_end(29, description.first_line(), "…"),
-      "(no description set)",
-    ) ++ raw_escape_sequence("\x1b[0m"),
   )
-'
+')
+
+desc=$(echo "$info" | sed 's/.*| //' | sed 's/\x1b\[[0-9;]*m//g')
+
+# Get file change count if there are actual changes
+file_count=$(jj diff --stat --ignore-working-copy | tail -n1 | grep -oE '[1-9][0-9]*' | head -n1 || echo "")
+
+# Build output: id branch | file_count description
+# Single optimized query for ID, bookmarks, and description
+combined=$(jj log --revisions @ --no-graph --ignore-working-copy --color always --limit 1 --template 'change_id.shortest(4) ++ if(bookmarks, " " ++ bookmarks) ++ "|||" ++ if(description, description.first_line(), "")')
+colorful_id_branch=$(echo "$combined" | sed 's/|||.*//')
+desc=$(echo "$combined" | sed 's/.*|||//' | sed 's/\x1b\[[0-9;]*m//g')
+if [ -n "$colorful_id_branch" ]; then
+    output="$colorful_id_branch"
+fi
+
+# Add file count and description after |
+details=""
+if [ -n "$file_count" ]; then
+    details="\x1b[2m~$file_count\x1b[0m"
+fi
+if [ -n "$desc" ] && [ "$desc" != "(no description set)" ]; then
+    if [ -n "$details" ]; then
+        details="$details \x1b[2m$desc\x1b[0m"
+    else
+        details="\x1b[2m$desc\x1b[0m"
+    fi
+fi
+
+if [ -n "$details" ]; then
+    if [ -n "$output" ]; then
+        output="$output $details"
+    else
+        output="$details"
+    fi
+fi
+
+echo " $output"
 '''
 
 [git_branch]

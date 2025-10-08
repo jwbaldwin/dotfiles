@@ -1,5 +1,4 @@
 require("core.options")
--- require("core.plugins.statusline")
 require("core.plugins")
 
 require("core.utils").load_mappings()
