@@ -1,7 +1,7 @@
 local fn = vim.fn
 
--- Define statusline highlight groups
-local function setup_highlights()
+-- Define statusline highlight groups for tokyonight
+local function setup_tokyonight_highlights()
 	-- Mode indicator
 	vim.api.nvim_set_hl(0, "StatusLineMode", {})
 
@@ -23,6 +23,31 @@ local function setup_highlights()
 	vim.api.nvim_set_hl(0, "StatusLineMedium", { fg = "#737aa2" })
 	vim.api.nvim_set_hl(0, "StatusLineModified", { fg = "#41a6b5" })
 	vim.api.nvim_set_hl(0, "StatusLineFilename", { fg = "#a9b1d6" })
+end
+
+-- Define statusline highlight groups for gruvbox
+local function setup_gruvbox_highlights()
+	-- Mode indicator
+	vim.api.nvim_set_hl(0, "StatusLineMode", {})
+
+	-- Git highlights
+	vim.api.nvim_set_hl(0, "StatusLineGitBranchIcon", { fg = "#fe8019" }) -- orange
+	vim.api.nvim_set_hl(0, "StatusLineBranch", { fg = "#ebdbb2" }) -- fg1
+	vim.api.nvim_set_hl(0, "StatusLineGitDiffAdded", { fg = "#b8bb26" }) -- green
+	vim.api.nvim_set_hl(0, "StatusLineGitDiffChanged", { fg = "#fabd2f" }) -- yellow
+	vim.api.nvim_set_hl(0, "StatusLineGitDiffRemoved", { fg = "#fb4934" }) -- red
+
+	-- LSP highlights
+	vim.api.nvim_set_hl(0, "StatusLineLspError", { fg = "#fb4934" }) -- red
+	vim.api.nvim_set_hl(0, "StatusLineLspWarn", { fg = "#fabd2f" }) -- yellow
+	vim.api.nvim_set_hl(0, "StatusLineLspHint", { fg = "#8ec07c" }) -- aqua
+	vim.api.nvim_set_hl(0, "StatusLineLspInfo", { fg = "#b8bb26" }) -- green
+	vim.api.nvim_set_hl(0, "StatusLineLspMessages", { fg = "#83a598", italic = true }) -- blue
+
+	-- General highlights
+	vim.api.nvim_set_hl(0, "StatusLineMedium", { fg = "#928374" }) -- gray
+	vim.api.nvim_set_hl(0, "StatusLineModified", { fg = "#689d6a" }) -- teal
+	vim.api.nvim_set_hl(0, "StatusLineFilename", { fg = "#ebdbb2" }) -- fg1
 end
 
 local function lsp_status()
@@ -351,115 +376,164 @@ vim.api.nvim_create_autocmd("LspProgress", {
 	end,
 })
 
--- Lualine compatible git components
-local git_components = {
-	branch = {
-		function()
-			local branch = vim.b.gitsigns_head
-			return branch or ""
-		end,
-		icon = "",
-		color = { fg = "#7aa2f7" },
-	},
-	diff = {
-		"diff",
-		colored = true,
-		symbols = { added = "+", modified = "~", removed = "-" },
-		color_added = { fg = "#9ece6a" },
-		color_modified = { fg = "#e0af68" },
-		color_removed = { fg = "#f7768e" },
-	},
-}
+-- Color scheme detection and mapping system
+local function get_current_colorscheme()
+	local colorscheme = vim.g.colors_name or ""
+	if colorscheme:match("tokyonight") then
+		return "tokyonight"
+	elseif colorscheme:match("gruvbox") then
+		return "gruvbox"
+	else
+		return "tokyonight" -- default fallback
+	end
+end
 
-local options = {
-	options = {
-		icons_enabled = true,
+-- Color mappings for different themes
+local color_schemes = {
+	tokyonight = {
+		-- Lualine section colors
+		mode_bg = "#6d91db",
+		mode_fg = "#1a1b26",
+		cwd_fg = "#7aa2f7",
+		cwd_bg = "#2f344d",
+		path_fg = "#737aa2",
+		path_bg = "#212435",
+		filename_fg = "#a9b1d6",
+		filename_bg = "#212435",
+		modified_fg = "#41a6b5",
+		modified_bg = "#212435",
+		-- Git component colors
+		git_branch_fg = "#7aa2f7",
+		git_added_fg = "#9ece6a",
+		git_modified_fg = "#e0af68",
+		git_removed_fg = "#f7768e",
+		-- Theme name
 		theme = "tokyonight",
-		-- theme = "everforest",
-		component_separators = { left = "", right = "" },
-		section_separators = { left = "", right = "" },
-		disabled_filetypes = {
-			statusline = { "help", "NvimTree", "alpha", "Avante", "AvanteSelectedFiles", "AvanteInput" },
-			winbar = {},
-		},
-		ignore_focus = {},
-		always_divide_middle = true,
-		globalstatus = false,
-		-- Special handling for terminal mode
-		mode_colors = {
-			t = { bg = "#FF9E64", fg = "#1a1b26" },
-			nt = { bg = "#FF9E64", fg = "#1a1b26" },
-		},
-		refresh = {
-			statusline = 100,
-		},
 	},
-	sections = {
-		lualine_a = {
-			{
-				mode,
-				fmt = function(str)
-					return str
-				end,
-				color = { bg = "#6d91db", fg = "#1a1b26", bold = true },
-			},
-		},
-		lualine_b = {
-			{ cwd, color = { fg = "#7aa2f7", bg = "#2f344d" } },
-			{ path, color = { fg = "#737aa2", bg = "#212435" }, padding = { left = 1, right = 0 } },
-			{
-				"filename",
-				file_status = false,
-				newfile_status = false,
-				path = 0,
-				padding = { left = 0, right = 1 },
-				color = { fg = "#a9b1d6", bg = "#212435" },
-			},
-			{
-				modified_indicator,
-				color = { fg = "#41a6b5", bg = "#212435" },
-				padding = { left = 0, right = 1 },
-			},
-		},
-		lualine_c = { full_git },
-		lualine_x = { "diagnostics" },
-		lualine_y = { "location" },
-		lualine_z = { lsp_status },
+	gruvbox = {
+		-- Lualine section colors
+		mode_bg = "#fe8019", -- orange
+		mode_fg = "#1d2021", -- bg0_h
+		cwd_fg = "#83a598", -- blue
+		cwd_bg = "#3c3836", -- bg1
+		path_fg = "#928374", -- gray
+		path_bg = "#32302f", -- bg0_s
+		filename_fg = "#ebdbb2", -- fg1
+		filename_bg = "#32302f", -- bg0_s
+		modified_fg = "#689d6a", -- teal
+		modified_bg = "#32302f", -- bg0_s
+		-- Git component colors
+		git_branch_fg = "#83a598", -- blue
+		git_added_fg = "#b8bb26", -- green
+		git_modified_fg = "#fabd2f", -- yellow
+		git_removed_fg = "#fb4934", -- red
+		-- Theme name
+		theme = "gruvbox",
 	},
-	inactive_sections = {
-		lualine_a = {
-			{
-				mode,
-				fmt = function(str)
-					return str
-				end,
-				color = { bg = "#6d91db", fg = "#1a1b26", bold = true },
-			},
-		},
-		lualine_b = {
-			{ cwd, color = { fg = "#7aa2f7", bg = "#2f344d" } },
-			{ path, color = { fg = "#737aa2", bg = "#212435" }, padding = { left = 1, right = 0 } },
-			{
-				"filename",
-				file_status = false,
-				newfile_status = false,
-				path = 0,
-				padding = { left = 0, right = 1 },
-				color = { fg = "#a9b1d6", bg = "#212435" },
-			},
-			{
-				modified_indicator,
-				color = { fg = "#41a6b5", bg = "#212435" },
-				padding = { left = 0, right = 1 },
-			},
-		},
-	},
-	tabline = {},
-	winbar = {},
-	inactive_winbar = {},
-	extensions = {},
 }
 
-setup_highlights()
+-- Get colors for current theme
+local function get_colors()
+	local current_scheme = get_current_colorscheme()
+	return color_schemes[current_scheme]
+end
 
-require("lualine").setup(options)
+-- Generate lualine options with dynamic colors
+local function get_lualine_options()
+	local colors = get_colors()
+
+	return {
+		options = {
+			icons_enabled = true,
+			theme = colors.theme,
+			component_separators = { left = "", right = "" },
+			section_separators = { left = "", right = "" },
+			disabled_filetypes = {
+				statusline = { "help", "NvimTree", "alpha", "Avante", "AvanteSelectedFiles", "AvanteInput" },
+				winbar = {},
+			},
+			ignore_focus = {},
+			always_divide_middle = true,
+			globalstatus = false,
+			refresh = {
+				statusline = 100,
+			},
+		},
+		sections = {
+			lualine_a = {
+				{
+					mode,
+					fmt = function(str)
+						return str
+					end,
+					color = { bg = colors.mode_bg, fg = colors.mode_fg, bold = true },
+				},
+			},
+			lualine_b = {
+				{ cwd, color = { fg = colors.cwd_fg, bg = colors.cwd_bg } },
+				{ path, color = { fg = colors.path_fg, bg = colors.path_bg }, padding = { left = 1, right = 0 } },
+				{
+					"filename",
+					file_status = false,
+					newfile_status = false,
+					path = 0,
+					padding = { left = 0, right = 1 },
+					color = { fg = colors.filename_fg, bg = colors.filename_bg },
+				},
+				{
+					modified_indicator,
+					color = { fg = colors.modified_fg, bg = colors.modified_bg },
+					padding = { left = 0, right = 1 },
+				},
+			},
+			lualine_c = { full_git },
+			lualine_x = { "diagnostics" },
+			lualine_y = { "location" },
+			lualine_z = { lsp_status },
+		},
+		inactive_sections = {
+			lualine_a = {
+				{
+					mode,
+					fmt = function(str)
+						return str
+					end,
+					color = { bg = colors.mode_bg, fg = colors.mode_fg, bold = true },
+				},
+			},
+			lualine_b = {
+				{ cwd, color = { fg = colors.cwd_fg, bg = colors.cwd_bg } },
+				{ path, color = { fg = colors.path_fg, bg = colors.path_bg }, padding = { left = 1, right = 0 } },
+				{
+					"filename",
+					file_status = false,
+					newfile_status = false,
+					path = 0,
+					padding = { left = 0, right = 1 },
+					color = { fg = colors.filename_fg, bg = colors.filename_bg },
+				},
+				{
+					modified_indicator,
+					color = { fg = colors.modified_fg, bg = colors.modified_bg },
+					padding = { left = 0, right = 1 },
+				},
+			},
+		},
+		tabline = {},
+		winbar = {},
+		inactive_winbar = {},
+		extensions = {},
+	}
+end
+
+local colorscheme = vim.g.colors_name or ""
+
+if colorscheme:match("tokyonight") then
+	setup_tokyonight_highlights()
+end
+
+if colorscheme:match("gruvbox-baby") then
+	setup_gruvbox_highlights()
+end
+
+require("lualine").setup(get_lualine_options())

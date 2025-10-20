@@ -185,14 +185,29 @@ require("lazy").setup({
 		config = function()
 			require("core.plugins.tokyonight")
 		end,
-		init = function()
-			vim.cmd([[colorscheme tokyonight]])
-		end,
+		-- init = function()
+		-- 	vim.cmd([[colorscheme tokyonight]])
+		-- end,
 	},
 	{ "rebelot/kanagawa.nvim" },
 	{ "savq/melange-nvim" },
-	{ "sainnhe/gruvbox-material" },
 	{ "xero/miasma.nvim" },
+	{
+		"luisiacc/gruvbox-baby",
+		branch = "main",
+		lazy = false,
+		priority = 10000,
+		config = function()
+			vim.g.gruvbox_baby_background_color = "dark"
+			vim.g.gruvbox_baby_transparent_mode = true
+			vim.g.gruvbox_baby_comment_style = "italic"
+			vim.g.gruvbox_baby_keyword_style = "italic"
+			vim.g.gruvbox_baby_function_style = "NONE"
+			vim.g.gruvbox_baby_variable_style = "NONE"
+
+			vim.cmd("colorscheme gruvbox-baby")
+		end,
+	},
 	{ "ramojus/mellifluous.nvim" },
 	{ "datsfilipe/vesper.nvim" },
 	{ "aliqyan-21/darkvoid.nvim" },
@@ -398,52 +413,8 @@ require("lazy").setup({
 				},
 			},
 			disabled_tools = { "python", "git_commit" },
-			mappings = {
-				--- @class AvanteConflictMappings
-				diff = {
-					ours = "",
-					theirs = "",
-					all_theirs = "",
-					both = "",
-					cursor = "",
-					next = "",
-					prev = "",
-				},
-				suggestion = {
-					accept = "",
-					next = "",
-					prev = "",
-					dismiss = "",
-				},
-				jump = {
-					next = "",
-					prev = "",
-				},
-				submit = {
-					normal = "<CR>",
-					insert = "<C-s>",
-				},
-				sidebar = {
-					apply_all = "",
-					apply_cursor = "",
-					switch_windows = "",
-					reverse_toggle = "",
-				},
-				ask = "",
-				refresh = "",
-				focus = "",
-				toggle = {
-					default = "",
-					debug = "",
-					hint = "",
-					suggestion = "",
-					repomap = "",
-				},
-				sidebar_source = {
-					input = "",
-					files = "",
-				},
-			},
+			-- Remove mappings to use avante.nvim defaults
+			-- mappings = {},
 		},
 		build = "make",
 		dependencies = {
