@@ -28,6 +28,28 @@ require("lazy").setup({
 		keys = require("core.plugins.snacks").keys,
 		init = require("core.plugins.snacks").init(),
 	},
+	{
+		"dmtrKovalenko/fff.nvim",
+		build = function()
+			require("fff.download").download_or_build_binary()
+		end,
+		opts = { -- (optional)
+			debug = {
+				enabled = true,
+				show_scores = true,
+			},
+		},
+		lazy = false,
+		keys = {
+			{
+				"ff", -- try it if you didn't it is a banger keybinding for a picker
+				function()
+					require("fff").find_files()
+				end,
+				desc = "FFFind files",
+			},
+		},
+	},
 	"nvim-lua/plenary.nvim",
 	{
 		"kyazdani42/nvim-web-devicons",
@@ -398,52 +420,6 @@ require("lazy").setup({
 				},
 			},
 			disabled_tools = { "python", "git_commit" },
-			mappings = {
-				--- @class AvanteConflictMappings
-				diff = {
-					ours = "",
-					theirs = "",
-					all_theirs = "",
-					both = "",
-					cursor = "",
-					next = "",
-					prev = "",
-				},
-				suggestion = {
-					accept = "",
-					next = "",
-					prev = "",
-					dismiss = "",
-				},
-				jump = {
-					next = "",
-					prev = "",
-				},
-				submit = {
-					normal = "<CR>",
-					insert = "<C-s>",
-				},
-				sidebar = {
-					apply_all = "",
-					apply_cursor = "",
-					switch_windows = "",
-					reverse_toggle = "",
-				},
-				ask = "",
-				refresh = "",
-				focus = "",
-				toggle = {
-					default = "",
-					debug = "",
-					hint = "",
-					suggestion = "",
-					repomap = "",
-				},
-				sidebar_source = {
-					input = "",
-					files = "",
-				},
-			},
 		},
 		build = "make",
 		dependencies = {

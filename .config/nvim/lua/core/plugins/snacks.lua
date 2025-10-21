@@ -87,7 +87,7 @@ return {
 				},
 				file = {
 					filename_first = false,
-					truncate = 40,
+					truncate = 60,
 					filename_only = false,
 					icon_width = 2,
 				},

@@ -78,7 +78,7 @@ local options = {
 		use_default_keymaps = true,
 		view_options = {
 			-- Show files and directories that start with "."
-			show_hidden = false,
+			show_hidden = true,
 			-- This function defines what is considered a "hidden" file
 			is_hidden_file = function(name, bufnr)
 				return vim.startswith(name, ".")
@@ -111,6 +111,16 @@ local options = {
 			rm = function(path)
 				return false
 			end,
+		},
+		-- Configuration for the floating window
+		float = {
+			padding = 2,
+			max_width = 120,
+			max_height = 0,
+			border = "rounded",
+			win_options = {
+				winblend = 0,
+			},
 		},
 		-- Configuration for the floating SSH window
 		ssh = {
