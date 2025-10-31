@@ -213,8 +213,23 @@ require("lazy").setup({
 	},
 	{ "rebelot/kanagawa.nvim" },
 	{ "savq/melange-nvim" },
-	{ "sainnhe/gruvbox-material" },
 	{ "xero/miasma.nvim" },
+	{
+		"luisiacc/gruvbox-baby",
+		branch = "main",
+		lazy = false,
+		priority = 10000,
+		config = function()
+			vim.g.gruvbox_baby_background_color = "dark"
+			vim.g.gruvbox_baby_transparent_mode = true
+			vim.g.gruvbox_baby_comment_style = "italic"
+			vim.g.gruvbox_baby_keyword_style = "italic"
+			vim.g.gruvbox_baby_function_style = "NONE"
+			vim.g.gruvbox_baby_variable_style = "NONE"
+
+			-- vim.cmd("colorscheme gruvbox-baby")
+		end,
+	},
 	{ "ramojus/mellifluous.nvim" },
 	{ "datsfilipe/vesper.nvim" },
 	{ "aliqyan-21/darkvoid.nvim" },

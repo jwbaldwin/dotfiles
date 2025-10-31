@@ -184,9 +184,9 @@ M.lspconfig = {
 			end,
 			"lsp definition type",
 		},
-		["<leader>ra"] = {
+		["<leader>rn"] = {
 			function()
-				require("nvchad_ui.renamer").open()
+				vim.lsp.buf.rename()
 			end,
 			"lsp rename",
 		},
@@ -356,12 +356,37 @@ M.harpoon = {
 
 M.gitsigns = {
 	n = {
-		-- ["<leader>gm"] = { "<cmd> Telescope git_commits theme=ivy<CR>", "git commits" },
-		-- ["<leader>gs"] = { "<cmd> Telescope git_status <CR>", "git status" },
+		["<leader>gp"] = { "<cmd> Gitsigns preview_hunk_inline<CR>", "preview git change inline" },
+		["<leader>gP"] = { "<cmd> Gitsigns preview_hunk<CR>", "preview git change" },
 		["<leader>gb"] = { "<cmd> Gitsigns blame_line<CR>", "git blame" },
 		["<leader>gr"] = { "<cmd> Gitsigns reset_hunk <CR>", "git reset hunk" },
 		["<leader>gR"] = { "<cmd> Gitsigns reset_buffer <CR>", "git reset buffer" },
-		-- ["<leader>gl"] = { "<cmd> Telescope git_branches <CR>", "List git branches" },
+		["]c"] = {
+			function()
+				if vim.wo.diff then
+					return "]c"
+				end
+				vim.schedule(function()
+					require("gitsigns").next_hunk()
+				end)
+				return "<Ignore>"
+			end,
+			"next hunk",
+			opts = { expr = true },
+		},
+		["[c"] = {
+			function()
+				if vim.wo.diff then
+					return "[c"
+				end
+				vim.schedule(function()
+					require("gitsigns").prev_hunk()
+				end)
+				return "<Ignore>"
+			end,
+			"prev hunk",
+			opts = { expr = true },
+		},
 	},
 }
 
@@ -369,8 +394,6 @@ M.fugitive = {
 	n = {
 		["<leader>G"] = { "<cmd>0Git<CR>", "Full buffer git" },
 		["<leader>gg"] = { "<cmd>Git<CR>", "Half buffer git" },
-		["<leader>ga"] = { "<cmd>Git add . | 0Git commit<CR>", "Git add and commit all changes" },
-		["<leader>gp"] = { "<cmd>Git push<CR>", "Git push" },
 		["<leader>gy"] = { "<cmd>GBrowse! master:%<CR>", "copy gitlab link in master" },
 		["<leader>gY"] = { "<cmd>GBrowse!<CR>", "copy gitlab link in current branch" },
 		["<leader>gD"] = { "<cmd>Gvdiffsplit!<CR>", "git diff 3 way split" },

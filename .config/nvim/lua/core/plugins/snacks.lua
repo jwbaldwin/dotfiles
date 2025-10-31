@@ -5,6 +5,20 @@ return {
 		gitbrowse = { enabled = true },
 		explorer = { enabled = true },
 		input = { enabled = true },
+		indent = {
+			enabled = true,
+			indent = {
+				char = "│",
+				blank = " ",
+			},
+			scope = {
+				char = "▏",
+				underline = false,
+			},
+			animate = {
+				enabled = true,
+			},
+		},
 		quickfile = { enabled = true },
 		rename = { enabled = true },
 		scope = { enabled = true },
