@@ -1,5 +1,6 @@
 -- n, v, i, t = mode names
 local utils = require("core.utils")
+local test_runner = require("core.test_runner")
 local yank = utils["yank"]
 
 local function termcodes(str)
@@ -394,14 +395,19 @@ M.fugitive = {
 	n = {
 		["<leader>G"] = { "<cmd>0Git<CR>", "Full buffer git" },
 		["<leader>gg"] = { "<cmd>Git<CR>", "Half buffer git" },
-		["<leader>gy"] = { "<cmd>GBrowse! master:%<CR>", "copy gitlab link in master" },
-		["<leader>gY"] = { "<cmd>GBrowse!<CR>", "copy gitlab link in current branch" },
+		["<leader>gy"] = {
+			function()
+				utils.browse_default_branch()
+			end,
+			"copy gitlab link in default branch",
+		},
+		["<leader>gY"] = { "<cmd>.GBrowse! HEAD:%<CR>", "copy gitlab link at current commit" },
 		["<leader>gD"] = { "<cmd>Gvdiffsplit!<CR>", "git diff 3 way split" },
 		["<leader>gdl"] = { "<cmd>:diffget //2<CR>", "take change from left (HEAD aka MASTER)" },
 		["<leader>gdr"] = { "<cmd>:diffget //3<CR>", "take change from right (BRANCH aka my changes)" },
 	},
 	v = {
-		["<leader>gy"] = { "<cmd>GBrowse!<CR>", "copy gitlab link with line number" },
+		["<leader>gy"] = { "<cmd>'<,'>GBrowse! HEAD:%<CR>", "copy gitlab link with line number" },
 	},
 }
 
@@ -426,52 +432,50 @@ M.notify = {
 	},
 }
 
-if os.getenv("USER") == "jwbaldwin" or os.getenv("USER") == "james.baldwin" then
-	function TestCurrentFile()
-		local file = vim.fn.expand("%:s")
-		local cmd = 'IexTests.test_watch("' .. file .. '")'
-		vim.cmd("TermExec direction=float cmd='" .. cmd .. "'")
-	end
-
-	function TestCurrentLine()
-		local file = vim.fn.expand("%:s")
-		local line = vim.fn.line(".")
-		local cmd = 'IexTests.test_watch("' .. file .. ":" .. line .. '")'
-		vim.cmd("TermExec direction=float cmd='" .. cmd .. "'")
-	end
-end
-
-if os.getenv("USER") == "jbaldwin" then
-	function TestCurrentFile()
-		local file = vim.fn.expand("%:s")
-		local cmd = "mix test.interactive " .. file
-		vim.cmd("TermExec direction=float cmd='" .. cmd .. "'")
-	end
-
-	function TestCurrentLine()
-		local file = vim.fn.expand("%:s")
-		local line = vim.fn.line(".")
-		local cmd = "mix test.interactive " .. file .. ":" .. line
-		vim.cmd("TermExec direction=float cmd='" .. cmd .. "'")
-	end
-
-	function TestInteractiveStart()
-		local cmd = "mix test.interactive"
-		vim.cmd("TermExec direction=float cmd='" .. cmd .. "'")
-	end
-end
-
 M.test = {
 	n = {
-		["<leader>tp"] = { "<cmd> TestSuite <CR>", "Run tests for whole project" },
-		["<leader>tv"] = { "<cmd> TestVisit <CR>", "Go back to last-run test file" },
-		["<leader>tf"] = { "<cmd> TestFile <CR>", "Test file" },
-		["<leader>tm"] = { "<cmd> TestFile <CR>", "Test file" },
-		["<leader>ts"] = { "<cmd> TestNearest <CR>", "Test single" },
-		["<leader>tl"] = { "<cmd> TestLast <CR>", "Test last run" },
-		["<leader>tif"] = { "<cmd>lua TestCurrentFile()<CR>", "IEX test file" },
-		["<leader>tis"] = { "<cmd>lua TestCurrentLine()<CR>", "IEX test single" },
-		["<leader>ti"] = { "<cmd>lua TestInteractiveStart()<CR>", "IEX test interactive" },
+		["<leader>tp"] = {
+			function()
+				test_runner.test_suite()
+			end,
+			"Run tests for whole project",
+		},
+		["<leader>tv"] = {
+			function()
+				test_runner.test_visit()
+			end,
+			"Go back to last-run test file",
+		},
+		["<leader>tl"] = {
+			function()
+				test_runner.test_last()
+			end,
+			"Test last run",
+		},
+		["<leader>tf"] = {
+			function()
+				test_runner.test_file()
+			end,
+			"Test file (filetype-aware)",
+		},
+		["<leader>tm"] = {
+			function()
+				test_runner.test_file()
+			end,
+			"Test module/file (filetype-aware)",
+		},
+		["<leader>ts"] = {
+			function()
+				test_runner.test_line()
+			end,
+			"Test single/nearest (filetype-aware)",
+		},
+		["<leader>ti"] = {
+			function()
+				test_runner.test_interactive()
+			end,
+			"Test interactive/watch mode",
+		},
 	},
 }
 

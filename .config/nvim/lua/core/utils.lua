@@ -118,6 +118,40 @@ M.current_local_module = function()
 	return t_4_
 end
 
+-- Get the default branch for the current git repo
+M.get_default_branch = function()
+	-- Try to get the default branch from remote HEAD
+	local handle = io.popen("git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@'")
+	if handle then
+		local result = handle:read("*a")
+		handle:close()
+		result = result:gsub("%s+", "")
+		if result ~= "" then
+			return result
+		end
+	end
+
+	-- Fallback: check for common branch names
+	for _, branch in ipairs({ "main", "master", "staging" }) do
+		local check = io.popen("git show-ref --verify --quiet refs/heads/" .. branch .. " 2>/dev/null && echo 'exists'")
+		if check then
+			local exists = check:read("*a")
+			check:close()
+			if exists:match("exists") then
+				return branch
+			end
+		end
+	end
+
+	return "main" -- final fallback
+end
+
+-- Browse file on default branch in GitLab
+M.browse_default_branch = function()
+	local branch = M.get_default_branch()
+	vim.cmd(".GBrowse! " .. branch .. ":%")
+end
+
 M.oil_toggle = function()
 	local current_buf = vim.api.nvim_get_current_buf()
 	local current_filetype = vim.api.nvim_buf_get_option(current_buf, "filetype")

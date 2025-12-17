@@ -1,0 +1,110 @@
+{
+  "src/*.ts": {
+    "type": "source",
+    "alternate": "src/{}.test.ts"
+  },
+  "src/*.tsx": {
+    "type": "source",
+    "alternate": "src/{}.test.tsx"
+  },
+  "src/**/*.ts": {
+    "type": "source",
+    "alternate": "src/{dirname}/{basename}.test.ts"
+  },
+  "src/**/*.tsx": {
+    "type": "source",
+    "alternate": "src/{dirname}/{basename}.test.tsx"
+  },
+  "src/*.test.ts": {
+    "type": "test",
+    "alternate": "src/{}.ts"
+  },
+  "src/*.test.tsx": {
+    "type": "test",
+    "alternate": "src/{}.tsx"
+  },
+  "src/**/*.test.ts": {
+    "type": "test",
+    "alternate": "src/{dirname}/{basename}.ts"
+  },
+  "src/**/*.test.tsx": {
+    "type": "test",
+    "alternate": "src/{dirname}/{basename}.tsx"
+  },
+  "src/*.spec.ts": {
+    "type": "test",
+    "alternate": "src/{}.ts"
+  },
+  "src/*.spec.tsx": {
+    "type": "test",
+    "alternate": "src/{}.tsx"
+  },
+  "src/**/*.spec.ts": {
+    "type": "test",
+    "alternate": "src/{dirname}/{basename}.ts"
+  },
+  "src/**/*.spec.tsx": {
+    "type": "test",
+    "alternate": "src/{dirname}/{basename}.tsx"
+  },
+  "app/*.ts": {
+    "type": "source",
+    "alternate": "app/{}.test.ts"
+  },
+  "app/*.tsx": {
+    "type": "source",
+    "alternate": "app/{}.test.tsx"
+  },
+  "app/**/*.ts": {
+    "type": "source",
+    "alternate": "app/{dirname}/{basename}.test.ts"
+  },
+  "app/**/*.tsx": {
+    "type": "source",
+    "alternate": "app/{dirname}/{basename}.test.tsx"
+  },
+  "app/*.test.ts": {
+    "type": "test",
+    "alternate": "app/{}.ts"
+  },
+  "app/*.test.tsx": {
+    "type": "test",
+    "alternate": "app/{}.tsx"
+  },
+  "app/**/*.test.ts": {
+    "type": "test",
+    "alternate": "app/{dirname}/{basename}.ts"
+  },
+  "app/**/*.test.tsx": {
+    "type": "test",
+    "alternate": "app/{dirname}/{basename}.tsx"
+  },
+  "lib/*.ts": {
+    "type": "source",
+    "alternate": "lib/{}.test.ts"
+  },
+  "lib/**/*.ts": {
+    "type": "source",
+    "alternate": "lib/{dirname}/{basename}.test.ts"
+  },
+  "lib/*.test.ts": {
+    "type": "test",
+    "alternate": "lib/{}.ts"
+  },
+  "lib/**/*.test.ts": {
+    "type": "test",
+    "alternate": "lib/{dirname}/{basename}.ts"
+  },
+  "packages/*/src/*.ts": {
+    "type": "source",
+    "alternate": "packages/{dirname}/src/{basename}.test.ts"
+  },
+  "packages/*/src/**/*.ts": {
+    "type": "source",
+    "alternate": "packages/{dirname}/src/{basename}.test.ts"
+  },
+  "packages/*/src/*.test.ts": {
+    "type": "test",
+    "alternate": "packages/{dirname}/src/{basename}.ts"
+  }
+}

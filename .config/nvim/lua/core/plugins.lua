@@ -30,25 +30,10 @@ require("lazy").setup({
 	},
 	{
 		"dmtrKovalenko/fff.nvim",
-		build = function()
-			require("fff.download").download_or_build_binary()
-		end,
-		opts = { -- (optional)
-			debug = {
-				enabled = true,
-				show_scores = true,
-			},
-		},
+		build = require("core.plugins.fff").build,
+		opts = require("core.plugins.fff").opts,
 		lazy = false,
-		keys = {
-			{
-				"ff", -- try it if you didn't it is a banger keybinding for a picker
-				function()
-					require("fff").find_files()
-				end,
-				desc = "FFFind files",
-			},
-		},
+		keys = require("core.plugins.fff").keys,
 	},
 	"nvim-lua/plenary.nvim",
 	{
