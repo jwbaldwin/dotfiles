@@ -1,21 +1,17 @@
 {
   "src/*.ts": {
     "type": "source",
-    "alternate": "src/{}.test.ts"
+    "alternate": ["src/{}.test.ts", "src/{}.unit.test.ts", "src/{}.spec.ts"]
   },
   "src/*.tsx": {
     "type": "source",
-    "alternate": "src/{}.test.tsx"
-  },
-  "src/**/*.ts": {
-    "type": "source",
-    "alternate": "src/{dirname}/{basename}.test.ts"
-  },
-  "src/**/*.tsx": {
-    "type": "source",
-    "alternate": "src/{dirname}/{basename}.test.tsx"
+    "alternate": ["src/{}.test.tsx", "src/{}.unit.test.tsx", "src/{}.spec.tsx"]
   },
   "src/*.test.ts": {
+    "type": "test",
+    "alternate": "src/{}.ts"
+  },
+  "src/*.unit.test.ts": {
     "type": "test",
     "alternate": "src/{}.ts"
   },
@@ -23,13 +19,9 @@
     "type": "test",
     "alternate": "src/{}.tsx"
   },
-  "src/**/*.test.ts": {
+  "src/*.unit.test.tsx": {
     "type": "test",
-    "alternate": "src/{dirname}/{basename}.ts"
-  },
-  "src/**/*.test.tsx": {
-    "type": "test",
-    "alternate": "src/{dirname}/{basename}.tsx"
+    "alternate": "src/{}.tsx"
   },
   "src/*.spec.ts": {
     "type": "test",
@@ -39,31 +31,19 @@
     "type": "test",
     "alternate": "src/{}.tsx"
   },
-  "src/**/*.spec.ts": {
-    "type": "test",
-    "alternate": "src/{dirname}/{basename}.ts"
-  },
-  "src/**/*.spec.tsx": {
-    "type": "test",
-    "alternate": "src/{dirname}/{basename}.tsx"
-  },
   "app/*.ts": {
     "type": "source",
-    "alternate": "app/{}.test.ts"
+    "alternate": ["app/{}.test.ts", "app/{}.unit.test.ts", "app/{}.spec.ts"]
   },
   "app/*.tsx": {
     "type": "source",
-    "alternate": "app/{}.test.tsx"
-  },
-  "app/**/*.ts": {
-    "type": "source",
-    "alternate": "app/{dirname}/{basename}.test.ts"
-  },
-  "app/**/*.tsx": {
-    "type": "source",
-    "alternate": "app/{dirname}/{basename}.test.tsx"
+    "alternate": ["app/{}.test.tsx", "app/{}.unit.test.tsx", "app/{}.spec.tsx"]
   },
   "app/*.test.ts": {
+    "type": "test",
+    "alternate": "app/{}.ts"
+  },
+  "app/*.unit.test.ts": {
     "type": "test",
     "alternate": "app/{}.ts"
   },
@@ -71,35 +51,23 @@
     "type": "test",
     "alternate": "app/{}.tsx"
   },
-  "app/**/*.test.ts": {
+  "app/*.unit.test.tsx": {
     "type": "test",
-    "alternate": "app/{dirname}/{basename}.ts"
-  },
-  "app/**/*.test.tsx": {
-    "type": "test",
-    "alternate": "app/{dirname}/{basename}.tsx"
+    "alternate": "app/{}.tsx"
   },
   "lib/*.ts": {
     "type": "source",
-    "alternate": "lib/{}.test.ts"
-  },
-  "lib/**/*.ts": {
-    "type": "source",
-    "alternate": "lib/{dirname}/{basename}.test.ts"
+    "alternate": ["lib/{}.test.ts", "lib/{}.unit.test.ts", "lib/{}.spec.ts"]
   },
   "lib/*.test.ts": {
     "type": "test",
     "alternate": "lib/{}.ts"
   },
-  "lib/**/*.test.ts": {
+  "lib/*.unit.test.ts": {
     "type": "test",
-    "alternate": "lib/{dirname}/{basename}.ts"
+    "alternate": "lib/{}.ts"
   },
   "packages/*/src/*.ts": {
-    "type": "source",
-    "alternate": "packages/{dirname}/src/{basename}.test.ts"
-  },
-  "packages/*/src/**/*.ts": {
     "type": "source",
     "alternate": "packages/{dirname}/src/{basename}.test.ts"
   },
