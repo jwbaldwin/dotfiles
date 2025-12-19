@@ -1,0 +1,21 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "theme": "tokyonight",
+  "autoupdate": true,
+  "mcp": {
+    "zapier-mcp": {
+      "type": "remote",
+      "url": "https://mcp.zapier.com/api/mcp/s/MzU4MzUzZWYtZTU3YS00Mjg1LWIwNDItN2UxN2Y1ZjE3NzRhOjI2ZGNjZmQ0LWQ3ZDgtNGE5OC1iYzEwLTExMGJiNzE4Y2NmZQ==/mcp",
+      "enabled": true
+    },
+    "playwright": {
+      "type": "local",
+      "command": [
+        "npx",
+        "@playwright/mcp@latest"
+      ],
+      "enabled": true
+    }
+  },
+  "plugin": ["opencode-skills"]
+}
