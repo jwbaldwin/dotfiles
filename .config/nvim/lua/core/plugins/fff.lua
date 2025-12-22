@@ -2,7 +2,7 @@ local M = {}
 
 M.opts = {
 	debug = {
-		enabled = true,
+		enabled = false,
 		show_scores = true,
 	},
 	keymaps = {

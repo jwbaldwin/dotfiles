@@ -1,7 +1,8 @@
 require("project_nvim").setup({
 	manual_mode = false,
-	detection_methods = { "lsp", "pattern" },
-	patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "Makefile", "package.json" },
+	detection_methods = { "pattern" },
+	-- package.json first for monorepo support (finds nearest package, not repo root)
+	patterns = { "package.json", ".git", "_darcs", ".hg", ".bzr", ".svn", "Makefile" },
 	ignore_lsp = {},
 	-- Don't calculate root dir on specific directories
 	-- Ex: { "~/.cargo/*", ... }

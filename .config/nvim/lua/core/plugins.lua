@@ -296,6 +296,7 @@ require("lazy").setup({
 	"shumphrey/fugitive-gitlab.vim",
 	{
 		"github/copilot.vim",
+		commit = "da369d9", -- Pin to 1.56.0 - 1.57.0 causes immediate exit
 		cond = function()
 			return os.getenv("USER") == "jbaldwin" and os.getenv("WORK") == "true"
 		end,

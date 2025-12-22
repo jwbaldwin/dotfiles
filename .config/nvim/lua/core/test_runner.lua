@@ -4,6 +4,32 @@ local function is_elixir()
 	return vim.bo.filetype == "elixir"
 end
 
+-- Ensure we're in the right directory before running tests (for monorepos)
+-- and that jest config is detected
+local function ensure_test_environment()
+	-- First, ensure project_nvim has set the correct cwd
+	local ok, project = pcall(require, "project_nvim.project")
+	if ok then
+		project.on_buf_enter()
+	end
+
+	-- Then detect jest config based on current file and cwd
+	local file = vim.fn.expand("%:t")
+	local test_type = file:match("%.(%w+)%.test%.[jt]sx?$")
+	if test_type then
+		local config_file = "jest.config." .. test_type .. ".ts"
+		if vim.fn.filereadable(config_file) == 1 then
+			vim.g["test#javascript#jest#options"] = "--config " .. config_file
+			return
+		end
+	end
+	if vim.fn.filereadable("jest.config.js") == 1 then
+		vim.g["test#javascript#jest#options"] = "--config jest.config.js"
+	else
+		vim.g["test#javascript#jest#options"] = ""
+	end
+end
+
 --------------------------------------------------------------------------------
 -- ELIXIR
 --------------------------------------------------------------------------------
@@ -27,6 +53,7 @@ local function elixir_test_interactive()
 end
 
 function M.test_file()
+	ensure_test_environment()
 	if is_elixir() then
 		elixir_test_file()
 	else
@@ -35,6 +62,7 @@ function M.test_file()
 end
 
 function M.test_line()
+	ensure_test_environment()
 	if is_elixir() then
 		elixir_test_line()
 	else
