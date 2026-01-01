@@ -32,7 +32,6 @@ zstyle ':omz:update' mode disabled
 
 # ===== Plugins =====
 plugins=(
-  direnv
   git
   jj
   zsh-syntax-highlighting
@@ -41,6 +40,11 @@ plugins=(
 )
 
 source "$ZSH/oh-my-zsh.sh"
+
+# direnv (only when installed - skipped on personal machines)
+if command -v direnv &> /dev/null; then
+  eval "$(direnv hook zsh)"
+fi
 
 # Note: OMZ already calls compinit, so we skip redundant call here
 
@@ -89,6 +93,13 @@ done
 # Misc env
 export ERL_AFLAGS="-kernel shell_history enabled"
 [ -d "$HOMEBREW_PREFIX/opt/go/libexec" ] && export GOROOT="$HOMEBREW_PREFIX/opt/go/libexec"
+
+# bun completions
+[ -s "/Users/jbaldwin/.bun/_bun" ] && source "/Users/jbaldwin/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
 
 # Dotfiles helpers
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
