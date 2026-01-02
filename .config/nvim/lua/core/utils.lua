@@ -154,13 +154,11 @@ end
 
 M.oil_toggle = function()
 	local current_buf = vim.api.nvim_get_current_buf()
-	local current_filetype = vim.api.nvim_buf_get_option(current_buf, "filetype")
+	local current_filetype = vim.bo[current_buf].filetype
 
 	if current_filetype == "oil" then
-		-- We use a command to go to the previous buffer
 		require("oil").close()
 	else
-		-- Open oil if not already in an oil buffer
 		vim.cmd("Oil")
 	end
 end

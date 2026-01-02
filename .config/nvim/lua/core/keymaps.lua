@@ -254,10 +254,9 @@ M.lspconfig = {
 	},
 }
 
-M.nvimtree = {
+M.oil = {
 	n = {
-		-- toggle
-		["<leader>o"] = { "<cmd> lua require('oil').toggle_float() <CR>", "toggle oil" },
+		["<leader>o"] = { "<cmd>lua require('oil').toggle_float()<CR>", "toggle oil" },
 	},
 }
 
