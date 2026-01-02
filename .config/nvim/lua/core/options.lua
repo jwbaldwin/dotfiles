@@ -60,14 +60,7 @@ end
 vim.g.mapleader = " "
 vim.o.background = "dark"
 
--- formatter.nvim autoformat on save
-local augroup = vim.api.nvim_create_augroup
-local autocmd = vim.api.nvim_create_autocmd
-augroup("__formatter__", { clear = true })
-autocmd("BufWritePost", {
-	group = "__formatter__",
-	command = ":FormatWrite",
-})
+-- format on save is now handled by conform.nvim (see lua/core/plugins/conform.lua)
 
 -- vim test setup
 vim.g["test#strategy"] = "neovim"

@@ -105,10 +105,10 @@ require("lazy").setup({
 		end,
 	},
 	{
-		"mhartington/formatter.nvim",
-		config = function()
-			require("core.plugins.configs").formatter()
-		end,
+		"stevearc/conform.nvim",
+		event = { "BufWritePre" },
+		cmd = { "ConformInfo" },
+		opts = require("core.plugins.conform").opts,
 	},
 
 	-- nvim.cmp + snippets replacement
