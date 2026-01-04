@@ -76,6 +76,10 @@ install_packages() {
 		fail "Brewfile not found at $brewfile"
 	fi
 
+	# Tap third-party repos first (brew bundle doesn't always handle this reliably)
+	info "Adding required taps..."
+	brew tap nikitabobko/tap
+
 	info "Installing packages from Brewfile..."
 	brew bundle --file="$brewfile"
 	success "Packages installed successfully."
