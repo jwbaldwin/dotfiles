@@ -105,10 +105,10 @@ require("lazy").setup({
 		end,
 	},
 	{
-		"mhartington/formatter.nvim",
-		config = function()
-			require("core.plugins.configs").formatter()
-		end,
+		"stevearc/conform.nvim",
+		event = { "BufWritePre" },
+		cmd = { "ConformInfo" },
+		opts = require("core.plugins.conform").opts,
 	},
 
 	-- nvim.cmp + snippets replacement
@@ -306,7 +306,8 @@ require("lazy").setup({
 	},
 	{
 		"stevearc/oil.nvim",
-		opts = {},
+		-- Lazy loading is not recommended because it is very tricky to make it work correctly in all situations.
+		lazy = false,
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		config = function()
 			require("core.plugins.oil")

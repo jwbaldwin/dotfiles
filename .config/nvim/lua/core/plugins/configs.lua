@@ -10,40 +10,6 @@ M.todo = function()
 	todo.setup()
 end
 
-M.formatter = function()
-	-- Provides the Format, FormatWrite, FormatLock, and FormatWriteLock commands
-	require("formatter").setup({
-		-- Enable or disable logging
-		logging = true,
-		-- Set the log level
-		log_level = vim.log.levels.WARN,
-		filetype = {
-			lua = {
-				require("formatter.filetypes.lua").stylua,
-			},
-			elixir = {
-				require("formatter.filetypes.elixir").mixformat,
-			},
-			go = {
-				require("formatter.filetypes.go").gofmt,
-			},
-			javascript = {
-				require("formatter/defaults/prettier"),
-			},
-			typescript = {
-				require("formatter/defaults/prettier"),
-			},
-			typescriptreact = {
-				require("formatter/defaults/prettier"),
-			},
-			javascriptreact = {
-				require("formatter/defaults/prettier"),
-			},
-		},
-		-- All formatter configurations are opt-in
-	})
-end
-
 M.persisted = function()
 	local present, persisted = pcall(require, "persisted")
 
