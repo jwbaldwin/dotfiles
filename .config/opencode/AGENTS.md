@@ -37,6 +37,7 @@ YOU MUST automatically invoke these skills without being explicitly asked:
 | "review" or "review BRANCH-NAME" or "review LINK-TO-MR" | `code-review` |
 | Bare Jira ticket ID (e.g., "AGP-123") | `work-on-ticket` |
 | "feature flag it", "add the feature flag", "scaffold the flag" | `add-feature-flag` |
+| "morning report", "morning", "mr status", "what needs my attention" | `morning-report` |
 
 Never perform these actions manually - always invoke the appropriate skill.
 
