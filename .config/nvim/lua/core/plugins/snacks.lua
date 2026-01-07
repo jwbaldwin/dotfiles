@@ -27,32 +27,7 @@ return {
 		toggle = { enabled = true },
 		words = { enabled = true },
 
-		-- Dashboard Configuration
-		dashboard = {
-			formats = {
-				key = function(item)
-					return {
-						{ "[", hl = "special" },
-						{ item.key, hl = "key" },
-						{ "]", hl = "special" },
-					}
-				end,
-			},
-			sections = {
-				{
-					section = "terminal",
-					cmd = "chafa ~/.config/nvim/lua/core/plugins/images/cabin.jpg --format symbols --symbols vhalf --size 60x15 --stretch; sleep .1",
-					height = 15,
-					padding = 2,
-				},
-				{ title = "mru", padding = 1 },
-				{ section = "recent_files", limit = 5, padding = 1 },
-				{ title = "", file = vim.fn.fnamemodify(".", ":~"), padding = 1 },
-				{ section = "recent_files", cwd = true, limit = 5, padding = 1 },
-				{ icon = "/", title = "Projects", section = "projects", padding = 2 },
-				{ key = "q", action = ":qa" },
-			},
-		},
+		dashboard = { enabled = false },
 
 		-- Notifier Configuration
 		notifier = {

@@ -1,5 +1,15 @@
 local M = {}
 
+M.init = function()
+	vim.api.nvim_create_autocmd("VimEnter", {
+		callback = function()
+			if vim.fn.argc() == 0 and vim.bo.filetype ~= "lazy" then
+				require("fff").find_files()
+			end
+		end,
+	})
+end
+
 M.opts = {
 	debug = {
 		enabled = false,
