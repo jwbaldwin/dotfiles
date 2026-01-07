@@ -15,14 +15,35 @@ local function get_lsp_diagnostics_count(severity)
 	return count
 end
 
+-- Cache for git root lookups to avoid blocking shell calls on every statusline render
+local git_root_cache = {}
+
 --- @return string
 local function file_path_from_root()
-	local full_path = vim.fn.expand("%:p")
-	local root_dir = vim.fn.system("git rev-parse --show-toplevel 2>/dev/null"):gsub("\n", "")
+	-- Skip for special buffer types like oil
+	local buftype = vim.bo.buftype
+	local filetype = vim.bo.filetype
+	if buftype ~= "" or filetype == "oil" then
+		return ""
+	end
 
-	-- If not in a git repo, try to use the current working directory
-	if root_dir == "" then
-		root_dir = vim.fn.getcwd()
+	local full_path = vim.fn.expand("%:p")
+	if full_path == "" then
+		return ""
+	end
+
+	-- Get the directory of the current file to use as cache key
+	local file_dir = vim.fn.fnamemodify(full_path, ":h")
+
+	-- Check cache first
+	local root_dir = git_root_cache[file_dir]
+	if root_dir == nil then
+		-- Not cached, do the (blocking) lookup and cache it
+		root_dir = vim.fn.system("git rev-parse --show-toplevel 2>/dev/null"):gsub("\n", "")
+		if root_dir == "" then
+			root_dir = vim.fn.getcwd()
+		end
+		git_root_cache[file_dir] = root_dir
 	end
 
 	-- If file is within root, get relative path
@@ -312,7 +333,6 @@ end
 local redeable_filetypes = {
 	["qf"] = true,
 	["help"] = true,
-	["tsplayground"] = true,
 }
 
 StatusLine.active = function()

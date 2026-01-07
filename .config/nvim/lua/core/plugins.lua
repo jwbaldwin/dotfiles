@@ -34,10 +34,11 @@ require("lazy").setup({
 		opts = require("core.plugins.fff").opts,
 		lazy = false,
 		keys = require("core.plugins.fff").keys,
+		init = require("core.plugins.fff").init,
 	},
 	"nvim-lua/plenary.nvim",
 	{
-		"kyazdani42/nvim-web-devicons",
+		"nvim-tree/nvim-web-devicons",
 		config = function()
 			require("core.plugins.configs").devicons()
 		end,
@@ -62,7 +63,6 @@ require("lazy").setup({
 			require("core.plugins.treesitter")
 		end,
 	},
-	{ "nvim-treesitter/playground", event = "VeryLazy" },
 	-- git stuff
 	{
 		"lewis6991/gitsigns.nvim",
@@ -147,6 +147,10 @@ require("lazy").setup({
 		init = function()
 			require("core.utils").load_mappings("comment")
 		end,
+	},
+	{
+		"sphamba/smear-cursor.nvim",
+		opts = {},
 	},
 
 	-- file managing , picker etc
