@@ -148,6 +148,10 @@ require("lazy").setup({
 			require("core.utils").load_mappings("comment")
 		end,
 	},
+	{
+		"sphamba/smear-cursor.nvim",
+		opts = {},
+	},
 
 	-- file managing , picker etc
 	{
