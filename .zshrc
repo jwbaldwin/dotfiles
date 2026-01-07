@@ -23,30 +23,25 @@ export GOPATH="$HOME/.go"
 export PNPM_HOME="$HOME/Library/pnpm"
 export PATH="$HOME/.opencode/bin:$PNPM_HOME:$GOPATH/bin:$HOME/bin:/usr/local/bin:$PATH"
 
-# Oh My Zsh
-export ZSH="$HOME/.oh-my-zsh"
-export ZSH_DISABLE_COMPFIX=true
+# ===== Completions =====
+autoload -Uz compinit
+compinit -C
 
-# disable OMZ auto-update checks
-zstyle ':omz:update' mode disabled
+# ===== Plugins (installed via Homebrew) =====
+[ -r "$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ] && \
+  source "$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+[ -r "$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ] && \
+  source "$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 
-# ===== Plugins =====
-plugins=(
-  git
-  jj
-  zsh-syntax-highlighting
-  zsh-autosuggestions
-  z
-)
+# z - directory jumping (zoxide is a faster alternative if installed)
+if command -v zoxide &> /dev/null; then
+  eval "$(zoxide init zsh)"
+fi
 
-source "$ZSH/oh-my-zsh.sh"
-
-# direnv (only when installed - skipped on personal machines)
+# direnv (only when installed)
 if command -v direnv &> /dev/null; then
   eval "$(direnv hook zsh)"
 fi
-
-# Note: OMZ already calls compinit, so we skip redundant call here
 
 # ===== Prompt (Starship with caching) =====
 if [[ ! -f "$HOME/.cache/starship_init.zsh" ]] || [[ $(which starship) -nt "$HOME/.cache/starship_init.zsh" ]]; then

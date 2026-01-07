@@ -37,7 +37,7 @@ require("lazy").setup({
 	},
 	"nvim-lua/plenary.nvim",
 	{
-		"kyazdani42/nvim-web-devicons",
+		"nvim-tree/nvim-web-devicons",
 		config = function()
 			require("core.plugins.configs").devicons()
 		end,
@@ -62,7 +62,6 @@ require("lazy").setup({
 			require("core.plugins.treesitter")
 		end,
 	},
-	{ "nvim-treesitter/playground", event = "VeryLazy" },
 	-- git stuff
 	{
 		"lewis6991/gitsigns.nvim",

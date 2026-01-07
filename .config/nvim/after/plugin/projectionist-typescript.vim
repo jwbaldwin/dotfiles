@@ -7,6 +7,11 @@ let s:base_dir = resolve(expand("<sfile>:p:h"))
 let s:proj_jsn = s:base_dir . "/projections-typescript.json"
 
 function! s:setTypescriptProjections()
+  " Skip for special buffer types like oil
+  if &filetype ==# 'oil' || expand('%:p') =~# '^oil://'
+    return
+  endif
+
   " Find the project root by looking for package.json or tsconfig.json
   let l:file = get(g:, 'projectionist_file', expand('%:p'))
   let l:root = fnamemodify(l:file, ':h')
