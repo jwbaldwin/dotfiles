@@ -34,6 +34,7 @@ require("lazy").setup({
 		opts = require("core.plugins.fff").opts,
 		lazy = false,
 		keys = require("core.plugins.fff").keys,
+		init = require("core.plugins.fff").init,
 	},
 	"nvim-lua/plenary.nvim",
 	{

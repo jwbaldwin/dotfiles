@@ -4,7 +4,13 @@ M.init = function()
 	vim.api.nvim_create_autocmd("VimEnter", {
 		callback = function()
 			if vim.fn.argc() == 0 and vim.bo.filetype ~= "lazy" then
-				require("fff").find_files()
+				-- Open oil first (fullscreen in cwd), then fff on top
+				vim.schedule(function()
+					vim.cmd("edit oil://" .. vim.fn.getcwd())
+					vim.schedule(function()
+						require("fff").find_files()
+					end)
+				end)
 			end
 		end,
 	})
