@@ -90,9 +90,9 @@ alias dc="docker-compose"
 
 # Command-line related
 alias lsa='ls -a'
-alias personal="cd ~/repos/_personal"
-alias personal="cd ~/repos/_projects"
-alias proj="cd ~/repos/_projects/anor"
+alias ll= 'la -la'
+alias personal="cd ~/repos/personal"
+alias proj="cd ~/repos/projects"
 alias pfind="lsof -i"
 
 # Pnpm shortner
