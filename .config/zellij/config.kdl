@@ -12,16 +12,22 @@ keybinds {
         bind "Ctrl l" { MoveFocusOrTab "Right"; }
         bind "Ctrl p" { ToggleTab; }
     }
+
+    tab {
+        bind "Shift Left" { MoveTab "Left"; }
+        bind "Shift h" { MoveTab "Left"; }
+        bind "Shift Right" { MoveTab "Right"; }
+        bind "Shift l" { MoveTab "Right"; }
+    }
 }
 
-// Behavior
+default_mode "locked"
+
 on_force_close "quit"
 copy_on_select true
 
-// UI
 simplified_ui true
 pane_frames false
 
-// Theme
 theme "tokyo-night"
 theme_dir "/Users/jbaldwin/.config/zellij/themes"
