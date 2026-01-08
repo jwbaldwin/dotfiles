@@ -1,0 +1,30 @@
+layout {
+    default_tab_template {
+        pane size=1 borderless=true {
+            plugin location="zellij:compact-bar"
+        }
+        children
+    }
+    tab_template name="ui" {
+        pane size=1 borderless=true {
+            plugin location="zellij:compact-bar"
+        }
+        children
+    }
+
+    ui name="mcp" cwd="~/repos/mcp" {
+        pane
+    }
+    ui name="oc-mcp" cwd="~/repos/mcp" {
+        pane
+    }
+    ui name="aicc" cwd="~/repos/ai-command-center" {
+        pane
+    }
+    ui name="oc-aicc" cwd="~/repos/ai-command-center" {
+        pane
+    }
+    ui name="oc" cwd="~/repos" {
+        pane
+    }
+}
