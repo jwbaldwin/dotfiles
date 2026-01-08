@@ -2,7 +2,7 @@
 
 [user]
 name = "jwbaldwin"
-email = "jwbaldwin@gmail.com"
+email = "jwbaldwin3@gmail.com"
 
 [ui]
 default-command = "log"
@@ -11,9 +11,6 @@ diff-formatter = ":git"
 diff-editor = ["nvim", "-c", "DiffEditor $left $right $output"]
 conflict-marker-style = "git"
 show-cryptographic-signatures = true
-
-[git]
-push-new-bookmarks = true
 
 [aliases]
 tug = ["bookmark", "move", "--from", "closest_bookmark(@-)", "--to", "@-"]
@@ -26,3 +23,6 @@ cdiff = ["log", "-r", "main@origin..@"]
 [revset-aliases]
 'recent()' = 'committer_date(after:"1 month ago")'
 'closest_bookmark(to)' = 'heads(::to & bookmarks())'
+
+[remotes.origin]
+auto-track-bookmarks = "glob:*"
