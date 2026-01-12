@@ -89,8 +89,8 @@ alias dcu="docker-compose up -d"
 alias dc="docker-compose"
 
 # Command-line related
-alias lsa='ls -a'
-alias ll= 'la -la'
+alias lsa="ls -a"
+alias ll="ls -la"
 alias personal="cd ~/repos/personal"
 alias proj="cd ~/repos/projects"
 alias pfind="lsof -i"
