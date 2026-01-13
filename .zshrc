@@ -117,3 +117,5 @@ bindkey '^[[B' history-beginning-search-forward
 if [[ ! -f "$HOME/.zshrc.zwc" ]] || [[ "$HOME/.zshrc" -nt "$HOME/.zshrc.zwc" ]]; then
   zcompile "$HOME/.zshrc"
 fi
+export PATH="$HOME/.zdocs/bin:$PATH"
+source $(brew --prefix asdf)/libexec/asdf.sh
