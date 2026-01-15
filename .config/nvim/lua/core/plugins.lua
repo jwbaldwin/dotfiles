@@ -225,11 +225,23 @@ require("lazy").setup({
 
 	{
 		"ThePrimeagen/harpoon",
-		-- branch = "harpoon2",
+		branch = "harpoon2",
 		dependencies = { "nvim-lua/plenary.nvim" },
 		config = function()
-			require("core.plugins.configs").harpoon()
+			require("core.plugins.harpoon").config()
 		end,
+	},
+	{
+		"swaits/zellij-nav.nvim",
+		lazy = true,
+		event = "VeryLazy",
+		keys = {
+			{ "<c-h>", "<cmd>ZellijNavigateLeftTab<cr>", { silent = true, desc = "navigate left or tab" } },
+			{ "<c-j>", "<cmd>ZellijNavigateDown<cr>", { silent = true, desc = "navigate down" } },
+			{ "<c-k>", "<cmd>ZellijNavigateUp<cr>", { silent = true, desc = "navigate up" } },
+			{ "<c-l>", "<cmd>ZellijNavigateRightTab<cr>", { silent = true, desc = "navigate right or tab" } },
+		},
+		opts = {},
 	},
 	"mg979/vim-visual-multi",
 	"tpope/vim-surround",
@@ -265,6 +277,7 @@ require("lazy").setup({
 	},
 	{
 		"christoomey/vim-tmux-navigator",
+		lazy = true,
 		cmd = {
 			"TmuxNavigateLeft",
 			"TmuxNavigateDown",
@@ -272,13 +285,6 @@ require("lazy").setup({
 			"TmuxNavigateRight",
 			"TmuxNavigatePrevious",
 			"TmuxNavigatorProcessList",
-		},
-		keys = {
-			{ "<leader>h", "<cmd><C-U>TmuxNavigateLeft<cr>" },
-			{ "<leader>j", "<cmd><C-U>TmuxNavigateDown<cr>" },
-			{ "<leader>k", "<cmd><C-U>TmuxNavigateUp<cr>" },
-			{ "<leader>l", "<cmd><C-U>TmuxNavigateRight<cr>" },
-			{ "<leader>p", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
 		},
 	},
 

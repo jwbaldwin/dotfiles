@@ -13,7 +13,7 @@ local default_on_attach = function(client, bufnr)
 	require("core.utils").load_mappings("lspconfig", { buffer = bufnr })
 end
 
-local servers = { "html", "cssls", "jsonls", "bashls", "ts_ls", "svelte", "tailwindcss", "gopls", "marksman", "prismals" }
+local servers = { "html", "cssls", "jsonls", "bashls", "ts_ls", "tailwindcss", "gopls", "marksman", "prismals" }
 
 for _, lsp in ipairs(servers) do
 	local config = vim.lsp.config[lsp] or {}
@@ -73,9 +73,4 @@ local lexical_config = {
 vim.lsp.config.lexical = lexical_config
 vim.lsp.enable("lexical")
 
-if os.getenv("WORK") == "true" then
-	local copilot_config = dofile(vim.fn.expand("~/.local/share/nvim/lazy/nvim-lspconfig/lsp/copilot.lua"))
-	copilot_config.cmd = { vim.fn.expand("~/.local/share/mise/installs/node/22.20.0/bin/node"), vim.fn.expand("~/.local/share/nvim/lazy/copilot.vim/copilot-language-server/dist/language-server.js"), "--stdio" }
-	vim.lsp.config.copilot = copilot_config
-	vim.lsp.enable("copilot")
-end
+-- copilot.vim plugin handles its own LSP server, no need to configure here

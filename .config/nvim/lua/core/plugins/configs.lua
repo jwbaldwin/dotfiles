@@ -41,23 +41,6 @@ M.persisted = function()
 	persisted.setup(options)
 end
 
-M.harpoon = function()
-	local present, harpoon = pcall(require, "harpoon")
-
-	if not present then
-		return
-	end
-
-	local options = {
-		global_settings = {
-			-- set marks specific to each git branch inside git repository
-			mark_branch = true,
-		},
-	}
-
-	harpoon.setup(options)
-end
-
 M.autopairs = function()
 	local present1, autopairs = pcall(require, "nvim-autopairs")
 
