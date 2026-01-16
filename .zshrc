@@ -113,6 +113,22 @@ alias df='dotfiles'
 bindkey '^[[A' history-beginning-search-backward
 bindkey '^[[B' history-beginning-search-forward
 
+# ===== Zellij navigation (Ctrl+hjkl) =====
+if [[ -n "$ZELLIJ" ]]; then
+  zellij-nav-left()  { zellij action move-focus-or-tab left; }
+  zellij-nav-down()  { zellij action move-focus down; }
+  zellij-nav-up()    { zellij action move-focus up; }
+  zellij-nav-right() { zellij action move-focus-or-tab right; }
+  zle -N zellij-nav-left
+  zle -N zellij-nav-down
+  zle -N zellij-nav-up
+  zle -N zellij-nav-right
+  bindkey '^h' zellij-nav-left
+  bindkey '^j' zellij-nav-down
+  bindkey '^k' zellij-nav-up
+  bindkey '^l' zellij-nav-right
+fi
+
 # ===== Compile zshrc for faster loading =====
 if [[ ! -f "$HOME/.zshrc.zwc" ]] || [[ "$HOME/.zshrc" -nt "$HOME/.zshrc.zwc" ]]; then
   zcompile "$HOME/.zshrc"

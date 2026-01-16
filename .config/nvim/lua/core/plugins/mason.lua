@@ -39,9 +39,7 @@ local ensure_installed = {
 	"stylua",
 
 	-- elixir
-	"elixir-ls",
-	"yamllint",
-	"yaml-language-server",
+	"lexical",
 
 	-- go
 	"gopls",
@@ -53,9 +51,19 @@ local ensure_installed = {
 	"eslint-ls",
 	"typescript-language-server",
 	"json-lsp",
+	"emmet-language-server",
 
 	-- shell
+	"bash-language-server",
 	"shfmt",
+
+	-- markdown
+	"marksman",
+
+	-- misc
+	"yamllint",
+	"yaml-language-server",
+	"prisma-language-server",
 }
 
 vim.api.nvim_create_user_command("MasonInstallAll", function()

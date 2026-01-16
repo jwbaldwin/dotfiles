@@ -31,12 +31,6 @@ M.general = {
 			"reload neovim config",
 		},
 
-		-- switch between windows
-		["<leader>h"] = { ":wincmd h<cr>", "window left" },
-		["<leader>j"] = { ":wincmd j<cr>", "window down" },
-		["<leader>k"] = { ":wincmd k<cr>", "window up" },
-		["<leader>l"] = { ":wincmd l<cr>", "window right" },
-
 		-- copy and save
 		["<C-y>"] = { "<cmd> w <CR>", "save file" },
 		["<C-a>"] = { "<cmd> %y+ <CR>", "copy all" },
@@ -340,17 +334,6 @@ M.whichkey = {
 			end,
 			"which-key all keymaps",
 		},
-	},
-}
-
-M.harpoon = {
-	n = {
-		["<C-h>"] = { "<cmd>lua require('harpoon.ui').toggle_quick_menu()<cr>", "toggle harpoon menu" },
-		["<C-j>"] = { "<cmd>lua require('harpoon.ui').nav_file(1)<cr>", "harpoon 1" },
-		["<C-k>"] = { "<cmd>lua require('harpoon.ui').nav_file(2)<cr>", "harpoon 2" },
-		["<C-l>"] = { "<cmd>lua require('harpoon.ui').nav_file(3)<cr>", "harpoon 3" },
-		["<C-_>"] = { "<cmd>lua require('harpoon.ui').nav_file(4)<cr>", "harpoon 4" },
-		["<C-f>"] = { "<cmd>lua require('harpoon.mark').add_file()<cr>", "harpoon: add file" },
 	},
 }
 
