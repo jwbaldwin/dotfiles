@@ -11,6 +11,8 @@ themes {
         cyan 42 195 222
         white 192 202 245
         orange 255 158 100
+        selection_bg 58 61 82
+        cursor_bg 122 162 247
     }
 }
 

@@ -118,4 +118,6 @@ if [[ ! -f "$HOME/.zshrc.zwc" ]] || [[ "$HOME/.zshrc" -nt "$HOME/.zshrc.zwc" ]];
   zcompile "$HOME/.zshrc"
 fi
 export PATH="$HOME/.zdocs/bin:$PATH"
-source $(brew --prefix asdf)/libexec/asdf.sh
+if [[ "$WORK" != "true" ]] && command -v asdf &> /dev/null; then
+  source "$(brew --prefix asdf)/libexec/asdf.sh"
+fi
