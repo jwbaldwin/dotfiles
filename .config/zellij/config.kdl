@@ -4,6 +4,31 @@ keybinds clear-defaults=true {
         bind "Ctrl n" { NewPane; }
         bind "Ctrl p" { ToggleTab; }
         bind "Ctrl f" { ToggleFloatingPanes; }
+        bind "Ctrl r" { Write 18; }
+        bind "Ctrl h" {
+            MessagePlugin "nav-passthrough" {
+                name "move_focus_or_tab"
+                payload "left"
+            }
+        }
+        bind "Ctrl j" {
+            MessagePlugin "nav-passthrough" {
+                name "move_focus"
+                payload "down"
+            }
+        }
+        bind "Ctrl k" {
+            MessagePlugin "nav-passthrough" {
+                name "move_focus"
+                payload "up"
+            }
+        }
+        bind "Ctrl l" {
+            MessagePlugin "nav-passthrough" {
+                name "move_focus_or_tab"
+                payload "right"
+            }
+        }
     }
     pane {
         bind "left" { MoveFocus "left"; }

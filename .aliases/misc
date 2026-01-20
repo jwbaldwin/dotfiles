@@ -34,6 +34,7 @@ alias v="nvim"
 alias vi="nvim"
 alias vim="nvim"
 alias nv="nvim"
+alias nvim='nvim +"FFFFind"'
 
 
 # Function to fzf files (using rg if possible) in a directory (default .) and open in nvim

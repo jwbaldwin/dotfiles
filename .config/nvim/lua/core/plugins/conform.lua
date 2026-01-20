@@ -5,10 +5,17 @@ M.opts = {
 		lua = { "stylua" },
 		elixir = { "mix" },
 		go = { "gofmt" },
-		javascript = { "oxfmt", "oxlint", "prettierd", "prettier", stop_after_first = true },
-		typescript = { "oxfmt", "oxlint", "prettierd", "prettier", stop_after_first = true },
-		javascriptreact = { "oxfmt", "oxlint", "prettierd", "prettier", stop_after_first = true },
-		typescriptreact = { "oxfmt", "oxlint", "prettierd", "prettier", stop_after_first = true },
+		javascript = { "oxfmt", "prettierd", "prettier", stop_after_first = true },
+		typescript = { "oxfmt", "prettierd", "prettier", stop_after_first = true },
+		javascriptreact = { "oxfmt", "prettierd", "prettier", stop_after_first = true },
+		typescriptreact = { "oxfmt", "prettierd", "prettier", stop_after_first = true },
+	},
+	formatters = {
+		oxfmt = {
+			command = "oxfmt",
+			args = { "--stdin-filepath", "$FILENAME" },
+			stdin = true,
+		},
 	},
 	format_on_save = {
 		timeout_ms = 500,

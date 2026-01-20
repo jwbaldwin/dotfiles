@@ -127,6 +127,9 @@ if [[ -n "$ZELLIJ" ]]; then
   bindkey '^j' zellij-nav-down
   bindkey '^k' zellij-nav-up
   bindkey '^l' zellij-nav-right
+  bindkey '^R' history-incremental-search-backward
+  bindkey -M viins '^R' history-incremental-search-backward
+  bindkey -M vicmd '^R' history-incremental-search-backward
 fi
 
 # ===== Compile zshrc for faster loading =====

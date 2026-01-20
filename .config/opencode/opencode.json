@@ -3,24 +3,20 @@
   "theme": "tokyonight",
   "autoupdate": true,
   "keybinds": {
-    "command_list": "ctrl+o"
+    "command_list": "ctrl+o",
+    "session_rename": "none"
   },
   "mcp": {
     "zapier-mcp": {
       "type": "remote",
-      "url": "https://mcp.zapier.com/api/mcp/s/MzU4MzUzZWYtZTU3YS00Mjg1LWIwNDItN2UxN2Y1ZjE3NzRhOjI2ZGNjZmQ0LWQ3ZDgtNGE5OC1iYzEwLTExMGJiNzE4Y2NmZQ==/mcp",
+      "url": "https://mcp.zapier.com/api/v2/connect?token=MzU4MzUzZWYtZTU3YS00Mjg1LWIwNDItN2UxN2Y1ZjE3NzRhOm44bTVROGVYUy92bzZibDhxbGlqVEVLakp1d3J3VjRrM3dRaDRRV2Vod2s9",
       "enabled": true
     },
     "playwright": {
       "type": "local",
-      "command": [
-        "npx",
-        "@playwright/mcp@latest"
-      ],
+      "command": ["npx", "@playwright/mcp@latest"],
       "enabled": true
     }
   },
-  "plugin": [
-    "@mohak34/opencode-notifier@latest"
-  ]
+  "plugin": ["@mohak34/opencode-notifier@latest"]
 }
