@@ -69,17 +69,6 @@ if [[ ! -f "$HOME/.cache/mise_activate.zsh" ]] || [[ $(which mise) -nt "$HOME/.c
 fi
 source "$HOME/.cache/mise_activate.zsh"
 
-# ===== nvm (lazy-loaded on first use) =====
-# export NVM_DIR="$HOME/.nvm"
-# nvm() {
-#   unset -f nvm node npm npx
-#   [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-#   nvm "$@"
-# }
-# node() { nvm exec --silent --silent "$0" "$@"; }
-# npm()  { nvm exec --silent --silent "$0" "$@"; }
-# npx()  { nvm exec --silent --silent "$0" "$@"; }
-
 # ===== Aliases directory =====
 for file in "$HOME"/.aliases/*(N); do
   [[ -r "$file" ]] && source "$file"
