@@ -27,8 +27,5 @@ cdiff = ["log", "-r", "main@origin..@"]
 [remotes.origin]
 auto-track-bookmarks = "glob:*"
 
-[git]
-push-new-bookmarks = true
-
 [templates]
 git_push_bookmark = '"jb/push-" ++ change_id.short()'

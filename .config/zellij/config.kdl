@@ -257,9 +257,8 @@ web_client {
 }
  
 simplified_ui true
-theme "tokyo-night"
+theme "tokyo-night-dark"
 default_mode "locked"
-theme_dir "/Users/jbaldwin/.config/zellij/themes"
 pane_frames false
 on_force_close "quit"
 copy_on_select true
