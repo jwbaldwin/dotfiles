@@ -237,7 +237,7 @@ plugins {
     filepicker location="zellij:strider" {
         cwd "/"
     }
-    nav-passthrough location="https://github.com/jwbaldwin/zellij-nav-passthrough/releases/latest/download/zellij-nav-passthrough.wasm"
+    nav-passthrough location="file:/Users/jbaldwin/.config/zellij/plugins/zellij-nav-passthrough.wasm"
     plugin-manager location="zellij:plugin-manager"
     session-manager location="zellij:session-manager"
     status-bar location="zellij:status-bar"
