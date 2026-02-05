@@ -12,9 +12,11 @@ M.opts = {
 	},
 	formatters = {
 		oxfmt = {
-			command = "oxfmt",
-			args = { "--stdin-filepath", "$FILENAME" },
-			stdin = true,
+			cwd = function()
+				-- Run from project root so oxfmt can find node_modules/.bin/
+				local root = vim.fs.find({ "package.json", ".git" }, { upward = true, path = vim.fn.expand("%:p:h") })[1]
+				return root and vim.fn.fnamemodify(root, ":h") or vim.fn.getcwd()
+			end,
 		},
 	},
 	format_on_save = {
