@@ -40,7 +40,7 @@ YOU MUST automatically invoke these skills without being explicitly asked:
 | Bare Jira ticket ID (e.g., "AGP-123")                               | `work-on-ticket`   |
 | "feature flag it", "add the feature flag", "scaffold the flag"      | `add-feature-flag` |
 | "morning report", "morning", "mr status", "what needs my attention" | `morning-report`   |
-| "quick bug", "log a bug", "create bug ticket"                       | `quick-bug`        |
+| "quick fix", "quick bug", "log a bug", "create bug ticket"          | `quick-fix`        |
 
 Never perform these actions manually - always invoke the appropriate skill.
 
@@ -53,4 +53,5 @@ Never perform these actions manually - always invoke the appropriate skill.
 - Favor simplicity over cleverness. Simple code is easier to maintain.
 
 ## VCS
- - We use Jujutsu vcs to manage our code but often work with people who use Git. You MUST use Jujutsu, NOT git.
+
+- We use Jujutsu vcs to manage our code but often work with people who use Git. You MUST use Jujutsu, NOT git.

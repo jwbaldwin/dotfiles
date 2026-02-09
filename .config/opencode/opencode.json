@@ -19,5 +19,11 @@
       "enabled": true
     }
   },
-  "plugin": ["@mohak34/opencode-notifier@latest"]
+  "plugin": ["@mohak34/opencode-notifier@latest"],
+  "experimental": {
+    "batch_tool": true,
+    "continue_loop_on_deny": true,
+    "disable_paste_summary": true,
+    "openTelemetry": true
+  }
 }

@@ -152,12 +152,12 @@ Acceptance Criteria:
 **Claude:**
 1. Tries to fetch BAD-999 from Jira
 2. Ticket not found
-3. Informs Lucas: "Couldn't find ticket BAD-999 in Jira. Please check the ticket ID."
+3. Informs James: "Couldn't find ticket BAD-999 in Jira. Please check the ticket ID."
 4. STOPS
 
 ## Important Notes
 
-- **Keep bookmar names concise** - aim for clarity over completeness
+- **Keep bookmark names concise** - aim for clarity over completeness
 - **Include ticket context** in the task planning prompt to give the planner maximum context
 - **The `/investigate` command** will handle the detailed planning - this skill just sets up the environment
 
@@ -165,9 +165,9 @@ Acceptance Criteria:
 
 The skill is successful when:
 1. ✅ Jira ticket is fetched successfully
-2. ✅ Appropriate bookmar name is generated
+2. ✅ Appropriate bookmark name is generated
 3. ✅ Git state is verified (no uncommitted changes or user approved)
-4. ✅ New bookmar is created and checked out
+4. ✅ New bookmark is created and checked out
 5. ✅ `/investigate` command is executed with ticket context
 6. ✅ James is informed of each major step OR any issues encountered stop the workflow and are reported
 
