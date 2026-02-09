@@ -9,6 +9,7 @@ M.opts = {
 		typescript = { "oxfmt", "prettierd", "prettier", stop_after_first = true },
 		javascriptreact = { "oxfmt", "prettierd", "prettier", stop_after_first = true },
 		typescriptreact = { "oxfmt", "prettierd", "prettier", stop_after_first = true },
+		markdown = {}, -- Marksman doesn't support formatting, skip LSP fallback
 	},
 	formatters = {
 		oxfmt = {

@@ -65,3 +65,9 @@ Over-engineering vs under-abstracting:
 ### 4. Dependencies and Integration
 - New dependencies added
 - Database migration requirements
+
+### 5. Human review guidance
+- Provide a clear breakdown of the changes (simple, concise, no jargon)
+- The key files to review
+- Propose an order for reviewing the changes
+
