@@ -101,6 +101,7 @@ alias pm="pnpm"
 
 # Opencode shortner
 alias oc="opencode"
+alias occ="opencode --continue"
 
 ### Mise updating nvim ###
 alias update-nvim='mise upgrade neovim@nightly'
