@@ -51,3 +51,6 @@ Never perform these actions manually - always invoke the appropriate skill.
 - YAGNI. The best code is no code. Don't add features we don't need right now.
 - When it doesn't conflict with YAGNI, architect for maintainability, readability.
 - Favor simplicity over cleverness. Simple code is easier to maintain.
+
+## VCS
+ - We use Jujutsu vcs to manage our code but often work with people who use Git. You MUST use Jujutsu, NOT git.

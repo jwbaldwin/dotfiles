@@ -2,8 +2,7 @@ keybinds clear-defaults=true {
     locked {
         bind "Ctrl g" { SwitchToMode "normal"; }
         bind "Ctrl ," { SwitchToMode "renametab"; TabNameInput 0; }
-        bind "Ctrl n" { NewPane; }
-        bind "Ctrl p" { ToggleTab; }
+        // bind "Ctrl n Ctrl p" { NewPane; }
         bind "Ctrl f" { ToggleFloatingPanes; }
         bind "Ctrl r" { Write 18; }
         bind "Ctrl h" {
