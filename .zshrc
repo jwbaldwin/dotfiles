@@ -95,7 +95,7 @@ alias df='dotfiles'
 # AI API token source
 [ -r "$HOME/.ai_keys.sh" ] && source "$HOME/.ai_keys.sh"
 
-# OpenCode experimental features (env-var flags)
+# OpenCode experimental features
 export OPENCODE_EXPERIMENTAL=1
 export OPENCODE_EXPERIMENTAL_MARKDOWN=1
 

@@ -3,7 +3,7 @@ keybinds clear-defaults=true {
         bind "Ctrl g" { SwitchToMode "normal"; }
         bind "Ctrl ," { SwitchToMode "renametab"; TabNameInput 0; }
         bind "Ctrl Shift p" { NewPane; }
-        bind "Ctrl Shift t" { NewTab; }
+        bind "Ctrl Shift n" { NewTab; }
         bind "Ctrl f" { ToggleFloatingPanes; }
         bind "Ctrl r" { Write 18; }
         bind "Ctrl h" {
