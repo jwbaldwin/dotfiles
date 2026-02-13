@@ -106,8 +106,9 @@ export OPENCODE_EXPERIMENTAL_MARKDOWN=1
 bindkey '^[[A' history-beginning-search-backward
 bindkey '^[[B' history-beginning-search-forward
 
-# ===== Zellij navigation (Ctrl+hjkl) =====
+# ===== Zellij =====
 if [[ -n "$ZELLIJ" ]]; then
+  # Navigation (Ctrl+hjkl)
   zellij-nav-left()  { zellij action move-focus-or-tab left; }
   zellij-nav-down()  { zellij action move-focus down; }
   zellij-nav-up()    { zellij action move-focus up; }
@@ -123,6 +124,17 @@ if [[ -n "$ZELLIJ" ]]; then
   bindkey '^R' history-incremental-search-backward
   bindkey -M viins '^R' history-incremental-search-backward
   bindkey -M vicmd '^R' history-incremental-search-backward
+
+  # Auto-rename tabs: show command while running, directory when idle
+  _zellij_tab_rename() { command nohup zellij action rename-tab "$1" >/dev/null 2>&1 }
+  _zellij_tab_precmd() {
+    local dir=${PWD##*/}
+    [[ $PWD == $HOME ]] && dir="~"
+    _zellij_tab_rename "$dir"
+  }
+  _zellij_tab_preexec() { _zellij_tab_rename "${1%% *}"; }
+  add-zsh-hook precmd _zellij_tab_precmd
+  add-zsh-hook preexec _zellij_tab_preexec
 fi
 
 # ===== Compile zshrc for faster loading =====

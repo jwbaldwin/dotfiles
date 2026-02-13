@@ -231,17 +231,23 @@ require("lazy").setup({
 			require("core.plugins.harpoon").config()
 		end,
 	},
+	-- {
+	-- 	"swaits/zellij-nav.nvim",
+	-- 	lazy = true,
+	-- 	event = "VeryLazy",
+	-- 	keys = {
+	-- 		{ "<c-h>", "<cmd>ZellijNavigateLeftTab<cr>", { silent = true, desc = "navigate left or tab" } },
+	-- 		{ "<c-j>", "<cmd>ZellijNavigateDown<cr>", { silent = true, desc = "navigate down" } },
+	-- 		{ "<c-k>", "<cmd>ZellijNavigateUp<cr>", { silent = true, desc = "navigate up" } },
+	-- 		{ "<c-l>", "<cmd>ZellijNavigateRightTab<cr>", { silent = true, desc = "navigate right or tab" } },
+	-- 	},
+	-- 	opts = {},
+	-- },
 	{
-		"swaits/zellij-nav.nvim",
-		lazy = true,
-		event = "VeryLazy",
-		keys = {
-			{ "<c-h>", "<cmd>ZellijNavigateLeftTab<cr>", { silent = true, desc = "navigate left or tab" } },
-			{ "<c-j>", "<cmd>ZellijNavigateDown<cr>", { silent = true, desc = "navigate down" } },
-			{ "<c-k>", "<cmd>ZellijNavigateUp<cr>", { silent = true, desc = "navigate up" } },
-			{ "<c-l>", "<cmd>ZellijNavigateRightTab<cr>", { silent = true, desc = "navigate right or tab" } },
-		},
-		opts = {},
+		"urbainvaes/vim-tmux-pilot",
+		config = function()
+			vim.g.pilot_mode = "wintab"
+		end,
 	},
 	"mg979/vim-visual-multi",
 	"tpope/vim-surround",
