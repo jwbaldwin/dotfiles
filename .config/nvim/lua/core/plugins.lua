@@ -107,8 +107,21 @@ require("lazy").setup({
 	{
 		"stevearc/conform.nvim",
 		event = { "BufWritePre" },
-		cmd = { "ConformInfo" },
+		cmd = { "ConformInfo", "ConformDisable", "ConformEnable" },
 		opts = require("core.plugins.conform").opts,
+		init = function()
+			vim.api.nvim_create_user_command("ConformDisable", function(args)
+				if args.bang then
+					vim.b.disable_autoformat = true
+				else
+					vim.g.disable_autoformat = true
+				end
+			end, { bang = true, desc = "Disable format-on-save (! = buffer only)" })
+			vim.api.nvim_create_user_command("ConformEnable", function()
+				vim.b.disable_autoformat = false
+				vim.g.disable_autoformat = false
+			end, { desc = "Re-enable format-on-save" })
+		end,
 	},
 
 	-- nvim.cmp + snippets replacement

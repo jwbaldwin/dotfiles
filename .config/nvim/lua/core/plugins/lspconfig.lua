@@ -1,13 +1,18 @@
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
 
+vim.lsp.handlers["textDocument/willSaveWaitUntil"] = function()
+	return {}
+end
+
 local default_on_attach = function(client, bufnr)
-	if vim.g.vim_version > 7 then
-		client.server_capabilities.documentFormattingProvider = true
-		client.server_capabilities.documentRangeFormattingProvider = true
-	else
-		client.resolved_capabilities.document_formatting = true
-		client.resolved_capabilities.document_range_formatting = true
+	-- Disable LSP formatting for servers where a dedicated formatter (conform.nvim) handles it.
+	-- Force-enabling this was causing ts_ls to truncate files when conform fell through to lsp_format = "fallback".
+	client.server_capabilities.documentFormattingProvider = false
+	client.server_capabilities.documentRangeFormattingProvider = false
+	client.server_capabilities.documentOnTypeFormattingProvider = false
+	client.handlers["textDocument/willSaveWaitUntil"] = function()
+		return {}
 	end
 
 	require("core.utils").load_mappings("lspconfig", { buffer = bufnr })

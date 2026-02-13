@@ -27,7 +27,7 @@ style = "yellow"
 # custom module for jj status
 [custom.jj]
 command = "jj-prompt"
-when = "jj-prompt detect"
+detect_folders = [".jj"]
 shell = ["sh"]
 format = "$output "
 

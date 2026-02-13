@@ -1,6 +1,6 @@
 ---
 name: work-on-ticket
-description: Fetches Jira ticket details, creates an appropriately named branch, and initiates the task planning workflow. Use when the user says "work on [TICKET_ID]" or similar phrases.
+description: Fetches Jira ticket details, creates an appropriately named jj bookmark, and initiates the task planning workflow. Use when the user says "work on [TICKET_ID]" or similar phrases.
 license: MIT
 allowed-tools: 
   - read
@@ -33,13 +33,18 @@ Ticket ID format: `[A-Z]+-[0-9]+` (e.g., AGP-782, AICC-123)
 
 ### 2. Fetch Jira Ticket Details
 
-Use the MCP Zapier tool to fetch the ticket:
+Use the Zapier MCP tool to fetch the ticket:
 
-```typescript
-mcp__zapier-frontend__jira_software_cloud_find_issue_by_key({
-  instructions: "Get details for ticket [TICKET_ID]",
-  key: "[TICKET_ID]",
-  fields: "summary,description,issuetype,priority,status"
+```
+zapier-mcp_execute_search_action({
+  app: "jira",
+  action: "issue_jql",
+  instructions: "Find ticket [TICKET_ID]",
+  output: "Return the issue key, summary, description, issue type, priority, and status",
+  params: {
+    jql: "key = [TICKET_ID]",
+    fields: "summary,description,issuetype,priority,status"
+  }
 })
 ```
 
@@ -52,17 +57,17 @@ mcp__zapier-frontend__jira_software_cloud_find_issue_by_key({
 
 ### 3. Generate Jujutsu Bookmark Name
 
-Create a branch name using this format:
+Create a bookmark name using this format:
 ```
 [TICKET_ID]-[kebab-case-summary]
 
 ```
 
-**Branch Naming Rules:**
-- Start with the ticket ID (e.g., `agp-782-`) (lowercase)
+**Bookmark Naming Rules:**
+- All lowercase, kebab-case, max 50 chars
+- Start with the ticket ID (e.g., `agp-782-`)
 - Convert summary to kebab-case (lowercase, dashes instead of spaces)
 - Remove special characters
-- Keep it concise (max 50 characters total)
 - Use meaningful words
 
 **Examples:**
@@ -70,9 +75,15 @@ Create a branch name using this format:
 - `aicc-123-fix-auth-token-expiry`
 - `proj-456-add-user-settings-page`
 
+**Commit Message Rules:**
+- All lowercase
+- No ticket ID in the message
+- Short and descriptive (max 50 chars)
+- Example: `'migrate mcp server to new architecture'`
+
 ### 4. Check Current Jujutsu State
 
-Before creating a new commit with Jujutsu, and bookmark, check the current state:
+Before creating a new commit and bookmark, check the current state:
 
 ```bash
 jj st
@@ -86,7 +97,7 @@ jj git fetch
 jj new main # create a new commit on top of main
 
 # Create bookmark with description
-jj describe -m '[a very short 50 character description of the the first commit]'
+jj describe -m 'lowercase short description, no ticket id, max 50 chars'
 jj bookmark create [BOOKMARK_NAME]
 ```
 
@@ -141,8 +152,8 @@ Acceptance Criteria:
 **Claude:**
 1. Fetches AGP-782 from Jira
 2. Finds summary: "Migrate existing MCP server"
-3. Checks git state (clean, on staging)
-4. Creates JJ bookmark and describe: `agp-782-migrate-existing-mcp-server`
+3. Checks jj state, creates new commit off main
+4. Creates bookmark and describes: `agp-782-migrate-existing-mcp-server`
 5. Runs: `/investigate AGP-782 Migrate existing MCP server implementation...`
 
 ### Example 3: Ticket Not Found
@@ -157,17 +168,17 @@ Acceptance Criteria:
 
 ## Important Notes
 
-- **Keep bookmark names concise** - aim for clarity over completeness
+- **Keep bookmark names concise** — aim for clarity over completeness
 - **Include ticket context** in the task planning prompt to give the planner maximum context
-- **The `/investigate` command** will handle the detailed planning - this skill just sets up the environment
+- **The `/investigate` command** will handle the detailed planning — this skill just sets up the environment
 
 ## Success Criteria
 
 The skill is successful when:
 1. ✅ Jira ticket is fetched successfully
 2. ✅ Appropriate bookmark name is generated
-3. ✅ Git state is verified (no uncommitted changes or user approved)
-4. ✅ New bookmark is created and checked out
+3. ✅ Jujutsu state is clean (new commit off main)
+4. ✅ Bookmark is created with correct naming conventions
 5. ✅ `/investigate` command is executed with ticket context
 6. ✅ James is informed of each major step OR any issues encountered stop the workflow and are reported
 

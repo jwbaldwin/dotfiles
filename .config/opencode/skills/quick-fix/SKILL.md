@@ -1,6 +1,6 @@
 ---
 name: quick-fix
-description: Retroactively create a Jira bug ticket in AGP, jj bookmark, and push for a fix already in the working copy. Triggered by "quick fix", "quick bug", "log a bug", "create bug ticket", or when James has already made a change and needs to formalize it with a ticket and branch.
+description: Retroactively create a Jira bug ticket in AGP, jj bookmark, and push for a fix already in the working copy. Triggered by "quick fix", "quick bug", "log a bug", "create bug ticket", or when James has already made a change and needs to formalize it with a ticket and bookmark.
 ---
 
 # Quick Fix
@@ -48,11 +48,13 @@ zapier-mcp_execute_write_action({
 
 ### 3. Bookmark, Describe, Push
 
-Bookmark: all lowercase, kebab-case, max 50 chars.
+**Bookmark:** all lowercase, kebab-case, max 50 chars.
+
+**Commit message:** all lowercase, no ticket ID, max 50 chars.
 
 ```bash
 jj bookmark create agp-NNNN-short-description
-jj describe -m 'short description of the fix'
+jj describe -m 'lowercase short description, no ticket id'
 jj git push --bookmark agp-NNNN-short-description
 ```
 

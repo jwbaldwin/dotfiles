@@ -5,7 +5,7 @@ description: Create a GitLab merge request from the current jj bookmark. Trigger
 
 # Create Merge Request
 
-Create a GitLab MR from the current jujutsu bookmark, push the branch, and assign reviewers.
+Create a GitLab MR from the current jujutsu bookmark, push to GitLab, and assign reviewers.
 
 ## Repository Config
 
@@ -18,8 +18,8 @@ Create a GitLab MR from the current jujutsu bookmark, push the branch, and assig
 
 | Name | GitLab Username |
 |------|----------------|
-| Nate Moore | `nate.moore` (ID: 3708962) |
-| Dylan Liable | Look up at runtime via project members API |
+| Nate Moore | `neat.moore` (ID: 16898407) |
+| Dylan Laible | `dylan.laible` (ID: 31252789) |
 
 ## Workflow
 
@@ -41,7 +41,7 @@ Extract:
 - **Ticket ID** - extract from bookmark name (e.g., `AGP-782`)
 - **Commit messages** - from `jj log` for the commits in this stack
 
-### 3. Push the Branch
+### 3. Push the Bookmark
 
 Push the jj bookmark to GitLab:
 
@@ -68,9 +68,15 @@ Example: `[AGP-782] Migrate existing MCP server`
 
 ### 5. Get Description from James
 
+**STOP. Do NOT write a description yourself. Do NOT proceed to step 6 until James has responded.**
+
 Ask James: "What should the MR description be? Or should I leave it blank for you to fill in?"
 
-If James says to leave it blank or doesn't provide one, use an empty description.
+- If James provides text, use it verbatim.
+- If James says to leave it blank, use an empty description.
+- If James doesn't respond or says anything ambiguous, use an empty description.
+
+Never draft, summarize, or generate a description on your own — even if you have full context about the change. James writes his own MR descriptions.
 
 ### 6. Create the MR
 
@@ -101,23 +107,17 @@ zapier-mcp_execute_write_action({
   params: {
     method: "PUT",
     url: "https://gitlab.com/api/v4/projects/<project_id>/merge_requests/<iid>",
-    body: JSON.stringify({ reviewer_ids: [3708962, <dylan_id>] })
+    url: "https://gitlab.com/api/v4/projects/<project_id>/merge_requests/<iid>?reviewer_ids[]=16898407&reviewer_ids[]=31252789",
+    body: ""
   }
 })
-```
-
-To resolve Dylan's ID (or any reviewer whose ID isn't cached):
-
-```
-GET https://gitlab.com/api/v4/projects/<project_id>/members/all?search=<username>
-```
 
 ### 8. Report
 
 ```
 MR created: [TICKET-ID] Description (!<iid>)
   URL: https://gitlab.com/.../-/merge_requests/<iid>
-  Reviewers: Nate Moore, Dylan Liable
+  Reviewers: Nate Moore, Dylan Laible
   Target: <target_branch>
 ```
 
@@ -131,18 +131,18 @@ Agent: "What should the MR description be? Or should I leave it blank?"
 
 James: "leave it blank"
 
-Agent: [pushes branch, creates MR, assigns reviewers]
+Agent: [pushes bookmark, creates MR with empty description, assigns reviewers]
 Agent:
   MR created: [AGP-782] Migrate existing MCP server (!230)
     URL: https://gitlab.com/zapier/team-agents-platform/mcp/-/merge_requests/230
-    Reviewers: Nate Moore, Dylan Liable
+    Reviewers: Nate Moore, Dylan Laible
     Target: main
 ```
 
 ## Important Notes
 
 - Always push the bookmark before creating the MR
-- If the bookmark doesn't exist yet, prompt James to create one or run `jj bookmark create`
+- If no bookmark exists yet, prompt James to create one with `jj bookmark create`
 - The MR is created as non-draft by default. If James says "draft MR" or "WIP", set the title prefix to `Draft: `
 - If James specifies different reviewers, use those instead of the defaults
 - If James specifies a target branch, use that instead of the default

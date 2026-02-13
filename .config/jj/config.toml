@@ -9,7 +9,7 @@ default-command = "log"
 pager = "delta"
 diff-formatter = ":git"
 diff-editor = ["nvim", "-c", "DiffEditor $left $right $output"]
-conflict-marker-style = "git"
+conflict-marker-style = "diff"
 show-cryptographic-signatures = true
 
 [aliases]

@@ -62,12 +62,8 @@ setopt EXTENDED_HISTORY      # Add timestamps to history
 # ===== User configuration =====
 export SSH_KEY_PATH="$HOME/.ssh/id_rsa"
 
-# Mise (cached for performance)
-if [[ ! -f "$HOME/.cache/mise_activate.zsh" ]] || [[ $(which mise) -nt "$HOME/.cache/mise_activate.zsh" ]]; then
-  mkdir -p "$HOME/.cache"
-  mise activate zsh > "$HOME/.cache/mise_activate.zsh"
-fi
-source "$HOME/.cache/mise_activate.zsh"
+# Mise (shims mode — no precmd hook, no per-prompt overhead)
+export PATH="$HOME/.local/share/mise/shims:$PATH"
 
 # ===== Aliases directory =====
 for file in "$HOME"/.aliases/*(N); do
