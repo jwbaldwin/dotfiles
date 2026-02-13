@@ -34,7 +34,13 @@ alias v="nvim"
 alias vi="nvim"
 alias vim="nvim"
 alias nv="nvim"
-alias nvim='nvim +"FFFFind"'
+nvim() {
+  if [[ $# -eq 0 ]]; then
+    command nvim +"FFFFind"
+  else
+    command nvim "$@"
+  fi
+}
 
 
 # Function to fzf files (using rg if possible) in a directory (default .) and open in nvim

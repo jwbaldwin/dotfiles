@@ -20,15 +20,12 @@ log-recent = ["log", "-r", "default() & recent()"]
 cl = ["log", "-r", "(main..@):: | (main..@)-"]
 cdiff = ["log", "-r", "main@origin..@"]
 
-[git]
-push-new-bookmarks = true
-
 [revset-aliases]
 'recent()' = 'committer_date(after:"1 month ago")'
 'closest_bookmark(to)' = 'heads(::to & bookmarks())'
 
 [remotes.origin]
-auto-track-bookmarks = "glob:*"
+auto-track-bookmarks = "*"
 
 [templates]
 git_push_bookmark = '"jb/push-" ++ change_id.short()'
