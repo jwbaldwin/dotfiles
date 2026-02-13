@@ -13,16 +13,22 @@ conflict-marker-style = "diff"
 show-cryptographic-signatures = true
 
 [aliases]
-tug = ["bookmark", "move", "--from", "closest_bookmark(@-)", "--to", "@-"]
+tug = ["util", "exec", "--", "sh", "-c", """
+  if [ -n "$1" ]; then
+    jj bookmark move "$1" --to 'closest_pushable(@)'
+  else
+    jj bookmark move --from 'closest_bookmark(@)' --to 'closest_pushable(@)'
+  fi
+""", "sh"]
 log-recent = ["log", "-r", "default() & recent()"]
-# shows commits on the working-copy commit's (anonymous) bookmark
-# compared to the `main` bookmark
-cl = ["log", "-r", "(main..@):: | (main..@)-"]
-cdiff = ["log", "-r", "main@origin..@"]
+gf = ["git", "fetch"]
+rb = ["rebase", "-d", "trunk()"]
+tp = ["util","exec","--","sh","-c","jj tug \"$@\" && jj git push","sh"]
 
 [revset-aliases]
 'recent()' = 'committer_date(after:"1 month ago")'
 'closest_bookmark(to)' = 'heads(::to & bookmarks())'
+'closest_pushable(to)' = 'heads(::to & mutable() & ~description(exact:"") & (~empty() | merges()))'
 
 [remotes.origin]
 auto-track-bookmarks = "*"
