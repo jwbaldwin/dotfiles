@@ -10,7 +10,7 @@
   "mcp": {
     "zapier-mcp": {
       "type": "remote",
-      "url": "https://mcp.zapier.com/api/v2/connect?token=MzU4MzUzZWYtZTU3YS00Mjg1LWIwNDItN2UxN2Y1ZjE3NzRhOm44bTVROGVYUy92bzZibDhxbGlqVEVLakp1d3J3VjRrM3dRaDRRV2Vod2s9",
+      "url": "https://mcp.zapier.com/api/v2/connect",
       "enabled": true
     },
     "playwright": {

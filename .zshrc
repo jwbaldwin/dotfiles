@@ -21,7 +21,7 @@ export CLICOLOR=1
 # ===== Consolidated PATH =====
 export GOPATH="$HOME/.go"
 export PNPM_HOME="$HOME/Library/pnpm"
-export PATH="$HOME/.opencode/bin:$PNPM_HOME:$GOPATH/bin:$HOME/bin:/usr/local/bin:$PATH"
+export PATH="$HOME/.opencode/bin:$PNPM_HOME:$GOPATH/bin:$HOME/bin:/usr/local/bin:$HOMEBREW_PREFIX/bin:$HOMEBREW_PREFIX/sbin:$PATH"
 
 # ===== Completions =====
 autoload -Uz compinit
@@ -99,6 +99,9 @@ export OPENCODE_EXPERIMENTAL_MARKDOWN=1
 [ -r "$HOME/.local/bin/env" ] && . "$HOME/.local/bin/env"
 
 # ===== Keybindings for faster history search =====
+bindkey '^R' history-incremental-search-backward
+bindkey -M viins '^R' history-incremental-search-backward
+bindkey -M vicmd '^R' history-incremental-search-backward
 bindkey '^[[A' history-beginning-search-backward
 bindkey '^[[B' history-beginning-search-forward
 
