@@ -39,7 +39,7 @@ local ensure_installed = {
 	"stylua",
 
 	-- elixir
-	"lexical",
+	"expert",
 
 	-- go
 	"gopls",

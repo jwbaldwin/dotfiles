@@ -56,9 +56,8 @@ require("lazy").setup({
 
 	{
 		"nvim-treesitter/nvim-treesitter",
-		version = false,
+		lazy = false,
 		build = ":TSUpdate",
-		event = { "BufReadPost", "BufNewFile" },
 		config = function()
 			require("core.plugins.treesitter")
 		end,
@@ -92,12 +91,17 @@ require("lazy").setup({
 			require("core.plugins.mason")
 		end,
 	},
-
+	{
+		"williamboman/mason-lspconfig.nvim",
+		opts = {},
+		dependencies = {
+			"williamboman/mason.nvim",
+			"neovim/nvim-lspconfig",
+		},
+	},
 	{
 		"neovim/nvim-lspconfig",
 		dependencies = {
-			"williamboman/mason-lspconfig.nvim",
-			"williamboman/mason.nvim",
 			"saghen/blink.cmp",
 		},
 		config = function()
@@ -233,7 +237,7 @@ require("lazy").setup({
 		end,
 	},
 	{ "ramojus/mellifluous.nvim" },
-	{ "datsfilipe/vesper.nvim" },
+
 	{ "aliqyan-21/darkvoid.nvim" },
 
 	{

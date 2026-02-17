@@ -1,31 +1,34 @@
-local present, treesitter = pcall(require, "nvim-treesitter.configs")
-
-if not present then
-	return
-end
-
-local options = {
-	ensure_installed = {
-		"bash",
-		"css",
-		"eex",
-		"elixir",
-		"erlang",
-		"go",
-		"heex",
-		"html",
-		"lua",
-		"norg",
-		"svelte",
-		"tsx",
-		"typescript",
-		"vim",
-		"vimdoc",
-		"yaml",
-	},
-	highlight = {
-		enable = true,
-	},
+local ensure_installed = {
+	"bash",
+	"css",
+	"eex",
+	"elixir",
+	"erlang",
+	"go",
+	"heex",
+	"html",
+	"lua",
+	"svelte",
+	"tsx",
+	"typescript",
+	"vim",
+	"vimdoc",
+	"yaml",
 }
 
-treesitter.setup(options)
+-- Install missing parsers (async)
+local installed = require("nvim-treesitter").get_installed()
+local to_install = vim.tbl_filter(function(lang)
+	return not vim.list_contains(installed, lang)
+end, ensure_installed)
+
+if #to_install > 0 then
+	require("nvim-treesitter").install(to_install)
+end
+
+-- Neovim's auto-start can be disrupted by plugin load order, so explicitly enable it
+vim.api.nvim_create_autocmd("FileType", {
+	callback = function(args)
+		pcall(vim.treesitter.start, args.buf)
+	end,
+})

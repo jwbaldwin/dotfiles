@@ -1,36 +1,43 @@
+-- Shared capabilities (blink.cmp completion support)
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
 
+-- Apply shared capabilities to all servers via wildcard
+vim.lsp.config("*", {
+	capabilities = capabilities,
+})
+
+-- Suppress willSaveWaitUntil globally
 vim.lsp.handlers["textDocument/willSaveWaitUntil"] = function()
 	return {}
 end
 
-local default_on_attach = function(client, bufnr)
-	-- Disable LSP formatting for servers where a dedicated formatter (conform.nvim) handles it.
-	-- Force-enabling this was causing ts_ls to truncate files when conform fell through to lsp_format = "fallback".
-	client.server_capabilities.documentFormattingProvider = false
-	client.server_capabilities.documentRangeFormattingProvider = false
-	client.server_capabilities.documentOnTypeFormattingProvider = false
-	client.handlers["textDocument/willSaveWaitUntil"] = function()
-		return {}
-	end
+-- Shared on_attach behavior for all LSP servers
+vim.api.nvim_create_autocmd("LspAttach", {
+	callback = function(args)
+		local client = vim.lsp.get_client_by_id(args.data.client_id)
+		if not client then
+			return
+		end
 
-	require("core.utils").load_mappings("lspconfig", { buffer = bufnr })
-end
+		-- Disable LSP formatting — conform.nvim handles it
+		client.server_capabilities.documentFormattingProvider = false
+		client.server_capabilities.documentRangeFormattingProvider = false
+		client.server_capabilities.documentOnTypeFormattingProvider = false
 
-local servers = { "html", "cssls", "jsonls", "bashls", "ts_ls", "tailwindcss", "gopls", "marksman", "prismals" }
+		client.handlers["textDocument/willSaveWaitUntil"] = function()
+			return {}
+		end
 
-for _, lsp in ipairs(servers) do
-	local config = vim.lsp.config[lsp] or {}
-	config.on_attach = default_on_attach
-	config.capabilities = capabilities
-	vim.lsp.config[lsp] = config
-	vim.lsp.enable(lsp)
-end
+		-- Buffer-local LSP keymaps
+		require("core.utils").load_mappings("lspconfig", { buffer = args.buf })
+	end,
+})
+
+-- Server-specific settings (only needed for servers that need custom config)
+-- mason-lspconfig auto-enables all Mason-installed servers with lspconfig defaults.
 
 vim.lsp.config.lua_ls = {
-	capabilities = capabilities,
-	on_attach = default_on_attach,
 	settings = {
 		Lua = {
 			diagnostics = {
@@ -47,11 +54,8 @@ vim.lsp.config.lua_ls = {
 		},
 	},
 }
-vim.lsp.enable("lua_ls")
 
 vim.lsp.config.emmet_language_server = {
-	capabilities = capabilities,
-	on_attach = default_on_attach,
 	filetypes = {
 		"css",
 		"html",
@@ -64,18 +68,3 @@ vim.lsp.config.emmet_language_server = {
 		"eelixir",
 	},
 }
-vim.lsp.enable("emmet_language_server")
-
-local lexical_config = {
-	filetypes = { "elixir", "eelixir", "heex", "eex", "surface" },
-	cmd = { "/Users/" .. os.getenv("USER") .. "/.local/share/nvim/mason/bin/lexical", "server" },
-	root_markers = { "mix.exs" },
-	capabilities = capabilities,
-	on_attach = default_on_attach,
-	settings = {},
-}
-
-vim.lsp.config.lexical = lexical_config
-vim.lsp.enable("lexical")
-
--- copilot.vim plugin handles its own LSP server, no need to configure here
