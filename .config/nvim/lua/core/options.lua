@@ -2,6 +2,10 @@
 -- load my globals, autocmds here or anything
 --
 
+-- Prevent vim-projectionist from running detection on term:// buffers,
+-- which blocks the first ToggleTerm invocation until Ctrl-C is pressed.
+vim.g.projectionist_ignore_term = 1
+
 vim.opt.laststatus = 3 -- global statusline
 vim.opt.showmode = false
 

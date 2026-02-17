@@ -43,6 +43,13 @@ M.keys = {
 		end,
 		desc = "FFFind files",
 	},
+	{
+		"<leader>fg",
+		function()
+			require("fff").live_grep()
+		end,
+		desc = "FFF live grep",
+	},
 }
 
 M.build = function()
