@@ -94,53 +94,19 @@ alias df='dotfiles'
 # OpenCode experimental features
 export OPENCODE_EXPERIMENTAL=1
 export OPENCODE_EXPERIMENTAL_MARKDOWN=1
+export OPENCODE_EXPERIMENTAL_PLAN_MODE=0
 
 # Local env (kept as-is)
 [ -r "$HOME/.local/bin/env" ] && . "$HOME/.local/bin/env"
 
-# ===== Keybindings for faster history search =====
+# ===== Keybindings for faster history search ===== (unsure if needed still)
 bindkey '^R' history-incremental-search-backward
 bindkey -M viins '^R' history-incremental-search-backward
 bindkey -M vicmd '^R' history-incremental-search-backward
 bindkey '^[[A' history-beginning-search-backward
 bindkey '^[[B' history-beginning-search-forward
 
-# ===== Zellij =====
-if [[ -n "$ZELLIJ" ]]; then
-  # Navigation (Ctrl+hjkl)
-  zellij-nav-left()  { zellij action move-focus-or-tab left; }
-  zellij-nav-down()  { zellij action move-focus down; }
-  zellij-nav-up()    { zellij action move-focus up; }
-  zellij-nav-right() { zellij action move-focus-or-tab right; }
-  zle -N zellij-nav-left
-  zle -N zellij-nav-down
-  zle -N zellij-nav-up
-  zle -N zellij-nav-right
-  bindkey '^h' zellij-nav-left
-  bindkey '^j' zellij-nav-down
-  bindkey '^k' zellij-nav-up
-  bindkey '^l' zellij-nav-right
-  bindkey '^R' history-incremental-search-backward
-  bindkey -M viins '^R' history-incremental-search-backward
-  bindkey -M vicmd '^R' history-incremental-search-backward
-
-  # Auto-rename tabs: show command while running, directory when idle
-  _zellij_tab_rename() { command nohup zellij action rename-tab "$1" >/dev/null 2>&1 }
-  _zellij_tab_precmd() {
-    local dir=${PWD##*/}
-    [[ $PWD == $HOME ]] && dir="~"
-    _zellij_tab_rename "$dir"
-  }
-  _zellij_tab_preexec() { _zellij_tab_rename "${1%% *}"; }
-  add-zsh-hook precmd _zellij_tab_precmd
-  add-zsh-hook preexec _zellij_tab_preexec
-fi
-
 # ===== Compile zshrc for faster loading =====
 if [[ ! -f "$HOME/.zshrc.zwc" ]] || [[ "$HOME/.zshrc" -nt "$HOME/.zshrc.zwc" ]]; then
   zcompile "$HOME/.zshrc"
-fi
-export PATH="$HOME/.zdocs/bin:$PATH"
-if [[ "$WORK" != "true" ]] && command -v asdf &> /dev/null; then
-  source "$(brew --prefix asdf)/libexec/asdf.sh"
 fi

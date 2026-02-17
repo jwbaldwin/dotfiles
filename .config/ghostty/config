@@ -22,7 +22,7 @@ macos-window-buttons = hidden
 macos-icon = retro
 
 background-blur-radius = true
-background-opacity = 0.95
+background-opacity = 0.92
 
 keybind = cmd+s=text:\x13
 keybind = ctrl+;=text:\x1F
