@@ -47,7 +47,13 @@ Over-engineering vs under-abstracting:
 - Humans find the right level: abstract what repeats, keep simple things simple
 
 
-### 2. Code quality
+### 2. Can we achieve the same result but simpler?
+
+This is the most important question in a review. For every MR, ask: is there a way to get the same behavior with less machinery?
+
+If the answer is yes, propose the simpler alternative concretely — explain what the MR does today, what changes, and what goes away.
+
+### 3. Code quality
 - Logic correctness and edge cases
 - Error handling and validation, logging
 - SOLID principles adherence, DRY but only after the rule of three
@@ -55,18 +61,18 @@ Over-engineering vs under-abstracting:
 - Resource management (memory leaks, connection handling)
 - Concurrency issues if applicable
 
-### 3. Test quality
+### 4. Test quality
 - Tests actually test the intended behavior
 - Setup is clear and concise (refactored if repeated)
 - Tests are small and focused and provide confidence that the change works
 - Tests are clear and maintainable by humans
 - Tests serve as good documentation for the code behavior
 
-### 4. Dependencies and Integration
+### 5. Dependencies and Integration
 - New dependencies added
 - Database migration requirements
 
-### 5. Human review guidance
+### 6. Human review guidance
 - Provide a clear breakdown of the changes (simple, concise, no jargon)
 - The key files to review
 - Propose an order for reviewing the changes

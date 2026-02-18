@@ -4,8 +4,7 @@ local options = {
 	terminal_colors = true,
 	styles = {
 		comments = { italic = true },
-		keywords = { italic = true },
-		function_def = { italic = true },
+		keywords = { italic = true, bold = true },
 		functions = {},
 		variables = {},
 		floats = "transparent",
@@ -16,7 +15,11 @@ local options = {
 	lualine_bold = true,
 	on_highlights = function(hl, c)
 		-- Define function definition keyword color
-		hl["@keyword.function"] = { fg = c.magenta, italic = true }
+		hl["@keyword.function"] = { fg = c.magenta, italic = true, bold = true }
+
+		-- Control flow keywords bold
+		hl["@keyword.return"] = { fg = c.magenta, bold = true }
+		hl["@keyword.conditional"] = { fg = c.magenta, bold = true }
 
 		-- Special syntax elements
 		hl.Special = { fg = c.yellow }

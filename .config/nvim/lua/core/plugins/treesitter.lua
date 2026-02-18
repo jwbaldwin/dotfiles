@@ -16,12 +16,16 @@ local ensure_installed = {
 	"yaml",
 }
 
-local function has_parser(lang)
-	return pcall(vim.treesitter.language.inspect, lang)
+-- Check nvim-treesitter's parser dir specifically, not Neovim's bundled parsers,
+-- to avoid stale bundled parsers mismatching nvim-treesitter's query files.
+local parser_dir = vim.fn.stdpath("data") .. "/lazy/nvim-treesitter/parser"
+
+local function has_installed_parser(lang)
+	return vim.uv.fs_stat(parser_dir .. "/" .. lang .. ".so") ~= nil
 end
 
 local to_install = vim.tbl_filter(function(lang)
-	return not has_parser(lang)
+	return not has_installed_parser(lang)
 end, ensure_installed)
 
 if #to_install > 0 and vim.fn.executable("tree-sitter") == 1 then
