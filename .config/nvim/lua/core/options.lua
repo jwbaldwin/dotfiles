@@ -98,12 +98,10 @@ local default_plugins = {
 	"zipPlugin",
 	"tutor",
 	"rplugin",
-	"syntax",
 	"synmenu",
 	"optwin",
 	"compiler",
 	"bugreport",
-	"ftplugin",
 }
 
 for _, plugin in pairs(default_plugins) do

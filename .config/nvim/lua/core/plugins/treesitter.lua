@@ -16,13 +16,15 @@ local ensure_installed = {
 	"yaml",
 }
 
--- Install missing parsers (async)
-local installed = require("nvim-treesitter").get_installed()
+local function has_parser(lang)
+	return pcall(vim.treesitter.language.inspect, lang)
+end
+
 local to_install = vim.tbl_filter(function(lang)
-	return not vim.list_contains(installed, lang)
+	return not has_parser(lang)
 end, ensure_installed)
 
-if #to_install > 0 then
+if #to_install > 0 and vim.fn.executable("tree-sitter") == 1 then
 	require("nvim-treesitter").install(to_install)
 end
 

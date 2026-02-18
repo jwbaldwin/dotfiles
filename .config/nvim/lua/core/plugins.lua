@@ -59,6 +59,9 @@ require("lazy").setup({
 		lazy = false,
 		build = ":TSUpdate",
 		config = function()
+			-- nvim-treesitter 1.0 ships queries under runtime/ which lazy.nvim
+			-- doesn't add to rtp automatically.
+			vim.opt.rtp:prepend(vim.fn.stdpath("data") .. "/lazy/nvim-treesitter/runtime")
 			require("core.plugins.treesitter")
 		end,
 	},
@@ -176,8 +179,7 @@ require("lazy").setup({
 		cmd = "Telescope",
 		dependencies = {
 			"nvim-telescope/telescope-live-grep-args.nvim",
-			"nvim-telescope/telescope-fzf-native.nvim",
-			build = "make",
+			{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
 		},
 		config = function()
 			require("core.plugins.telescope")
