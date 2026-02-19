@@ -24,7 +24,7 @@ Activate when James says:
 - "organize commits"
 - "jj split"
 
-This typically happens after a lot of work has been done and James forgot to ask for atomic commits upfront, and you forgot to do jj commits during your work. The changes are likely logically separable but currently lumped together. Make the messages all lower case and clear, plain
+This typically happens after a lot of work has been done and James forgot to ask for atomic commits upfront, and you forgot to do jj commits during your work. The changes are likely logically separable but currently lumped together.
 
 ## Step 1: Review Current State
 
@@ -59,7 +59,7 @@ Instead, use this approach:
 
 1. Create a new change for the first logical group:
 ```bash
-jj new -m "First logical change description"
+jj new
 ```
 
 2. Move specific files/paths or changes into this change:
@@ -67,11 +67,9 @@ jj new -m "First logical change description"
 jj file move <path> --from <parent-change-id>
 ```
 
-3. Repeat for each logical grouping:
-```bash
-jj new -m "Second logical change description"
-jj file move <other-paths> --from <parent-change-id>
-```
+3. Use the **commit skill** to describe and finalize each change — it handles message style and the `jj describe` + `jj new` workflow.
+
+4. Repeat for each logical grouping.
 
 **Alternative approach** if file-level granularity isn't enough:
 
@@ -82,9 +80,11 @@ jj squash -i --from <source> --into <destination>
 
 2. Or use `jj restore` to selectively stage:
 ```bash
-jj new -m "Description"
+jj new
 jj restore --from <parent> <paths>
 ```
+
+Then use the **commit skill** to write the message and finalize.
 
 ## Step 4: Verify Separation
 
@@ -110,18 +110,5 @@ Ensure it makes sense on its own and would be easy to review.
 
 - **Start with the foundation:** Move infrastructure/refactoring commits first, then features that depend on them
 - **Keep it atomic:** Each commit should represent one logical change
-- **Write good messages:** Future you (and reviewers) will thank you - keep it short and to the point, also all lower case
-- **Don't overthink it:** Good enough is better than perfect - the goal is reviewability, not perfection
-- **Keep the message plain** - avoid jargon, keep it plain
-
-## Example Output
-
-```
-Split changes into 4 commits:
-1. refactor user authentication helpers
-2. add feature flag setup
-3. implement new dashboard widget
-4. update tests for dashboard changes
-
-Each commit is now atomic and ready for review.
-```
+- **Don't overthink it:** Good enough is better than perfect — the goal is reviewability, not perfection
+- **Delegate message writing** to the commit skill — it knows the style rules

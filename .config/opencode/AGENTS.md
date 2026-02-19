@@ -43,6 +43,9 @@ YOU MUST automatically invoke these skills without being explicitly asked:
 | "morning report", "morning", "mr status", "what needs my attention"                     | `morning-report`    |
 | "quick fix", "quick bug", "log a bug", "create bug ticket"                              | `quick-fix`         |
 | "use my tone", "use writing style", "in my writing style"                             | `writing-style`     |
+| "commit", "commit this", "commit changes", "jj commit"                                 | `commit`            |
+| "new workspace", "create workspace", "use a workspace for this"                        | `workspace`         |
+| "clean up workspace", "remove workspace", "delete workspace"                           | `workspace`         |
 
 Never perform these actions manually - always invoke the appropriate skill.
 
@@ -57,3 +60,5 @@ Never perform these actions manually - always invoke the appropriate skill.
 ## VCS
 
 - We use Jujutsu vcs to manage our code but often work with people who use Git. You MUST use Jujutsu, NOT git.
+- To commit: use our commit skill which tells you how to use the jj commit command
+- Rarely use `jj squash`. We prefer to create new commits, not squash into parent. If you find yourself reaching for `jj squash`, stop — you almost certainly want `jj describe` + `jj new` instead.
