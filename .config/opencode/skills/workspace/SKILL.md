@@ -11,8 +11,17 @@ Create or clean up jj workspaces in `~/repos/workspaces/`, with bookmarks, so Ja
 
 Derive the workspace and bookmark name from context:
 
-1. **Jira ticket mentioned** — use the ticket ID in lowercase kebab-case (e.g., `agp-123`)
+1. **Jira ticket mentioned** — use `[ticket-id]-[kebab-case-summary]` (e.g., `agp-123-fix-auth-redirect`). Fetch the ticket summary from Jira if needed, or use the description from conversation context.
 2. **No ticket** — use a short kebab-case description of the work discussed (e.g., `fix-auth-redirect`, `add-metrics-export`)
+
+**Bookmark naming rules** (same convention as `work-on-ticket` and `quick-fix`):
+- All lowercase, kebab-case, max 50 chars
+- When a ticket is involved, start with the ticket ID (e.g., `agp-123-`)
+- Convert summary to kebab-case (lowercase, dashes instead of spaces)
+- Remove special characters
+- Use meaningful words
+
+The workspace directory name should match the bookmark name.
 
 Keep names short, lowercase, and descriptive. No prefixes like `ws-` or `workspace-`.
 
@@ -99,7 +108,7 @@ Tell James the workspace has been removed and whether the bookmark was deleted.
 
 ## Tips
 
-- If James chains this with **work-on-ticket**, the ticket ID is the obvious name — don't ask.
+- If James chains this with **work-on-ticket**, the ticket ID and summary are already known — use `[ticket-id]-[kebab-case-summary]` without asking.
 - The workspace shares the repo's storage, so no extra clone overhead.
 - If a workspace with that name already exists, stop and ask James what to do rather than guessing.
 - During cleanup, always ask about the bookmark — James may want to keep it even if the workspace is gone.
