@@ -62,7 +62,32 @@ return {
 		-- Picker Configuration
 		picker = {
 			prompt = " ",
-			sources = {},
+			sources = {
+				git_diff = {
+					-- Adjust pos to point at the first actual change, not the
+					-- start of the context block. Without this, quickfix entries
+					-- land 3 lines above the real change (git's default context).
+					transform = function(item)
+						if not item.diff or not item.pos then
+							return item
+						end
+						local offset = 0
+						for line in item.diff:gmatch("[^\n]+") do
+							if line:match("^diff ") or line:match("^index ") or line:match("^%-%-%-") or line:match("^%+%+%+") or line:match("^@@") then
+								-- skip diff header lines
+							elseif line:match("^ ") then
+								offset = offset + 1
+							else
+								break
+							end
+						end
+						if offset > 0 then
+							item.pos = { item.pos[1] + offset, item.pos[2] }
+						end
+						return item
+					end,
+				},
+			},
 			focus = "input",
 
 			-- Picker - Layout

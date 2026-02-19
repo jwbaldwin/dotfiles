@@ -22,6 +22,7 @@ tug = ["util", "exec", "--", "sh", "-c", """
 """, "sh"]
 log-recent = ["log", "-r", "default() & recent()"]
 gf = ["git", "fetch"]
+gp = ["git", "push"]
 rb = ["rebase", "-d", "trunk()"]
 tp = ["util","exec","--","sh","-c","jj tug \"$@\" && jj git push","sh"]
 
