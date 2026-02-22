@@ -87,6 +87,47 @@ return {
 						return item
 					end,
 				},
+				-- jj workspace-aware diff picker. Uses `jj diff --git` which
+				-- produces the same unified diff format that the Snacks diff
+				-- parser expects. Reuses git_diff's format/preview/sort so
+				-- everything looks identical.
+				jj_diff = {
+					title = "JJ Diff (Hunks)",
+					finder = function(opts, ctx)
+						local Diff = require("snacks.picker.source.diff")
+						local jj_dir = vim.fn.finddir(".jj", ".;")
+						local cwd = jj_dir ~= "" and vim.fn.fnamemodify(jj_dir, ":h") or vim.uv.cwd()
+						ctx.picker:set_cwd(cwd)
+						return Diff.diff(ctx:opts({
+							cmd = "jj",
+							args = { "diff", "--git" },
+							cwd = cwd,
+						}), ctx)
+					end,
+					format = "git_status",
+					preview = "diff",
+					matcher = { sort_empty = true },
+					sort = { fields = { "score:desc", "file", "idx" } },
+					transform = function(item)
+						if not item.diff or not item.pos then
+							return item
+						end
+						local offset = 0
+						for line in item.diff:gmatch("[^\n]+") do
+							if line:match("^diff ") or line:match("^index ") or line:match("^%-%-%-") or line:match("^%+%+%+") or line:match("^@@") then
+								-- skip diff header lines
+							elseif line:match("^ ") then
+								offset = offset + 1
+							else
+								break
+							end
+						end
+						if offset > 0 then
+							item.pos = { item.pos[1] + offset, item.pos[2] }
+						end
+						return item
+					end,
+				},
 			},
 			focus = "input",
 
@@ -520,7 +561,11 @@ return {
 		{
 			"<leader>gd",
 			function()
-				Snacks.picker.git_diff()
+				if vim.fn.finddir(".jj", ".;") ~= "" then
+					Snacks.picker.jj_diff()
+				else
+					Snacks.picker.git_diff()
+				end
 			end,
 			desc = "[G]it [d]iff (Hunks)",
 		},
