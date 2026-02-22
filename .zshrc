@@ -92,9 +92,8 @@ alias df='dotfiles'
 [ -r "$HOME/.ai_keys.sh" ] && source "$HOME/.ai_keys.sh"
 
 # OpenCode experimental features
-export OPENCODE_EXPERIMENTAL=1
-export OPENCODE_EXPERIMENTAL_MARKDOWN=1
 export OPENCODE_EXPERIMENTAL_PLAN_MODE=0
+export OPENCODE_EXPERIMENTAL_MARKDOWN=1
 
 # Local env (kept as-is)
 [ -r "$HOME/.local/bin/env" ] && . "$HOME/.local/bin/env"

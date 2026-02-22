@@ -112,6 +112,14 @@ require("lazy").setup({
 		end,
 	},
 	{
+		"synic/refactorex.nvim",
+		ft = "elixir",
+		opts = {
+			auto_update = true,
+			pin_version = nil,
+		},
+	},
+	{
 		"stevearc/conform.nvim",
 		event = { "BufWritePre" },
 		cmd = { "ConformInfo", "ConformDisable", "ConformEnable" },

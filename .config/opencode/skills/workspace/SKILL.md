@@ -1,11 +1,18 @@
 ---
 name: workspace
-description: Create or clean up jj workspaces in ~/repos/workspaces/ for starting separate work without disturbing the current working copy. Triggered by "new workspace", "create workspace", "use a workspace for this" for creation, or "clean up workspace", "remove workspace", "delete workspace" for cleanup.
+description: Create or clean up jj workspaces in a repo-sibling workspaces directory (for example ~/repos/workspaces or ~/repos/projects/workspaces) for starting separate work without disturbing the current working copy. Triggered by "new workspace", "create workspace", "use a workspace for this" for creation, or "clean up workspace", "remove workspace", "delete workspace" for cleanup.
 ---
 
 # Workspace
 
-Create or clean up jj workspaces in `~/repos/workspaces/`, with bookmarks, so James can start separate work without touching his current working copy.
+Create or clean up jj workspaces in a `workspaces/` directory that is a sibling of the current repo, with bookmarks, so James can start separate work without touching his current working copy.
+
+Workspace root rule:
+- Determine the current repo root with `jj root`.
+- Set `WORKSPACES_DIR` to `<parent-of-repo-root>/workspaces`.
+- Examples:
+  - Repo at `~/repos/agent-platform` -> `WORKSPACES_DIR=~/repos/workspaces`
+  - Repo at `~/repos/projects/agent-platform` -> `WORKSPACES_DIR=~/repos/projects/workspaces`
 
 ## Naming
 
@@ -34,16 +41,29 @@ From conversation context, pick the workspace name using the rules above. If it'
 ### Step 2: Create the workspace
 
 ```bash
-mkdir -p ~/repos/workspaces
-jj workspace add <workspace-name> --path ~/repos/workspaces/<workspace-name>
+REPO_ROOT="$(jj root)"
+WORKSPACES_DIR="$(dirname "$REPO_ROOT")/workspaces"
+mkdir -p "$WORKSPACES_DIR"
+jj workspace add -R "$REPO_ROOT" --name <workspace-name> "$WORKSPACES_DIR/<workspace-name>"
 ```
 
-This creates a new working copy in `~/repos/workspaces/`, sharing the same repo storage.
+This creates a new working copy in the repo-sibling `workspaces/` directory, sharing the same repo storage.
+
+### Crucial `.git` note
+
+James relies on some tools that require a `.git` directory to exist in the workspace.
+
+- `jj workspace add` creates non-main workspaces with `.jj` only (no `.git`).
+- Immediately check whether `.git` exists in the new workspace path.
+- If `.git` is missing, call it out to James right away and explain that this is current jj behavior.
+- Do **not** copy or symlink `.git` manually as a workaround.
+- If `.git` is required for the task, use a separate colocated repo (`jj git clone --colocate ...`) instead of a secondary `jj workspace add` workspace.
 
 ### Step 3: Create a bookmark
 
 ```bash
-jj bookmark create <workspace-name> -r <workspace-name>@
+REPO_ROOT="$(jj root)"
+jj bookmark create -R "$REPO_ROOT" <workspace-name> -r <workspace-name>@
 ```
 
 The `<workspace-name>@` revision refers to the working copy of that workspace.
@@ -51,14 +71,15 @@ The `<workspace-name>@` revision refers to the working copy of that workspace.
 ### Step 4: Confirm
 
 ```bash
-jj workspace list
-jj log -r 'mine()'
+REPO_ROOT="$(jj root)"
+jj workspace list -R "$REPO_ROOT"
+jj log -R "$REPO_ROOT" -r 'mine()'
 ```
 
 Tell James:
 - Where the workspace was created (the full path)
 - The bookmark name
-- That they can `cd` into `~/repos/workspaces/<workspace-name>` to work there
+- That they can `cd` into `<workspaces-dir>/<workspace-name>` to work there
 
 ## Cleanup
 
@@ -67,7 +88,8 @@ Triggered by "clean up workspace", "remove workspace", or "delete workspace".
 ### Step 1: Identify the workspace
 
 ```bash
-jj workspace list
+REPO_ROOT="$(jj root)"
+jj workspace list -R "$REPO_ROOT"
 ```
 
 If James doesn't specify which workspace, ask. If there's only one non-default workspace, confirm that's the one.
@@ -75,7 +97,8 @@ If James doesn't specify which workspace, ask. If there's only one non-default w
 ### Step 2: Forget the workspace in jj
 
 ```bash
-jj workspace forget <workspace-name>
+REPO_ROOT="$(jj root)"
+jj workspace forget -R "$REPO_ROOT" <workspace-name>
 ```
 
 ### Step 3: Ask about the bookmark
@@ -83,25 +106,30 @@ jj workspace forget <workspace-name>
 Check if a matching bookmark exists:
 
 ```bash
-jj bookmark list
+REPO_ROOT="$(jj root)"
+jj bookmark list -R "$REPO_ROOT"
 ```
 
 If a bookmark with the same name exists, **ask James** whether to delete it before proceeding. If yes:
 
 ```bash
-jj bookmark delete <workspace-name>
+REPO_ROOT="$(jj root)"
+jj bookmark delete -R "$REPO_ROOT" <workspace-name>
 ```
 
 ### Step 4: Delete the workspace directory
 
 ```bash
-rm -rf ~/repos/workspaces/<workspace-name>
+REPO_ROOT="$(jj root)"
+WORKSPACES_DIR="$(dirname "$REPO_ROOT")/workspaces"
+rm -rf "$WORKSPACES_DIR/<workspace-name>"
 ```
 
 ### Step 5: Confirm
 
 ```bash
-jj workspace list
+REPO_ROOT="$(jj root)"
+jj workspace list -R "$REPO_ROOT"
 ```
 
 Tell James the workspace has been removed and whether the bookmark was deleted.
