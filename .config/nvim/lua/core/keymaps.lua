@@ -20,16 +20,18 @@ M.general = {
 			"signature help",
 		},
 	},
-	n = {
-		-- dashboard
-		-- ["<leader>;"] = { ":Alpha <CR>", "dashboard" },
-		["<leader>fe"] = { ":e ~/.config/nvim/init.lua | :cd %:p:h <CR>", "edit config" },
-		["<leader>fd"] = { ":e ~/.aliases/ | :cd %:p:h | :e .<CR>", "edit dotfiles" },
-		-- reload neovim config
-		["<leader>rc"] = {
-			":lua package.loaded['oscura'] = nil; require('oscura').setup(); vim.cmd('colorscheme oscura')",
-			"reload neovim config",
-		},
+		n = {
+			-- dashboard
+			-- ["<leader>;"] = { ":Alpha <CR>", "dashboard" },
+			["<leader>fe"] = { ":e ~/.config/nvim/init.lua | :cd %:p:h <CR>", "edit config" },
+			["<leader>fd"] = { ":e ~/.aliases/ | :cd %:p:h | :e .<CR>", "edit dotfiles" },
+			["<leader>lp"] = { "<cmd>LivePreview start<CR>", "live preview start" },
+			["<leader>lc"] = { "<cmd>LivePreview close<CR>", "live preview close" },
+			-- reload neovim config
+			["<leader>rc"] = {
+				":lua package.loaded['oscura'] = nil; require('oscura').setup(); vim.cmd('colorscheme oscura')",
+				"reload neovim config",
+			},
 
 		-- copy and save
 		["<C-y>"] = { "<cmd> w <CR>", "save file" },

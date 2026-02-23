@@ -180,6 +180,18 @@ require("lazy").setup({
 		"sphamba/smear-cursor.nvim",
 		opts = {},
 	},
+	{
+		"brianhuster/live-preview.nvim",
+		cmd = { "LivePreview" },
+		ft = { "markdown", "html", "asciidoc", "svg" },
+		config = function()
+			require("livepreview.config").set({
+				picker = "snacks.picker",
+				sync_scroll = true,
+				dynamic_root = true,
+			})
+		end,
+	},
 
 	-- file managing , picker etc
 	{
