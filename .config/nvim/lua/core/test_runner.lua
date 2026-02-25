@@ -4,6 +4,11 @@ local function is_elixir()
 	return vim.bo.filetype == "elixir"
 end
 
+local function has_mix_test_interactive()
+	vim.fn.system({ "mix", "help", "test.interactive" })
+	return vim.v.shell_error == 0
+end
+
 -- Ensure we're in the right directory before running tests (for monorepos)
 -- and that jest config is detected
 local function ensure_test_environment()
@@ -36,19 +41,30 @@ end
 
 local function elixir_test_file()
 	local file = vim.fn.expand("%:s")
-	local cmd = "mix test.interactive " .. file
+	local cmd = "mix test " .. file
+	if has_mix_test_interactive() then
+		cmd = "mix test.interactive " .. file
+	end
 	vim.cmd("TermExec direction=float cmd='" .. cmd .. "'")
 end
 
 local function elixir_test_line()
 	local file = vim.fn.expand("%:s")
 	local line = vim.fn.line(".")
-	local cmd = "mix test.interactive " .. file .. ":" .. line
+	local cmd = "mix test " .. file .. ":" .. line
+	if has_mix_test_interactive() then
+		cmd = "mix test.interactive " .. file .. ":" .. line
+	end
 	vim.cmd("TermExec direction=float cmd='" .. cmd .. "'")
 end
 
 local function elixir_test_interactive()
-	local cmd = "mix test.interactive"
+	local cmd = "mix test"
+	if has_mix_test_interactive() then
+		cmd = "mix test.interactive"
+	else
+		vim.notify("mix test.interactive not found; using mix test", vim.log.levels.WARN)
+	end
 	vim.cmd("TermExec direction=float cmd='" .. cmd .. "'")
 end
 

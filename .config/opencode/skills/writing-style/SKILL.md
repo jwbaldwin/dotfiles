@@ -26,6 +26,7 @@ Write for a busy teammate scanning in 10-15 seconds.
 
 1. One-sentence summary
 2. 2-4 bullets of concrete changes
+3. No periods on the last sentence, or in module docs, it's too formal.
 
 ## Example merge request description
 
