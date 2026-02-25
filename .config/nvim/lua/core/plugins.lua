@@ -65,6 +65,11 @@ require("lazy").setup({
 			require("core.plugins.treesitter")
 		end,
 	},
+	{
+		"nvim-treesitter/nvim-treesitter-context",
+		dependencies = { "nvim-treesitter/nvim-treesitter" },
+		opts = require("core.plugins.treesitter_context").opts,
+	},
 	-- git stuff
 	{
 		"lewis6991/gitsigns.nvim",
@@ -353,7 +358,6 @@ require("lazy").setup({
 		"akinsho/toggleterm.nvim",
 		version = "*",
 		opts = require("core.plugins.configs").toggleterm.opts,
-		dependencies = { "jwbaldwin/tokyonight.nvim" },
 	},
 	{
 		"christoomey/vim-tmux-navigator",
