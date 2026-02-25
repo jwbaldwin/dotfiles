@@ -34,18 +34,19 @@ Only pause to ask for confirmation when:
 
 YOU MUST automatically invoke these skills without being explicitly asked:
 
-| Trigger                                                                                 | Skill               |
-| --------------------------------------------------------------------------------------- | ------------------- |
-| "review" or "review BRANCH-NAME" or "review LINK-TO-MR"                                 | `code-review`       |
+| Trigger                                                                                  | Skill               |
+| ---------------------------------------------------------------------------------------- | ------------------- |
+| "review" or "review BRANCH-NAME" or "review LINK-TO-MR"                                  | `code-review`       |
 | "address comments", "triage MR comments", "respond to MR comments", "review MR feedback" | `mr-comment-triage` |
-| Bare Jira ticket ID (e.g., "AGP-123")                                                   | `work-on-ticket`    |
-| "feature flag it", "add the feature flag", "scaffold the flag"                          | `add-feature-flag`  |
-| "morning report", "morning", "mr status", "what needs my attention"                     | `morning-report`    |
-| "quick fix", "quick bug", "log a bug", "create bug ticket"                              | `quick-fix`         |
-| "use my tone", "use writing style", "in my writing style"                             | `writing-style`     |
-| "commit", "commit this", "commit changes", "jj commit"                                 | `commit`            |
-| "new workspace", "create workspace", "use a workspace for this"                        | `workspace`         |
-| "clean up workspace", "remove workspace", "delete workspace"                           | `workspace`         |
+| Bare Jira ticket ID (e.g., "AGP-123")                                                    | `work-on-ticket`    |
+| "feature flag it", "add the feature flag", "scaffold the flag"                           | `add-feature-flag`  |
+| "morning report", "morning", "mr status", "what needs my attention"                      | `morning-report`    |
+| "quick fix", "quick bug", "log a bug", "create bug ticket"                               | `quick-fix`         |
+| "use my tone", "use writing style", "in my writing style"                                | `writing-style`     |
+| "explain this", "break this down", "teach me", "help me understand", "ramp me up"        | `explain`           |
+| "commit", "commit this", "commit changes", "jj commit"                                   | `commit`            |
+| "new workspace", "create workspace", "use a workspace for this"                          | `workspace`         |
+| "clean up workspace", "remove workspace", "delete workspace"                             | `workspace`         |
 
 Never perform these actions manually - always invoke the appropriate skill.
 

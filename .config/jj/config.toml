@@ -31,6 +31,9 @@ tp = ["util","exec","--","sh","-c","jj tug \"$@\" && jj git push","sh"]
 'closest_bookmark(to)' = 'heads(::to & bookmarks())'
 'closest_pushable(to)' = 'heads(::to & mutable() & ~description(exact:"") & (~empty() | merges()))'
 
+[git]
+push-new-bookmarks = true
+
 [remotes.origin]
 auto-track-bookmarks = "*"
 
