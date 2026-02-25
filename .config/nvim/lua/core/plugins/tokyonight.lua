@@ -1,8 +1,7 @@
 require("tokyonight").setup({
 	style = "night",
 	styles = {
-		keywords = { bold = true, italic = true },
+		keywords = { italic = true },
 		comments = { italic = true },
-		functions = { bold = true },
 	},
 })

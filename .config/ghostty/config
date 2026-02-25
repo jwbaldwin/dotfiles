@@ -5,7 +5,7 @@ minimum-contrast = 1.1
 font-family = Berkeley Mono Variable
 font-size = 16
 font-thicken = true
-font-thicken-strength = 150
+font-thicken-strength = 100
 
 font-feature = +liga
 font-feature = +calt
@@ -22,10 +22,8 @@ font-variation = wdth=90
 
 font-style-italic = Italic
 font-style-bold-italic = Bold Italic
-
-font-variation-bold = wght=550
-font-variation-bold-italic = wght=550
-
+font-variation-bold = wght=500
+font-variation-bold-italic = wght=500
 
 adjust-cell-height = 10%
 
