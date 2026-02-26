@@ -16,6 +16,28 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
+local function select_avante_provider()
+	local opencode_auth = nil
+
+	if vim.fn.executable("opencode") == 1 then
+		local output = vim.fn.system({ "opencode", "auth", "list" })
+
+		if vim.v.shell_error == 0 then
+			opencode_auth = output:gsub("\27%[[%d;]*m", "")
+		end
+	end
+
+	if opencode_auth and opencode_auth:find("OpenAI", 1, true) then
+		return "opencode-openai"
+	end
+
+	if opencode_auth and opencode_auth:find("OpenCode Zen", 1, true) then
+		return "opencode-zen"
+	end
+
+	return "claude"
+end
+
 -- plugins here
 require("lazy").setup({
 	-- base
@@ -507,16 +529,48 @@ require("lazy").setup({
 		"yetone/avante.nvim",
 		event = "VeryLazy",
 		version = false,
-		opts = {
-			provider = "claude",
-			providers = {
-				claude = {
-					endpoint = "https://api.anthropic.com",
-					model = "claude-sonnet-4-5-20250929",
+		opts = function()
+			return {
+				provider = select_avante_provider(),
+				acp_providers = {
+					["opencode-zen"] = {
+						command = "opencode",
+						args = { "acp" },
+						env = {
+							HOME = os.getenv("HOME"),
+							OPENCODE_CONFIG_CONTENT = vim.json.encode({ model = "opencode/claude-sonnet-4-6" }),
+						},
+					},
+					["opencode-openai"] = {
+						command = "opencode",
+						args = { "acp" },
+						env = {
+							HOME = os.getenv("HOME"),
+							OPENCODE_CONFIG_CONTENT = vim.json.encode({
+								model = "openai/gpt-5.3-codex",
+								provider = {
+									openai = {
+										models = {
+											["gpt-5.3-codex"] = {
+												options = { reasoningEffort = "medium" },
+											},
+										},
+									},
+								},
+							}),
+						},
+					},
 				},
-			},
-			disabled_tools = { "python", "git_commit" },
-		},
+				providers = {
+					claude = {
+						endpoint = "https://api.anthropic.com",
+						auth_type = "api",
+						model = "claude-sonnet-4-5-20250929",
+					},
+				},
+				disabled_tools = { "python", "git_commit" },
+			}
+		end,
 		build = "make",
 		dependencies = {
 			"nvim-treesitter/nvim-treesitter",

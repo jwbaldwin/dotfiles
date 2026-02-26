@@ -10,7 +10,7 @@
   "mcp": {
     "zapier-mcp": {
       "type": "remote",
-      "url": "https://mcp.zapier.com/api/v2/connect?token=MzU4MzUzZWYtZTU3YS00Mjg1LWIwNDItN2UxN2Y1ZjE3NzRhOkN1RmdiYTIzSmhzcFdHeTlNOWcraGZ5emFNVERuUVEvazUzTmVIdndWdEk9",
+      "url": "{env:ZAPIER_MCP_URL}",
       "enabled": true
     },
     "playwright": {
@@ -20,7 +20,15 @@
         "@playwright/mcp@latest"
       ],
       "enabled": true
-    }
+    },
+    "context7": {
+      "type": "remote",
+      "url": "https://mcp.context7.com/mcp",
+      "headers": {
+        "CONTEXT7_API_KEY": "{env:CONTEXT7_API_KEY}"
+      },
+      "enabled": true
+  }
   },
   "plugin": [
     "@mohak34/opencode-notifier@latest"
