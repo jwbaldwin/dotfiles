@@ -392,43 +392,33 @@ end
 local color_schemes = {
 	tokyonight = {
 		-- Lualine section colors
-		mode_bg = "#6d91db",
-		mode_fg = "#1a1b26",
+		mode_fg = "#7aa2f7",
 		cwd_fg = "#7aa2f7",
-		cwd_bg = "#2f344d",
 		path_fg = "#737aa2",
-		path_bg = "#212435",
 		filename_fg = "#a9b1d6",
-		filename_bg = "#212435",
 		modified_fg = "#41a6b5",
-		modified_bg = "#212435",
 		-- Git component colors
 		git_branch_fg = "#7aa2f7",
 		git_added_fg = "#9ece6a",
 		git_modified_fg = "#e0af68",
 		git_removed_fg = "#f7768e",
 		-- Theme name
-		theme = "tokyonight",
+		theme_name = "tokyonight",
 	},
 	gruvbox = {
 		-- Lualine section colors
-		mode_bg = "#fe8019", -- orange
-		mode_fg = "#1d2021", -- bg0_h
+		mode_fg = "#fe8019", -- orange
 		cwd_fg = "#83a598", -- blue
-		cwd_bg = "#3c3836", -- bg1
 		path_fg = "#928374", -- gray
-		path_bg = "#32302f", -- bg0_s
 		filename_fg = "#ebdbb2", -- fg1
-		filename_bg = "#32302f", -- bg0_s
 		modified_fg = "#689d6a", -- teal
-		modified_bg = "#32302f", -- bg0_s
 		-- Git component colors
 		git_branch_fg = "#83a598", -- blue
 		git_added_fg = "#b8bb26", -- green
 		git_modified_fg = "#fabd2f", -- yellow
 		git_removed_fg = "#fb4934", -- red
 		-- Theme name
-		theme = "gruvbox",
+		theme_name = "gruvbox",
 	},
 }
 
@@ -438,6 +428,27 @@ local function get_colors()
 	return color_schemes[current_scheme]
 end
 
+local function transparent_lualine_theme(theme_name)
+	local ok, theme = pcall(require, "lualine.themes." .. theme_name)
+	if not ok then
+		return "auto"
+	end
+
+	local transparent_theme = vim.deepcopy(theme)
+	for _, mode in ipairs({ "normal", "insert", "visual", "replace", "command", "inactive", "terminal" }) do
+		local sections = transparent_theme[mode]
+		if sections then
+			for _, section in pairs(sections) do
+				if type(section) == "table" then
+					section.bg = "NONE"
+				end
+			end
+		end
+	end
+
+	return transparent_theme
+end
+
 -- Generate lualine options with dynamic colors
 local function get_lualine_options()
 	local colors = get_colors()
@@ -445,7 +456,7 @@ local function get_lualine_options()
 	return {
 		options = {
 			icons_enabled = true,
-			theme = colors.theme,
+			theme = transparent_lualine_theme(colors.theme_name),
 			component_separators = { left = "", right = "" },
 			section_separators = { left = "", right = "" },
 			disabled_filetypes = {
@@ -466,23 +477,23 @@ local function get_lualine_options()
 					fmt = function(str)
 						return str
 					end,
-					color = { bg = colors.mode_bg, fg = colors.mode_fg, bold = true },
+					color = { bg = "NONE", fg = colors.mode_fg, bold = true },
 				},
 			},
 			lualine_b = {
-				{ cwd, color = { fg = colors.cwd_fg, bg = colors.cwd_bg } },
-				{ path, color = { fg = colors.path_fg, bg = colors.path_bg }, padding = { left = 1, right = 0 } },
+				{ cwd, color = { fg = colors.cwd_fg, bg = "NONE" } },
+				{ path, color = { fg = colors.path_fg, bg = "NONE" }, padding = { left = 1, right = 0 } },
 				{
 					"filename",
 					file_status = false,
 					newfile_status = false,
 					path = 0,
 					padding = { left = 0, right = 1 },
-					color = { fg = colors.filename_fg, bg = colors.filename_bg },
+					color = { fg = colors.filename_fg, bg = "NONE" },
 				},
 				{
 					modified_indicator,
-					color = { fg = colors.modified_fg, bg = colors.modified_bg },
+					color = { fg = colors.modified_fg, bg = "NONE" },
 					padding = { left = 0, right = 1 },
 				},
 			},
@@ -498,23 +509,23 @@ local function get_lualine_options()
 					fmt = function(str)
 						return str
 					end,
-					color = { bg = colors.mode_bg, fg = colors.mode_fg, bold = true },
+					color = { bg = "NONE", fg = colors.mode_fg, bold = true },
 				},
 			},
 			lualine_b = {
-				{ cwd, color = { fg = colors.cwd_fg, bg = colors.cwd_bg } },
-				{ path, color = { fg = colors.path_fg, bg = colors.path_bg }, padding = { left = 1, right = 0 } },
+				{ cwd, color = { fg = colors.cwd_fg, bg = "NONE" } },
+				{ path, color = { fg = colors.path_fg, bg = "NONE" }, padding = { left = 1, right = 0 } },
 				{
 					"filename",
 					file_status = false,
 					newfile_status = false,
 					path = 0,
 					padding = { left = 0, right = 1 },
-					color = { fg = colors.filename_fg, bg = colors.filename_bg },
+					color = { fg = colors.filename_fg, bg = "NONE" },
 				},
 				{
 					modified_indicator,
-					color = { fg = colors.modified_fg, bg = colors.modified_bg },
+					color = { fg = colors.modified_fg, bg = "NONE" },
 					padding = { left = 0, right = 1 },
 				},
 			},
@@ -536,4 +547,16 @@ if colorscheme:match("gruvbox-baby") then
 	setup_gruvbox_highlights()
 end
 
+local function force_transparent_bg(group)
+	local ok, highlight = pcall(vim.api.nvim_get_hl, 0, { name = group, link = false })
+	if not ok then
+		return
+	end
+
+	highlight.bg = "NONE"
+	vim.api.nvim_set_hl(0, group, highlight)
+end
+
 require("lualine").setup(get_lualine_options())
+force_transparent_bg("StatusLine")
+force_transparent_bg("StatusLineNC")

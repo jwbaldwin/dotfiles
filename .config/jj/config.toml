@@ -10,7 +10,7 @@ pager = "delta"
 diff-formatter = ":git"
 diff-editor = ["nvim", "-c", "DiffEditor $left $right $output"]
 conflict-marker-style = "diff"
-show-cryptographic-signatures = true
+show-cryptographic-signatures = false
 
 [aliases]
 tug = ["util", "exec", "--", "sh", "-c", """
@@ -32,7 +32,6 @@ tp = ["util","exec","--","sh","-c","jj tug \"$@\" && jj git push","sh"]
 'closest_pushable(to)' = 'heads(::to & mutable() & ~description(exact:"") & (~empty() | merges()))'
 
 [git]
-push-new-bookmarks = true
 
 [remotes.origin]
 auto-track-bookmarks = "*"

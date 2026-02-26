@@ -98,8 +98,8 @@ M.toggleterm = {
 		highlights = {
 			-- NormalFloat = { guibg = "#1a1b26" }, -- tokyonight
 			-- FloatBorder = { guifg = "#9ece6a", -- tokyonight
-			NormalFloat = { guibg = "#1a1a1a" },
-			FloatBorder = { guifg = "#9ece6a", guibg = "#1a1a1a" },
+			NormalFloat = { guibg = "NONE" },
+			FloatBorder = { guifg = "#9ece6a", guibg = "NONE" },
 		},
 		size = function(term)
 			if term.direction == "horizontal" then
