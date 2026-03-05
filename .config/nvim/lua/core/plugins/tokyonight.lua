@@ -9,6 +9,7 @@ require("tokyonight").setup({
 	},
 	on_highlights = function(highlights, colors)
 		highlights["@module.elixir"] = { fg = colors.blue1 }
+		highlights["@string.special.symbol.elixir"] = { fg = colors.yellow }
 		highlights["@constant.builtin.elixir"] = { fg = colors.yellow }
 		highlights["@function.builtin.elixir"] = { fg = colors.yellow }
 		highlights["@keyword.function.elixir"] = { fg = colors.magenta, italic = true }
