@@ -87,11 +87,11 @@ require("lazy").setup({
 			require("core.plugins.treesitter")
 		end,
 	},
-	{
-		"nvim-treesitter/nvim-treesitter-context",
-		dependencies = { "nvim-treesitter/nvim-treesitter" },
-		opts = require("core.plugins.treesitter_context").opts,
-	},
+	-- {
+	-- 	"nvim-treesitter/nvim-treesitter-context",
+	-- 	dependencies = { "nvim-treesitter/nvim-treesitter" },
+	-- 	opts = require("core.plugins.treesitter_context").opts,
+	-- },
 	-- git stuff
 	{
 		"lewis6991/gitsigns.nvim",
@@ -332,9 +332,9 @@ require("lazy").setup({
 					return
 				end
 
-				local at_boundary = vim.trim(vim.fn.system(
-					"tmux display-message -p '#{pane_at_" .. pane_at[dir] .. "}'"
-				)) == "1"
+				local at_boundary = vim.trim(
+					vim.fn.system("tmux display-message -p '#{pane_at_" .. pane_at[dir] .. "}'")
+				) == "1"
 
 				if not at_boundary then
 					vim.fn.system("tmux select-pane " .. pane_flag[dir])

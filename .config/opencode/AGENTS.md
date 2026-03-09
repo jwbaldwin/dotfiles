@@ -44,6 +44,7 @@ YOU MUST automatically invoke these skills without being explicitly asked:
 | "quick fix", "quick bug", "log a bug", "create bug ticket"                               | `quick-fix`         |
 | "use my tone", "use writing style", "in my writing style"                                | `writing-style`     |
 | "explain this", "break this down", "teach me", "help me understand", "ramp me up"        | `explain`           |
+| "synthesize my brain", "synthesize useful knowledge", "high value conversations", "distill my preferences" | `synthesize-brain`  |
 | "commit", "commit this", "commit changes", "jj commit"                                   | `commit`            |
 | "new workspace", "create workspace", "use a workspace for this"                          | `workspace`         |
 | "clean up workspace", "remove workspace", "delete workspace"                             | `workspace`         |
