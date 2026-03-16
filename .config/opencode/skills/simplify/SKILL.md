@@ -1,8 +1,8 @@
 ---
 name: simplify
-description: Remove AI code slop and simplify code to achieve the same result with less complexity. Triggered by "deslop", "simplify", "clean up code", or "reduce complexity".
+description: Review changed code for reuse, quality, and efficiency, then simplify it without changing behavior. Use when James says "simplify" or asks to clean up code, reduce complexity, or refactor a change into a cleaner version. Prefer this skill for generic simplification requests.
 license: MIT
-allowed-tools: 
+allowed-tools:
   - read
   - write
   - edit
@@ -12,13 +12,20 @@ allowed-tools:
 metadata:
   version: "1.0"
 ---
-# Simplify: Code Review and Cleanup
+
+# Simplify
 
 Review all changed files for reuse, quality, and efficiency. Fix any issues found.
+
+Prefer this skill for generic simplification work.
+
+If the real problem is mostly AI-slop cleanup rather than broader code review, use the `/deslop` command instead of forcing the full simplify workflow. Typical signs: comment spam, defensive overkill, awkward casts, noisy helpers, or obvious style drift from the surrounding code.
 
 ## Phase 1: Identify Changes
 
 Run \`git diff\` (or \`git diff HEAD\` if there are staged changes) to see what changed. If there are no git changes, review the most recently modified files that the user mentioned or that you edited earlier in this conversation.
+
+Before continuing, decide whether this is actually a `/deslop` task. If most of the value is removing AI-generated slop while preserving behavior, prefer `/deslop`. If the work also needs reuse review, structural cleanup, or efficiency improvements, stay in this skill.
 
 ## Phase 2: Launch Three Review Agents in Parallel
 

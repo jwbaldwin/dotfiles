@@ -75,7 +75,3 @@ When James wants multiple handoffs, return:
 - For each handoff: title, why this chunk exists, and a fenced text block with the ready-to-paste prompt.
 
 Use the patterns in `references/templates.md` when you need examples or a default structure.
-
-## Important Limitation
-
-If James asks for Amp's exact plugin behavior, be explicit: this skill can generate Amp-style handoff prompts, but it cannot automatically create the new session, inject file context, or let the next session read the previous transcript. Offer the closest skill-based workflow instead.

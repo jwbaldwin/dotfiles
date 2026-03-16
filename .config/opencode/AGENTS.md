@@ -34,22 +34,26 @@ Only pause to ask for confirmation when:
 
 YOU MUST automatically invoke these skills without being explicitly asked:
 
-| Trigger                                                                                  | Skill               |
-| ---------------------------------------------------------------------------------------- | ------------------- |
-| "review" or "review BRANCH-NAME" or "review LINK-TO-MR"                                  | `code-review`       |
-| "address comments", "triage MR comments", "respond to MR comments", "review MR feedback" | `mr-comment-triage` |
-| Bare Jira ticket ID (e.g., "AGP-123")                                                    | `work-on-ticket`    |
-| "feature flag it", "add the feature flag", "scaffold the flag"                           | `add-feature-flag`  |
-| "morning report", "morning", "mr status", "what needs my attention"                      | `morning-report`    |
-| "quick fix", "quick bug", "log a bug", "create bug ticket"                               | `quick-fix`         |
-| "use my tone", "use writing style", "in my writing style"                                | `writing-style`     |
-| "explain this", "break this down", "teach me", "help me understand", "ramp me up"        | `explain`           |
-| "synthesize my brain", "synthesize useful knowledge", "high value conversations", "distill my preferences" | `synthesize-brain`  |
-| "commit", "commit this", "commit changes", "jj commit"                                   | `commit`            |
-| "new workspace", "create workspace", "use a workspace for this"                          | `workspace`         |
-| "clean up workspace", "remove workspace", "delete workspace"                             | `workspace`         |
+| Trigger                                                                                                                                         | Skill               |
+| ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- |
+| "review" or "review BRANCH-NAME" or "review LINK-TO-MR"                                                                                         | `code-review`       |
+| "address comments", "triage MR comments", "respond to MR comments", "review MR feedback"                                                        | `mr-comment-triage` |
+| Bare Jira ticket ID (e.g., "AGP-123")                                                                                                           | `work-on-ticket`    |
+| "feature flag it", "add the feature flag", "scaffold the flag"                                                                                  | `add-feature-flag`  |
+| "morning report", "morning", "mr status", "what needs my attention"                                                                             | `morning-report`    |
+| "quick fix", "quick bug", "log a bug", "create bug ticket"                                                                                      | `quick-fix`         |
+| "use my tone", "use writing style", "in my writing style"                                                                                       | `writing-style`     |
+| "explain this", "break this down", "teach me", "help me understand", "ramp me up"                                                               | `explain`           |
+| "simplify", "clean up code", "reduce complexity"                                                                                                | `simplify`          |
+| "synthesize my brain", "synthesize useful knowledge", "high value conversations", "distill my preferences"                                      | `synthesize-brain`  |
+| "handoff", "split this into handoffs", "prepare a next-session prompt", "chunk this planning run", "split this prototype cleanup into handoffs" | `handoff`           |
+| "commit", "commit this", "commit changes", "jj commit"                                                                                          | `commit`            |
+| "new workspace", "create workspace", "use a workspace for this"                                                                                 | `workspace`         |
+| "clean up workspace", "remove workspace", "delete workspace"                                                                                    | `workspace`         |
 
 Never perform these actions manually - always invoke the appropriate skill.
+
+The `handoff` skill generates ready-to-paste fresh-session prompts. It does not create the new session automatically.
 
 **Note on chaining:** After `work-on-ticket`, James may say "feature flag it" to chain into `add-feature-flag`. Do NOT automatically add feature flag plumbing - wait for James to explicitly request it.
 
