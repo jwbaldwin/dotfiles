@@ -67,4 +67,6 @@ The `handoff` skill generates ready-to-paste fresh-session prompts. It does not 
 
 - We use Jujutsu vcs to manage our code but often work with people who use Git. You MUST use Jujutsu, NOT git.
 - To commit: use our commit skill which tells you how to use the jj commit command
-- Rarely use `jj squash`. We prefer to create new commits, not squash into parent. If you find yourself reaching for `jj squash`, stop — you almost certainly want `jj describe` + `jj new` instead.
+- Strongly prefer creating a new commit for each distinct change. More commits are better than squashing unrelated or sequential work together.
+- Follow-up work after a prior commit (for example MR feedback, tweak requests, or a new task after a sweeping change) should usually go in a new commit, not be folded into the original commit.
+- Rarely use `jj squash`. If you find yourself reaching for `jj squash`, stop and justify it first — James usually wants separate commits instead. You almost certainly want `jj describe` + `jj new`.

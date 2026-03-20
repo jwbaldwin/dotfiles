@@ -9,6 +9,29 @@ local function has_mix_test_interactive()
 	return vim.v.shell_error == 0
 end
 
+local function parent_dir(path)
+	return vim.fn.fnamemodify(path, ":h")
+end
+
+local function find_nearest_file(start_dir, candidates)
+	local dir = start_dir
+
+	while dir and dir ~= "" do
+		for _, candidate in ipairs(candidates) do
+			local full_path = dir .. "/" .. candidate
+			if vim.fn.filereadable(full_path) == 1 then
+				return dir, candidate
+			end
+		end
+
+		local next_dir = parent_dir(dir)
+		if next_dir == dir then
+			break
+		end
+		dir = next_dir
+	end
+end
+
 -- Ensure we're in the right directory before running tests (for monorepos)
 -- and that jest config is detected
 local function ensure_test_environment()
@@ -18,21 +41,33 @@ local function ensure_test_environment()
 		project.on_buf_enter()
 	end
 
-	-- Then detect jest config based on current file and cwd
+	-- Then detect the nearest Jest config based on the current file path
 	local file = vim.fn.expand("%:t")
+	local file_dir = vim.fn.expand("%:p:h")
 	local test_type = file:match("%.(%w+)%.test%.[jt]sx?$")
+	local candidates = {
+		"jest.config.ts",
+		"jest.config.js",
+		"jest.config.cjs",
+		"jest.config.mjs",
+	}
+
 	if test_type then
-		local config_file = "jest.config." .. test_type .. ".ts"
-		if vim.fn.filereadable(config_file) == 1 then
-			vim.g["test#javascript#jest#options"] = "--config " .. config_file
-			return
-		end
+		table.insert(candidates, 1, "jest.config." .. test_type .. ".ts")
+		table.insert(candidates, 2, "jest.config." .. test_type .. ".js")
+		table.insert(candidates, 3, "jest.config." .. test_type .. ".cjs")
+		table.insert(candidates, 4, "jest.config." .. test_type .. ".mjs")
 	end
-	if vim.fn.filereadable("jest.config.js") == 1 then
-		vim.g["test#javascript#jest#options"] = "--config jest.config.js"
-	else
-		vim.g["test#javascript#jest#options"] = ""
+
+	local project_root, config_file = find_nearest_file(file_dir, candidates)
+	if project_root and config_file then
+		vim.g["test#project_root"] = project_root
+		vim.g["test#javascript#jest#options"] = "--config " .. config_file
+		return
 	end
+
+	vim.g["test#project_root"] = nil
+	vim.g["test#javascript#jest#options"] = ""
 end
 
 --------------------------------------------------------------------------------

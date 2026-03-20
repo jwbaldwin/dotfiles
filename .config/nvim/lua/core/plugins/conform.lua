@@ -1,30 +1,26 @@
 local M = {}
 
-local function has_oxfmt(bufnr)
-	local bufname = vim.api.nvim_buf_get_name(bufnr)
-	local dir = vim.fs.dirname(bufname)
+local function find_local_node_bin(cmd, dir)
 	if not dir or dir == "" then
-		return vim.fn.executable("oxfmt") == 1
+		return nil
 	end
-	local found = vim.fs.find("node_modules/.bin/oxfmt", {
+
+	return vim.fs.find("node_modules/.bin/" .. cmd, {
 		upward = true,
 		path = dir,
 		type = "file",
 		limit = 1,
-	})
-	if #found > 0 then
-		return true
-	end
-	return vim.fn.executable("oxfmt") == 1
+	})[1]
 end
 
 local function js_formatters(bufnr)
-	if has_oxfmt(bufnr) then
+	local bufname = vim.api.nvim_buf_get_name(bufnr)
+	local local_oxfmt = find_local_node_bin("oxfmt", vim.fs.dirname(bufname))
+	if local_oxfmt then
 		return { "oxfmt" }
 	end
 	return { "prettierd", "prettier" }
 end
-
 
 M.opts = {
 	formatters_by_ft = {
@@ -39,7 +35,12 @@ M.opts = {
 	},
 	formatters = {
 		oxfmt = {
-			inherit = true,
+			command = function(self, ctx)
+				return find_local_node_bin("oxfmt", ctx.dirname) or self.command
+			end,
+			condition = function(_, ctx)
+				return find_local_node_bin("oxfmt", ctx.dirname) ~= nil
+			end,
 			stdin = false,
 			args = { "$FILENAME" },
 		},
