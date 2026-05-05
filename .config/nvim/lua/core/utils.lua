@@ -11,6 +11,14 @@ end
 
 local merge_table = vim.tbl_deep_extend
 
+M.clipboard_to_qf = function()
+	local files = vim.split(vim.fn.getreg("+"), "\n", { trimempty = true })
+	vim.fn.setqflist(vim.tbl_map(function(f)
+		return { filename = f, lnum = 1 }
+	end, files))
+	vim.cmd("copen")
+end
+
 M.toggle_qf_list = function()
 	local qf_exists = false
 	for _, win in pairs(vim.fn.getwininfo()) do

@@ -71,6 +71,10 @@ vim.g["test#strategy"] = "neovim"
 vim.g["test#neovim#start_normal"] = 1 -- start in normal mode
 vim.g["test#neovim#term_position"] = "vert" -- split right
 vim.g["test#echo_command"] = 1 -- echo the command
+vim.g["test#filename_modifier"] = ":p"
+vim.g["test#javascript#jest#executable"] = "node " .. vim.fn.shellescape(vim.fn.stdpath("config") .. "/jest-runner.mjs")
+vim.g["test#javascript#vitest#executable"] = "node " .. vim.fn.shellescape(vim.fn.stdpath("config") .. "/jest-runner.mjs")
+vim.g["test#javascript#playwright#executable"] = "node " .. vim.fn.shellescape(vim.fn.stdpath("config") .. "/jest-runner.mjs")
 
 -- Copilot setup
 vim.g.copilot_no_tab_map = true

@@ -9,65 +9,82 @@ local function has_mix_test_interactive()
 	return vim.v.shell_error == 0
 end
 
-local function parent_dir(path)
-	return vim.fn.fnamemodify(path, ":h")
+local function find_package_json(file)
+	return vim.fs.find("package.json", { path = vim.fs.dirname(file), upward = true })[1]
 end
 
-local function find_nearest_file(start_dir, candidates)
-	local dir = start_dir
-
-	while dir and dir ~= "" do
-		for _, candidate in ipairs(candidates) do
-			local full_path = dir .. "/" .. candidate
-			if vim.fn.filereadable(full_path) == 1 then
-				return dir, candidate
-			end
-		end
-
-		local next_dir = parent_dir(dir)
-		if next_dir == dir then
-			break
-		end
-		dir = next_dir
+local function read_json_file(file)
+	local lines = vim.fn.readfile(file)
+	if vim.v.shell_error ~= 0 then
+		return nil
 	end
+
+	local ok, decoded = pcall(vim.json.decode, table.concat(lines, "\n"))
+	return ok and decoded or nil
 end
 
--- Ensure we're in the right directory before running tests (for monorepos)
--- and that jest config is detected
-local function ensure_test_environment()
-	-- First, ensure project_nvim has set the correct cwd
-	local ok, project = pcall(require, "project_nvim.project")
-	if ok then
-		project.on_buf_enter()
+local function package_has_dependency(package_json, name)
+	local dependencies = package_json.dependencies or {}
+	local dev_dependencies = package_json.devDependencies or {}
+	return dependencies[name] ~= nil or dev_dependencies[name] ~= nil
+end
+
+local function file_contains(file, pattern)
+	local lines = vim.fn.readfile(file)
+	for _, line in ipairs(lines) do
+		if line:find(pattern, 1, true) then
+			return true
+		end
 	end
 
-	-- Then detect the nearest Jest config based on the current file path
-	local file = vim.fn.expand("%:t")
-	local file_dir = vim.fn.expand("%:p:h")
-	local test_type = file:match("%.(%w+)%.test%.[jt]sx?$")
-	local candidates = {
-		"jest.config.ts",
-		"jest.config.js",
-		"jest.config.cjs",
-		"jest.config.mjs",
-	}
+	return false
+end
 
-	if test_type then
-		table.insert(candidates, 1, "jest.config." .. test_type .. ".ts")
-		table.insert(candidates, 2, "jest.config." .. test_type .. ".js")
-		table.insert(candidates, 3, "jest.config." .. test_type .. ".cjs")
-		table.insert(candidates, 4, "jest.config." .. test_type .. ".mjs")
+local function detect_javascript_runner(file)
+	local package_json_path = find_package_json(file)
+	if not package_json_path then
+		return nil
 	end
 
-	local project_root, config_file = find_nearest_file(file_dir, candidates)
-	if project_root and config_file then
-		vim.g["test#project_root"] = project_root
-		vim.g["test#javascript#jest#options"] = "--config " .. config_file
-		return
+	local package_json = read_json_file(package_json_path)
+	if not package_json then
+		return nil
 	end
 
-	vim.g["test#project_root"] = nil
-	vim.g["test#javascript#jest#options"] = ""
+	local has_jest = package_has_dependency(package_json, "jest")
+	local has_vitest = package_has_dependency(package_json, "vitest")
+	local has_playwright = package_has_dependency(package_json, "@playwright/test")
+
+	if file_contains(file, "@playwright/test") or (has_playwright and (file:find("/playwright/", 1, true) or file:match("%.spec%.[jt]sx?$"))) then
+		return "playwright"
+	end
+
+	if file_contains(file, "vitest") then
+		return "vitest"
+	end
+
+	if has_jest then
+		return "jest"
+	end
+
+	if has_vitest then
+		return "vitest"
+	end
+
+	if has_playwright then
+		return "playwright"
+	end
+
+	return nil
+end
+
+local function set_test_context()
+	local file = vim.fn.expand("%:p")
+	local runner = detect_javascript_runner(file)
+
+	vim.fn.setenv("NVIM_TEST_FILE", file)
+	vim.fn.setenv("NVIM_TEST_RUNNER", runner or "")
+	vim.g["test#javascript#runner"] = runner
 end
 
 --------------------------------------------------------------------------------
@@ -104,19 +121,19 @@ local function elixir_test_interactive()
 end
 
 function M.test_file()
-	ensure_test_environment()
 	if is_elixir() then
 		elixir_test_file()
 	else
+		set_test_context()
 		vim.cmd("TestFile")
 	end
 end
 
 function M.test_line()
-	ensure_test_environment()
 	if is_elixir() then
 		elixir_test_line()
 	else
+		set_test_context()
 		vim.cmd("TestNearest")
 	end
 end
@@ -132,10 +149,12 @@ function M.test_interactive()
 end
 
 function M.test_suite()
+	set_test_context()
 	vim.cmd("TestSuite")
 end
 
 function M.test_last()
+	set_test_context()
 	vim.cmd("TestLast")
 end
 

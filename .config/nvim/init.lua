@@ -8,6 +8,9 @@ require("core.highlights").setup()
 local is_windows = vim.fn.has("win32") == 1 or vim.fn.has("win64") == 1
 vim.env.PATH = vim.env.PATH .. (is_windows and ";" or ":") .. vim.fn.stdpath("data") .. "/mason/bin"
 
+-- load clipboard file list into quickfix
+vim.api.nvim_create_user_command("Cfiles", require("core.utils").clipboard_to_qf, {})
+
 -- dont list quickfix buffers
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = "qf",
