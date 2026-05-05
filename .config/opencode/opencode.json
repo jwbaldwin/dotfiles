@@ -18,7 +18,6 @@
   }
   },
   "plugin": [
-    "@mohak34/opencode-notifier@latest",
-    "opencode-terminal-progress"
+    "@mohak34/opencode-notifier@latest"
   ]
 }
