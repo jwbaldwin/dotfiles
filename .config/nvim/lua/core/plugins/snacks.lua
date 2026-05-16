@@ -63,6 +63,28 @@ return {
 		picker = {
 			prompt = " ",
 			sources = {
+				jj_changed_files = {
+					title = "JJ Diff (Files)",
+					finder = function(opts, ctx)
+						local jj_dir = vim.fn.finddir(".jj", ".;")
+						local cwd = jj_dir ~= "" and vim.fn.fnamemodify(jj_dir, ":h") or vim.uv.cwd()
+						ctx.picker:set_cwd(cwd)
+
+						return require("snacks.picker.source.proc").proc(ctx:opts({
+							cmd = "jj",
+							args = { "diff", "--name-only" },
+							cwd = cwd,
+							transform = function(item)
+								item.cwd = cwd
+								item.file = item.text
+							end,
+						}), ctx)
+					end,
+					format = "file",
+					preview = "file",
+					matcher = { sort_empty = true },
+					sort = { fields = { "score:desc", "file", "idx" } },
+				},
 				git_diff = {
 					-- Adjust pos to point at the first actual change, not the
 					-- start of the context block. Without this, quickfix entries
@@ -561,13 +583,16 @@ return {
 		{
 			"<leader>gd",
 			function()
-				if vim.fn.finddir(".jj", ".;") ~= "" then
-					Snacks.picker.jj_diff()
-				else
-					Snacks.picker.git_diff()
-				end
+				Snacks.picker.jj_changed_files()
 			end,
-			desc = "[G]it [d]iff (Hunks)",
+			desc = "[G]it [d]iff (Files)",
+		},
+		{
+			"<leader>gD",
+			function()
+				Snacks.picker.jj_diff()
+			end,
+			desc = "[G]it [D]iff (Hunks)",
 		},
 		{
 			"<leader>gf",
