@@ -386,7 +386,6 @@ M.fugitive = {
 			"copy gitlab link in default branch",
 		},
 		["<leader>gY"] = { "<cmd>.GBrowse! HEAD:%<CR>", "copy gitlab link at current commit" },
-		["<leader>gD"] = { "<cmd>Gvdiffsplit!<CR>", "git diff 3 way split" },
 		["<leader>gdl"] = { "<cmd>:diffget //2<CR>", "take change from left (HEAD aka MASTER)" },
 		["<leader>gdr"] = { "<cmd>:diffget //3<CR>", "take change from right (BRANCH aka my changes)" },
 	},
