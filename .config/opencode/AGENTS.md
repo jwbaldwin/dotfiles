@@ -38,11 +38,13 @@ YOU MUST automatically invoke these skills without being explicitly asked:
 | Trigger                                                                                                                                         | Skill               |
 | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- |
 | "review" or "review BRANCH-NAME" or "review LINK-TO-MR"                                                                                         | `code-review`       |
+| "thermo review", "thermo-nuclear review", "thermonuclear review", "deep code quality audit", "harsh maintainability review"                  | `thermo-nuclear-code-quality-review` |
 | "address comments", "triage MR comments", "respond to MR comments", "review MR feedback"                                                        | `mr-comment-triage` |
 | Bare Jira ticket ID (e.g., "AGP-123")                                                                                                           | `work-on-ticket`    |
 | "feature flag it", "add the feature flag", "scaffold the flag"                                                                                  | `add-feature-flag`  |
 | "morning report", "morning", "mr status", "what needs my attention"                                                                             | `morning-report`    |
 | "quick fix", "quick bug", "log a bug", "create bug ticket"                                                                                      | `quick-fix`         |
+| "review GitHub issues", "create GitHub issue", "update GitHub issue", "work on GitHub issue", "tackle GitHub issue"                            | `github-issue-workflow` |
 | "use my tone", "use writing style", "in my writing style"                                                                                       | `writing-style`     |
 | "explain this", "break this down", "teach me", "help me understand", "ramp me up"                                                               | `explain`           |
 | "simplify", "clean up code", "reduce complexity"                                                                                                | `simplify`          |
