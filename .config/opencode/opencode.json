@@ -4,7 +4,7 @@
   "permission": {
     "*": "allow"
   },
-  "plugin": ["opencode-goal-plugin"],
+  "plugin": ["opencode-goal-plugin", "@plannotator/opencode@latest"],
   "command": {
     "goal": {
       "description": "Set a session-scoped goal and auto-continue until complete.",
@@ -24,11 +24,6 @@
       "headers": {
         "CONTEXT7_API_KEY": "{env:CONTEXT7_API_KEY}"
       },
-      "enabled": true
-    },
-    "planetscale": {
-      "type": "remote",
-      "url": "https://mcp.pscale.dev/mcp/planetscale",
       "enabled": true
     }
   }

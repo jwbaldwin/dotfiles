@@ -1,11 +1,17 @@
 ---
 name: quick-fix
-description: Retroactively create a Jira bug ticket in AGP, jj bookmark, and push for a fix already in the working copy. Triggered by "quick fix", "quick bug", "log a bug", "create bug ticket", or when James has already made a change and needs to formalize it with a ticket and bookmark.
+description: Formalize a fix already in the working copy — create a Jira ticket for it, then jj bookmark, describe, and push to GitLab. Triggered by "quick fix", "quick bug", "log a bug", "create bug ticket", or when James has already made a change and needs to wrap it in a ticket and bookmark. For standalone tickets unrelated to a working-copy change, use the create-ticket skill instead.
 ---
 
 # Quick Fix
 
-Create Jira ticket, jj bookmark, describe, push to GitLab.
+Take a change **already in the working copy** and formalize it: create a Jira
+ticket for it, then bookmark, describe, and push the commit to GitLab.
+
+This skill does NOT write code — it assumes the fix already exists. The Jira
+ticket creation is **delegated to the `create-ticket` skill**, which owns all Jira
+mechanics. quick-fix adds the diff analysis up front and the jj/git steps at the
+end.
 
 ## Workflow
 
@@ -16,41 +22,40 @@ jj diff
 jj st
 ```
 
-Determine from the diff and conversation:
+From the diff and conversation, derive:
 
-- **Summary**: Concise description (50-80 chars)
+- **Summary**: Concise description (50–80 chars)
 - **Description**: What was broken, root cause, what changed, file:line references
-- **Work Type**: `Sustaining` for bug fixes, `New` for new features
 
-### 2. Create Jira Ticket
+quick-fix always uses fixed defaults — the work is already done, so don't ask:
 
-Assignee is resolved from the `instructions` text. All other fields are resolved from `params`.
+- **Issue Type**: always **Bug** (`10004`)
+- **Work Type**: always **Sustaining** (`10586`)
+- **Assignee**: always **James** (do not ask)
 
-Project MUST be `"MCP"` (Zapier display name). Passing `"AGP"` (Jira key) will fail.
+### 2. Create the Ticket (delegate to create-ticket)
 
-```
-zapier-mcp_execute_write_action({
-  app: "jira",
-  action: "create_issue",
-  instructions: "Create a Bug in project MCP. Assignee: James Baldwin.",
-  output: "Return the issue key (e.g. AGP-1234) and the issue URL",
-  params: {
-    project: "MCP",
-    issuetype: "Bug",
-    "string::summary": "[SUMMARY]",
-    "string::description": "[DESCRIPTION]",
-    "string::customfield_10346": "[WORK_TYPE]"
-  }
-})
-```
+Run the `create-ticket` skill's flow with the details from step 1, but with
+quick-fix's fixed defaults — **skip the issue-type and assignment prompts** (Bug +
+assign James are always correct here). That skill handles, in order:
 
-**Validation**: If the returned key does NOT start with `AGP-`, STOP. Tell James the integration put it in the wrong project. Provide the summary and description for manual creation.
+1. Creating the ticket as a **Bug** (`10004`), **Sustaining** (`10586`), with the
+   correct numeric IDs (see its `jira-reference.md`)
+2. **Epic selection** — still recommend the best-fit epic + alternatives + "no
+   epic" and elicit James's choice (this is the one prompt quick-fix keeps)
+3. Applying epic + **assigning James** (and re-sending Work Type so it doesn't
+   reset)
+
+Do not duplicate Jira IDs or field details here — they live in
+`../create-ticket/jira-reference.md`. If the returned key isn't `AGP-…`, STOP per
+that skill's validation rule.
 
 ### 3. Bookmark, Describe, Push
 
-**Bookmark:** all lowercase, kebab-case, max 50 chars.
+**Bookmark:** `agp-NNNN-short-description` — all lowercase, kebab-case, ≤50 chars,
+prefixed with the ticket ID.
 
-**Commit message:** all lowercase, no ticket ID, max 50 chars.
+**Commit message:** all lowercase, no ticket ID, ≤50 chars.
 
 ```bash
 jj bookmark create agp-NNNN-short-description
@@ -63,23 +68,13 @@ jj git push --bookmark agp-NNNN-short-description
 ```
 Created AGP-XXXX: [summary]
   Jira:     https://zapierorg.atlassian.net/browse/AGP-XXXX
+  Type:     Bug
+  Epic:     AGP-NNN [epic summary] (or none)
+  Assignee: James Baldwin
   Bookmark: [bookmark-name]
   Pushed:   yes
 
-  ⚠ Set manually: sprint, parent epic
+  ⚠ Set manually: sprint
 
 Ready for MR — say "create MR" when you want to open it.
 ```
-
-## Zapier Jira Field Support
-
-| Field       | create_issue | How                          |
-| ----------- | ------------ | ---------------------------- |
-| Project     | ✅           | `project: "MCP"`             |
-| Issue Type  | ✅           | `issuetype: "Bug"`           |
-| Assignee    | ✅           | Via `instructions` text      |
-| Summary     | ✅           | `string::summary`            |
-| Description | ✅           | `string::description`        |
-| Work Type   | ✅           | `string::customfield_10346`  |
-| Sprint      | ❌           | Resolver ignores; set manual |
-| Parent/Epic | ❌           | Resolver ignores; set manual |

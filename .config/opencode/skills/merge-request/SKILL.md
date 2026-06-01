@@ -5,7 +5,7 @@ description: Create a GitLab merge request from the current jj bookmark. Trigger
 
 # Create Merge Request
 
-Create a GitLab MR from the current jujutsu bookmark, push to GitLab, and assign reviewers.
+Create a GitLab MR from the current jujutsu bookmark, push to GitLab, and assign reviewers, assign myself as the asignee (james.baldwin.z)
 
 ## Repository Config
 
@@ -20,6 +20,7 @@ Create a GitLab MR from the current jujutsu bookmark, push to GitLab, and assign
 |------|----------------|
 | Nate Moore | `neat.moore` (ID: 16898407) |
 | Dylan Laible | `dylan.laible` (ID: 31252789) |
+| Marco Costa | `marco.costa6` (ID: 35597336) | 
 
 ## Workflow
 
