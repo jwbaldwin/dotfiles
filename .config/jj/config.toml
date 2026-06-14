@@ -22,7 +22,7 @@ tug = ["util", "exec", "--", "sh", "-c", """
 """, "sh"]
 log-recent = ["log", "-r", "default() & recent()"]
 gf = ["git", "fetch"]
-gp = ["git", "push", "--allow-new"]
+gp = ["git", "push"]
 rb = ["rebase", "-d", "trunk()"]
 tp = ["util","exec","--","sh","-c","jj tug \"$@\" && jj git push","sh"]
 
@@ -34,6 +34,9 @@ tp = ["util","exec","--","sh","-c","jj tug \"$@\" && jj git push","sh"]
 [git]
 
 [remotes.origin]
+auto-track-bookmarks = "*"
+
+[remotes.github]
 auto-track-bookmarks = "*"
 
 [templates]

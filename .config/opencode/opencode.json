@@ -2,9 +2,18 @@
   "$schema": "https://opencode.ai/config.json",
   "autoupdate": true,
   "permission": {
-    "*": "allow"
+    "*": "allow",
+    "bash": {
+      "*": "allow",
+      "vercel deploy*": "ask",
+      "vercel * --prod*": "ask",
+      "vercel env add*": "ask",
+      "vercel env rm*": "ask",
+      "vercel alias*": "ask",
+      "vercel rollback*": "ask"
+    }
   },
-  "plugin": ["opencode-goal-plugin"],
+  "plugin": ["opencode-goal-plugin", "@plannotator/opencode@latest"],
   "command": {
     "goal": {
       "description": "Set a session-scoped goal and auto-continue until complete.",
@@ -29,6 +38,11 @@
     "planetscale": {
       "type": "remote",
       "url": "https://mcp.pscale.dev/mcp/planetscale",
+      "enabled": true
+    },
+    "sentry": {
+      "type": "remote",
+      "url": "https://mcp.sentry.dev/mcp",
       "enabled": true
     }
   }

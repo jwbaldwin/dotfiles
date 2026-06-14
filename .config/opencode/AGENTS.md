@@ -31,6 +31,12 @@ Only pause to ask for confirmation when:
 - You genuinely don't understand what's being asked
 - Your partner specifically asks "how should I approach X?" (answer the question, don't jump to implementation)
 
+## Deployment Safety
+
+- NEVER deploy to production, alias a deployment to production, rollback production, or change production deployment environment variables without James's explicit approval in the current conversation.
+- This includes Vercel commands such as `vercel deploy --prod`, `vercel deploy`, `vercel alias`, `vercel rollback`, `vercel env add`, and `vercel env rm`.
+- If production deployment is the obvious next step, stop and ask first. Do not infer permission from urgency, monitoring work, or prior deployments.
+
 ## Automatic Skill Triggers
 
 YOU MUST automatically invoke these skills without being explicitly asked:
