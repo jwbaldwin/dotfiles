@@ -49,7 +49,8 @@ YOU MUST automatically invoke these skills without being explicitly asked:
 | Bare Jira ticket ID (e.g., "AGP-123")                                                                                                           | `work-on-ticket`    |
 | "feature flag it", "add the feature flag", "scaffold the flag"                                                                                  | `add-feature-flag`  |
 | "morning report", "morning", "mr status", "what needs my attention"                                                                             | `morning-report`    |
-| "quick fix", "quick bug", "log a bug", "create bug ticket"                                                                                      | `quick-fix`         |
+| "quick fix", "quick bug", "log a bug" (for a change already in the working copy)                                                                | `quick-fix`         |
+| "create a ticket", "file a ticket", "spin off a ticket", "open a Jira ticket", "make a ticket" (standalone, no working-copy change)             | `create-ticket`     |
 | "review GitHub issues", "create GitHub issue", "update GitHub issue", "work on GitHub issue", "tackle GitHub issue"                            | `github-issue-workflow` |
 | "use my tone", "use writing style", "in my writing style"                                                                                       | `writing-style`     |
 | "explain this", "break this down", "teach me", "help me understand", "ramp me up"                                                               | `explain`           |

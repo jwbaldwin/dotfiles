@@ -22,3 +22,9 @@ Do not use the native JJ diff path, even if the current repository uses JJ.
 
 If the review returns feedback or annotations, address them. If no changes were
 requested, acknowledge and continue.
+=======
+description: Open interactive code review for current changes
+---
+
+The Plannotator Code Review has been triggered. Opening the review UI...
+Acknowledge "Opening code review..." and wait for the user's feedback.
