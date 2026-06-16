@@ -49,6 +49,7 @@ Review the same changes for hacky patterns:
 4. **Leaky abstractions**: exposing internal details that should be encapsulated, or breaking existing abstraction boundaries
 5. **Stringly-typed code**: using raw strings where constants, enums (string unions), or branded types already exist in the codebase
 6. **Unnecessary JSX nesting**: wrapper Boxes/elements that add no layout value — check if inner component props (flexShrink, alignItems, etc.) already provide the needed behavior
+7. **Vague or mechanism-driven names**: names that describe API mechanics, data shape, or generic containers instead of the job the code does. Flag bucket names (`input`, `payload`, `data`, `source`, `files`) where the thing has a specific role, helpers/modules whose names don't say the work being done, and client methods named after the provider endpoint rather than the caller's intent. If a name could fit ten unrelated places, it's too generic — suggest a name that says what job the code does from the caller's point of view.
 
 ### Agent 3: Efficiency Review
 

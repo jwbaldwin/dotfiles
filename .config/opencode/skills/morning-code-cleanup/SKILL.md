@@ -44,7 +44,7 @@ Prefer these in order unless the scanner finds a clearly better candidate:
 6. **Reduce needless abstraction**: inline pass-through wrappers, remove unused parameters, or simplify a helper whose interface is as complex as its implementation.
 7. **Tighten types without runtime change**: remove unnecessary casts, non-null assertions, `any`, or optionality only when the stronger type follows directly from existing contracts.
 8. **Clean behavior-adjacent logging**: apply `createMcpLogger()`, fix Pino argument order, bind context once, or improve vague log messages when repo guidance makes the desired shape clear.
-9. **Align style drift**: match repo conventions for imports, boolean coercion, test helper taxonomy, or file organization. Good, but do not let style-only work dominate the rotation.
+9. **Align style drift**: match repo conventions for imports, test helper taxonomy, or file organization. Good, but do not let style-only work dominate the rotation. Do not choose `!!` to `Boolean(...)` as a standalone cleanup; it is too low-value unless it supports a more meaningful same-module change.
 
 ## Design Principles
 
