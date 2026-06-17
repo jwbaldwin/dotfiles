@@ -22,6 +22,7 @@ export CLICOLOR=1
 export GOPATH="$HOME/.go"
 export PNPM_HOME="$HOME/Library/pnpm"
 export PATH="$HOME/.opencode/bin:$PNPM_HOME:$GOPATH/bin:$HOME/bin:/usr/local/bin:$HOMEBREW_PREFIX/bin:$HOMEBREW_PREFIX/sbin:$PATH"
+export PATH="/Users/jbaldwin/.local/bin:$PATH"
 
 # ===== Completions =====
 autoload -Uz compinit

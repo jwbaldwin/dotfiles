@@ -266,6 +266,13 @@ require("lazy").setup({
 			vim.cmd([[colorscheme tokyonight]])
 		end,
 	},
+	{
+		"catppuccin/nvim",
+		name = "catppuccin",
+		config = function()
+			require("core.plugins.catppuccin")
+		end,
+	},
 	{ "rebelot/kanagawa.nvim" },
 	{ "savq/melange-nvim" },
 	{ "xero/miasma.nvim" },

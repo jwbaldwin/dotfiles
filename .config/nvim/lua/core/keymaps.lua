@@ -225,9 +225,9 @@ M.lspconfig = {
 		},
 		["<leader>fm"] = {
 			function()
-				vim.lsp.buf.formatting({})
+				require("conform").format({ async = true, lsp_format = "never" })
 			end,
-			"lsp formatting",
+			"format buffer",
 		},
 		["<leader>wa"] = {
 			function()

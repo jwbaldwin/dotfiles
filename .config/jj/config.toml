@@ -1,4 +1,4 @@
-"$schema" = "https://jj-vcs.github.io/jj/latest/config-schema.json"
+"$schema" = "https://docs.jj-vcs.dev/latest/config-schema.json"
 
 [user]
 name = "jwbaldwin"
@@ -13,23 +13,20 @@ conflict-marker-style = "diff"
 show-cryptographic-signatures = false
 
 [aliases]
-tug = ["util", "exec", "--", "sh", "-c", """
-  if [ -n "$1" ]; then
-    jj bookmark move "$1" --to 'closest_pushable(@)'
-  else
-    jj bookmark move --from 'closest_bookmark(@)' --to 'closest_pushable(@)'
-  fi
-""", "sh"]
+tug = ["bookmark", "advance"]
 log-recent = ["log", "-r", "default() & recent()"]
 gf = ["git", "fetch"]
 gp = ["git", "push"]
-rb = ["rebase", "-d", "trunk()"]
+rb = ["rebase", "--onto", "trunk()"]
 tp = ["util","exec","--","sh","-c","jj tug \"$@\" && jj git push","sh"]
 
 [revset-aliases]
 'recent()' = 'committer_date(after:"1 month ago")'
 'closest_bookmark(to)' = 'heads(::to & bookmarks())'
 'closest_pushable(to)' = 'heads(::to & mutable() & ~description(exact:"") & (~empty() | merges()))'
+
+[revsets]
+bookmark-advance-to = 'closest_pushable(@)'
 
 [git]
 

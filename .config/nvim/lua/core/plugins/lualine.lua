@@ -50,6 +50,26 @@ local function setup_gruvbox_highlights()
 	vim.api.nvim_set_hl(0, "StatusLineFilename", { fg = "#ebdbb2" }) -- fg1
 end
 
+local function setup_catppuccin_highlights()
+	vim.api.nvim_set_hl(0, "StatusLineMode", {})
+
+	vim.api.nvim_set_hl(0, "StatusLineGitBranchIcon", { fg = "#f5c2e7" })
+	vim.api.nvim_set_hl(0, "StatusLineBranch", { fg = "#cdd6f4" })
+	vim.api.nvim_set_hl(0, "StatusLineGitDiffAdded", { fg = "#a6e3a1" })
+	vim.api.nvim_set_hl(0, "StatusLineGitDiffChanged", { fg = "#f9e2af" })
+	vim.api.nvim_set_hl(0, "StatusLineGitDiffRemoved", { fg = "#f38ba8" })
+
+	vim.api.nvim_set_hl(0, "StatusLineLspError", { fg = "#f38ba8" })
+	vim.api.nvim_set_hl(0, "StatusLineLspWarn", { fg = "#f9e2af" })
+	vim.api.nvim_set_hl(0, "StatusLineLspHint", { fg = "#94e2d5" })
+	vim.api.nvim_set_hl(0, "StatusLineLspInfo", { fg = "#a6e3a1" })
+	vim.api.nvim_set_hl(0, "StatusLineLspMessages", { fg = "#89b4fa", italic = true })
+
+	vim.api.nvim_set_hl(0, "StatusLineMedium", { fg = "#6c7086" })
+	vim.api.nvim_set_hl(0, "StatusLineModified", { fg = "#94e2d5" })
+	vim.api.nvim_set_hl(0, "StatusLineFilename", { fg = "#cdd6f4" })
+end
+
 local function lsp_status()
 	local ok, devicons = pcall(require, "nvim-web-devicons")
 	local icon = " " -- Default icon
@@ -381,6 +401,8 @@ local function get_current_colorscheme()
 	local colorscheme = vim.g.colors_name or ""
 	if colorscheme:match("tokyonight") then
 		return "tokyonight"
+	elseif colorscheme:match("catppuccin") then
+		return "catppuccin"
 	elseif colorscheme:match("gruvbox") then
 		return "gruvbox"
 	else
@@ -419,6 +441,18 @@ local color_schemes = {
 		git_removed_fg = "#fb4934", -- red
 		-- Theme name
 		theme_name = "gruvbox",
+	},
+	catppuccin = {
+		mode_fg = "#cba6f7",
+		cwd_fg = "#89b4fa",
+		path_fg = "#6c7086",
+		filename_fg = "#cdd6f4",
+		modified_fg = "#94e2d5",
+		git_branch_fg = "#f5c2e7",
+		git_added_fg = "#a6e3a1",
+		git_modified_fg = "#f9e2af",
+		git_removed_fg = "#f38ba8",
+		theme_name = "catppuccin",
 	},
 }
 
@@ -541,6 +575,10 @@ local colorscheme = vim.g.colors_name or ""
 
 if colorscheme:match("tokyonight") then
 	setup_tokyonight_highlights()
+end
+
+if colorscheme:match("catppuccin") then
+	setup_catppuccin_highlights()
 end
 
 if colorscheme:match("gruvbox-baby") then
