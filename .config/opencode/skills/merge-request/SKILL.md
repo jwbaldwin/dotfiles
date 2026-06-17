@@ -16,11 +16,14 @@ Create a GitLab MR from the current jujutsu bookmark, push to GitLab, and assign
 
 ### Default Reviewers
 
+Pick **two** of these at random for each MR — never add more than two.
+
 | Name | GitLab Username |
 |------|----------------|
 | Nate Moore | `neat.moore` (ID: 16898407) |
 | Dylan Laible | `dylan.laible` (ID: 31252789) |
-| Marco Costa | `marco.costa6` (ID: 35597336) | 
+| Marco Costa | `marco.costa6` (ID: 35597336) |
+| Daniel Vagg | `daniel.vagg` (ID: 23002286) |
 
 ## Workflow
 
@@ -44,10 +47,18 @@ Extract:
 
 ### 3. Push the Bookmark
 
-Push the jj bookmark to GitLab:
+The branch must end up on GitLab (gitlab.com), not just on a local clone.
+
+First check where `origin` points:
 
 ```bash
-jj git push --bookmark <bookmark-name>
+jj git remote list
+```
+
+**If `origin` is gitlab.com** (e.g. `git@gitlab.com:zapier/...`), push the jj bookmark directly:
+
+```bash
+jj git push --bookmark <bookmark-name>            # add --allow-new for a brand new bookmark
 ```
 
 If there are errors (e.g., bookmark not tracking remote), fix them:
@@ -56,6 +67,15 @@ If there are errors (e.g., bookmark not tracking remote), fix them:
 jj bookmark track <bookmark-name>@origin  # if needed
 jj git push --bookmark <bookmark-name>
 ```
+
+**If you're in a workspace** (`origin` is a local clone path like `/Users/jbaldwin/repos/mcp`, not gitlab.com), `jj git push` only updates that local clone — GitLab never sees the branch. We don't care about the workspace's local origin; we want GitLab. So push the bookmark into the local clone, then push from the clone up to GitLab:
+
+```bash
+jj git push --bookmark <bookmark-name> --allow-new        # lands the branch in the local clone
+git -C <clone-path> push -u origin <bookmark-name>         # clone-path = the local origin, e.g. /Users/jbaldwin/repos/mcp
+```
+
+Confirm GitLab actually has the branch before creating the MR. If MR creation fails with `source_branch: does not exist`, the branch did not reach GitLab — re-check this step.
 
 ### 4. Build MR Title
 
@@ -99,7 +119,9 @@ zapier-mcp_execute_write_action({
 
 ### 7. Assign Reviewers
 
-After creation, assign reviewers via the raw API. First resolve usernames to IDs if needed, then update the MR:
+After creation, pick **two** reviewers at random from the default list and assign them via the raw API. Never assign more than two.
+
+Use the **comma-separated** `reviewer_ids` form: `reviewer_ids=ID1,ID2`. Do NOT use the `reviewer_ids[]=a&reviewer_ids[]=b` array form — through the Zapier raw request the repeated brackets collapse to a single value, so only one reviewer sticks.
 
 ```
 zapier-mcp_execute_write_action({
@@ -107,18 +129,20 @@ zapier-mcp_execute_write_action({
   action: "_zap_raw_request",
   params: {
     method: "PUT",
-    url: "https://gitlab.com/api/v4/projects/<project_id>/merge_requests/<iid>",
-    url: "https://gitlab.com/api/v4/projects/<project_id>/merge_requests/<iid>?reviewer_ids[]=16898407&reviewer_ids[]=31252789",
+    url: "https://gitlab.com/api/v4/projects/<project_id>/merge_requests/<iid>?reviewer_ids=<id1>,<id2>&assignee_id=29954463",
     body: ""
   }
 })
+```
+
+`<id1>,<id2>` are two randomly chosen reviewer IDs from the default list; `assignee_id=29954463` is James. After the PUT, confirm the response `reviewers` array contains both names — if either is missing, that user is not a member of the project, so look up the correct member (there can be lookalike accounts with the same display name) and retry.
 
 ### 8. Report
 
 ```
 MR created: [TICKET-ID] Description (!<iid>)
   URL: https://gitlab.com/.../-/merge_requests/<iid>
-  Reviewers: Nate Moore, Dylan Laible
+  Reviewers: <two randomly chosen, e.g. Dylan Laible, Marco Costa>
   Target: <target_branch>
 ```
 
@@ -136,13 +160,13 @@ Agent: [pushes bookmark, creates MR with empty description, assigns reviewers]
 Agent:
   MR created: [AGP-782] Migrate existing MCP server (!230)
     URL: https://gitlab.com/zapier/team-agents-platform/mcp/-/merge_requests/230
-    Reviewers: Nate Moore, Dylan Laible
+    Reviewers: Dylan Laible, Marco Costa
     Target: main
 ```
 
 ## Important Notes
 
-- Always push the bookmark before creating the MR
+- Always push the bookmark before creating the MR, and make sure it lands on **GitLab**, not just a workspace's local clone (see step 3)
 - If no bookmark exists yet, prompt James to create one with `jj bookmark create`
 - The MR is created as non-draft by default. If James says "draft MR" or "WIP", set the title prefix to `Draft: `
 - If James specifies different reviewers, use those instead of the defaults

@@ -277,7 +277,6 @@ def logging_candidates() -> None:
 
 
 def style_candidates() -> None:
-    boolean_evidence = rg(r"!![A-Za-z_(]", "--glob", "*.{ts,tsx,js,jsx}", limit=10)
     import_evidence = rg(r"from ['\"]\.\./", "--glob", "apps/api/src/**/*.{ts,tsx}", limit=10)
     todo_evidence = rg(
         r"\b(TODO|FIXME|HACK|XXX|temporary|workaround)\b",
@@ -285,7 +284,7 @@ def style_candidates() -> None:
         "*.{ts,tsx,js,jsx,mjs,cjs}",
         limit=10,
     )
-    evidence = boolean_evidence + import_evidence + todo_evidence
+    evidence = import_evidence + todo_evidence
     if not evidence:
         return
     print_candidate(

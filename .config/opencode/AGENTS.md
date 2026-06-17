@@ -73,6 +73,28 @@ The `handoff` skill generates ready-to-paste fresh-session prompts. It does not 
 - When it doesn't conflict with YAGNI, architect for maintainability, readability.
 - Favor simplicity over cleverness. Simple code is easier to maintain.
 
+## Naming
+
+Names must explain the job to a human reading the call site.
+
+- Name things for the domain decision or human action they represent, not for the API mechanism, data shape, or implementation detail underneath
+- A caller should understand why the function/module exists without opening it
+- Avoid API jargon unless the API concept is also the product/domain concept
+- Avoid vague bucket names like `input`, `payload`, `data`, `attachments`, `source`, or `files` when the thing has a more specific role
+- Helper names should say the work being done
+- Module names should describe the function/use so a human can understand the intent from the name
+- Client methods should be named from the caller's perspective, not the provider endpoint. Prefer names like `ask` and `ask_with_files` over `completion`, `structured_response`, or `input_file`
+- If a name could fit ten unrelated places, it is too generic
+
+### Naming check
+
+Before keeping a new module, function, variable, or helper name, ask:
+
+- Does this name say what job this code does?
+- Is it named from the caller's point of view?
+- Is it named after provider/API mechanics instead of app behavior?
+- Could this name fit ten unrelated modules? If yes, rename it
+
 ## VCS
 
 - We use Jujutsu vcs to manage our code but often work with people who use Git. You MUST use Jujutsu, NOT git.
