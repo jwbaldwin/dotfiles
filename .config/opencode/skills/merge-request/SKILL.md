@@ -1,11 +1,11 @@
 ---
 name: merge-request
-description: Create a GitLab merge request from the current jj bookmark. Triggered by "create MR", "create merge request", "open MR", "submit for review", or "put up the MR".
+description: Create one or more small stacked GitLab merge requests from jj bookmarks. Triggered by "create MR", "create merge request", "open MR", "submit for review", "put up the MR", "create stacked MRs", or "open the stack".
 ---
 
 # Create Merge Request
 
-Create a GitLab MR from the current jujutsu bookmark, push to GitLab, and assign reviewers, assign myself as the asignee (james.baldwin.z)
+Create GitLab MRs from jj bookmarks. Prefer small, independently reviewable MRs over one large MR when the local jj stack can be split cleanly.
 
 ## Repository Config
 
@@ -16,7 +16,7 @@ Create a GitLab MR from the current jujutsu bookmark, push to GitLab, and assign
 
 ### Default Reviewers
 
-Pick **two** of these at random for each MR — never add more than two.
+Pick **two** of these at random for each MR unless James specifies reviewers. Never add more than two.
 
 | Name | GitLab Username |
 |------|----------------|
@@ -25,29 +25,73 @@ Pick **two** of these at random for each MR — never add more than two.
 | Marco Costa | `marco.costa6` (ID: 35597336) |
 | Daniel Vagg | `daniel.vagg` (ID: 23002286) |
 
+## Default Policy: Small MRs
+
+- Creating more MRs is good when it lowers reviewer cognitive load and each MR is independently understandable.
+- Use jj as the local stack manager. GitLab should receive one source bookmark per reviewable change.
+- For stacked work, create GitLab MRs where each child MR targets its parent bookmark. This gives GitLab a stacked-diff view instead of one giant diff against trunk.
+- Do not split a change just to inflate count. Each MR needs a coherent purpose, tests/checks that make sense for that slice, and a clear review order.
+- If the right split requires significant history surgery, pause and ask James before rearranging commits/bookmarks.
+
 ## Workflow
 
 ### 1. Detect Repository
 
 Check the current working directory to determine the repo. If unclear, ask James.
 
-### 2. Gather Context
+### 2. Gather Stack Context
 
 ```bash
-jj log -r 'mine()'    # see commit history
-jj diff                # see current changes
-jj bookmark list       # find the current bookmark name
-jj st                  # check for uncommitted work
+jj st
+jj log -r 'mine()' --no-pager
+jj bookmark list
+jj diff
 ```
 
 Extract:
-- **Bookmark name** - this becomes the source branch (e.g., `agp-782-migrate-mcp-server`)
-- **Ticket ID** - extract from bookmark name (e.g., `AGP-782`)
-- **Commit messages** - from `jj log` for the commits in this stack
 
-### 3. Push the Bookmark
+- **Current bookmark**: the source branch for a single MR, or the tip of a stack.
+- **Ticket ID**: extract from bookmark names when possible, then uppercase it, e.g. `agp-782` -> `AGP-782`.
+- **Reviewable slices**: look for bookmarks/commits that are coherent, small, and can be reviewed independently.
+- **Existing remote tracking**: determine which bookmarks already exist on GitLab.
 
-The branch must end up on GitLab (gitlab.com), not just on a local clone.
+If uncommitted work exists, do not open an MR for it. Ask James whether to commit it first, or use the `commit` skill if he says to commit.
+
+### 3. Decide Single MR vs Stack
+
+Use a single MR when:
+
+- There is only one coherent change.
+- Splitting would make reviewers jump between tightly coupled incomplete pieces.
+- The change is already small enough for a quick review.
+
+Use stacked MRs when:
+
+- The work naturally separates into setup, behavior, tests, cleanup, or follow-up slices.
+- Multiple bookmarks already represent those slices.
+- Reviewers would benefit from seeing each slice as its own MR.
+
+For a stack, identify ordered pairs:
+
+```text
+source bookmark -> target branch/bookmark
+```
+
+The bottom MR targets the repo default target (`main` or `staging`). Each next MR targets the bookmark immediately below it.
+
+Example:
+
+```text
+agp-100-add-schema       -> main
+agp-100-wire-handler     -> agp-100-add-schema
+agp-100-add-followups    -> agp-100-wire-handler
+```
+
+If the stack shape is ambiguous, show James the proposed MR list and ask before creating anything.
+
+### 4. Push Bookmarks To GitLab
+
+The branch must end up on GitLab, not just in a local clone.
 
 First check where `origin` points:
 
@@ -55,119 +99,117 @@ First check where `origin` points:
 jj git remote list
 ```
 
-**If `origin` is gitlab.com** (e.g. `git@gitlab.com:zapier/...`), push the jj bookmark directly:
+If `origin` is GitLab, push each source bookmark and each bookmark used as a target branch:
 
 ```bash
-jj git push --bookmark <bookmark-name>            # add --allow-new for a brand new bookmark
+jj git push --bookmark <bookmark-name> --allow-new
 ```
 
-If there are errors (e.g., bookmark not tracking remote), fix them:
+If there are tracking errors, fix them:
 
 ```bash
-jj bookmark track <bookmark-name>@origin  # if needed
+jj bookmark track <bookmark-name>@origin
 jj git push --bookmark <bookmark-name>
 ```
 
-**If you're in a workspace** (`origin` is a local clone path like `/Users/jbaldwin/repos/mcp`, not gitlab.com), `jj git push` only updates that local clone — GitLab never sees the branch. We don't care about the workspace's local origin; we want GitLab. So push the bookmark into the local clone, then push from the clone up to GitLab:
+If this is a workspace and `origin` is a local clone path, `jj git push` only updates that local clone. Push to the clone first, then push from the clone to GitLab:
 
 ```bash
-jj git push --bookmark <bookmark-name> --allow-new        # lands the branch in the local clone
-git -C <clone-path> push -u origin <bookmark-name>         # clone-path = the local origin, e.g. /Users/jbaldwin/repos/mcp
+jj git push --bookmark <bookmark-name> --allow-new
+git -C <clone-path> push -u origin <bookmark-name>
 ```
 
-Confirm GitLab actually has the branch before creating the MR. If MR creation fails with `source_branch: does not exist`, the branch did not reach GitLab — re-check this step.
+Confirm GitLab has every source and stacked target branch before creating MRs. If MR creation fails with `source_branch: does not exist` or `target_branch: does not exist`, the branch did not reach GitLab.
 
-### 4. Build MR Title
+### 5. Build MR Titles
 
 Format: `[TICKET-ID] Short description`
 
-- Extract ticket ID from the bookmark name (uppercase it: `agp-782` -> `AGP-782`)
-- Use the first commit message or bookmark description as the short description
-- Keep it concise (under 72 chars)
+- Prefer each bookmark or commit message's actual purpose, not a vague umbrella title.
+- Keep titles concise, ideally under 72 chars.
+- If James says `draft MR` or `WIP`, prefix the title with `Draft: `.
 
-Example: `[AGP-782] Migrate existing MCP server`
+Example stack titles:
 
-### 5. Get Description from James
+```text
+[AGP-100] Add action schema
+[AGP-100] Wire action execution handler
+[AGP-100] Add execution follow-up tests
+```
 
-**STOP. Do NOT write a description yourself. Do NOT proceed to step 6 until James has responded.**
+### 6. Get Description From James
 
-Ask James: "What should the MR description be? Or should I leave it blank for you to fill in?"
+**STOP. Do NOT write descriptions yourself. Do NOT proceed to MR creation until James has responded.**
 
+Ask James: `What should the MR description be? Or should I leave it blank for you to fill in?`
+
+- If creating multiple MRs, ask whether James wants one shared description, per-MR descriptions, or blanks.
 - If James provides text, use it verbatim.
 - If James says to leave it blank, use an empty description.
-- If James doesn't respond or says anything ambiguous, use an empty description.
+- If James does not respond or says anything ambiguous, use an empty description.
 
-Never draft, summarize, or generate a description on your own — even if you have full context about the change. James writes his own MR descriptions.
+Never draft, summarize, or generate descriptions on your own. James writes his own MR descriptions.
 
-### 6. Create the MR
+### 7. Create The MR Or Stack
 
-Use Zapier MCP to create the merge request:
+Use Zapier MCP GitLab actions. Always inspect enabled Zapier actions before executing them in the active session; do not guess action names.
 
-```
-zapier-mcp_execute_write_action({
-  app: "gitlab",
-  action: "merge_request",
-  params: {
-    title: "[TICKET-ID] Description",
-    project_id: "<project_id>",
-    source_branch: "<bookmark-name>",
-    target_branch: "<default-target>",
-    description: "<description or empty>"
-  }
-})
+For each MR:
+
+```text
+create merge request with:
+  title: "[TICKET-ID] Description"
+  project_id: "<project_id>"
+  source_branch: "<source-bookmark>"
+  target_branch: "<target-branch-or-parent-bookmark>"
+  description: "<description or empty>"
 ```
 
-### 7. Assign Reviewers
+Create bottom-to-top so target bookmark MRs exist before dependent MRs.
 
-After creation, pick **two** reviewers at random from the default list and assign them via the raw API. Never assign more than two.
+### 8. Assign Reviewers And James
 
-Use the **comma-separated** `reviewer_ids` form: `reviewer_ids=ID1,ID2`. Do NOT use the `reviewer_ids[]=a&reviewer_ids[]=b` array form — through the Zapier raw request the repeated brackets collapse to a single value, so only one reviewer sticks.
+After each MR is created, pick two reviewers from the default list and assign them with the GitLab API. Assign James as assignee (`assignee_id=29954463`).
 
-```
-zapier-mcp_execute_write_action({
-  app: "gitlab",
-  action: "_zap_raw_request",
-  params: {
-    method: "PUT",
-    url: "https://gitlab.com/api/v4/projects/<project_id>/merge_requests/<iid>?reviewer_ids=<id1>,<id2>&assignee_id=29954463",
-    body: ""
-  }
-})
+Use the comma-separated `reviewer_ids` form: `reviewer_ids=ID1,ID2`. Do not use `reviewer_ids[]=a&reviewer_ids[]=b`; through Zapier raw request the repeated brackets collapse to one value.
+
+```text
+PUT https://gitlab.com/api/v4/projects/<project_id>/merge_requests/<iid>?reviewer_ids=<id1>,<id2>&assignee_id=29954463
 ```
 
-`<id1>,<id2>` are two randomly chosen reviewer IDs from the default list; `assignee_id=29954463` is James. After the PUT, confirm the response `reviewers` array contains both names — if either is missing, that user is not a member of the project, so look up the correct member (there can be lookalike accounts with the same display name) and retry.
+Confirm the response `reviewers` array contains both names. If either is missing, look up the correct member and retry.
 
-### 8. Report
+### 9. Report
 
-```
+For a single MR:
+
+```text
 MR created: [TICKET-ID] Description (!<iid>)
   URL: https://gitlab.com/.../-/merge_requests/<iid>
-  Reviewers: <two randomly chosen, e.g. Dylan Laible, Marco Costa>
+  Reviewers: <two reviewers>
   Target: <target_branch>
 ```
 
-## Example
+For a stack:
 
+```text
+Stacked MRs created:
+1. [TICKET-ID] First slice (!<iid>)
+   URL: <url>
+   Source -> target: <bookmark> -> <default-target>
+2. [TICKET-ID] Next slice (!<iid>)
+   URL: <url>
+   Source -> target: <bookmark> -> <parent-bookmark>
+
+Review order: bottom to top.
 ```
-James: "create MR"
 
-Agent: [checks jj state, finds bookmark agp-782-migrate-mcp-server]
-Agent: "What should the MR description be? Or should I leave it blank?"
-
-James: "leave it blank"
-
-Agent: [pushes bookmark, creates MR with empty description, assigns reviewers]
-Agent:
-  MR created: [AGP-782] Migrate existing MCP server (!230)
-    URL: https://gitlab.com/zapier/team-agents-platform/mcp/-/merge_requests/230
-    Reviewers: Dylan Laible, Marco Costa
-    Target: main
-```
+If James asks you to babysit the MR after creation, use the `babysit` skill.
 
 ## Important Notes
 
-- Always push the bookmark before creating the MR, and make sure it lands on **GitLab**, not just a workspace's local clone (see step 3)
-- If no bookmark exists yet, prompt James to create one with `jj bookmark create`
-- The MR is created as non-draft by default. If James says "draft MR" or "WIP", set the title prefix to `Draft: `
-- If James specifies different reviewers, use those instead of the defaults
-- If James specifies a target branch, use that instead of the default
+- Always push bookmarks before creating MRs, and make sure they land on GitLab.
+- If no bookmark exists yet, prompt James to create one with `jj bookmark create`.
+- Prefer small stacked MRs, but do not restructure history without James's explicit approval.
+- If James specifies reviewers or a target branch, use those instead of the defaults.
+- Use `jj`, not `git`, for local version-control state. Use `git -C <clone-path> push` only for the workspace-to-GitLab bridge described above.

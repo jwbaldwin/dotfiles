@@ -58,6 +58,8 @@ YOU MUST automatically invoke these skills without being explicitly asked:
 | "synthesize my brain", "synthesize useful knowledge", "high value conversations", "distill my preferences"                                      | `synthesize-brain`  |
 | "handoff", "split this into handoffs", "prepare a next-session prompt", "chunk this planning run", "split this prototype cleanup into handoffs" | `handoff`           |
 | "commit", "commit this", "commit changes", "jj commit"                                                                                          | `commit`            |
+| "create MR", "create merge request", "open MR", "submit for review", "put up the MR", "create stacked MRs", "open the stack"                 | `merge-request`     |
+| "babysit", "babysit this MR", "babysit the MR", "watch CI", "wait for CI", "monitor greptile"                                                 | `babysit`           |
 | "new workspace", "create workspace", "use a workspace for this"                                                                                 | `workspace`         |
 | "clean up workspace", "remove workspace", "delete workspace"                                                                                    | `workspace`         |
 

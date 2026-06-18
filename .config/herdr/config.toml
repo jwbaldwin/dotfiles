@@ -101,6 +101,18 @@ rename_tab = "prefix+,"
 # type = "pane"
 # command = "lazygit"
 
+[[keys.command]]
+key = "ctrl+h"
+type = "shell"
+command = "~/.config/herdr/smart-left-right left"
+description = "smart left across panes and tabs"
+
+[[keys.command]]
+key = "ctrl+l"
+type = "shell"
+command = "~/.config/herdr/smart-left-right right"
+description = "smart right across panes and tabs"
+
 # Legacy indexed shortcut config is still parsed for compatibility.
 # Prefer switch_tab, switch_workspace, and focus_agent for new configs.
 # [keys.indexed]
