@@ -100,9 +100,51 @@ alias pfind="lsof -i"
 alias pm="pnpm"
 
 # Opencode shortner
-alias oc="opencode"
-alias occ="opencode --continue"
+function ocd {
+  local url="${OPENCODE_SERVER_URL:-http://127.0.0.1:4096}"
+  local log="$HOME/.cache/opencode-serve.log"
+
+  if curl -fsS "$url/global/health" >/dev/null 2>&1; then
+    printf 'opencode server already running at %s\n' "$url"
+    return 0
+  fi
+
+  mkdir -p "$HOME/.cache"
+  opencode serve --port 4096 --hostname 127.0.0.1 >"$log" 2>&1 &
+  local pid=$!
+
+  for _ in {1..50}; do
+    if curl -fsS "$url/global/health" >/dev/null 2>&1; then
+      printf 'opencode server started at %s (pid %s, log %s)\n' "$url" "$pid" "$log"
+      return 0
+    fi
+    sleep 0.1
+  done
+
+  printf 'opencode server failed to start; see %s\n' "$log" >&2
+  kill "$pid" 2>/dev/null
+  return 1
+}
+
+function oc {
+  local url="${OPENCODE_SERVER_URL:-http://127.0.0.1:4096}"
+
+  if [ "$#" -eq 0 ] && curl -fsS "$url/global/health" >/dev/null 2>&1; then
+    opencode attach "$url" --dir "$PWD"
+  else
+    opencode "$@"
+  fi
+}
+
+function occ {
+  local url="${OPENCODE_SERVER_URL:-http://127.0.0.1:4096}"
+
+  if curl -fsS "$url/global/health" >/dev/null 2>&1; then
+    opencode attach "$url" --dir "$PWD" --continue
+  else
+    opencode --continue
+  fi
+}
 
 ### Mise updating nvim ###
 alias update-nvim='mise upgrade neovim@nightly'
-

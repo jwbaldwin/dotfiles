@@ -139,7 +139,7 @@ Example stack titles:
 
 ### 6. Get Description From James
 
-**STOP. Do NOT write descriptions yourself. Do NOT proceed to MR creation until James has responded.**
+**STOP. Do NOT write descriptions yourself. Do NOT proceed to MR creation until James has responded or unless he explicitly guided you on what to use**
 
 Ask James: `What should the MR description be? Or should I leave it blank for you to fill in?`
 
@@ -149,6 +149,10 @@ Ask James: `What should the MR description be? Or should I leave it blank for yo
 - If James does not respond or says anything ambiguous, use an empty description.
 
 Never draft, summarize, or generate descriptions on your own. James writes his own MR descriptions.
+
+Do **not** add generic verification/test sections to MR descriptions. Never include headings like `# Verification`, `## Verification`, `# Tests`, `## Tests`, `# Testing`, or `## Testing` just to list routine commands such as `pnpm types`, `pnpm lint`, `pnpm test`, or `pnpm check`. CI already covers routine checks, and this boilerplate is noise.
+
+Only include validation notes if James explicitly provides them or if they describe meaningful manual/product validation that CI cannot express, such as reproducing the bug locally against a running MCP server, toggling a feature flag, exercising the actual UI/API flow, and confirming the behavior changed. Even then, use James's provided wording verbatim instead of generating a stock verification block.
 
 ### 7. Create The MR Or Stack
 
@@ -213,3 +217,4 @@ If James asks you to babysit the MR after creation, use the `babysit` skill.
 - Prefer small stacked MRs, but do not restructure history without James's explicit approval.
 - If James specifies reviewers or a target branch, use those instead of the defaults.
 - Use `jj`, not `git`, for local version-control state. Use `git -C <clone-path> push` only for the workspace-to-GitLab bridge described above.
+- Never add generic `Verification`, `Tests`, or `Testing` markdown sections to MR descriptions for routine type/lint/test commands. Omit them unless James explicitly provided meaningful manual validation details.

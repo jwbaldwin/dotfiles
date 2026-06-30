@@ -35,6 +35,72 @@ M.toggle_qf_list = function()
 	end
 end
 
+local function find_jj_root()
+	local jj_dir = vim.fn.finddir(".jj", ".;")
+	return jj_dir ~= "" and vim.fn.fnamemodify(jj_dir, ":h") or vim.uv.cwd()
+end
+
+local function first_changed_line_offset(diff)
+	local offset = 0
+	for line in diff:gmatch("[^\n]+") do
+		if line:match("^diff ") or line:match("^index ") or line:match("^%-%-%-") or line:match("^%+%+%+") or line:match("^@@") then
+			-- skip diff header lines
+		elseif line:match("^ ") then
+			offset = offset + 1
+		else
+			break
+		end
+	end
+	return offset
+end
+
+local function close_dashboard_windows()
+	for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+		if vim.api.nvim_win_is_valid(win) and vim.api.nvim_win_get_config(win).relative == "" then
+			local bufnr = vim.api.nvim_win_get_buf(win)
+			local filetype = vim.bo[bufnr].filetype
+			if filetype == "snacks_dashboard" or filetype == "alpha" then
+				pcall(vim.api.nvim_win_close, win, true)
+			end
+		end
+	end
+end
+
+M.jj_diff_hunks_to_qf = function()
+	local cwd = find_jj_root()
+	local result = vim.system({ "jj", "diff", "--git" }, { cwd = cwd, text = true }):wait()
+
+	if result.code ~= 0 then
+		vim.notify(result.stderr ~= "" and result.stderr or "jj diff failed", vim.log.levels.ERROR)
+		return
+	end
+
+	local diff = require("snacks.picker.source.diff").parse(vim.split(result.stdout, "\n", { plain = true }))
+	local qf_entries = {}
+	for _, block in ipairs(diff.blocks) do
+		for _, hunk in ipairs(block.hunks) do
+			local hunk_diff = table.concat(vim.list_extend(vim.deepcopy(block.header), hunk.diff), "\n")
+			qf_entries[#qf_entries + 1] = {
+				filename = vim.fs.joinpath(cwd, block.file),
+				lnum = hunk.line + first_changed_line_offset(hunk_diff),
+				col = 1,
+				text = block.file .. ":" .. hunk.line,
+				valid = true,
+			}
+		end
+	end
+
+	if vim.tbl_isempty(qf_entries) then
+		vim.notify("No changed hunks found", vim.log.levels.INFO)
+		return
+	end
+
+	vim.fn.setqflist({}, "r", { title = "JJ Diff", items = qf_entries })
+	vim.cmd("cfirst")
+	close_dashboard_windows()
+	vim.cmd("botright copen")
+end
+
 M.close_buffer = function(bufnr)
 	if vim.bo.buftype == "terminal" then
 		vim.cmd(vim.bo.buflisted and "set nobl | enew" or "hide")

@@ -16,6 +16,52 @@ Clean up Jujutsu state without discarding active work. Focus on safe workspace d
 5. Rebase live stacks onto `trunk()`.
 6. Report what changed and call out anything that still needs James's decision.
 
+## Fast Post-Merge Cleanup
+
+Use this path when James says "jj is a mess", "clean up after merges", "why didn't jj gf clean this up", or similar. The goal is to make `jj log` readable again without touching active work.
+
+Why `jj git fetch` / `jj gf` is not enough:
+
+- Fetch updates imported Git refs and can prune remote-tracking state, but local jj bookmarks are intentional local state. Jj will not infer that a local bookmark should be forgotten just because its GitLab MR merged.
+- Closed MRs, amended review commits, divergent local/remote bookmark targets, and deleted workspaces can still leave commits visible because a bookmark, workspace, or remote-tracking bookmark still references them.
+- Jj is conservative by design: if a commit might represent user work, it keeps it until we explicitly forget the bookmark or abandon the commit.
+
+Fast safe sequence:
+
+```bash
+jj git fetch --prune
+jj status
+jj workspace list
+jj bookmark list --conflicted
+jj bookmark list
+jj log -r 'heads(mine() & ~::trunk())' --no-graph
+```
+
+For each noisy bookmark/head, classify it:
+
+- **Merged MR or proven obsolete local name**: `jj bookmark forget --include-remotes <bookmark>`. Prefer `forget` over `delete` so the cleanup is local only and does not mark a remote bookmark for deletion on the next push.
+- **Merged/closed disposable commits with no live bookmark/workspace**: abandon the explicit commit IDs or a tightly-scoped revset, for example `jj abandon 'ancestors(<head>) & mutable() & ~::trunk()'`.
+- **Open MR, dirty workspace, unclear branch, or manual bookmark**: keep it and report it.
+- **Immutable commit**: do not force-abandon unless James explicitly asks. Usually the useful cleanup was forgetting the bookmark; immutable shared-history commits can remain.
+
+Good verification commands:
+
+```bash
+jj status
+jj bookmark list --conflicted
+jj bookmark list
+jj log -r 'heads(mine() & ~::trunk())' --no-graph
+find "$(dirname "$(jj root)")/workspaces" -maxdepth 1 -mindepth 1 -type d -print 2>/dev/null | sort
+```
+
+If the repo uses GitLab and `glab` is available, quickly confirm MR state before forgetting or abandoning questionable branch names:
+
+```bash
+glab mr list -R zapier/team-agents-platform/mcp --search "<ticket-or-branch-fragment>" --all --output json
+```
+
+Never abandon a broad revset like `mine() & ~::trunk()` just to make the graph quiet. Use explicit commit IDs or narrow `ancestors(<known-disposable-head>)` revsets after proving the work is merged, closed, or otherwise disposable.
+
 ## Inspect First
 
 Always use `jj`, not `git`.

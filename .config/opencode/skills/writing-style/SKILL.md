@@ -8,14 +8,15 @@ description: Human-first writing style for comments, commit messages, merge requ
 ## Tone
 Write for a busy teammate scanning in 10-15 seconds.
 
+- Stop using jargon and speak coherently. State the thing more simply and concisely, like one human talking to another.
 - Prefer concrete words and short verbs instead of technical jargon or "spec"-like language.
 - Keep tone human, casual, and clear; avoid formal/spec language.
 - Avoid caveat-heavy writing unless it changes a decision or introduces risk.
-- Skip jargon and abstract verbs (`derive`, `persist`, `facilitate`, `leverage`) when a simpler word works.
+- Don't ever use abstract verbs (`derive`, `persist`, `facilitate`, `leverage`) when a simpler word works.
 
 
 ## For a Merge Request Description
-- Start with one to three plain sentence: what this fixes, where it shows up, and what bad behavior it replaces.
+- Start with one to three plain sentence: what this fixes, where it shows up, and what bad behavior it replaces. Zero jargon, simple and concisely like you're talking to a teammate explaining what the MR does and is for.
 - Optimize for readability over defensive precision in summaries; reviewers can inspect code for details.
 - Use a few short bullets to describe what the reviewer would see in this MR
 - Each bullet must say: what changed + why it matters.
@@ -25,16 +26,9 @@ Write for a busy teammate scanning in 10-15 seconds.
 ### Merge request description output shape (default)
 
 1. One-sentence summary
-2. 2-4 bullets of concrete changes
-3. No periods on the last sentence, or in module docs, it's too formal.
-
-## Example merge request description
-
-This fixes action creation via ZSL (API) so app auth requirements are saved correctly as true/false instead of silently defaulting to false.
-
-- Include `appNeedsAuth` in bulk creation from the `app_needs_auth` field we already had, so we stop dropping known requirements.
-- Get `appNeedsAuth` in single-action creation from existing metadata paths, with a simple fallback when needs are pre-supplied.
-- Add a regression test for the needs-already-provided path.
+2. 1-2 bullets of concrete changes for small - medium MRs, 2-4 bullets for larger MRs
+    - Only add a bullet if it describes a meaningful change that reviewers should know about
+3. **No periods on the last sentence**, or in module docs, it's too formal.
 
 ## Example commit message
 

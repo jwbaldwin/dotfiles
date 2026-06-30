@@ -595,6 +595,13 @@ return {
 			desc = "[G]it [D]iff (Hunks)",
 		},
 		{
+			"<leader>gq",
+			function()
+				require("core.utils").jj_diff_hunks_to_qf()
+			end,
+			desc = "[G]it diff [q]uickfix",
+		},
+		{
 			"<leader>gf",
 			function()
 				Snacks.picker.git_log_file()
