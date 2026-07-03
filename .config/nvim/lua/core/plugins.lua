@@ -525,6 +525,18 @@ require("lazy").setup({
 					opencode = {
 						env = {
 							HOME = os.getenv("HOME"),
+							OPENCODE_CONFIG_CONTENT = vim.json.encode({
+								model = "openai/gpt-5.5",
+								provider = {
+									openai = {
+										models = {
+											["gpt-5.5"] = {
+												options = { reasoningEffort = "high" },
+											},
+										},
+									},
+								},
+							}),
 						},
 					},
 				},
