@@ -36,16 +36,16 @@ local function js_formatters(bufnr)
 	if local_oxfmt then
 		return { "oxfmt" }
 	end
+	if has_executable("oxfmt") then
+		return { "oxfmt" }
+	end
 	if has_executable("prettierd") then
 		return { "prettierd" }
 	end
 	if has_executable("prettier") then
 		return { "prettier" }
 	end
-	if has_executable("oxfmt") then
-		return { "oxfmt" }
-	end
-	return { "prettierd", "prettier" }
+	return { "oxfmt", "prettierd", "prettier" }
 end
 
 M.opts = {
