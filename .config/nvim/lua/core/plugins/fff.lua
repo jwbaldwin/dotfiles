@@ -44,7 +44,7 @@ M.keys = {
 		desc = "FFFind files",
 	},
 	{
-		"<leader>fg",
+		"fg",
 		function()
 			require("fff").live_grep()
 		end,

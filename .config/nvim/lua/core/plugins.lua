@@ -179,13 +179,6 @@ require("lazy").setup({
 		end,
 	},
 	{
-		"numToStr/Comment.nvim",
-		keys = { "gc", "gb" },
-		init = function()
-			require("core.utils").load_mappings("comment")
-		end,
-	},
-	{
 		"sphamba/smear-cursor.nvim",
 		opts = {},
 	},

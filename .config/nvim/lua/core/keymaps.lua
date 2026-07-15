@@ -140,16 +140,16 @@ M.comment = {
 	-- toggle comment in both modes
 	n = {
 		["<leader>/"] = {
-			function()
-				require("Comment.api").toggle.linewise.current()
-			end,
+			"gcc",
 			"toggle comment",
+			opts = { remap = true },
 		},
 	},
-	v = {
+	x = {
 		["<leader>/"] = {
-			"<ESC><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>",
+			"gc",
 			"toggle comment",
+			opts = { remap = true },
 		},
 	},
 }
