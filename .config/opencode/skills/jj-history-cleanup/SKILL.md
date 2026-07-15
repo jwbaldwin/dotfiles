@@ -13,8 +13,9 @@ Clean up Jujutsu state without discarding active work. Focus on safe workspace d
 2. Inspect repo-sibling `workspaces/` directories if they exist.
 3. Fetch before deciding whether old workspaces are merged.
 4. Delete only clearly safe workspaces.
-5. Rebase live stacks onto `trunk()`.
-6. Report what changed and call out anything that still needs James's decision.
+5. Rebase every retained live stack onto `trunk()`.
+6. Resolve every conflict created by those rebases and verify the affected work.
+7. Report what changed and call out anything that still needs James's decision.
 
 ## Fast Post-Merge Cleanup
 
@@ -29,7 +30,7 @@ Why `jj git fetch` / `jj gf` is not enough:
 Fast safe sequence:
 
 ```bash
-jj git fetch --prune
+jj git fetch
 jj status
 jj workspace list
 jj bookmark list --conflicted
@@ -133,6 +134,19 @@ After fetch, re-run `jj status` because fetch may auto-abandon unreachable commi
 
 ## Rebase Live Stacks
 
+Cleanup is not complete while retained work is based on stale trunk commits. The
+expected final graph is one current `trunk()` with each independent live stack
+branching directly from it (or intentionally stacked on another live branch).
+
+Inventory all retained local heads, not only the current workspace. Include:
+
+- every registered workspace
+- every local bookmark with open or intentionally unpushed work
+- unbookmarked local heads that James explicitly chose to keep
+
+Do not leave an open MR or retained local branch on an older main merge merely
+because it was clean before the rebase.
+
 For the current workspace or clone, find the local stack roots that are not already on trunk:
 
 ```bash
@@ -147,12 +161,27 @@ jj rebase -s 'roots(ancestors(@) & mutable() & ~empty() & ~::trunk())' -d trunk(
 
 Run that per workspace/clone you are keeping.
 
+If a rebase produces conflicts, the task is not done. Resolve each conflict in
+the rebased commit, preserving both the retained branch's intent and behavior
+added to trunk since the branch point. Do not roll the branch back to stale
+trunk merely to make the graph look conflict-free. Inspect the affected code,
+run focused tests, and then run the repository's required checks.
+
+Resolve conflicts directly in the conflicted commit (for example with
+`jj edit <commit>`), rather than leaving a separate conflict-resolution commit
+or using `jj squash`.
+
 Then verify:
 
 ```bash
 jj status
+jj log -r 'conflicts() & (mine() | working_copies() | bookmarks())'
 jj log -r 'mine() & ~::trunk()'
 ```
+
+The conflict query must be empty. Confirm each retained stack now descends from
+the current `trunk()` and that no open branch remains attached to an older main
+commit unless James explicitly chose a stacked dependency.
 
 ## Report Back
 
@@ -160,6 +189,7 @@ Summarize:
 
 - which workspaces/clones were deleted
 - which stacks were rebased
+- which rebase conflicts were resolved and how they were verified
 - which empty commits were auto-pruned or abandoned
 - which workspaces still need James to decide
 

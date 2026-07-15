@@ -1,6 +1,6 @@
 ---
 name: work-on-ticket
-description: Fetches Jira ticket details, creates an appropriately named jj bookmark, and initiates the task planning workflow. Use when the user says "work on [TICKET_ID]" or similar phrases.
+description: Fetches Jira ticket details, prepares or reuses an appropriately named jj bookmark, and initiates the task planning workflow. Use when the user says "work on [TICKET_ID]" or similar phrases.
 license: MIT
 allowed-tools: 
   - read
@@ -81,20 +81,23 @@ Create a bookmark name using this format:
 - Short and descriptive (max 50 chars)
 - Example: `'migrate mcp server to new architecture'`
 
-### 4. Check Current Jujutsu State
+### 4. Prepare Or Reuse The Jujutsu State
 
-Before creating a new commit and bookmark, check the current state:
+Check the current state and bookmarks:
 
 ```bash
 jj st
+jj bookmark list
 ```
 
-Because we use jujutsu, we do not need to commit any changes, but we do need to ensure that our new work is started from a new commit off of HEAD
+If the expected ticket bookmark already points to `@`, the `workspace` skill prepared this checkout. Reuse it and skip the fetch, `jj new`, description, and bookmark commands below. Continue with task planning in the current workspace.
+
+Otherwise, create the ticket change from current `main`:
 
 ```bash
-# Ensure we're on the latest staging
-jj git fetch
-jj new main # create a new commit on top of main
+# Ensure we're on the latest main
+jj git fetch --remote origin --branch main
+jj new 'main@origin' # create a new commit on top of current GitLab main
 
 # Create bookmark with description
 jj describe -m 'lowercase short description, no ticket id, max 50 chars'
@@ -181,4 +184,3 @@ The skill is successful when:
 4. ✅ Bookmark is created with correct naming conventions
 5. ✅ `/investigate` command is executed with ticket context
 6. ✅ James is informed of each major step OR any issues encountered stop the workflow and are reported
-

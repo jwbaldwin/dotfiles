@@ -1,149 +1,134 @@
 ---
 name: workspace
-description: Create or clean up colocated jj+git clones in a repo-sibling workspaces directory (for example ~/repos/workspaces or ~/repos/projects/workspaces) for isolated work that still has a real .git directory. Triggered by "new workspace", "create workspace", "use a workspace for this" for creation, or "clean up workspace", "remove workspace", "delete workspace" for cleanup.
+description: Create or remove isolated colocated jj+git clones with GitLab origins and named bookmarks. Use when James says "new workspace", "create workspace", "use a workspace for this", "clean up workspace", "remove workspace", or "delete workspace".
 ---
 
 # Workspace
 
-Create or clean up colocated `jj git clone --colocate` working copies in a `workspaces/` directory that is a sibling of the current repo, with bookmarks, so James can start separate work without touching his current working copy and still have `.git` available.
+Create independent colocated clones in a repo-sibling `workspaces/` directory. Use a local clone for speed, but always restore `origin` to GitLab before doing any work.
 
-Workspace root rule:
-- Determine the current repo root with `jj root`.
-- Set `WORKSPACES_DIR` to `<parent-of-repo-root>/workspaces`.
-- Examples:
-  - Repo at `~/repos/agent-platform` -> `WORKSPACES_DIR=~/repos/workspaces`
-  - Repo at `~/repos/projects/agent-platform` -> `WORKSPACES_DIR=~/repos/projects/workspaces`
+Do not use `jj workspace add`: its additional working copies do not contain the real `.git` directory required by James's tools.
 
 ## Naming
 
-Derive the workspace and bookmark name from context:
+- With a Jira ticket, use `[ticket-id]-[kebab-case-summary]`, such as `agp-123-fix-auth-redirect`.
+- Otherwise, use a short kebab-case description, such as `fix-auth-redirect`.
+- Keep the name lowercase, meaningful, and at most 50 characters. The directory and bookmark use the same name.
+- Reuse a ticket summary already available in the conversation. Fetch it from Jira only when needed.
 
-1. **Jira ticket mentioned** — use `[ticket-id]-[kebab-case-summary]` (e.g., `agp-123-fix-auth-redirect`). Fetch the ticket summary from Jira if needed, or use the description from conversation context.
-2. **No ticket** — use a short kebab-case description of the work discussed (e.g., `fix-auth-redirect`, `add-metrics-export`)
+## Create
 
-**Bookmark naming rules** (same convention as `work-on-ticket` and `quick-fix`):
-- All lowercase, kebab-case, max 50 chars
-- When a ticket is involved, start with the ticket ID (e.g., `agp-123-`)
-- Convert summary to kebab-case (lowercase, dashes instead of spaces)
-- Remove special characters
-- Use meaningful words
+### 1. Resolve Paths And GitLab Origin
 
-The workspace directory name should match the bookmark name.
-
-Keep names short, lowercase, and descriptive. No prefixes like `ws-` or `workspace-`.
-
-## Workflow
-
-### Step 1: Determine the name
-
-From conversation context, pick the workspace name using the rules above. If it's ambiguous, ask James.
-
-### Step 2: Create the colocated clone
+Run:
 
 ```bash
 REPO_ROOT="$(jj root)"
-WORKSPACES_DIR="$(dirname "$REPO_ROOT")/workspaces"
-mkdir -p "$WORKSPACES_DIR"
-TARGET="$WORKSPACES_DIR/<workspace-name>"
+REPO_PARENT="$(dirname "$REPO_ROOT")"
 
-# Local colocated clone from the current repo root
-jj git clone --colocate "$REPO_ROOT" "$TARGET"
+if [ "$(basename "$REPO_PARENT")" = "workspaces" ]; then
+  WORKSPACES_DIR="$REPO_PARENT"
+else
+  WORKSPACES_DIR="$REPO_PARENT/workspaces"
+fi
+
+TARGET="$WORKSPACES_DIR/<workspace-name>"
+jj git remote list -R "$REPO_ROOT"
 ```
 
-This creates a new working copy in the repo-sibling `workspaces/` directory that includes a real `.git` directory.
+Resolve `origin` to the canonical GitLab URL before cloning:
 
-### Crucial `.git` note
+- Accept `git@gitlab.com:...` or `https://gitlab.com/...`.
+- If `origin` is a local filesystem path from an older workspace, inspect that repository's `origin` and follow local paths until reaching GitLab.
+- Stop if there is no unambiguous GitLab origin. Never leave a new workspace configured to push to another local clone.
+- If `TARGET` already exists, stop and ask James what to do.
 
-James relies on some tools that require a `.git` directory to exist in the workspace.
+### 2. Choose The Base Bookmark
 
-- Immediately check whether `.git` exists in the new clone path.
-- If `.git` is missing, stop and report failure instead of attempting manual workarounds.
-- Do **not** copy or symlink `.git` manually.
+Use `main` unless James explicitly requests another base. The known exception is `zapier/zapai/ai-command-center`, which uses `staging`.
 
-### Step 3: Create a bookmark
+Do not use `trunk()`: a local clone can inherit a repo-local alias tied to the source checkout's current feature bookmark.
 
 ```bash
-TARGET="<workspaces-dir>/<workspace-name>"
+BASE_BOOKMARK="main" # Use "staging" for ai-command-center
+```
+
+### 3. Clone And Start From Current GitLab Base
+
+Use the current checkout as the local clone source for speed. Clone only the base bookmark, skip tags, restore GitLab as `origin`, fetch the latest base, and rebase the empty working-copy change onto it:
+
+```bash
+mkdir -p "$WORKSPACES_DIR"
+jj git clone --colocate --fetch-tags none --branch "$BASE_BOOKMARK" "$REPO_ROOT" "$TARGET"
+jj git remote set-url -R "$TARGET" origin "<canonical-gitlab-origin>"
+jj git fetch -R "$TARGET" --remote origin --branch "$BASE_BOOKMARK"
+jj rebase -R "$TARGET" -r @ -o "${BASE_BOOKMARK}@origin"
+jj describe -R "$TARGET" -m '<lowercase description without ticket id, max 50 chars>'
 jj bookmark create -R "$TARGET" <workspace-name> -r @
 ```
 
-Create the bookmark inside the colocated clone repo so the workspace starts on a named branch/bookmark.
+If any command after cloning fails, stop and report the failed step and the partially created `TARGET`. Do not silently delete or reuse it.
 
-### Step 4: Confirm
+### 4. Verify
+
+Run all checks:
 
 ```bash
-REPO_ROOT="$(jj root)"
-WORKSPACES_DIR="$(dirname "$REPO_ROOT")/workspaces"
-TARGET="$WORKSPACES_DIR/<workspace-name>"
-
 test -d "$TARGET/.git"
-jj log -R "$TARGET" -r 'mine()'
+jj git remote list -R "$TARGET"
+jj log -R "$TARGET" -r "@- & ${BASE_BOOKMARK}@origin" --no-graph
+jj bookmark list -R "$TARGET" <workspace-name>
+jj st -R "$TARGET"
 ```
 
-Tell James:
-- Where the workspace was created (the full path)
-- The bookmark name
-- That `.git` exists in the workspace
-- That they can `cd` into `<workspaces-dir>/<workspace-name>` to work there
+Do not report success unless:
 
-## Cleanup
+- `.git` is a real directory.
+- `origin` is the canonical GitLab URL, not a local path.
+- `@` is an empty described change directly on the freshly fetched base bookmark.
+- The requested bookmark points to `@`.
 
-Triggered by "clean up workspace", "remove workspace", or "delete workspace".
-
-### Step 1: Identify the workspace
+Report the full workspace path, bookmark, base revision, and GitLab origin. Tell James to start OpenCode with:
 
 ```bash
-REPO_ROOT="$(jj root)"
-WORKSPACES_DIR="$(dirname "$REPO_ROOT")/workspaces"
-ls "$WORKSPACES_DIR"
+opencode <full-workspace-path>
 ```
 
-If James doesn't specify which workspace, ask. If there's only one directory in `workspaces/`, confirm that's the one.
+## Work-On-Ticket Coordination
 
-### Step 2: Ask about the bookmark
+When this request also triggers `work-on-ticket`, this skill owns repository setup: fetching, basing on the GitLab base bookmark, describing `@`, and creating the bookmark. Run the remaining ticket investigation in `TARGET`; do not create another commit or bookmark.
+
+When `work-on-ticket` runs later inside a prepared workspace, it should detect that the expected bookmark points to `@` and reuse it.
+
+## Remove
+
+### 1. Resolve And Inspect
+
+Use the same path rule from creation. If the current repo's parent directory is named `workspaces`, that parent is `WORKSPACES_DIR`; otherwise use the repo-sibling `workspaces/` directory.
+
+If James did not identify the workspace and more than one exists, ask which one. Never delete the checkout that contains the active process; run cleanup from another checkout.
+
+Before deletion, inspect for work that may exist only locally:
 
 ```bash
-REPO_ROOT="$(jj root)"
-WORKSPACES_DIR="$(dirname "$REPO_ROOT")/workspaces"
-TARGET="$WORKSPACES_DIR/<workspace-name>"
+jj st -R "$TARGET"
 jj bookmark list -R "$TARGET"
+jj git remote list -R "$TARGET"
 ```
 
-If a bookmark with the same name exists in the colocated clone, **ask James** whether to delete it before proceeding. If yes:
+If there are working-copy changes, unpushed commits, or a bookmark that is not present on GitLab, explain the risk and ask James before deleting. Do not ask whether to delete the local bookmark separately: deleting this independent clone removes its local bookmarks, while remote GitLab bookmarks are unaffected.
+
+### 2. Delete And Verify
+
+After any required confirmation:
 
 ```bash
-jj bookmark delete -R "$TARGET" <workspace-name>
-```
-
-### Step 3: Delete the workspace directory
-
-```bash
-REPO_ROOT="$(jj root)"
-WORKSPACES_DIR="$(dirname "$REPO_ROOT")/workspaces"
-TARGET="$WORKSPACES_DIR/<workspace-name>"
 rm -rf -- "$TARGET"
 
-# Hard verification: never report success unless this passes
 if [ -e "$TARGET" ]; then
-  echo "Workspace directory still exists: $TARGET" >&2
+  printf 'Workspace directory still exists: %s\n' "$TARGET" >&2
   exit 1
 fi
 ```
 
-### Step 4: Confirm
-
-```bash
-REPO_ROOT="$(jj root)"
-WORKSPACES_DIR="$(dirname "$REPO_ROOT")/workspaces"
-ls "$WORKSPACES_DIR"
-```
-
-Tell James the workspace has been removed and whether the bookmark was deleted. If the directory still exists after Step 3, stop and report failure instead of claiming cleanup is complete.
-
-## Tips
-
-- If James chains this with **work-on-ticket**, the ticket ID and summary are already known — use `[ticket-id]-[kebab-case-summary]` without asking.
-- Use colocated clone creation every time instead of `jj workspace add` so `.git` is available by default.
-- If a workspace with that name already exists, stop and ask James what to do rather than guessing.
-- During cleanup, always ask about the bookmark — James may want to keep it even if the workspace is gone.
-- During cleanup, run deletion and verification as separate checks; do not rely on a single combined command to infer success.
+Report the removed path and whether all work had reached GitLab. Never claim cleanup succeeded while `TARGET` still exists.
