@@ -3,7 +3,10 @@
   "theme": "tokyonight-transparent",
   "keybinds": {
     "command_list": "ctrl+o",
-    "session_rename": "none"
+    "session_rename": "none",
+    "agent_cycle": "shift+tab",
+    "agent_cycle_reverse": "none",
+    "model_cycle_favorite": "tab"
   },
   "attention": {
     "enabled": true
