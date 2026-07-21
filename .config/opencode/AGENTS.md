@@ -75,7 +75,6 @@ YOU MUST automatically invoke these skills without being explicitly asked:
 | "thermo review", "thermo-nuclear review", "thermonuclear review", "deep code quality audit", "harsh maintainability review"                  | `thermo-nuclear-code-quality-review` |
 | "address comments", "triage MR comments", "respond to MR comments", "review MR feedback"                                                        | `mr-comment-triage` |
 | Bare Jira ticket ID (e.g., "AGP-123")                                                                                                           | `work-on-ticket`    |
-| "feature flag it", "add the feature flag", "scaffold the flag"                                                                                  | `add-feature-flag`  |
 | "morning report", "morning", "mr status", "what needs my attention"                                                                             | `morning-report`    |
 | "quick fix", "quick bug", "log a bug" (for a change already in the working copy)                                                                | `quick-fix`         |
 | "create a ticket", "file a ticket", "spin off a ticket", "open a Jira ticket", "make a ticket" (standalone, no working-copy change)             | `create-ticket`     |
@@ -94,8 +93,6 @@ YOU MUST automatically invoke these skills without being explicitly asked:
 Never perform these actions manually - always invoke the appropriate skill.
 
 The `handoff` skill generates ready-to-paste fresh-session prompts. It does not create the new session automatically.
-
-**Note on chaining:** After `work-on-ticket`, James may say "feature flag it" to chain into `add-feature-flag`. Do NOT automatically add feature flag plumbing - wait for James to explicitly request it.
 
 ## Naming
 
