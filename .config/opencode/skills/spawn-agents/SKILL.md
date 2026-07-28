@@ -1,90 +1,99 @@
 ---
 name: spawn-agents
-description: Spawn OpenCode agent sessions in new tmux windows with preloaded prompts. Use when James asks to open tmux tabs/windows/panes, launch or spawn agents, start OpenCode sessions with prompts, or run multiple OpenCode agents in parallel.
+description: Spawn persistent OpenCode agent sessions in Herdr tabs or tmux windows with preloaded prompts. Use when James asks to launch or spawn agents, open agent tabs/windows/panes, or run multiple OpenCode agents in parallel.
 ---
 
 # Spawn Agents
 
-## Overview
+Launch one visible, persistent OpenCode TUI per requested agent. Use Herdr when the current agent runs inside Herdr, tmux when it runs inside tmux, and the multiplexer James explicitly names when he asks for one.
 
-Launch new OpenCode TUI sessions in tmux windows, one prompt per window. Prefer creating an empty tmux window first, then sending the `opencode --prompt ...` command into that shell so the window remains open if OpenCode exits or prints an error.
+## Choose The Backend
 
-For long, multiline, or heavily quoted prompts, write the prompt to a temporary file first and pass it via shell command substitution. Long inline prompts can be left half-entered in the shell or mangled by nested quoting when sent through tmux.
+1. If James explicitly says Herdr, require `HERDR_ENV=1` and use Herdr.
+2. If James explicitly says tmux, require `TMUX` and use tmux.
+3. Otherwise use Herdr when `HERDR_ENV=1`.
+4. Otherwise use tmux when `TMUX` is set.
+5. If neither environment is active, ask where to launch the agents.
 
-## Workflow
+Prefer one Herdr tab or tmux window per agent unless James explicitly requests split panes. Use short, unique names that satisfy Herdr agent names: `[a-z][a-z0-9_-]{0,31}`.
 
-1. Confirm the current tmux context:
+## Herdr Workflow
+
+Confirm the current Herdr context and resolve the caller's current workspace rather than relying on UI focus:
+
+```sh
+test "${HERDR_ENV:-}" = 1
+current="$(herdr pane current --current)"
+workspace_id="$(printf '%s\n' "$current" | jq -r '.result.pane.workspace_id')"
+herdr tab list --workspace "$workspace_id"
+```
+
+Create a background tab in the caller's working directory and capture its root pane ID:
+
+```sh
+created="$(herdr tab create --workspace "$workspace_id" --cwd "$PWD" --label "reviewer" --no-focus)"
+pane_id="$(printf '%s\n' "$created" | jq -r '.result.root_pane.pane_id')"
+```
+
+Start and name OpenCode in that shell pane, then submit the work through Herdr's agent surface:
+
+```sh
+herdr agent start reviewer --kind opencode --pane "$pane_id"
+herdr agent prompt reviewer "Review the current diff and report actionable findings."
+```
+
+Do not add `--wait` when spawning independent background work unless James asks to wait for completion. Herdr validates that OpenCode owns the pane before accepting `agent prompt`, so do not use raw `send-keys` for normal prompts.
+
+For a long or heavily quoted prompt, write it under the approved temporary directory, read it into one quoted argument, then remove the file after `agent prompt` succeeds:
+
+```sh
+herdr agent prompt reviewer "$(</var/folders/m8/gss9chjj74l9hwrb58cb_4j00000gp/T/opencode/reviewer-prompt.txt)"
+```
+
+Verify the named agent and tab:
+
+```sh
+herdr agent get reviewer
+herdr tab list --workspace "$workspace_id"
+```
+
+If startup or prompting fails, inspect before retrying:
+
+```sh
+herdr pane process-info --pane "$pane_id"
+herdr pane read "$pane_id" --source visible
+```
+
+Never close a Herdr tab or pane that this workflow did not create.
+
+## Tmux Workflow
+
+Confirm the current tmux context:
 
 ```sh
 tmux display-message -p '#S #{session_id} #{socket_path}'
 tmux list-windows
 ```
 
-2. Create a new tmux window for each agent:
+Create an empty window first, then launch OpenCode through its shell so the window remains open if OpenCode exits:
 
 ```sh
-tmux new-window -n "window-name"
+tmux new-window -n "reviewer"
+tmux send-keys -t "reviewer" 'opencode --prompt "Review the current diff."' C-m
 ```
 
-3. Send the OpenCode command into that window for short prompts:
+For long, multiline, or heavily quoted prompts, write the prompt under the approved temporary directory and send a short command that reads it:
 
 ```sh
-tmux send-keys -t "window-name" 'opencode --prompt "the prompt text"' C-m
+tmux new-window -n "reviewer"
+tmux send-keys -t "reviewer" 'opencode --prompt "$(</var/folders/m8/gss9chjj74l9hwrb58cb_4j00000gp/T/opencode/reviewer-prompt.txt)"' C-m
 ```
 
-4. For long or multiline prompts, create a prompt file under the approved temp directory, send a short command that reads it, then delete the prompt file after the command has launched:
-
-```sh
-tmux new-window -n "window-name"
-tmux send-keys -t "window-name" 'opencode --prompt "$(</var/folders/lv/tzzgwwhx4pn0_y2fqj9x3jp40000gn/T/opencode/window-name-prompt.txt)"' C-m
-```
-
-5. Verify the window exists and note the result to James:
+Remove temporary prompt files after OpenCode has launched. Verify both the window and prompt delivery:
 
 ```sh
 tmux list-windows
+tmux capture-pane -t "reviewer" -p -S -20
 ```
 
-6. Verify OpenCode actually received the prompt when using complex prompts:
-
-```sh
-tmux capture-pane -t "window-name" -p -S -20
-```
-
-If the command is sitting at the shell prompt instead of launching OpenCode, send `C-c` to the window and retry with the prompt-file command.
-
-## Important Details
-
-- Use `opencode --prompt "..."` for a TUI session with a preloaded prompt
-- Do not use `opencode "..."` for prompts; the positional argument is interpreted as a project path
-- Avoid `tmux new-window -n "name" 'opencode --prompt "..."'` unless the user wants the window to close when OpenCode exits
-- Prefer one tmux window per agent unless James explicitly asks for panes
-- Use short, unique window names so targets are unambiguous
-- Keep prompts quoted carefully; for complex quotes, long prompts, or newlines, use a temporary prompt file instead of inline quoting
-- Remove temporary prompt files after OpenCode has launched so no stale prompt artifacts are left behind
-
-## Example
-
-For James's request: "open a new tmux window with an OpenCode session whose prompt is `say hi`"
-
-Run:
-
-```sh
-tmux new-window -n "say-hi"
-tmux send-keys -t "say-hi" 'opencode --prompt "say hi"' C-m
-tmux list-windows
-```
-
-If the wrong syntax was used and OpenCode reports `Failed to change directory`, start the correct command in the existing window:
-
-```sh
-tmux send-keys -t "say-hi" 'opencode --prompt "say hi"' C-m
-```
-
-For a longer prompt:
-
-```sh
-tmux new-window -n "issue-123"
-tmux send-keys -t "issue-123" 'opencode --prompt "$(</var/folders/lv/tzzgwwhx4pn0_y2fqj9x3jp40000gn/T/opencode/issue-123-prompt.txt)"' C-m
-tmux capture-pane -t "issue-123" -p -S -20
-```
+If the command is sitting at a shell prompt, send `C-c` and retry with the prompt-file form. Do not use `opencode "prompt"`; OpenCode interprets the positional argument as a project path.
