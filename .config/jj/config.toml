@@ -1,8 +1,8 @@
 "$schema" = "https://docs.jj-vcs.dev/latest/config-schema.json"
 
 [user]
-name = "jwbaldwin"
-email = "jwbaldwin3@gmail.com"
+name = "James Baldwin"
+email = "james.baldwin@zapier.com"
 
 [ui]
 default-command = "log"
@@ -27,11 +27,11 @@ tp = ["util","exec","--","sh","-c","jj tug \"$@\" && jj git push","sh"]
 
 [revsets]
 bookmark-advance-to = 'closest_pushable(@)'
+log = "present(@) | working_copies() | ancestors(((mine() ~ ::remote_bookmarks()) | bookmarks()) & mutable(), 2) | present(trunk())"
 
 [git]
 
 [remotes.origin]
-auto-track-bookmarks = "*"
 
 [remotes.github]
 auto-track-bookmarks = "*"

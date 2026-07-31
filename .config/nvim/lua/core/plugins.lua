@@ -332,6 +332,14 @@ require("lazy").setup({
 			end
 		end,
 	},
+	{
+		dir = "/Users/jbaldwin/repos/oss/herdr-lightspeed-nav",
+		name = "herdr-lightspeed-nav",
+		lazy = false,
+		config = function()
+			require("herdr-lightspeed-nav").setup()
+		end,
+	},
 	"mg979/vim-visual-multi",
 	"tpope/vim-surround",
 	"tpope/vim-projectionist",

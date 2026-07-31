@@ -1,13 +1,14 @@
+onboarding = false
 [theme]
 # Built-in themes: catppuccin, terminal, tokyo-night, dracula, nord,
 #                  gruvbox, one-dark, solarized, kanagawa, rose-pine,
 #                  vesper
-name = "catppuccin"
+name = "tokyo-night"
 
 # Override individual color tokens on top of the base theme.
 # Accepts: hex (#rrggbb), named colors, rgb(r,g,b), or panel_bg = "reset"
-# [theme.custom]
-# panel_bg = "reset"
+[theme.custom]
+panel_bg = "reset"
 # accent = "#f5c2e7"
 # red = "#ff6188"
 # green = "#a6e3a1"
@@ -15,16 +16,16 @@ name = "catppuccin"
 [terminal]
 # Executable used for new interactive panes.
 # Empty means $SHELL, then /bin/sh.
-# default_shell = ""
+default_shell = "/bin/zsh"
 
 # Startup mode for new interactive pane shells: "auto", "login", or "non_login".
 # "auto" uses login shells on macOS and keeps the current behavior elsewhere.
-# shell_mode = "auto"
+shell_mode = "login"
 
 # CWD policy for new panes, tabs, and workspaces when no explicit --cwd is provided.
 # Use "follow" to inherit the source pane/workspace, "home" for $HOME,
 # "current" for Herdr's process directory, or a fixed path such as "~/Projects".
-# new_cwd = "follow"
+new_cwd = "follow"
 
 [update]
 # Update channel used by background checks and `herdr update`.
@@ -46,8 +47,8 @@ prefix = "ctrl+a"
 # help = "prefix+?"
 # settings = "prefix+s"
 # detach = "prefix+q"
-# reload_config = "prefix+shift+r"
-# open_notification_target = "prefix+o"
+reload_config = "prefix+r"
+open_notification_target = "prefix+shift+o"
 # workspace_picker = "prefix+w"
 # goto = "prefix+g"
 # new_workspace = "prefix+shift+n"
@@ -61,28 +62,30 @@ prefix = "ctrl+a"
 # previous_agent = ""     # optional, unset by default
 # next_agent = ""         # optional, unset by default
 # focus_agent = ""        # optional indexed binding, e.g. "prefix+alt+1..9"
-# new_tab = "prefix+c"
+new_tab = "prefix+c"
 rename_tab = "prefix+,"
-# previous_tab = "prefix+p"
-# next_tab = "prefix+n"
-# switch_tab = "prefix+1..9"
+previous_tab = "prefix+shift+p"
+next_tab = "prefix+n"
+switch_tab = "prefix+1..9"
 # switch_workspace = ""   # optional indexed binding, e.g. "prefix+shift+1..9"
 # close_tab = "prefix+shift+x"
-# rename_pane = "prefix+shift+p"
+rename_pane = ""
 # edit_scrollback = "prefix+e"
-# focus_pane_left = "prefix+h"
-# focus_pane_down = "prefix+j"
-# focus_pane_up = "prefix+k"
-# focus_pane_right = "prefix+l"
+focus_pane_left = "prefix+h"
+focus_pane_down = "prefix+j"
+focus_pane_up = "prefix+k"
+focus_pane_right = "prefix+shift+l"
+swap_pane_left = "prefix+shift+left"
+swap_pane_right = "prefix+shift+right"
 # cycle_pane_next = "prefix+tab"
 # cycle_pane_previous = "prefix+shift+tab"
-# last_pane = ""          # optional, unset by default; bind e.g. "prefix+tab" for global back-and-forth
-# split_vertical = "prefix+v"
-# split_horizontal = "prefix+minus"
+last_pane = "prefix+p"
+split_vertical = "prefix+="
+split_horizontal = "prefix+%"
 # close_pane = "prefix+x"
-# zoom = "prefix+z"       # legacy alias: fullscreen
-# resize_mode = "prefix+r"
-# toggle_sidebar = "prefix+b"
+zoom = ["prefix+f", "prefix+z"]
+resize_mode = "prefix+shift+r"
+toggle_sidebar = "prefix+shift+b"
 
 # Navigate-mode movement. These local shortcuts win while navigate mode is open.
 # They are independent from focus_pane_*. Do not include prefix+, esc, enter, tab, or 1..9 here.
@@ -103,15 +106,87 @@ rename_tab = "prefix+,"
 
 [[keys.command]]
 key = "ctrl+h"
-type = "shell"
-command = "~/.config/herdr/smart-left-right left"
-description = "smart left across panes and tabs"
+type = "plugin_action"
+command = "herdr-lightspeed-nav.left"
+description = "navigate left"
+
+[[keys.command]]
+key = "ctrl+j"
+type = "plugin_action"
+command = "herdr-lightspeed-nav.down"
+description = "navigate down"
+
+[[keys.command]]
+key = "ctrl+k"
+type = "plugin_action"
+command = "herdr-lightspeed-nav.up"
+description = "navigate up"
 
 [[keys.command]]
 key = "ctrl+l"
+type = "plugin_action"
+command = "herdr-lightspeed-nav.right"
+description = "navigate right"
+
+[[keys.command]]
+key = "prefix+l"
 type = "shell"
-command = "~/.config/herdr/smart-left-right right"
-description = "smart right across panes and tabs"
+command = "~/.config/herdr/tmux-compat send-key ctrl+l"
+description = "clear screen"
+
+[[keys.command]]
+key = "prefix+ctrl+l"
+type = "plugin_action"
+command = "herdr-lightspeed-nav.clear"
+description = "send literal Ctrl-L"
+
+[[keys.command]]
+key = "prefix+o"
+type = "shell"
+command = "~/.config/herdr/tmux-compat new-opencode-tab"
+description = "open OpenCode in a new tab"
+
+[[keys.command]]
+key = "prefix+shift+comma"
+type = "shell"
+command = "~/.config/herdr/tmux-compat resize left"
+description = "resize pane left"
+
+[[keys.command]]
+key = "prefix+shift+period"
+type = "shell"
+command = "~/.config/herdr/tmux-compat resize right"
+description = "resize pane right"
+
+[[keys.command]]
+key = "prefix+minus"
+type = "shell"
+command = "~/.config/herdr/tmux-compat resize down"
+description = "resize pane down"
+
+[[keys.command]]
+key = "prefix+plus"
+type = "shell"
+command = "~/.config/herdr/tmux-compat resize up"
+description = "resize pane up"
+
+[[keys.command]]
+key = "prefix+b"
+type = "shell"
+command = "~/.config/herdr/tmux-compat break-pane"
+description = "break pane into a new tab"
+
+[[keys.command]]
+key = "prefix+left"
+type = "shell"
+command = "~/.config/herdr/tmux-compat reorder-tab left"
+description = "move tab left"
+
+[[keys.command]]
+key = "prefix+right"
+type = "shell"
+command = "~/.config/herdr/tmux-compat reorder-tab right"
+description = "move tab right"
 
 # Legacy indexed shortcut config is still parsed for compatibility.
 # Prefer switch_tab, switch_workspace, and focus_agent for new configs.
@@ -124,6 +199,12 @@ description = "smart right across panes and tabs"
 # directory = "~/.herdr/worktrees"
 
 [ui]
+sidebar_start_collapsed = true
+sidebar_collapsed_mode = "compact"
+prompt_new_tab_name = false
+pane_gaps = false
+pane_borders = true
+
 # Sidebar width (auto-scaled based on workspace names, this sets the default)
 # sidebar_width = 26
 
@@ -172,19 +253,21 @@ description = "smart right across panes and tabs"
 # accent = "cyan"
 
 # Background notification popup delivery
+show_agent_labels_on_pane_borders = false
+agent_panel_sort = "priority"
 [ui.toast]
 # off = disable pop-up notifications
 # herdr = show in-app toasts
 # terminal = ask the outer terminal to show a desktop notification
 # system = ask the OS notification service directly
-# delivery = "off"
-# delay_seconds = 1
+delivery = "system"
+delay_seconds = 1
 
 [ui.toast.herdr]
 # position = "bottom-right"
 
 [ui.toast.clipboard]
-enabled = false
+enabled = true
 # position = "bottom-center"
 
 # Play sounds when agents change state in background workspaces
