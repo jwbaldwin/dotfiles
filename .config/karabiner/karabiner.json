@@ -60,6 +60,14 @@
                     },
                     "ignore": false,
                     "ignore_vendor_events": true
+                },
+                {
+                    "identifiers": {
+                        "is_keyboard": true,
+                        "product_id": 5158,
+                        "vendor_id": 17498
+                    },
+                    "ignore": true
                 }
             ],
             "name": "Default profile",

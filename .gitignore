@@ -1,0 +1,8 @@
+.dotfiles
+.config/gh/hosts.yml
+.config/herdr/*.log
+.config/herdr/release-notes.json
+.config/herdr/session.json
+.config/hunk/state.json
+.config/karabiner/automatic_backups/
+.config/op/config
