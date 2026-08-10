@@ -7,7 +7,7 @@ permission:
   read: allow
   grep: allow
   glob: allow
-  bash: ask
+  bash: allow
 ---
 
 # Thermo-Nuclear Code Quality Review
