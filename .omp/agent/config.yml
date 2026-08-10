@@ -1,0 +1,45 @@
+providers: 
+  webSearchOrder: 
+    []
+modelRoles: 
+  default: openai-codex/gpt-5.6-sol:medium
+  smol: openai-codex/gpt-5.6-sol:low
+  plan: openai-codex/gpt-5.6-sol:high
+  commit: openai-codex/gpt-5.6-luna:xhigh
+  tiny: openai-codex/gpt-5.6-luna:high
+  advisor: openai-codex/gpt-5.6-sol:max
+symbolPreset: nerd
+theme: 
+  dark: dark-tokyo-night
+setupVersion: 1
+hideThinkingBlock: true
+statusLine: 
+  preset: custom
+  separator: none
+  transparent: true
+  leftSegments: 
+    - model
+    - path
+    - git
+  rightSegments: 
+    - session_name
+    - pr
+    - subagents
+    - mode
+    - context_pct
+  path: 
+    abbreviate: true
+    maxLength: 30
+    stripWorkPrefix: true
+  git: 
+    showBranch: true
+    showStaged: true
+    showUnstaged: true
+    showUntracked: false
+  sessionAccent: false
+  compactThinkingLevel: true
+  showHookStatus: true
+tui: 
+  codexResetFireworks: true
+dev: 
+  autoqaConsent: granted
