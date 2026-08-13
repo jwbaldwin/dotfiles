@@ -1,4 +1,5 @@
 .dotfiles
+**/.DS_Store
 .config/gh/hosts.yml
 .config/herdr/*.log
 .config/herdr/release-notes.json

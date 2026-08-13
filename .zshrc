@@ -44,6 +44,10 @@ if command -v direnv &> /dev/null; then
   eval "$(direnv hook zsh)"
 fi
 
+if command -v omp &> /dev/null; then
+  eval "$(omp completions zsh)"
+fi
+
 # ===== Prompt (Starship with caching) =====
 if [[ ! -f "$HOME/.cache/starship_init.zsh" ]] || [[ $(which starship) -nt "$HOME/.cache/starship_init.zsh" ]]; then
   mkdir -p "$HOME/.cache"
