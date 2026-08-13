@@ -7,3 +7,12 @@
 .config/hunk/state.json
 .config/karabiner/automatic_backups/
 .config/op/config
+
+# Pi local state, credentials, generated files, and caches
+.pi/agent/auth.json
+.pi/agent/bin/
+.pi/agent/models-store.json
+.pi/agent/npm/
+.pi/agent/sessions/
+.pi/agent/trust.json
+.pi/web-search-cache/
