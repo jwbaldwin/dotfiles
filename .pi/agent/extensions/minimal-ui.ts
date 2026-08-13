@@ -25,14 +25,14 @@ function formatDirectory(cwd: string): string {
 
 function effortDial(theme: Theme, level: string): string {
   const dial = {
-    off: "○",
-    minimal: "◔",
-    low: "◑",
-    medium: "◕",
-    high: "●",
-    xhigh: "◆",
-    max: "✦",
-  }[level] ?? "○";
+    off: "\uf05e",
+    minimal: "\u{f0a9e}",
+    low: "\u{f0a9f}",
+    medium: "\u{f0aa1}",
+    high: "\u{f0aa3}",
+    xhigh: "\u{f0aa5}",
+    max: "\uf06d",
+  }[level] ?? "\uf05e";
   return theme.fg("muted", dial);
 }
 

@@ -1,6 +1,6 @@
 {
   "lastChangelogVersion": "0.84.1",
-  "theme": "dark",
+  "theme": "tokyonight-night",
   "packages": [
     "npm:pi-mcp-adapter",
     "npm:@ff-labs/pi-fff",
