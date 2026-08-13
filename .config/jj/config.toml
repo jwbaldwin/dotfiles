@@ -32,9 +32,10 @@ log = "present(@) | working_copies() | ancestors(((mine() ~ ::remote_bookmarks()
 [git]
 
 [remotes.origin]
+auto-track-created-bookmarks = "*"
 
 [remotes.github]
-auto-track-bookmarks = "*"
+auto-track-created-bookmarks = "*"
 
 [templates]
 git_push_bookmark = '"jb/push-" ++ change_id.short()'
