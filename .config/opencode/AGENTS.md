@@ -59,6 +59,7 @@ Always invoke the matching skill for these workflows; never perform them manuall
 | Create an MR or stacked MRs | `merge-request` |
 | Monitor an MR, CI, or Greptile | `babysit` |
 | Create or remove a workspace | `workspace` |
+| Manage files in James's bare dotfiles repository | `dotfiles` |
 
 The `handoff` skill generates a ready-to-paste prompt; it does not start a new session. Do not add feature flag plumbing after `work-on-ticket` unless James explicitly requests it.
 
