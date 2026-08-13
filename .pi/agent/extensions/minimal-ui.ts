@@ -98,15 +98,50 @@ class RoundedPromptEditor extends CustomEditor {
 export default function minimalUi(pi: ExtensionAPI) {
   let activeSessionId: string | undefined;
   let jjStatus = "";
+  let bookmarkStatus = "";
   let requestRender: (() => void) | undefined;
 
   const isActive = (ctx: ExtensionContext) =>
     ctx.sessionManager.getSessionId() === activeSessionId;
 
   const refreshJj = async (ctx: ExtensionContext) => {
-    const result = await pi.exec("/opt/homebrew/bin/jj-prompt", [], { cwd: ctx.cwd, timeout: 1500 }).catch(() => undefined);
+    const [promptResult, bookmarkResult] = await Promise.all([
+      pi.exec("/opt/homebrew/bin/jj-prompt", [], { cwd: ctx.cwd, timeout: 1500 }).catch(() => undefined),
+      pi.exec(
+        "/opt/homebrew/bin/jj",
+        [
+          "log",
+          "-r",
+          "heads(::@ & bookmarks())",
+          "--no-graph",
+          "--limit",
+          "1",
+          "-T",
+          'commit_id ++ "\\t" ++ bookmarks.join(",") ++ "\\n"',
+        ],
+        { cwd: ctx.cwd, timeout: 1500 },
+      ).catch(() => undefined),
+    ]);
+
+    let nextBookmarkStatus = "";
+    if (bookmarkResult?.code === 0) {
+      const [commitId, bookmark] = bookmarkResult.stdout.trim().split("\t", 2);
+      if (commitId && bookmark) {
+        const distanceResult = await pi.exec(
+          "/opt/homebrew/bin/jj",
+          ["log", "-r", `${commitId}..@`, "--no-graph", "-T", '"x\\n"'],
+          { cwd: ctx.cwd, timeout: 1500 },
+        ).catch(() => undefined);
+        if (distanceResult?.code === 0) {
+          const distance = distanceResult.stdout.trim().split("\n").filter(Boolean).length;
+          nextBookmarkStatus = distance === 0 ? bookmark : `← ${bookmark} ↑${distance}`;
+        }
+      }
+    }
+
     if (!isActive(ctx)) return;
-    jjStatus = result?.code === 0 ? result.stdout.trim() : "";
+    jjStatus = promptResult?.code === 0 ? promptResult.stdout.trim() : "";
+    bookmarkStatus = nextBookmarkStatus;
     requestRender?.();
   };
 
@@ -115,7 +150,12 @@ export default function minimalUi(pi: ExtensionAPI) {
     const effort = effortDial(theme, pi.getThinkingLevel());
     const directory = formatDirectory(ctx.cwd);
     const modelStatus = `${effort} ${theme.fg("muted", model)}`;
-    const left = `  ${[modelStatus, theme.fg("accent", directory), jjStatus]
+    const left = `  ${[
+      modelStatus,
+      theme.fg("accent", directory),
+      jjStatus,
+      bookmarkStatus ? theme.fg("muted", bookmarkStatus) : "",
+    ]
       .filter(Boolean)
       .join("  ")}`;
 
@@ -141,6 +181,7 @@ export default function minimalUi(pi: ExtensionAPI) {
     if (ctx.mode !== "tui") return;
     activeSessionId = ctx.sessionManager.getSessionId();
     jjStatus = "";
+    bookmarkStatus = "";
 
     ctx.ui.setFooter(() => new EmptyFooter());
     ctx.ui.setWidget(
