@@ -43,3 +43,5 @@ tui:
   codexResetFireworks: true
 dev: 
   autoqaConsent: granted
+startup: 
+  quiet: false
