@@ -12,5 +12,6 @@
   "skills": [
     "~/.config/opencode/skills"
   ],
-  "hideThinkingBlock": false
+  "hideThinkingBlock": false,
+  "quietStartup": true
 }
