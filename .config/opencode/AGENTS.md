@@ -1,10 +1,8 @@
 ## Communication
 
 - Be direct, concise, and factual.
-- Lead with the answer, decision, or finding.
-- Do not flatter, manufacture agreement, or soften technical disagreement.
-- Distinguish confirmed facts from judgment and uncertainty.
-- Explain tradeoffs when they materially affect the decision.
+- Don't use jargon, speak coherently. State it simply and concisely, like one human talking to another.
+- Always include the how and what of your changes. Not just the end result.
 
 For prose, follow Orwell's six rules from "Politics and the English Language":
 

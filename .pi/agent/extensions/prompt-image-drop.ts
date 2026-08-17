@@ -22,7 +22,7 @@ type PromptEditor = Component & {
 type DroppedImage = {
   path: string;
   marker: string;
-  mediaType: ImageContent["source"]["mediaType"];
+  mimeType: ImageContent["mimeType"];
 };
 
 function shellWords(text: string): string[] | undefined {
@@ -73,7 +73,7 @@ function shellWords(text: string): string[] | undefined {
   return words;
 }
 
-function imageType(bytes: Buffer): DroppedImage["mediaType"] | undefined {
+function imageType(bytes: Buffer): DroppedImage["mimeType"] | undefined {
   if (bytes.subarray(0, 8).equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]))) {
     return "image/png";
   }
@@ -88,7 +88,7 @@ function imageType(bytes: Buffer): DroppedImage["mediaType"] | undefined {
   return undefined;
 }
 
-function imageDimensions(bytes: Buffer, mediaType: DroppedImage["mediaType"]): string | undefined {
+function imageDimensions(bytes: Buffer, mediaType: DroppedImage["mimeType"]): string | undefined {
   if (mediaType === "image/png" && bytes.length >= 24) {
     return `${bytes.readUInt32BE(16)}x${bytes.readUInt32BE(20)}`;
   }
@@ -158,11 +158,11 @@ export default function promptImageDrop(pi: ExtensionAPI) {
         const markers: string[] = [];
         for (const path of paths) {
           const bytes = readFileSync(path);
-          const mediaType = imageType(bytes)!;
+          const mimeType = imageType(bytes)!;
           const id = nextImageId++;
-          const dimensions = imageDimensions(bytes, mediaType);
+          const dimensions = imageDimensions(bytes, mimeType);
           const marker = `[Image #${id}${dimensions ? `, ${dimensions}` : ""}]`;
-          images.set(id, { path, marker, mediaType });
+          images.set(id, { path, marker, mimeType });
           markers.push(marker);
         }
         if (replaceEditor) editor.setText("");
@@ -231,11 +231,8 @@ export default function promptImageDrop(pi: ExtensionAPI) {
       const bytes = await readFile(image.path);
       attached.push({
         type: "image",
-        source: {
-          type: "base64",
-          mediaType: image.mediaType,
-          data: bytes.toString("base64"),
-        },
+        mimeType: image.mimeType,
+        data: bytes.toString("base64"),
       });
       foundImage = true;
     }
