@@ -179,7 +179,7 @@ function timingLine(
   return theme.fg("dim", `⟨${parts.join(" | ")}⟩`);
 }
 
-export class BashCallCard implements Component {
+class BashCallCard implements Component {
   private cachedWidth?: number;
   private cachedHasResult?: boolean;
   private cachedColor?: ThemeColor;
@@ -236,7 +236,7 @@ export class BashCallCard implements Component {
   }
 }
 
-export class BashResultCard implements Component {
+class BashResultCard implements Component {
   private cachedWidth?: number;
   private cachedLines?: string[];
 
@@ -346,7 +346,7 @@ function toolTitle(toolName: string, args: GenericArgs): string {
   return `skill · ${basename(dirname(path))}`;
 }
 
-export class ToolCallCard implements Component {
+class ToolCallCard implements Component {
   private cachedWidth?: number;
   private cachedHasResult?: boolean;
   private cachedColor?: ThemeColor;
@@ -407,7 +407,7 @@ export class ToolCallCard implements Component {
   }
 }
 
-export class ToolResultCard implements Component {
+class ToolResultCard implements Component {
   private cachedWidth?: number;
   private cachedColor?: ThemeColor;
   private cachedLines?: string[];
@@ -541,7 +541,7 @@ function registerFramedTool(pi: ExtensionAPI, base: GenericTool): void {
   pi.registerTool(decorated as unknown as ToolDefinition<any, any, any>);
 }
 
-export default function toolCallUi(pi: ExtensionAPI) {
+export function registerToolCards(pi: ExtensionAPI) {
   pi.on("session_start", (_event, ctx) => {
     // Extension and MCP tools already use Pi's generic card shell. Built-ins
     // supply their own renderers, so wrap those renderers to give every tool

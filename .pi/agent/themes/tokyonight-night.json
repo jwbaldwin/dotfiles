@@ -10,6 +10,7 @@
     "blueBright": "#2ac3de",
     "blueMuted": "#394b70",
     "cyan": "#7dcfff",
+    "cyanMuted": "#5587a8",
     "fg": "#c0caf5",
     "fgDark": "#a9b1d6",
     "gutter": "#3b4261",
@@ -18,6 +19,7 @@
     "green": "#9ece6a",
     "magenta": "#bb9af7",
     "orange": "#ff9e64",
+    "orangeMuted": "#b97852",
     "purple": "#9d7cd8",
     "purpleMuted": "#6f5f91",
     "red": "#f7768e",
@@ -38,7 +40,7 @@
     "muted": "fgDark",
     "dim": "dark5",
     "text": "fg",
-    "thinkingText": "fgDark",
+    "thinkingText": "dark5",
 
     "selectedBg": "bgHighlight",
     "scrollbarThumb": "blueMuted",
@@ -61,7 +63,7 @@
     "mdCodeBlockBorder": "gutter",
     "mdQuote": "fgDark",
     "mdQuoteBorder": "blueMuted",
-    "mdHr": "gutter",
+    "mdHr": "comment",
     "mdListBullet": "cyan",
 
     "toolDiffAdded": "green",
@@ -82,8 +84,8 @@
     "thinkingMinimal": "comment",
     "thinkingLow": "blueMuted",
     "thinkingMedium": "comment",
-    "thinkingHigh": "purpleMuted",
-    "thinkingXhigh": "purple",
+    "thinkingHigh": "cyanMuted",
+    "thinkingXhigh": "orangeMuted",
     "thinkingMax": "magenta",
 
     "bashMode": "green"

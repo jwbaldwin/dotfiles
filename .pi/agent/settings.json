@@ -14,5 +14,6 @@
     "~/.config/opencode/skills"
   ],
   "hideThinkingBlock": false,
-  "quietStartup": true
+  "quietStartup": true,
+  "defaultThinkingLevel": "xhigh"
 }
