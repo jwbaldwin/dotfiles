@@ -52,14 +52,13 @@ Always invoke the matching skill for these workflows; never perform them manuall
 | Explain, teach, or break down a technical topic | `explain` |
 | Simplify or reduce code complexity | `simplify` |
 | Synthesize useful knowledge from past sessions | `synthesize-brain` |
-| Prepare a handoff or fresh-session prompt | `handoff` |
 | Commit changes | `commit` |
 | Create an MR or stacked MRs | `merge-request` |
 | Monitor an MR, CI, or Greptile | `babysit` |
 | Create or remove a workspace | `workspace` |
 | Manage files in James's bare dotfiles repository | `dotfiles` |
 
-The `handoff` skill generates a ready-to-paste prompt; it does not start a new session. Do not add feature flag plumbing after `work-on-ticket` unless James explicitly requests it.
+Do not add feature flag plumbing after `work-on-ticket` unless James explicitly requests it.
 
 ## Non-Negotiables
 

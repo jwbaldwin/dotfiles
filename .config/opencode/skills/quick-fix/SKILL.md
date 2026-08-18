@@ -47,29 +47,29 @@ assign James are always correct here). That skill handles, in order:
    reset)
 
 Do not duplicate Jira IDs or field details here — they live in
-`../create-ticket/jira-reference.md`. If the returned key isn't `AGP-…`, STOP per
+`../create-ticket/jira-reference.md`. If the returned key isn't `MCP-…`, STOP per
 that skill's validation rule.
 
 ### 3. Bookmark, Describe, Push
 
-**Bookmark:** `agp-NNNN-short-description` — all lowercase, kebab-case, ≤50 chars,
+**Bookmark:** `mcp-NNNN-short-description` — all lowercase, kebab-case, ≤50 chars,
 prefixed with the ticket ID.
 
 **Commit message:** all lowercase, no ticket ID, ≤50 chars.
 
 ```bash
-jj bookmark create agp-NNNN-short-description
+jj bookmark create mcp-NNNN-short-description
 jj describe -m 'lowercase short description, no ticket id'
-jj git push --bookmark agp-NNNN-short-description
+jj git push --bookmark mcp-NNNN-short-description
 ```
 
 ### 4. Report
 
 ```
-Created AGP-XXXX: [summary]
-  Jira:     https://zapierorg.atlassian.net/browse/AGP-XXXX
+Created MCP-XXXX: [summary]
+  Jira:     https://zapierorg.atlassian.net/browse/MCP-XXXX
   Type:     Bug
-  Epic:     AGP-NNN [epic summary] (or none)
+  Epic:     MCP-NNN [epic summary] (or none)
   Assignee: James Baldwin
   Bookmark: [bookmark-name]
   Pushed:   yes

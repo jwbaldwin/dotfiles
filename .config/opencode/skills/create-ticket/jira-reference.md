@@ -1,16 +1,16 @@
-# Jira Reference (MCP / AGP)
+# Jira Reference (MCP)
 
 Source of truth for all Jira mechanics in the MCP project. Both `create-ticket`
-and `quick-fix` rely on this. The Zapier Jira integration's enum resolver is
-broken in this account — it does NOT expose the MCP team project and rejects
-human-readable label strings. **Always pass the numeric IDs below directly.**
+and `quick-fix` rely on this. Prefer the stable numeric IDs below. The direct Jira
+tool surface currently resolves `MCP` correctly, but numeric IDs avoid ambiguity
+across connector surfaces.
 
 ## Identifiers
 
 | Thing                     | Value to pass                                  |
 | ------------------------- | ---------------------------------------------- |
 | `selected_api`            | `JiraSoftwareCloudCLIAPI`                       |
-| Project (MCP, key `AGP`)  | `11589` — NOT the text `"MCP"` (mis-resolves to "MCP Demos" `11820`) |
+| Project (key `MCP`)       | `11589`                                       |
 | James's account ID        | `712020:b89b36ad-2ce4-4fca-ab2b-4dc06a0b510c`  |
 
 ## Issue Type IDs
@@ -46,7 +46,25 @@ without re-sending the field. ALWAYS include `"option::customfield_10346"` in an
 `update_issue` call, then verify `fields.customfield_10346.value` in the response.
 If it flipped, re-send the update with just the Work Type to fix it.
 
-## create_issue — field support
+## Jira tool surfaces
+
+The integration can appear in either form:
+
+- Generic Zapier tools: inspect the action, then call the corresponding
+  `execute_zapier_*_action` tool with action keys such as `create_issue`,
+  `issue_jql`, and `update_issue`.
+- Direct Jira tools on `$ZAPIER_MCP_URL`:
+  `jira_software_cloud_find_issues_via_jql`,
+  `jira_software_cloud_create_issue`, and
+  `jira_software_cloud_update_issue`. Before a direct create or update, call
+  `get_dynamic_properties_schema`; call `list_dynamic_enum_values` for fields
+  marked as dynamic enums.
+
+The direct create schema for project `11589` accepts summary, description, Work
+Type, parent, and assignee in `dynamic_properties`. Prefer setting all known
+fields during creation so a later update is unnecessary.
+
+## Generic create_issue — field support
 
 | Field       | create_issue | How                                          |
 | ----------- | ------------ | -------------------------------------------- |
@@ -69,15 +87,15 @@ zapier-mcp_execute_zapier_write_action({
   selected_api: "JiraSoftwareCloudCLIAPI",
   action: "update_issue",
   params: {
-    issueKey: "AGP-NNNN",
-    "issuelink::parent": "AGP-690",        // epic KEY, not ID
+    issueKey: "MCP-NNNN",
+    "issuelink::parent": "MCP-690",        // epic KEY, not ID
     "user::assignee": "712020:b89b36ad-2ce4-4fca-ab2b-4dc06a0b510c",
     "option::customfield_10346": "10586"   // re-send Work Type or it resets to New
   }
 })
 ```
 
-- `issuelink::parent` takes the epic **key** (e.g. `AGP-690`), not the numeric ID.
+- `issuelink::parent` takes the epic **key** (e.g. `MCP-690`), not the numeric ID.
 - `user::assignee` takes the **account ID**.
 
 ## Fetch open epics (for epic selection)
@@ -87,17 +105,21 @@ zapier-mcp_execute_zapier_read_action({
   selected_api: "JiraSoftwareCloudCLIAPI",
   action: "issue_jql",
   params: {
-    jql: "project = AGP AND issuetype = Epic AND statusCategory != Done ORDER BY updated DESC",
+    jql: "project = MCP AND issuetype = Epic AND statusCategory != Done ORDER BY updated DESC",
     fields: "summary,status,updated"
   }
 })
 ```
 
-Frequently used epics:
+Frequently used open epics as of 2026-08-17 (always verify live):
 
-- `AGP-690` Code & Flag Cleanup — style / cleanup / tech-debt sweeps
-- `AGP-1684` Test Infrastructure
-- `AGP-1634` Production Stability & Scalability
+- `MCP-2289` Tech Debt — cleanup, testing infrastructure, observability hygiene
+- `MCP-2288` Bugs — broken behavior and defect fixes
+- `MCP-2351` Workflows Agentic UX — workflows agent experience
+
+Do not use completed epics `MCP-1684` (Test Infrastructure) or `MCP-1634`
+(Production Stability & Scalability) for new tickets. `MCP-690` is now the open
+epic named Backlog, not Code & Flag Cleanup.
 
 ## Fetch a ticket by key
 
@@ -106,7 +128,7 @@ zapier-mcp_execute_zapier_read_action({
   selected_api: "JiraSoftwareCloudCLIAPI",
   action: "issue_jql",
   params: {
-    jql: "key = AGP-NNNN",
+    jql: "key = MCP-NNNN",
     fields: "summary,description,issuetype,priority,status"
   }
 })
@@ -114,6 +136,6 @@ zapier-mcp_execute_zapier_read_action({
 
 ## Validation rule
 
-After `create_issue`, if the returned key does NOT start with `AGP-`, STOP — the
+After `create_issue`, if the returned key does NOT start with `MCP-`, STOP — the
 integration filed it in the wrong project. Hand James the summary/description for
 manual creation rather than continuing.
