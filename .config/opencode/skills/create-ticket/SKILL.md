@@ -1,14 +1,13 @@
 ---
 name: create-ticket
-description: Create a Jira ticket in the MCP project (key MCP). Supports any issue type (defaults to Bug or Story; elicits feedback if unclear), picks an appropriate epic with a recommendation, and asks whether to assign James. Triggered by "create a ticket", "file a ticket", "spin off a ticket", "open a Jira ticket", "make a ticket". This skill is also the source of truth for all Jira mechanics and is delegated to by the quick-fix skill.
+description: Create a Jira ticket in the MCP project (key MCP). Supports any issue type (defaults to Bug or Story; elicits feedback if unclear), picks an appropriate epic with a recommendation, and asks whether to assign James. Triggered by "create a ticket", "file a ticket", "spin off a ticket", "open a Jira ticket", or "make a ticket".
 ---
 
 # Create Ticket
 
 Create a Jira ticket in the MCP project (Jira key `MCP`), link it to an epic, and
-optionally assign James. This is standalone work — it does NOT touch the working
-copy or git. For formalizing a change you already made (diff → ticket → push), use
-the `quick-fix` skill instead (it delegates the Jira parts to this skill).
+optionally assign James. This is standalone work — it does not touch the working
+copy or version control.
 
 **All Jira IDs, field keys, gotchas, and JQL live in
 [`jira-reference.md`](./jira-reference.md). Read it before calling any Jira

@@ -94,12 +94,6 @@ Report the full workspace path, bookmark, base revision, and GitLab origin. Tell
 opencode <full-workspace-path>
 ```
 
-## Work-On-Ticket Coordination
-
-When this request also triggers `work-on-ticket`, this skill owns repository setup: fetching, basing on the GitLab base bookmark, describing `@`, and creating the bookmark. Run the remaining ticket investigation in `TARGET`; do not create another commit or bookmark.
-
-When `work-on-ticket` runs later inside a prepared workspace, it should detect that the expected bookmark points to `@` and reuse it.
-
 ## Remove
 
 ### 1. Resolve And Inspect

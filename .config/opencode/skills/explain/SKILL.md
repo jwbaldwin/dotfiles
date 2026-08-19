@@ -1,137 +1,80 @@
 ---
 name: explain
-description: Explain technical concepts from first principles in plain language. Start with a short mental model story, then define nouns and ground the story in step-by-step flows, diagrams, and concrete code references. Use when asked to explain, break down, ramp up, teach, simplify, or build deep understanding so the reader can explain and improve the system.
+description: Explain a technical code change, algorithm, architecture, bug, or concept from first principles in James's concise learning style. Use when the user explicitly asks to understand, learn, or have a technical subject explained. Do not trigger for routine answers, implementation work, summaries, reviews, or generic requests to simplify code.
 ---
 
 # Explain
 
-## Purpose
+## Goal
 
-Produce explanations that help a teammate internalize a system deeply enough to:
+Help the user understand the whole relevant idea well enough to reason about it, question it, and own it. Keep the explanation tight enough to read in one sitting.
 
-1. explain it clearly to someone else,
-2. reason about trade-offs,
-3. improve it safely.
+Complete does not mean exhaustive. Cover what matters to the user's question and omit detail that does not change their understanding.
 
-Prioritize understanding over raw detail dumps.
+## Default Style
 
-## Language Style
+- Start from first principles: state the problem, then build the idea from facts the user can verify.
+- Answer the exact question before adding context.
+- Explain causes and consequences, not just parts and labels.
+- Use plain, concrete language. Define necessary technical terms inline.
+- Prefer one strong example over several weak ones.
+- Use real code, values, names, and paths when available.
+- Skip the preamble, throat-clearing, and repeated conclusions.
+- Do not praise the question or announce the explanation plan.
 
-Write clearly and directly.
+## Length
 
-- Use plain words.
-- Avoid technical jargon when a simpler phrase works.
-- Avoid spec-like or formal standards language unless the user asks for it or it's required.
-- If you must use a technical term, define it immediately in one plain sentence.
-- The use of similies or metaphors can help make abstract concepts more concrete, but avoid overusing them or mixing them.
+Produce a one-page explanation by default.
 
-## Default Explanation Workflow
+- Aim for fewer than 100 lines of prose.
+- Never exceed 150 lines of prose unless the user explicitly asks for a deep dive.
+- Diagrams and other visuals do not count toward the prose limit.
+- Gain brevity through clearer structure, visuals, and removing repetition. Do not hide a critical assumption, trade-off, or risk merely to meet the limit.
+- If useful detail will not fit, give the complete core explanation first, then offer specific follow-up topics instead of continuing automatically.
 
-Follow this sequence unless the user asks for a different shape.
+## Choose the Shape to Fit the Subject
 
-1. Start with one short mental model story of how the system works end to end.
-2. Define the nouns used in that story.
-3. Walk through one or more step-by-step flows.
-4. Ground each flow with concrete code references or snippets.
-5. Explain why each major choice exists.
-6. Summarize what was accomplished and what remains open (if this is a review of changes)
-7. End with a short recap that matches the opening story.
+Do not force every explanation into the same sections. Choose the smallest structure that fully answers the question.
 
-## Output Shape
+Examples of useful shapes, not required templates:
 
-Use this structure for substantial explanations.
+- **Code change:** problem → reason for the change → new behavior → important trade-offs → how to own it
+- **Algorithm:** intuition → invariant → walkthrough → why it works → complexity
+- **Architecture:** purpose → responsibilities → boundaries → interactions → trade-offs
+- **Bug:** symptom → root cause → triggering conditions → fix → remaining risk
+- **Technical concept:** mental model → mechanics → concrete example → implications
 
-### 1) Mental Model Story
+Use only the parts relevant to the subject. Reliability, maintenance, failure handling, complexity, history, and alternatives belong only when they help answer the actual question.
 
-Start with a short, memorable story first.
+## Visuals
 
-- Keep it to 3-6 bullets.
-- Use causal flow (A causes B causes C).
-- Keep language plain.
+Use a compact diagram, pseudocode, call tree, file tree, diff, table, or short snippet when it replaces prose or makes order and ownership clearer. Follow the `show-me` skill when a visual would materially improve the explanation.
 
-### 2) Big Picture
+Place each visual beside the point it supports. Do not restate the whole visual in prose.
 
-State the core problem and the system's responsibilities in plain language.
+## Code Grounding
 
-### 3) Nouns
+When explaining real code:
 
-Define key terms before discussing interactions.
+- Inspect the implementation instead of guessing.
+- Cite only the load-bearing files and symbols.
+- Show focused snippets only when the exact code matters.
+- Explain what a snippet proves; do not narrate it line by line.
+- Distinguish verified behavior from inference or uncertainty.
 
-- Expand acronyms before using them.
-- Keep each noun definition concrete and short.
-- Clarify similarly named entities that are easy to confuse.
+## Depth and Questions
 
-### 4) What / Why / How
+Infer the appropriate shape and depth from the request. Ask a clarifying question only when ambiguity would materially change the explanation. Do not ask the user to choose an explanation format by default.
 
-For each major component or mechanism:
+Before finishing, silently check that the user can answer:
 
-- `What`: what it is and what it does.
-- `Why`: why it exists and what risk it prevents.
-- `How`: how it works in this implementation.
+1. What is this?
+2. Why does it exist or work this way?
+3. How does the important part work?
+4. What should I remember or question?
 
-### 5) Step-by-Step Flows
+Adapt these checks to the topic; do not print them as a standard section.
 
-Present at least one end-to-end flow. Prefer 2-3 flows when useful.
+## Ending
 
-- Use numbered steps.
-- Include request/response examples for API-heavy systems.
-- Call out failure paths and guards, not only happy path.
-
-### 6) Diagrams
-
-Use Mermaid diagrams when they materially improve understanding.
-
-- Use `sequenceDiagram` for request lifecycles.
-- Use `flowchart` for trust boundaries and component relationships.
-- Keep diagrams compact: 3-7 participants/components.
-
-### 7) Code Grounding
-
-Anchor explanations in real code.
-
-- Include file paths and short focused snippets.
-- Explain why each snippet matters.
-- Prefer critical lines over large blocks.
-- Tie snippet behavior back to the noun and flow sections.
-
-### 8) Synthesis
-
-Close with:
-
-- what changed or what the system now accomplishes,
-- key risks or open questions,
-- one short "teach-back" story that matches the opening mental model.
-
-## Calibration Rules
-
-If the user has not given style preferences, ask up to two targeted questions max:
-
-1. required depth (primer, intermediate, advanced),
-2. preferred shape (mental-model-first, nouns-first, code-first, or flow-first).
-
-If the user already gave clear preferences, do not ask extra questions.
-
-## Quality Bar
-
-Ensure the explanation is:
-
-- concrete,
-- causally accurate,
-- easy to scan,
-- technically grounded,
-- reusable for onboarding.
-
-## Avoid
-
-- Starting with implementation details before defining terms.
-- Dumping long logs, raw diffs, or MR text without synthesis.
-- Using vague claims like "this improves reliability" without naming the failure mode.
-- Hiding important trade-offs or unresolved risks.
-- Dense jargon or spec-like prose when plain language would be clearer.
-
-## Reusable Ending Template
-
-Use a concise ending in this shape:
-
-1. "If you remember one story, remember this..."
-2. 3-6 bullets that narrate identity -> validation -> state change -> outcome.
+End once the question is answered. If a recap helps, use one short recap of no more than three bullets. Do not repeat the opening explanation as a separate teach-back story.

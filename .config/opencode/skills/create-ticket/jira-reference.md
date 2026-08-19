@@ -1,9 +1,9 @@
 # Jira Reference (MCP)
 
-Source of truth for all Jira mechanics in the MCP project. Both `create-ticket`
-and `quick-fix` rely on this. Prefer the stable numeric IDs below. The direct Jira
-tool surface currently resolves `MCP` correctly, but numeric IDs avoid ambiguity
-across connector surfaces.
+Source of truth for all Jira mechanics in the MCP project. `create-ticket` relies
+on this. Prefer the stable numeric IDs below. The direct Jira tool surface
+currently resolves `MCP` correctly, but numeric IDs avoid ambiguity across
+connector surfaces.
 
 ## Identifiers
 

@@ -42,10 +42,8 @@ Always invoke the matching skill for these workflows; never perform them manuall
 | Review an MR, branch, or code change | `code-review` |
 | Run a harsh maintainability review | `thermo-nuclear-code-quality-review` |
 | Address or triage MR feedback | `mr-comment-triage` |
-| Work on a Jira ticket, including a bare ticket ID such as `AGP-123` | `work-on-ticket` |
 | Add or scaffold a feature flag | `add-feature-flag` |
 | Produce the morning MR status report | `morning-report` |
-| Formalize a fix already in the working copy | `quick-fix` |
 | Create a standalone Jira ticket | `create-ticket` |
 | Review, create, update, or work on GitHub issues | `github-issue-workflow` |
 | Write in James's tone or writing style | `writing-style` |
@@ -57,8 +55,6 @@ Always invoke the matching skill for these workflows; never perform them manuall
 | Monitor an MR, CI, or Greptile | `babysit` |
 | Create or remove a workspace | `workspace` |
 | Manage files in James's bare dotfiles repository | `dotfiles` |
-
-Do not add feature flag plumbing after `work-on-ticket` unless James explicitly requests it.
 
 ## Non-Negotiables
 
