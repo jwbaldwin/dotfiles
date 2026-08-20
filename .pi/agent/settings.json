@@ -2,7 +2,10 @@
   "lastChangelogVersion": "0.84.2",
   "theme": "tokyonight-night",
   "packages": [
-    "npm:pi-mcp-adapter",
+    {
+      "source": "npm:pi-mcp-adapter",
+      "extensions": []
+    },
     "npm:@ff-labs/pi-fff",
     "npm:pi-subagents",
     "npm:pi-web-access",

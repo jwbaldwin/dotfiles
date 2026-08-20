@@ -29,13 +29,14 @@ import { basename, dirname } from "node:path";
 
 const PREVIEW_ROWS = 10;
 const HORIZONTAL = "─";
-type ToolCardState = {
+export type ToolCardState = {
   startedAt?: number;
   endedAt?: number;
   hasResult?: boolean;
   isPartial?: boolean;
   isError?: boolean;
   title?: string;
+  mcpTool?: string;
 };
 
 type BashCardState = ToolCardState;
@@ -303,7 +304,7 @@ type GenericRenderContext = {
   executionStarted: boolean;
   isError: boolean;
 };
-type GenericTool = {
+export type GenericTool = {
   name: string;
   label: string;
   renderCall?: (
@@ -317,6 +318,12 @@ type GenericTool = {
     theme: Theme,
     context: GenericRenderContext,
   ) => Component;
+  frameTitle?: (args: GenericArgs, state: ToolCardState) => string;
+  frameResultTitle?: (
+    result: AgentToolResult<any>,
+    args: GenericArgs,
+    state: ToolCardState,
+  ) => string | undefined;
   [key: string]: unknown;
 };
 
@@ -328,13 +335,18 @@ function titleLine(
 ): string {
   const prefix = "╭── ";
   const suffix = " ";
+  const availableTitleWidth = Math.max(
+    0,
+    width - visibleWidth(prefix) - visibleWidth(suffix) - 1,
+  );
+  const fittedTitle = truncateToWidth(title, availableTitleWidth, "…");
   const used =
-    visibleWidth(prefix) + visibleWidth(title) + visibleWidth(suffix) + 1;
-  if (width < used) return borderLine(theme, color, "╭", width, "╮");
+    visibleWidth(prefix) + visibleWidth(fittedTitle) + visibleWidth(suffix) + 1;
+  if (!fittedTitle) return borderLine(theme, color, "╭", width, "╮");
 
-  return `${theme.fg(color, prefix)}${theme.fg("toolTitle", theme.bold(title))}${suffix}${theme.fg(
+  return `${theme.fg(color, prefix)}${theme.fg("toolTitle", theme.bold(fittedTitle))}${suffix}${theme.fg(
     color,
-    `${HORIZONTAL.repeat(width - used)}╮`,
+    `${HORIZONTAL.repeat(Math.max(0, width - used))}╮`,
   )}`;
 }
 
@@ -342,8 +354,23 @@ function toolTitle(toolName: string, args: GenericArgs): string {
   if (toolName !== "read" || typeof args.path !== "string") return toolName;
 
   const path = args.path;
-  if (basename(path).toLowerCase() !== "skill.md") return toolName;
-  return `skill · ${basename(dirname(path))}`;
+  if (basename(path).toLowerCase() === "skill.md") {
+    return `skill · ${basename(dirname(path))}`;
+  }
+
+  const range: string[] = [];
+  if (typeof args.offset === "number") range.push(`offset ${args.offset}`);
+  if (typeof args.limit === "number") range.push(`limit ${args.limit}`);
+  const suffix = range.length > 0 ? ` · ${range.join(" · ")}` : "";
+  return `read · ${path}${suffix}`;
+}
+
+class EmptyComponent implements Component {
+  render(): string[] {
+    return [];
+  }
+
+  invalidate(): void {}
 }
 
 class ToolCallCard implements Component {
@@ -473,7 +500,7 @@ class ToolResultCard implements Component {
   }
 }
 
-function registerFramedTool(pi: ExtensionAPI, base: GenericTool): void {
+export function registerFramedTool(pi: ExtensionAPI, base: GenericTool): void {
   const originalRenderCall = base.renderCall;
   const originalRenderResult = base.renderResult;
 
@@ -483,7 +510,9 @@ function registerFramedTool(pi: ExtensionAPI, base: GenericTool): void {
     renderCall(args: GenericArgs, theme: Theme, context: GenericRenderContext) {
       const cardContext = context;
       cardContext.state.startedAt ??= Date.now();
-      cardContext.state.title = toolTitle(base.name, args);
+      cardContext.state.title =
+        base.frameTitle?.(args, cardContext.state) ??
+        toolTitle(base.name, args);
 
       const previousCard =
         cardContext.lastComponent instanceof ToolCallCard
@@ -494,8 +523,10 @@ function registerFramedTool(pi: ExtensionAPI, base: GenericTool): void {
         lastComponent: previousCard?.inner,
       };
       const inner =
-        originalRenderCall?.(args, theme, innerContext) ??
-        new Text(theme.fg("toolTitle", base.label || base.name), 0, 0);
+        base.name === "read"
+          ? new EmptyComponent()
+          : (originalRenderCall?.(args, theme, innerContext) ??
+            new Text(theme.fg("toolTitle", base.label || base.name), 0, 0));
       const card =
         previousCard ?? new ToolCallCard(inner, theme, cardContext.state);
       card.update(inner, theme);
@@ -511,6 +542,9 @@ function registerFramedTool(pi: ExtensionAPI, base: GenericTool): void {
       cardContext.state.hasResult = true;
       cardContext.state.isPartial = options.isPartial;
       cardContext.state.isError = cardContext.isError;
+      cardContext.state.title =
+        base.frameResultTitle?.(result, cardContext.args, cardContext.state) ??
+        cardContext.state.title;
       if (!options.isPartial) cardContext.state.endedAt ??= Date.now();
 
       const previousCard =
