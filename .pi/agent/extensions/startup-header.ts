@@ -8,15 +8,24 @@ import { truncateToWidth, visibleWidth } from "@earendil-works/pi-tui";
 
 const MCP_STATUS_EVENT = "pi-mcp-adapter/status/v1";
 const RECENT_SESSION_COUNT = 3;
-const LOGO = [
-  " ▄████████████████████▄ ",
-  "████████████████████████",
-  "     ████      ████     ",
-  "     ████      ████     ",
-  "     ████      ████     ",
-  "     ████      ████     ",
-  "     ████      ████     ",
-];
+
+// Original composition inspired by Hamilton Furtado's "Cabin/Chal" ASCII art
+// https://www.asciiart.eu/archives/usenet/thread/tf0ad3c0636
+const CABIN = String.raw`      *       .                .          *
+                         (       )
+                   .      )   (
+                        (    )
+                         )  (        .
+                   ______|  |____
+       /\         /______|__|____\        *
+      /**\   .   /~~~~~~~~~~~~~~~~\
+     /****\     /__________________\      /\
+    /******\    |==[]==| _ |==[]==|     /**\
+       ||       |======||o||======|    /****\
+   ____||_______|______||_||______|______||____
+ _/   *   _..--""--.._     *   _..--""--.._ \_
+/__..---''          ''---..___..---''       ''--\
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`.split("\n");
 
 interface McpStatusSnapshot {
   version: 1;
@@ -25,40 +34,15 @@ interface McpStatusSnapshot {
   }>;
 }
 
-const GRADIENT = [
-  { red: 79, green: 107, blue: 255 },
-  { red: 56, green: 217, blue: 255 },
-  { red: 168, green: 85, blue: 247 },
-] as const;
-
-function interpolate(start: number, end: number, amount: number): number {
-  return Math.round(start + (end - start) * amount);
-}
-
-function gradientColor(position: number): string {
-  const scaled = Math.max(0, Math.min(1, position)) * (GRADIENT.length - 1);
-  const startIndex = Math.min(Math.floor(scaled), GRADIENT.length - 2);
-  const amount = scaled - startIndex;
-  const start = GRADIENT[startIndex]!;
-  const end = GRADIENT[startIndex + 1]!;
-  const red = interpolate(start.red, end.red, amount);
-  const green = interpolate(start.green, end.green, amount);
-  const blue = interpolate(start.blue, end.blue, amount);
-  return `\x1b[38;2;${red};${green};${blue}m`;
-}
-
-function colorLogoLine(line: string): string {
-  const width = Math.max(1, visibleWidth(line) - 1);
-  return [...line]
-    .map((character, index) =>
-      character === " " ? character : `${gradientColor(index / width)}${character}`,
-    )
-    .join("");
-}
-
 function center(text: string, width: number): string {
   const fitted = truncateToWidth(text, width, "");
   return `${" ".repeat(Math.max(0, Math.floor((width - visibleWidth(fitted)) / 2)))}${fitted}`;
+}
+
+function centerBlock(lines: string[], width: number): string[] {
+  const blockWidth = Math.min(width, Math.max(...lines.map(visibleWidth)));
+  const leftPadding = " ".repeat(Math.max(0, Math.floor((width - blockWidth) / 2)));
+  return lines.map((line) => `${leftPadding}${truncateToWidth(line, blockWidth, "")}`);
 }
 
 function recentSessionBlock(sessionNames: string[], width: number, theme: Theme): string[] {
@@ -105,8 +89,8 @@ export default function startupHeader(pi: ExtensionAPI) {
   pi.on("session_start", async (_event, ctx) => {
     if (ctx.mode !== "tui") return;
 
-    // Mount the full-height header before doing any session I/O. The prompt stays
-    // interactive while recent session names fill their reserved rows in place.
+    // Mount the header before session lookup so the prompt stays interactive while
+    // recent session names fill their reserved rows.
     ctx.ui.setHeader((tui, theme) => {
       requestRender = () => tui.requestRender();
       return {
@@ -117,7 +101,7 @@ export default function startupHeader(pi: ExtensionAPI) {
 
           return [
             "",
-            ...LOGO.map((line) => center(colorLogoLine(line), width)),
+            ...centerBlock(CABIN, width),
             "",
             center(`${theme.fg("text", "pi")} ${theme.fg("dim", `v${VERSION}`)}`, width),
             center(theme.fg("muted", facts), width),
