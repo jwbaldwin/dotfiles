@@ -9,6 +9,15 @@ Create a Jira ticket in the MCP project (Jira key `MCP`), link it to an epic, an
 optionally assign James. This is standalone work — it does not touch the working
 copy or version control.
 
+Before drafting any ticket:
+
+1. Read [`../writing-style/SKILL.md`](../writing-style/SKILL.md) and apply it to the summary and description
+2. Read [`ticket-template.md`](./ticket-template.md) and use it as the description's required structure
+3. Fill the template from the conversation context; do not replace it with a different structure
+
+If `ticket-template.md` still contains its setup placeholder, stop before creating
+the ticket and tell James to fill it in.
+
 **All Jira IDs, field keys, gotchas, and JQL live in
 [`jira-reference.md`](./jira-reference.md). Read it before calling any Jira
 action.**
@@ -19,9 +28,9 @@ action.**
 
 From the conversation, determine:
 
-- **Summary**: Concise title (50–80 chars)
-- **Description**: What the ticket is about; include context, links, file:line
-  refs where relevant
+- **Summary**: Concise title (50–80 chars) written using the writing-style skill
+- **Description**: Fill `ticket-template.md` with the relevant context, links,
+  and file:line refs. Keep its headings and order
 - **Issue Type**: See below
 - **Work Type**: `Sustaining` (`10586`) for fixes/maintenance, `New` (`10585`)
   for new features/work
