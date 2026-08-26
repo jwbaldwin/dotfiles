@@ -12,11 +12,20 @@ copy or version control.
 Before drafting any ticket:
 
 1. Read [`../writing-style/SKILL.md`](../writing-style/SKILL.md) and apply it to the summary and description
-2. Read [`ticket-template.md`](./ticket-template.md) and use it as the description's required structure
+2. Read [`ticket-template.md`](./ticket-template.md) and use it as the required structure
 3. Fill the template from the conversation context; do not replace it with a different structure
+4. Keep the template's Jira wiki markup exactly as written
 
-If `ticket-template.md` still contains its setup placeholder, stop before creating
-the ticket and tell James to fill it in.
+Jira descriptions use **Jira wiki markup, not Markdown**. In this field, Markdown
+`#` headings become numbered lists and backticks stay visible. Use:
+
+- `h1. Heading` and `h2. Heading` for headings
+- `* item` for bullet points
+- `{{code}}` for inline code
+
+Before creating the ticket, check that the filled description has no Markdown
+heading lines (`# Heading`) and no backticks. Pass the filled template directly
+as `string::description`; do not wrap it in a numbered list or rewrite its markup.
 
 **All Jira IDs, field keys, gotchas, and JQL live in
 [`jira-reference.md`](./jira-reference.md). Read it before calling any Jira

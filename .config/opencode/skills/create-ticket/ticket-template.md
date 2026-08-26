@@ -1,22 +1,12 @@
-<!-- SETUP PLACEHOLDER
+h1. What
 
-Replace this comment with the exact Jira ticket description template you want the
-create-ticket skill to use every time. Include the headings, prompts, required
-sections, and rules the agent should preserve when it fills the template.
+[Summary of what is changing and why, said plainly and simply. Format code as {{code}}, not with backticks]
+[Include links to Slack threads, MRs, or other context below the summary]
 
-The skill will stop before creating tickets while this placeholder remains.
+h2. Todo
 
-Example shape, if useful:
+* [Short, simple task]
 
-## Context
+h2. AC
 
-[What is changing and why]
-
-## Scope
-
-[What this ticket includes and excludes]
-
-## Done when
-
-- [Concrete outcome]
--->
+* [Concrete description of what done looks like]
