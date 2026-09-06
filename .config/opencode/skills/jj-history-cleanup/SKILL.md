@@ -1,11 +1,13 @@
 ---
 name: jj-history-cleanup
-description: Clean up Jujutsu history and workspace state. Use when James asks to clean up `jj` history/state, remove old workspaces, prune empty commits, fetch `trunk()` (`main`/`staging`), rebase stacks onto trunk, or generally tidy repo-sibling `workspaces/` clones without losing active work.
+description: Clean up Jujutsu history and workspace state. Use when James asks to clean up `jj` history/state, remove old workspaces, prune empty commits, rebase stacks onto trunk, or generally tidy repo-sibling `workspaces/` clones without losing active work. Do not invoke for a standalone request to fetch trunk.
 ---
 
 # Jj History Cleanup
 
 Clean up Jujutsu state without discarding active work. Focus on safe workspace deletion, pruning only truly disposable empty commits, fetching trunk, and rebasing live stacks onto the latest trunk.
+
+“Clean up jj history” invokes this full workflow. A standalone “fetch trunk” request only calls for fetching; it does not invoke cleanup.
 
 ## Workflow
 

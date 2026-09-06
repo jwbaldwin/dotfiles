@@ -23,15 +23,17 @@ If the real problem is mostly AI-slop cleanup rather than broader code review, u
 
 ## Phase 1: Identify Changes
 
-Run \`git diff\` (or \`git diff HEAD\` if there are staged changes) to see what changed. If there are no git changes, review the most recently modified files that the user mentioned or that you edited earlier in this conversation.
+Use `jj diff` for the working copy, or `jj diff -r <revision>` for a named change. Review the files or revision James requested. If that diff is empty, inspect the files he named or the changes you made earlier in this conversation rather than widening the scope.
 
 Before continuing, decide whether this is actually a `/deslop` task. If most of the value is removing AI-generated slop while preserving behavior, prefer `/deslop`. If the work also needs reuse review, structural cleanup, or efficiency improvements, stay in this skill.
 
-## Phase 2: Launch Three Review Agents in Parallel
+## Phase 2: Review Reuse, Quality, And Efficiency
 
-Use the ${AGENT_TOOL_NAME} tool to launch all three agents concurrently in a single message. Pass each agent the full diff so it has the complete context.
+For small changes, review all three perspectives directly. Delegate independent, substantial review work when it would improve coverage or save time. Use the current harness's supported delegation tool and follow its discovery, execution, and permission rules; do not assume a particular tool name or interface.
 
-### Agent 1: Code Reuse Review
+Choose the number of reviewers to fit the work, rather than always launching three. Give each reviewer the requested diff, relevant context, a distinct review focus, and a read-only boundary. If delegation is unavailable before launch, complete the review directly. If a launched run fails, follow the harness's failure-recovery rules.
+
+### Code Reuse Review
 
 For each change:
 
@@ -39,7 +41,7 @@ For each change:
 2. **Flag any new function that duplicates existing functionality.** Suggest the existing function to use instead.
 3. **Flag any inline logic that could use an existing utility** — hand-rolled string manipulation, manual path handling, custom environment checks, ad-hoc type guards, and similar patterns are common candidates.
 
-### Agent 2: Code Quality Review
+### Code Quality Review
 
 Review the same changes for hacky patterns:
 
@@ -51,7 +53,7 @@ Review the same changes for hacky patterns:
 6. **Unnecessary JSX nesting**: wrapper Boxes/elements that add no layout value — check if inner component props (flexShrink, alignItems, etc.) already provide the needed behavior
 7. **Vague or mechanism-driven names**: names that describe API mechanics, data shape, or generic containers instead of the job the code does. Flag bucket names (`input`, `payload`, `data`, `source`, `files`) where the thing has a specific role, helpers/modules whose names don't say the work being done, and client methods named after the provider endpoint rather than the caller's intent. If a name could fit ten unrelated places, it's too generic — suggest a name that says what job the code does from the caller's point of view.
 
-### Agent 3: Efficiency Review
+### Efficiency Review
 
 Review the same changes for efficiency:
 
@@ -64,6 +66,6 @@ Review the same changes for efficiency:
 
 ## Phase 3: Fix Issues
 
-Wait for all three agents to complete. Aggregate their findings and fix each issue directly. If a finding is a false positive or not worth addressing, note it and move on — do not argue with the finding, just skip it.
+If you delegated reviews, collect their results before editing. Assess the findings from all three perspectives and fix the worthwhile issues within the requested scope. Skip false positives and changes that would not improve the code.
 
 When done, briefly summarize what was fixed (or confirm the code was already clean).

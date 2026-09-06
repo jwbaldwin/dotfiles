@@ -42,7 +42,6 @@ Always invoke the matching skill for these workflows; never perform them manuall
 | Review an MR, branch, or code change | `code-review` |
 | Run a harsh maintainability review | `thermo-nuclear-code-quality-review` |
 | Address or triage MR feedback | `mr-comment-triage` |
-| Add or scaffold a feature flag | `add-feature-flag` |
 | Produce the morning MR status report | `morning-report` |
 | Create a standalone Jira ticket | `create-ticket` |
 | Review, create, update, or work on GitHub issues | `github-issue-workflow` |

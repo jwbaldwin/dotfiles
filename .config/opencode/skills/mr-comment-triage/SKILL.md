@@ -1,11 +1,15 @@
 ---
 name: mr-comment-triage
-description: Triage and respond to GitLab merge request comments. Use when James asks to review MR feedback, decide whether a comment is a quick nit or deeper concern, investigate code to answer reviewer questions, estimate code-change implications, or draft concise replies.
+description: Assess GitLab merge request feedback and draft replies in James's writing style. Use when James asks to triage comments, review MR feedback, investigate reviewer questions, estimate changes, draft replies, or address feedback. Triage is read-only; edit code only when James asks to address or fix the feedback.
 ---
 
 # MR Comment Triage
 
-Triage review feedback on a GitLab merge request and turn each comment into a clear next action: quick fix, technical answer, scoped change plan, or discussion escalation.
+Triage review feedback on a GitLab merge request and turn each comment into an assessment and a draft reply: what the code does, what should change (if anything), and why.
+
+Read and apply `../writing-style/SKILL.md` before writing the assessment and draft replies. Keep them concrete, concise, and in James's voice.
+
+“Triage these” means investigate, assess, and draft. Do not edit code, post replies, or resolve threads. “Address/fix these comments” authorizes code edits within the requested scope; posting still requires the global communication approval.
 
 ## Repository Mapping
 
@@ -49,7 +53,7 @@ zapier-mcp_execute_write_action({
 
 | Type             | Typical signal                         | Default action                                              |
 | ---------------- | -------------------------------------- | ----------------------------------------------------------- |
-| `nit`            | wording/style/minor cleanup            | make a small change quickly                                 |
+| `nit`            | wording/style/minor cleanup            | assess whether a small change is worthwhile and draft a reply |
 | `question`       | asks why/how, no direct change request | investigate and answer with evidence                        |
 | `change-request` | asks for behavior/logic update         | scope the change and impacts before coding                  |
 | `concern`        | challenges approach or tradeoff        | explain reasoning, propose alternatives, escalate if needed |
@@ -58,7 +62,7 @@ If uncertain between `question` and `change-request`, treat it as `change-reques
 
 ### 3) Investigate Before Replying
 
-For `question`, `change-request`, or `concern`:
+For every comment, including nits, inspect enough current code to establish whether the feedback still applies:
 
 - Read relevant code, tests, and call sites.
 - Confirm current behavior from code, not assumptions.
@@ -71,9 +75,9 @@ Always cite concrete file references in the final response.
 
 #### A) `nit`
 
-- Implement the small edit.
-- Run checks: `pnpm types`, `pnpm lint`, `pnpm fmt`.
-- Draft a short reply that it is fixed.
+- Assess whether the edit improves the code or wording.
+- State the proposed edit and why it is worth making, or explain why no change is needed.
+- Draft a reply without claiming the change is already fixed.
 
 #### B) `question` (no code change)
 
@@ -89,7 +93,7 @@ Always cite concrete file references in the final response.
   - touched modules/contracts
   - tests to add/update
   - risk/regression areas
-- If requested, implement and validate.
+- Keep the change as a proposal unless James has asked to address or fix the feedback.
 
 #### D) `concern`
 
@@ -97,24 +101,29 @@ Always cite concrete file references in the final response.
 - Offer options when there is no single obvious answer.
 - Escalate to James when the decision is architectural or product-facing.
 
-### 5) Response Format (Per Comment) To James
+### 5) Assessment And Draft Replies To James
 
-Use this structure:
+For each comment, identify the thread or file/line and provide:
 
-1. `Classification`
-2. `Understanding` (one sentence restatement)
-3. `Findings` (with file references)
-4. `Plan` or `Answer`
-5. `Impact`
-6. `Reply draft` (text ready to post in MR)
+- **Assessment:** whether the feedback applies to the current code, what should change or what answers the question, and why. Cite the relevant code. Include impact or a decision needed from James only when it matters.
+- **Draft reply:** text James can send, following `../writing-style/SKILL.md`. Explain the concrete what and why without repeating the full investigation.
+
+Distinguish proposed changes from completed ones. Do not write “fixed” or “updated” until the edit has actually been made. For an unapproved proposal, use wording such as “I’d change X because Y.” Keep small nits short rather than filling a fixed set of headings.
 
 ### 6) Batch Handling Multiple Comments
 
 When many comments exist, produce a triage list first:
 
 - `comment-id`: type, recommendation, complexity (`S`, `M`, `L`)
-- execution order: quick nits first, then deeper items
+- suggested order if James chooses to make changes
 - blockers requiring a James decision
+
+### 7) When James Requests Fixes
+
+- Apply the requested fixes that the investigation supports; do not implement stale or incorrect feedback just because a reviewer asked.
+- Discuss material product or architecture choices before editing.
+- Run the repository's checks appropriate to the changed behavior. Do not assume `pnpm` scripts exist, or broaden/repeat checks without a change, failure, or unresolved concern to justify it.
+- Update the assessment and draft replies to reflect what actually changed and why. Leave posting and thread resolution to a separately authorized action.
 
 ## Guardrails
 

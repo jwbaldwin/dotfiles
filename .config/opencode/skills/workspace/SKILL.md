@@ -1,11 +1,11 @@
 ---
 name: workspace
-description: Create or remove isolated colocated jj+git clones with GitLab origins and named bookmarks. Use when James says "new workspace", "create workspace", "use a workspace for this", "clean up workspace", "remove workspace", or "delete workspace".
+description: Create or remove isolated colocated jj+git clones with GitHub or GitLab origins and named bookmarks. Use when James says "new workspace", "create workspace", "use a workspace for this", "clean up workspace", "remove workspace", or "delete workspace".
 ---
 
 # Workspace
 
-Create independent colocated clones in a repo-sibling `workspaces/` directory. Use a local clone for speed, but always restore `origin` to GitLab before doing any work.
+Create independent colocated clones in a repo-sibling `workspaces/` directory. Use a local clone for speed, but always restore `origin` to the canonical GitHub or GitLab remote before doing any work.
 
 Do not use `jj workspace add`: its additional working copies do not contain the real `.git` directory required by James's tools.
 
@@ -18,7 +18,7 @@ Do not use `jj workspace add`: its additional working copies do not contain the 
 
 ## Create
 
-### 1. Resolve Paths And GitLab Origin
+### 1. Resolve Paths And Canonical Origin
 
 Run:
 
@@ -36,11 +36,11 @@ TARGET="$WORKSPACES_DIR/<workspace-name>"
 jj git remote list -R "$REPO_ROOT"
 ```
 
-Resolve `origin` to the canonical GitLab URL before cloning:
+Resolve `origin` to the canonical GitHub or GitLab URL before cloning:
 
-- Accept `git@gitlab.com:...` or `https://gitlab.com/...`.
-- If `origin` is a local filesystem path from an older workspace, inspect that repository's `origin` and follow local paths until reaching GitLab.
-- Stop if there is no unambiguous GitLab origin. Never leave a new workspace configured to push to another local clone.
+- Accept SSH or HTTPS URLs for either host, such as `git@github.com:owner/repo.git`, `https://github.com/owner/repo.git`, `git@gitlab.com:group/repo.git`, or `https://gitlab.com/group/repo.git`.
+- If `origin` is a local filesystem path from an older workspace, inspect that repository's `origin` and follow local paths until reaching GitHub or GitLab.
+- Stop if there is no unambiguous canonical origin. Never leave a new workspace configured to push to another local clone.
 - If `TARGET` already exists, stop and ask James what to do.
 
 ### 2. Choose The Base Bookmark
@@ -53,14 +53,14 @@ Do not use `trunk()`: a local clone can inherit a repo-local alias tied to the s
 BASE_BOOKMARK="main" # Use "staging" for ai-command-center
 ```
 
-### 3. Clone And Start From Current GitLab Base
+### 3. Clone And Start From Current Remote Base
 
-Use the current checkout as the local clone source for speed. Clone only the base bookmark, skip tags, restore GitLab as `origin`, fetch the latest base, and rebase the empty working-copy change onto it:
+Use the current checkout as the local clone source for speed. Clone only the base bookmark, skip tags, restore the canonical remote as `origin`, fetch the latest base, and rebase the empty working-copy change onto it:
 
 ```bash
 mkdir -p "$WORKSPACES_DIR"
 jj git clone --colocate --fetch-tags none --branch "$BASE_BOOKMARK" "$REPO_ROOT" "$TARGET"
-jj git remote set-url -R "$TARGET" origin "<canonical-gitlab-origin>"
+jj git remote set-url -R "$TARGET" origin "<canonical-origin>"
 jj git fetch -R "$TARGET" --remote origin --branch "$BASE_BOOKMARK"
 jj rebase -R "$TARGET" -r @ -o "${BASE_BOOKMARK}@origin"
 jj describe -R "$TARGET" -m '<lowercase description without ticket id, max 50 chars>'
@@ -84,11 +84,11 @@ jj st -R "$TARGET"
 Do not report success unless:
 
 - `.git` is a real directory.
-- `origin` is the canonical GitLab URL, not a local path.
+- `origin` is the canonical GitHub or GitLab URL, not a local path.
 - `@` is an empty described change directly on the freshly fetched base bookmark.
 - The requested bookmark points to `@`.
 
-Report the full workspace path, bookmark, base revision, and GitLab origin. Tell James to start OpenCode with:
+Report the full workspace path, bookmark, base revision, and canonical origin. Tell James to start OpenCode with:
 
 ```bash
 opencode <full-workspace-path>
@@ -110,7 +110,7 @@ jj bookmark list -R "$TARGET"
 jj git remote list -R "$TARGET"
 ```
 
-If there are working-copy changes, unpushed commits, or a bookmark that is not present on GitLab, explain the risk and ask James before deleting. Do not ask whether to delete the local bookmark separately: deleting this independent clone removes its local bookmarks, while remote GitLab bookmarks are unaffected.
+If there are working-copy changes, unpushed commits, or a bookmark that is not present on the canonical remote, explain the risk and ask James before deleting. Do not ask whether to delete the local bookmark separately: deleting this independent clone removes its local bookmarks, while remote bookmarks are unaffected.
 
 ### 2. Delete And Verify
 
@@ -125,4 +125,4 @@ if [ -e "$TARGET" ]; then
 fi
 ```
 
-Report the removed path and whether all work had reached GitLab. Never claim cleanup succeeded while `TARGET` still exists.
+Report the removed path and whether all work had reached the canonical remote. Never claim cleanup succeeded while `TARGET` still exists.
