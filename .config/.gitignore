@@ -1,0 +1,4 @@
+/zed/.tmp*
+/zed/embeddings/
+/opencode/tmux-status.log
+/jj/conf.d/zapier.toml
