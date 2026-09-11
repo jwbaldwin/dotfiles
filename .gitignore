@@ -13,6 +13,12 @@
 .pi/agent/bin/
 .pi/agent/models-store.json
 .pi/agent/npm/
+.pi/agent/parked/
 .pi/agent/sessions/
 .pi/agent/trust.json
 .pi/web-search-cache/
+.pi/agent/mcp-cache.json
+.pi/agent/missions/
+.pi/agent/open-tui.json
+.pi/agent/pi-crash.log
+.pi/agent/run-history.jsonl

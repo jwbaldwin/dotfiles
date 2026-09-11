@@ -1,11 +1,15 @@
+import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
+
 import { spawn, spawnSync } from "node:child_process";
 import path from "node:path";
-import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
 
 const GHOSTTY_BUNDLE_ID = "com.mitchellh.ghostty";
 const MINIMUM_TURN_DURATION_MS = 15_000;
 const TITLE_UPDATE_DELAY_MS = 400;
-const COMPLETION_SOUND = path.join(process.env.HOME ?? "", "Library/Sounds/codex-notification.wav");
+const COMPLETION_SOUND = path.join(
+  process.env.HOME ?? "",
+  "Library/Sounds/codex-notification.wav",
+);
 
 function run(command: string, args: string[]): string | undefined {
   const result = spawnSync(command, args, { encoding: "utf8" });
@@ -17,21 +21,32 @@ function frontmostBundleIdentifier(): string | undefined {
   const application = run("/usr/bin/lsappinfo", ["front"]);
   if (!application) return undefined;
 
-  const applicationInfo = run("/usr/bin/lsappinfo", ["info", "-only", "bundleid", application]);
+  const applicationInfo = run("/usr/bin/lsappinfo", [
+    "info",
+    "-only",
+    "bundleid",
+    application,
+  ]);
   return applicationInfo?.match(/"CFBundleIdentifier"="([^"]+)"/)?.[1];
 }
 
-function notificationTitle(ctx: ExtensionContext): string {
-  if (process.env.TMUX && process.env.TMUX_PANE) {
-    const tmuxSession = run("tmux", ["display-message", "-p", "-t", process.env.TMUX_PANE, "#S"]);
-    if (tmuxSession) return tmuxSession;
-  }
-
-  return `${path.basename(ctx.cwd)} · pi`;
+function currentPiSurfaceIsVisible(): boolean {
+  if (!process.env.TMUX || !process.env.TMUX_PANE) return true;
+  const visibility = run("tmux", [
+    "display-message",
+    "-p",
+    "-t",
+    process.env.TMUX_PANE,
+    "#{pane_active}:#{window_active}:#{session_attached}",
+  ]);
+  return visibility === "1:1:1";
 }
 
 function safeTerminalText(text: string): string {
-  return text.replace(/[\x00-\x1f\x7f]/g, " ").replaceAll(";", ",").trim();
+  return text
+    .replace(/[\x00-\x1f\x7f]/g, " ")
+    .replaceAll(";", ",")
+    .trim();
 }
 
 function terminalSequence(sequence: string): string {
@@ -47,8 +62,10 @@ function setTerminalTitle(title: string): void {
   writeTerminalSequence(`\x1b]2;${safeTerminalText(title)}\x1b\\`);
 }
 
-function sendNotification(title: string): void {
-  writeTerminalSequence(`\x1b]777;notify;${safeTerminalText(title)};\x07`);
+function sendNotification(title: string, body: string): void {
+  writeTerminalSequence(
+    `\x1b]777;notify;${safeTerminalText(title)};${safeTerminalText(body)}\x07`,
+  );
 
   const sound = spawn("/usr/bin/afplay", [COMPLETION_SOUND], {
     detached: true,
@@ -58,7 +75,7 @@ function sendNotification(title: string): void {
 }
 
 function delay(milliseconds: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, milliseconds));
+  return new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
 
 export default function notifications(pi: ExtensionAPI) {
@@ -76,11 +93,16 @@ export default function notifications(pi: ExtensionAPI) {
     if (Date.now() - startedAt <= MINIMUM_TURN_DURATION_MS) return;
 
     const frontmostApplication = frontmostBundleIdentifier();
-    if (!frontmostApplication || frontmostApplication === GHOSTTY_BUNDLE_ID) return;
+    if (!frontmostApplication) return;
+    if (
+      frontmostApplication === GHOSTTY_BUNDLE_ID &&
+      currentPiSurfaceIsVisible()
+    )
+      return;
 
     const sessionName = pi.getSessionName() ?? path.basename(ctx.cwd);
     setTerminalTitle(sessionName);
     await delay(TITLE_UPDATE_DELAY_MS);
-    sendNotification(notificationTitle(ctx));
+    sendNotification(sessionName, path.basename(ctx.cwd));
   });
 }
