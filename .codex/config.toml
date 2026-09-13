@@ -1,0 +1,202 @@
+
+
+notify = ["/Users/jbaldwin/.codex/computer-use/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient", "turn-ended"]
+approval_policy = "on-request"
+approvals_reviewer = "guardian_subagent"
+sandbox_mode = "workspace-write"
+model = "gpt-6-astra"
+model_reasoning_effort = "medium"
+
+[marketplaces.openai-bundled]
+source_type = "local"
+source = "/Users/jbaldwin/.codex/.tmp/bundled-marketplaces/openai-bundled"
+
+[marketplaces.openai-primary-runtime]
+source_type = "local"
+source = "/Users/jbaldwin/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime"
+
+[plugins."documents@openai-primary-runtime"]
+enabled = true
+
+[plugins."spreadsheets@openai-primary-runtime"]
+enabled = true
+
+[plugins."presentations@openai-primary-runtime"]
+enabled = true
+
+[plugins."github@openai-curated"]
+enabled = true
+
+[plugins."pdf@openai-primary-runtime"]
+enabled = true
+
+[plugins."computer-use@openai-bundled"]
+enabled = true
+
+[plugins."template-creator@openai-primary-runtime"]
+enabled = true
+
+[plugins."sites@openai-bundled"]
+enabled = true
+
+[plugins."visualize@openai-bundled"]
+enabled = true
+
+[plugins."browser@openai-bundled"]
+enabled = true
+
+[plugins."codex-app-tools@openai-bundled"]
+enabled = true
+
+[plugins."unified-computer-use@openai-bundled"]
+enabled = true
+
+[projects."/Users/jbaldwin/repos/projects/annie"]
+trust_level = "trusted"
+
+[projects."/Users/jbaldwin/Documents/life"]
+trust_level = "trusted"
+
+[projects."/Users/jbaldwin/repos/projects/inboxes"]
+trust_level = "trusted"
+
+[projects."/Users/jbaldwin/repos/projects/web"]
+trust_level = "trusted"
+
+[projects."/Users/jbaldwin/Documents/Codex/2026-06-09/https-github-com-withbranches-can-you"]
+trust_level = "trusted"
+
+[projects."/Users/jbaldwin/repos/projects/anron-icons"]
+trust_level = "trusted"
+
+[projects."/Users/jbaldwin/conductor/repos/Starter project"]
+trust_level = "trusted"
+
+[projects."/Users/jbaldwin/conductor/repos/elixir-inertia-template"]
+trust_level = "trusted"
+
+[projects."/Users/jbaldwin/repos/projects/arnor"]
+trust_level = "trusted"
+
+[projects."/Users/jbaldwin/Documents/Codex/2026-07-25/realtime-voice-chat"]
+trust_level = "trusted"
+
+[projects."/Users/jbaldwin/repos/projects/mmentum"]
+trust_level = "trusted"
+
+[projects."/Users/jbaldwin/Documents/Codex/2026-08-02/referenced-chatgpt-conversation-this-is-an"]
+trust_level = "trusted"
+
+[projects."/Users/jbaldwin/Documents/Codex/2026-08-04/referenced-chatgpt-conversation-this-is-an"]
+trust_level = "trusted"
+
+[projects."/Users/jbaldwin/Documents/Codex/2026-08-09/continue-my-msi-rtx-4060-ti"]
+trust_level = "trusted"
+
+[projects."/Users/jbaldwin/Documents/Codex/2026-08-18/referenced-chatgpt-conversation-this-is-an"]
+trust_level = "trusted"
+
+[projects."/Users/jbaldwin/Documents/ChatGPT/vibes"]
+trust_level = "trusted"
+
+[projects."/Users/jbaldwin/Documents/Codex/2026-09-08/paste-this-into-the-new-chat"]
+trust_level = "trusted"
+
+[projects."/Users/jbaldwin/Documents/Codex/2026-09-08/files-pasted-by-the-user-finish"]
+trust_level = "trusted"
+
+[projects."/Users/jbaldwin/Documents/Codex/2026-09-09/us"]
+trust_level = "trusted"
+
+[projects."/Users/jbaldwin/Documents/Codex/2026-09-09/referenced-chatgpt-conversation-this-is-an"]
+trust_level = "trusted"
+
+[desktop]
+appearanceTheme = "dark"
+appearanceLightCodeThemeId = "linear"
+appearanceDarkCodeThemeId = "oscurange"
+sansFontSize = 16
+codeFontSize = 16
+followUpQueueMode = "steer"
+git-branch-prefix = "jb/"
+git-show-sidebar-pr-icons = true
+dock-icon-preference = "codex-system"
+usePointerCursors = false
+conversationDetailMode = "STEPS_PROSE"
+
+[desktop.appearanceLightChromeTheme]
+accent = "#5e6ad2"
+contrast = 45
+ink = "#1b1b1b"
+opaqueWindows = true
+surface = "#fcfcfd"
+
+[desktop.appearanceLightChromeTheme.fonts]
+ui = "Inter"
+
+[desktop.appearanceLightChromeTheme.semanticColors]
+diffAdded = "#52a450"
+diffRemoved = "#c94446"
+skill = "#8160d8"
+
+[desktop.appearanceDarkChromeTheme]
+accent = "#f6fa8c"
+accentSource = "custom"
+contrast = 72
+ink = "#e6e6e6"
+opaqueWindows = false
+surface = "#0b0b0f"
+
+[desktop.appearanceDarkChromeTheme.fonts]
+code = "Berkeley Mono"
+
+[desktop.appearanceDarkChromeTheme.semanticColors]
+diffAdded = "#40c977"
+diffRemoved = "#fa423e"
+skill = "#479ffa"
+
+[desktop.open-in-target-preferences]
+global = "ghostty"
+
+[desktop.open-in-target-preferences.perPath]
+"/Users/jbaldwin/repos/projects/annie" = "ghostty"
+
+[features]
+js_repl = false
+
+hooks = true
+[mcp_servers.node_repl]
+args = []
+command = "/Applications/ChatGPT.app/Contents/Resources/cua_node/bin/node_repl"
+startup_timeout_sec = 120
+
+[mcp_servers.node_repl.env]
+NODE_REPL_NATIVE_PIPE_CONNECT_TIMEOUT_MS = "1000"
+NODE_REPL_NODE_MODULE_DIRS = "/Applications/ChatGPT.app/Contents/Resources/cua_node/lib/node_modules"
+NODE_REPL_NODE_PATH = "/Applications/ChatGPT.app/Contents/Resources/cua_node/bin/node"
+NODE_REPL_TRUSTED_CODE_PATHS = "/Users/jbaldwin/.codex:/Applications/ChatGPT.app/Contents/Resources/cua_node/lib/node_modules"
+CODEX_HOME = "/Users/jbaldwin/.codex"
+BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab"
+BROWSER_USE_TINYSKY_ENABLED = "1"
+NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = ""
+NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = ""
+NODE_REPL_INSTRUCTIONS_USE_CASE_COMPUTER_USE = ""
+BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
+BROWSER_USE_CODEX_APP_VERSION = "26.901.41600"
+NODE_REPL_TRUSTED_SERVICES = '{"browser":"/Users/jbaldwin/.codex/plugins/cache/openai-bundled/browser/26.901.41600/scripts/browser-service.mjs","sky":"@oai/sky/service"}'
+SKY_CUA_SERVICE_PATH = "/Users/jbaldwin/.codex/computer-use/Codex Computer Use.app"
+CODEX_CLI_PATH = "/Applications/ChatGPT.app/Contents/Resources/codex"
+
+[mcp_servers.computer-use]
+command = "./Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient"
+args = ["mcp"]
+cwd = "."
+enabled = false
+
+[shell_environment_policy.set]
+NODE_REPL_TRUSTED_BROWSER_CLIENT_SHA256S = "091a81603ff202a16ed56557709bf42d97caf8f0dd2e07ae9e26d7c014d71035"
+
+[agents]
+max_concurrent_threads_per_session = 10
+default_subagent_model = "gpt-5.6-luna"
+default_subagent_reasoning_effort = "max"
