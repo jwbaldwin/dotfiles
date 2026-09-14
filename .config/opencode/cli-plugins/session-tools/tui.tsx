@@ -5,6 +5,7 @@ import { setupBackground } from "./background.ts";
 import { setupBtw } from "./btw.tsx";
 import { currentSessionID, sessionStatus, showError } from "./sessions.ts";
 import { trackTmuxStatus } from "./tmux-status.js";
+import { PromptInfo } from "./prompt-info.tsx";
 
 export default Plugin.define({
   id: "james.session-tools",
@@ -13,6 +14,10 @@ export default Plugin.define({
       const parking = setupParking(context);
       const background = setupBackground(context);
       const btw = setupBtw(context);
+      const removePromptStatus = context.ui.slot({
+        prepend: "session.composer.top",
+        render: ({ sessionID }) => <PromptInfo context={context} sessionID={sessionID} />,
+      });
       const commands = [...parking.commands, ...background.commands, ...btw.commands];
       const removeCommands = context.ui.slot({
         append: "app",
@@ -108,6 +113,7 @@ export default Plugin.define({
         btw.dispose();
         removeReminder();
         removeCommands();
+        removePromptStatus();
         dispose();
       };
     });

@@ -75,6 +75,13 @@ started = False
 temporary_root = Path(os.environ["TMPDIR"]) / "opencode"
 with tempfile.TemporaryDirectory(prefix="session-tools-", dir=temporary_root) as directory:
     try:
+        def jj(*args):
+            return subprocess.check_output(["jj", *args], cwd=directory, text=True, stderr=subprocess.DEVNULL).strip()
+
+        jj("git", "init")
+        jj("bookmark", "create", "prompt-info-smoke")
+        jj("new")
+        change_id = jj("log", "--no-graph", "-r", "@", "-T", "change_id.shortest(4)")
         origin = api("v2.session.create", body={
             "title": "Session tools smoke check",
             "location": {"directory": directory},
@@ -89,6 +96,12 @@ with tempfile.TemporaryDirectory(prefix="session-tools-", dir=temporary_root) as
         tmux("-f", "/dev/null", "new-session", "-d", "-s", "smoke", "-x", "140", "-y", "45", launch)
         started = True
         wait_for(lambda: status() == "idle", "CLI plugin loaded")
+        wait_for(lambda: f"⌾ {change_id}" in screen() and "← prompt-info-smoke ↑1" in screen(), "prompt repository status")
+        jj("new")
+        change_id = jj("log", "--no-graph", "-r", "@", "-T", "change_id.shortest(4)")
+        tmux("send-keys", "-t", "smoke", "-H", "1b", "5b", "49")
+        wait_for(lambda: f"⌾ {change_id}" in screen() and "← prompt-info-smoke ↑2" in screen(), "prompt refresh on terminal focus")
+        assert context(origin) == baseline
 
         command("/park smoke-persistence-note")
         wait_for(lambda: status() == "parked", "park updates tmux")
@@ -136,7 +149,7 @@ with tempfile.TemporaryDirectory(prefix="session-tools-", dir=temporary_root) as
         wait_for(lambda: "Remove from task list" in screen(), "background controls")
         keys("Down", "Down", "Down", "Down", "Enter")
         wait_for(lambda: "Background tasks:" not in screen(), "remove finished task")
-        print("Passed: V2 loading, tmux, parking persistence/inbox, /btw, /bg, and transcript isolation")
+        print("Passed: V2 loading, prompt status/focus refresh, tmux, parking persistence/inbox, /btw, /bg, and transcript isolation")
     finally:
         if sessions:
             for session in api("v2.session.list")["data"]:

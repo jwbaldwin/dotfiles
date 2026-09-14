@@ -2,6 +2,12 @@
 
 CLI-only commands and pane status, loaded from `~/.config/opencode/cli.json`.
 
+A compact line above the prompt shows the Jujutsu change ID and nearest ancestor
+bookmark with its commit distance. The line appears only in Jujutsu repositories. Repository status
+refreshes asynchronously on terminal focus, shell completion, branch changes,
+and completed agent work. Refreshes are debounced and never overlap. Reads do
+not snapshot the working copy. The bookmark shortens to fit narrow terminals.
+
 - `/park [note]` saves a session to the parking inbox.
 - `/unpark` removes the current session from the inbox.
 - `/inbox` previews and opens parked sessions.
@@ -32,5 +38,5 @@ The plugin runs in the terminal client so each tmux pane reports its own session
 
 `python3 smoke-test.py` exercises the installed V2 TUI in a disposable tmux server.
 It makes three short model requests, checks transcript isolation, and removes its
-test sessions afterward. It requires macOS, tmux, and an authenticated OpenCode
+test sessions afterward. It requires macOS, tmux, Jujutsu, and an authenticated OpenCode
 service.
