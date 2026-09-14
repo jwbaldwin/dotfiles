@@ -1,0 +1,20 @@
+{
+  "name": "databricks-cli",
+  "version": "1.0.0",
+  "description": "CLI tool for Databricks operations - Unity Catalog exploration and SQL queries",
+  "type": "module",
+  "scripts": {
+    "databricks": "npx tsx src/index.ts",
+    "build": "tsc",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "commander": "^12.1.0",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  }
+}
