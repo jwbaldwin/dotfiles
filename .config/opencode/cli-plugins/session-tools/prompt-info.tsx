@@ -1,12 +1,54 @@
 import type { Context } from "@opencode/plugin/tui/context";
+
 import { CliRenderEvents } from "@opentui/core";
-import { createEffect, createMemo, createSignal, onCleanup, Show } from "solid-js";
+import {
+  createEffect,
+  createMemo,
+  createSignal,
+  onCleanup,
+  Show,
+} from "solid-js";
+
 import { readJujutsuStatus, type JujutsuStatus } from "./jujutsu-status.ts";
 
-export function PromptInfo(props: { context: Context; sessionID: string }) {
+export function PromptInfo(props: {
+  context: Context;
+  sessionID?: string;
+  mode: "normal" | "shell";
+}) {
   const context = props.context;
-  const session = () => context.data.session.get(props.sessionID);
-  const workingDirectory = createMemo(() => session()?.location.directory);
+  const session = () =>
+    props.sessionID ? context.data.session.get(props.sessionID) : undefined;
+  const location = () =>
+    session()?.location ?? context.location ?? context.data.location.default();
+  const workingDirectory = createMemo(() => location().directory);
+  const model = createMemo(() =>
+    context.data.location.model
+      .list(location())
+      ?.find(
+        (model) =>
+          model.id === session()?.model?.id &&
+          model.providerID === session()?.model?.providerID,
+      ),
+  );
+  const directory = createMemo(() => {
+    const path = context.ui.format.path(workingDirectory());
+    const parts = path.split("/").filter(Boolean);
+    return parts.length <= 3
+      ? path
+      : `${path.startsWith("~") ? "~" : "…"}/…/${parts.slice(-2).join("/")}`;
+  });
+  const percent = createMemo(() => {
+    if (!props.sessionID) return "ctx —";
+    const messages = context.data.session.message.list(props.sessionID) ?? [];
+    const last = messages.findLast(
+      (message) => message.type === "assistant" && message.tokens,
+    );
+    const limit = model()?.limit.context;
+    if (last?.type !== "assistant" || !last.tokens || !limit) return "ctx —";
+    const tokens = last.tokens;
+    return `${Math.round(((tokens.input + tokens.output + tokens.cache.read + tokens.cache.write) / limit) * 100)}%`;
+  });
   const [jujutsu, setJujutsu] = createSignal<JujutsuStatus>();
 
   createEffect(() => {
@@ -38,7 +80,10 @@ export function PromptInfo(props: { context: Context; sessionID: string }) {
       timer = setTimeout(() => void refresh(), 250);
     };
     const stop = context.data.listen(({ details }) => {
-      if (details.type === "shell.exited" || details.type === "vcs.branch.updated") {
+      if (
+        details.type === "shell.exited" ||
+        details.type === "vcs.branch.updated"
+      ) {
         if (details.location?.directory === directory) schedule();
         return;
       }
@@ -62,28 +107,41 @@ export function PromptInfo(props: { context: Context; sessionID: string }) {
   });
 
   return (
-    <Show when={jujutsu()}>
-      {(status) => (
-        <box
-          flexDirection="row"
-          gap={2}
-          paddingLeft={2}
-          paddingRight={2}
-          height={1}
-          overflow="hidden"
-        >
-          <text flexShrink={0}>
-            <span style={{ fg: context.theme.hue.green[500] }}>⌾ </span>
-            <span style={{ fg: context.theme.hue.purple[500] }}>{status().changeID}</span>
-          </text>
-          <Show when={status().bookmark}>
-            <text fg={context.theme.text.subdued} wrapMode="none" truncate flexShrink={1}>
-              ← {status().bookmark}
-              {status().distance ? ` ↑${status().distance}` : ""}
-            </text>
-          </Show>
-        </box>
-      )}
-    </Show>
+    <box flexDirection="row" gap={2} width="100%" height={1} overflow="hidden">
+      <text flexGrow={1} flexShrink={1} wrapMode="none" truncate>
+        <Show when={props.mode === "shell"}>
+          <span style={{ fg: context.theme.text.subdued }}>! shell </span>
+        </Show>
+        <span style={{ fg: "#7f8c9f" }}>{directory()}</span>
+        <Show when={jujutsu()}>
+          {(status) => (
+            <>
+              <span style={{ fg: context.theme.text.subdued }}>  </span>
+              <span style={{ fg: "#9a9183" }}>
+                {status().changeID}
+              </span>
+              <Show when={status().bookmark}>
+                <span style={{ fg: context.theme.text.subdued }}>
+                  {`  ${status().distance ? "← " : ""}${status().bookmark}${status().distance ? ` ↑${status().distance}` : ""}`}
+                </span>
+              </Show>
+            </>
+          )}
+        </Show>
+      </text>
+      <text
+        fg={context.theme.text.subdued}
+        flexShrink={1}
+        maxWidth="45%"
+        wrapMode="none"
+        truncate
+      >
+        {session()?.title}
+      </text>
+      <text fg={context.theme.text.subdued} flexShrink={0}>
+        {session()?.title ? "· " : ""}
+        {percent()}
+      </text>
+    </box>
   );
 }

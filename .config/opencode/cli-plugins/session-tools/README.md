@@ -2,11 +2,16 @@
 
 CLI-only commands and pane status, loaded from `~/.config/opencode/cli.json`.
 
-A compact line above the prompt shows the Jujutsu change ID and nearest ancestor
-bookmark with its commit distance. The line appears only in Jujutsu repositories. Repository status
+A Pi-style prompt footer shows the shortened directory in muted blue-gray, Jujutsu
+change ID in muted taupe, and nearest ancestor bookmark with its commit distance.
+The session title and context percentage sit on the right. Repository fields
+appear only in Jujutsu repositories. Repository status
 refreshes asynchronously on terminal focus, shell completion, branch changes,
 and completed agent work. Refreshes are debounced and never overlap. Reads do
 not snapshot the working copy. The bookmark shortens to fit narrow terminals.
+Context usage comes from the latest assistant response, not cumulative session
+tokens. OpenCode's built-in agent/model row inside the prompt box remains; the
+plugin API exposes only the footer below it.
 
 - `/park [note]` saves a session to the parking inbox.
 - `/unpark` removes the current session from the inbox.

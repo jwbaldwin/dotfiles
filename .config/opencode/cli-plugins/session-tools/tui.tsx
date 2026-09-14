@@ -1,11 +1,12 @@
 import { Plugin } from "@opencode/plugin/tui";
 import { createEffect, createRoot, Show } from "solid-js";
-import { setupParking } from "./parking.ts";
+
 import { setupBackground } from "./background.ts";
 import { setupBtw } from "./btw.tsx";
+import { setupParking } from "./parking.ts";
+import { PromptInfo } from "./prompt-info.tsx";
 import { currentSessionID, sessionStatus, showError } from "./sessions.ts";
 import { trackTmuxStatus } from "./tmux-status.js";
-import { PromptInfo } from "./prompt-info.tsx";
 
 export default Plugin.define({
   id: "james.session-tools",
@@ -15,10 +16,20 @@ export default Plugin.define({
       const background = setupBackground(context);
       const btw = setupBtw(context);
       const removePromptStatus = context.ui.slot({
-        prepend: "session.composer.top",
-        render: ({ sessionID }) => <PromptInfo context={context} sessionID={sessionID} />,
+        replace: "prompt.footer.status",
+        render: (prompt) => (
+          <PromptInfo
+            context={context}
+            sessionID={prompt.sessionID}
+            mode={prompt.mode}
+          />
+        ),
       });
-      const commands = [...parking.commands, ...background.commands, ...btw.commands];
+      const commands = [
+        ...parking.commands,
+        ...background.commands,
+        ...btw.commands,
+      ];
       const removeCommands = context.ui.slot({
         append: "app",
         render: () => {
@@ -45,7 +56,10 @@ export default Plugin.define({
         ...context.data.session.family(sessionID),
         ...Object.values(background.state.tasks)
           .filter((task) => task.originSessionID === sessionID)
-          .flatMap((task) => [task.sessionID, ...context.data.session.family(task.sessionID)]),
+          .flatMap((task) => [
+            task.sessionID,
+            ...context.data.session.family(task.sessionID),
+          ]),
       ];
       createEffect(() => {
         const sessionID = currentSessionID(context);
@@ -58,7 +72,10 @@ export default Plugin.define({
             .then(() =>
               Promise.all([
                 context.data.session.permission.sync(id),
-                context.data.session.form.sync(id, context.data.session.get(id)?.location),
+                context.data.session.form.sync(
+                  id,
+                  context.data.session.get(id)?.location,
+                ),
               ]),
             )
             .catch((error) => showError(context, error));
@@ -68,14 +85,19 @@ export default Plugin.define({
       const stopTmux = trackTmuxStatus(() => {
         const sessionID = currentSessionID(context);
         if (!sessionID) return "idle";
-        const statuses = relatedSessions(sessionID).map((id) => sessionStatus(context, id));
+        const statuses = relatedSessions(sessionID).map((id) =>
+          sessionStatus(context, id),
+        );
         if (statuses.includes("attention")) return "attention";
         if (
           statuses.includes("busy") ||
-          (btw.state.question?.sessionID === sessionID && btw.state.question.status === "running")
+          (btw.state.question?.sessionID === sessionID &&
+            btw.state.question.status === "running")
         )
           return "busy";
-        return parking.state.sessions[sessionID] ? "parked" : sessionStatus(context, sessionID);
+        return parking.state.sessions[sessionID]
+          ? "parked"
+          : sessionStatus(context, sessionID);
       });
       const removeReminder = context.ui.slot({
         append: "session.composer.top",

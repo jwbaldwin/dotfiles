@@ -96,11 +96,11 @@ with tempfile.TemporaryDirectory(prefix="session-tools-", dir=temporary_root) as
         tmux("-f", "/dev/null", "new-session", "-d", "-s", "smoke", "-x", "140", "-y", "45", launch)
         started = True
         wait_for(lambda: status() == "idle", "CLI plugin loaded")
-        wait_for(lambda: f"⌾ {change_id}" in screen() and "← prompt-info-smoke ↑1" in screen(), "prompt repository status")
+        wait_for(lambda: f" {change_id}" in screen() and "← prompt-info-smoke ↑1" in screen(), "prompt repository status")
         jj("new")
         change_id = jj("log", "--no-graph", "-r", "@", "-T", "change_id.shortest(4)")
         tmux("send-keys", "-t", "smoke", "-H", "1b", "5b", "49")
-        wait_for(lambda: f"⌾ {change_id}" in screen() and "← prompt-info-smoke ↑2" in screen(), "prompt refresh on terminal focus")
+        wait_for(lambda: f" {change_id}" in screen() and "← prompt-info-smoke ↑2" in screen(), "prompt refresh on terminal focus")
         assert context(origin) == baseline
 
         command("/park smoke-persistence-note")
