@@ -13,18 +13,16 @@
       "vercel rollback*": "ask"
     }
   },
-  "plugin": ["opencode-goal-plugin@latest", "@plannotator/opencode@latest"],
-  "command": {
-    "goal": {
-      "description": "Set a session-scoped goal and auto-continue until complete.",
-      "template": "$ARGUMENTS",
-      "agent": "build"
-    }
-  },
+  "plugin": ["@plannotator/opencode@latest"],
   "mcp": {
     "zapier-mcp": {
       "type": "remote",
       "url": "{env:ZAPIER_MCP_URL}",
+      "enabled": true
+    },
+    "sherlock": {
+      "type": "remote",
+      "url": "https://sherlockbackend.global-us-east-1.int.zapier.com/v1/mcp",
       "enabled": true
     },
     "context7": {

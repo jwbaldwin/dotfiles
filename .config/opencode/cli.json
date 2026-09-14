@@ -1,0 +1,34 @@
+{
+  "$schema": "https://opencode.ai/v2/cli.json",
+  "theme": {
+    "name": "tokyonight-transparent"
+  },
+  "keybinds": {
+    "command.palette.show": "ctrl+o",
+    "session.rename": "none",
+    "model.cycle_favorite": "tab",
+    "agent.cycle": "shift+tab",
+    "agent.cycle.reverse": "none"
+  },
+  "plugins": [
+    "./cli-plugins/session-tools"
+  ],
+  "attention": {
+    "enabled": true,
+    "notifications": false,
+    "sound": false,
+    "volume": 0.4
+  },
+  "diffs": {
+    "wrap": "word"
+  },
+  "session": {
+    "sidebar": "hide",
+    "scrollbar": false,
+    "thinking": "show"
+  },
+  "animations": true,
+  "tabs": {
+    "enabled": false
+  }
+}
