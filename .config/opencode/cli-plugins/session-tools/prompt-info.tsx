@@ -108,38 +108,44 @@ export function PromptInfo(props: {
 
   return (
     <box flexDirection="row" gap={2} width="100%" height={1} overflow="hidden">
-      <text flexGrow={1} flexShrink={1} wrapMode="none" truncate>
+      <text flexGrow={1} flexShrink={1} wrapMode="none" overflow="hidden">
         <Show when={props.mode === "shell"}>
           <span style={{ fg: context.theme.text.subdued }}>! shell </span>
         </Show>
-        <span style={{ fg: "#7f8c9f" }}>{directory()}</span>
+        <span style={{ fg: context.theme.text.feedback.info.default }}>
+          {directory()}
+        </span>
         <Show when={jujutsu()}>
           {(status) => (
             <>
-              <span style={{ fg: context.theme.text.subdued }}>  </span>
-              <span style={{ fg: "#9a9183" }}>
-                {status().changeID}
+              <span style={{ fg: context.theme.text.feedback.success.default }}>  </span>
+              <span style={{ fg: context.theme.syntax.keyword }}>
+                <b>{status().changeID}</b>
               </span>
-              <Show when={status().bookmark}>
-                <span style={{ fg: context.theme.text.subdued }}>
-                  {`  ${status().distance ? "← " : ""}${status().bookmark}${status().distance ? ` ↑${status().distance}` : ""}`}
+              <Show when={status().currentBookmarks || status().bookmark}>
+                <span style={{ fg: context.theme.syntax.keyword }}>
+                  {status().currentBookmarks ? " " : " ← "}
+                  {status().currentBookmarks || status().bookmark}
+                  <Show when={!status().currentBookmarks && status().distance > 0}>
+                    {` ↑${status().distance}`}
+                  </Show>
+                </span>
+              </Show>
+              <Show when={status().changedFiles > 0}>
+                <span style={{ fg: context.theme.syntax.comment }}>
+                  {` ~${status().changedFiles}`}
+                </span>
+              </Show>
+              <Show when={status().description}>
+                <span style={{ fg: context.theme.syntax.comment }}>
+                  {` ${status().description}`}
                 </span>
               </Show>
             </>
           )}
         </Show>
       </text>
-      <text
-        fg={context.theme.text.subdued}
-        flexShrink={1}
-        maxWidth="45%"
-        wrapMode="none"
-        truncate
-      >
-        {session()?.title}
-      </text>
       <text fg={context.theme.text.subdued} flexShrink={0}>
-        {session()?.title ? "· " : ""}
         {percent()}
       </text>
     </box>

@@ -2,13 +2,17 @@
 
 CLI-only commands and pane status, loaded from `~/.config/opencode/cli.json`.
 
-A Pi-style prompt footer shows the shortened directory in muted blue-gray, Jujutsu
-change ID in muted taupe, and nearest ancestor bookmark with its commit distance.
-The session title and context percentage sit on the right. Repository fields
+A Pi-style prompt footer uses the theme's info color for the shortened directory,
+success color for the repository marker, syntax keyword color for the Jujutsu
+change ID and current bookmarks. When the current change has no bookmark, the
+same label shows the nearest ancestor bookmark and commit distance instead.
+The changed-file count (`~1`) and first line of the change description use dim text.
+The context percentage sits on the right. Repository fields
 appear only in Jujutsu repositories. Repository status
 refreshes asynchronously on terminal focus, shell completion, branch changes,
 and completed agent work. Refreshes are debounced and never overlap. Reads do
-not snapshot the working copy. The bookmark shortens to fit narrow terminals.
+not snapshot the working copy. The status clips at the right edge in narrow
+terminals so the directory, change ID, file count, and description keep their order.
 Context usage comes from the latest assistant response, not cumulative session
 tokens. OpenCode's built-in agent/model row inside the prompt box remains; the
 plugin API exposes only the footer below it.

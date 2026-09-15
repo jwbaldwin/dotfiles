@@ -43,15 +43,15 @@
   },
   "theme": {
     "primary": {
-      "dark": "darkStep7",
+      "dark": "darkStep6",
       "light": "lightStep9"
     },
     "secondary": {
-      "dark": "darkStep7",
+      "dark": "darkStep6",
       "light": "lightPurple"
     },
     "accent": {
-      "dark": "darkStep7",
+      "dark": "darkStep9",
       "light": "lightOrange"
     },
     "error": {
@@ -59,7 +59,7 @@
       "light": "lightRed"
     },
     "warning": {
-      "dark": "darkStep7",
+      "dark": "darkStep11",
       "light": "lightOrange"
     },
     "success": {
@@ -67,7 +67,7 @@
       "light": "lightGreen"
     },
     "info": {
-      "dark": "darkStep7",
+      "dark": "darkStep9",
       "light": "lightStep9"
     },
     "text": {
@@ -75,7 +75,7 @@
       "light": "lightStep12"
     },
     "textMuted": {
-      "dark": "darkStep7",
+      "dark": "darkStep11",
       "light": "lightStep11"
     },
     "background": {
