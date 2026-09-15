@@ -1,4 +1,5 @@
 theme = "TokyoNight"
+background = #181818
 
 minimum-contrast = 1.1
 
@@ -27,7 +28,7 @@ font-variation-bold-italic = wght=500
 
 adjust-cell-height = 10%
 
-background-opacity = 0.92
+background-opacity = 0.85
 background-blur-radius = true
 
 confirm-close-surface = false
