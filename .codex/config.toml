@@ -111,6 +111,15 @@ trust_level = "trusted"
 [projects."/Users/jbaldwin/Documents/Codex/2026-09-09/referenced-chatgpt-conversation-this-is-an"]
 trust_level = "trusted"
 
+[projects."/Users/jbaldwin/Documents/Codex/2026-09-14/paste-this-into-computer-work-mode"]
+trust_level = "trusted"
+
+[projects."/Users/jbaldwin/Documents/Codex/2026-09-14/br"]
+trust_level = "trusted"
+
+[projects."/Users/jbaldwin/Documents/Codex/2026-09-14/what"]
+trust_level = "trusted"
+
 [desktop]
 appearanceTheme = "dark"
 appearanceLightCodeThemeId = "linear"
@@ -122,7 +131,8 @@ git-branch-prefix = "jb/"
 git-show-sidebar-pr-icons = true
 dock-icon-preference = "codex-system"
 usePointerCursors = false
-conversationDetailMode = "STEPS_PROSE"
+conversationDetailMode = "STEPS_COMMANDS"
+enabled-reasoning-efforts = ["low", "medium", "high", "xhigh", "ultra", "persistent", "max"]
 
 [desktop.appearanceLightChromeTheme]
 accent = "#5e6ad2"
@@ -182,8 +192,8 @@ NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = ""
 NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = ""
 NODE_REPL_INSTRUCTIONS_USE_CASE_COMPUTER_USE = ""
 BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
-BROWSER_USE_CODEX_APP_VERSION = "26.901.41600"
-NODE_REPL_TRUSTED_SERVICES = '{"browser":"/Users/jbaldwin/.codex/plugins/cache/openai-bundled/browser/26.901.41600/scripts/browser-service.mjs","sky":"@oai/sky/service"}'
+BROWSER_USE_CODEX_APP_VERSION = "26.908.40834"
+NODE_REPL_TRUSTED_SERVICES = '{"browser":"/Users/jbaldwin/.codex/plugins/cache/openai-bundled/browser/26.908.40834/scripts/browser-service.mjs","sky":"@oai/sky/service"}'
 SKY_CUA_SERVICE_PATH = "/Users/jbaldwin/.codex/computer-use/Codex Computer Use.app"
 CODEX_CLI_PATH = "/Applications/ChatGPT.app/Contents/Resources/codex"
 
