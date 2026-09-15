@@ -3,6 +3,7 @@
   "autoupdate": true,
   "permission": {
     "*": "allow",
+    "open-computer-use*": "ask",
     "bash": {
       "*": "allow",
       "vercel deploy*": "ask",
@@ -15,6 +16,11 @@
   },
   "plugin": ["@plannotator/opencode@latest"],
   "mcp": {
+    "open-computer-use": {
+      "type": "local",
+      "command": ["/Users/jbaldwin/.local/share/computer-use/node_modules/.bin/open-computer-use", "mcp"],
+      "enabled": true
+    },
     "zapier-mcp": {
       "type": "remote",
       "url": "{env:ZAPIER_MCP_URL}",

@@ -9,7 +9,8 @@
     "npm:@ff-labs/pi-fff",
     "npm:pi-web-access",
     "npm:pi-agent-browser-native",
-    "git:github.com/nicobailon/pi-subagents@781290b3ddf5cb169edf9ed1e43ad05b4398cc51"
+    "git:github.com/nicobailon/pi-subagents@781290b3ddf5cb169edf9ed1e43ad05b4398cc51",
+    "npm:@injaneity/pi-computer-use@0.5.1"
   ],
   "defaultProvider": "openai-codex",
   "defaultModel": "gpt-6-astra",
