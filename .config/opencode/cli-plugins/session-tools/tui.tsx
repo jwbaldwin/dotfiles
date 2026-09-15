@@ -2,6 +2,7 @@ import { Plugin } from "@opencode/plugin/tui";
 import { createEffect, createRoot, Show } from "solid-js";
 
 import { setupBackground } from "./background.ts";
+import { BackgroundResult } from "./background-result.tsx";
 import { setupBtw } from "./btw.tsx";
 import { setupParking } from "./parking.ts";
 import { PromptInfo } from "./prompt-info.tsx";
@@ -103,6 +104,11 @@ export default Plugin.define({
         append: "session.composer.top",
         render: (session) => (
           <box flexDirection="column">
+            <BackgroundResult
+              context={context}
+              sessionID={session.sessionID}
+              background={background}
+            />
             <Show when={parking.state.sessions[session.sessionID]}>
               {(record) => (
                 <text fg={context.theme.text.default}>

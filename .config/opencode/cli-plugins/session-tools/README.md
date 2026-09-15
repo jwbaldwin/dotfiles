@@ -23,6 +23,7 @@ plugin API exposes only the footer below it.
 - `/btw <question>` answers a side question using the current conversation without adding it to the transcript.
 - `/bg <task>` starts a separate session with the current context and tools.
 - `/bg` opens background tasks and their results.
+- `/bg-result` opens actions for the result card above the prompt.
 
 Parking saves an optional note and keeps the current session open. Sending a new
 prompt automatically unparks it. The inbox shows the note and last assistant
@@ -36,6 +37,12 @@ They survive closing the TUI. `/bg` lets you open, stop, copy, or remove a task 
 the list. **Bring result into original chat** explicitly queues its answer for the
 next main-chat turn; otherwise its prompt and results stay out of that chat.
 
+Completed tasks show a Markdown result card above the original session's prompt.
+Long answers scroll within the card. Click Actions or use `/bg-result` to view the
+full answer and access task controls. When several results are waiting, Next
+cycles through them. Dismiss hides only the card; the task stays in `/bg`.
+Cards and dismissals survive TUI restarts. Cards never take keyboard focus.
+
 tmux uses the pane options `@opencode-status` and `@opencode-status-icon`:
 `busy` (animated), `attention` (`?`), `parked` (`◌`), `idle` (`✓`), and `error` (`!`).
 
@@ -46,6 +53,6 @@ The plugin runs in the terminal client so each tmux pane reports its own session
 `npm ci`, then `npm run types` and `npm test`.
 
 `python3 smoke-test.py` exercises the installed V2 TUI in a disposable tmux server.
-It makes three short model requests, checks transcript isolation, and removes its
+It makes four short model requests, checks transcript isolation, and removes its
 test sessions afterward. It requires macOS, tmux, Jujutsu, and an authenticated OpenCode
 service.

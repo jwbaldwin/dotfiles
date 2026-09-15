@@ -13,4 +13,10 @@ export type BackgroundTask = {
   task: string;
   startedAt: number;
   error?: string;
+  completion?: {
+    outcome: "complete" | "failed" | "interrupted";
+    answer: string;
+    finishedAt: number;
+    dismissed?: boolean;
+  };
 };

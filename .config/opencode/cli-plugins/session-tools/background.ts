@@ -1,13 +1,32 @@
 import type { Context, KeymapCommand } from "@opencode/plugin/tui/context";
 import type { BackgroundTask } from "./types.ts";
+import { createSignal } from "solid-js";
 import { copyText } from "./clipboard.js";
 import { backgroundReply, currentSessionID, sessionStatus, showError } from "./sessions.ts";
 
 export function setupBackground(context: Context) {
+  const [dialogOpen, setDialogOpen] = createSignal(false);
   const [state, update] = context.storage.store<{ tasks: Record<string, BackgroundTask> }>(
     "background",
     { initial: { tasks: {} } },
   );
+  const saveCompletion = async (
+    sessionID: string,
+    outcome: "complete" | "failed" | "interrupted",
+    finishedAt: number,
+    error?: string,
+  ) => {
+    const messages = await context.client.session.context({ sessionID });
+    const reply = backgroundReply(messages, sessionID);
+    const answer = error
+      ? [error, reply].filter(Boolean).join("\n\n")
+      : (reply ?? "No background response returned.");
+    await update((draft) => {
+      const task = draft.tasks[sessionID];
+      if (task && (!task.completion || task.completion.finishedAt < finishedAt))
+        task.completion = { outcome, answer, finishedAt };
+    });
+  };
   const stop = context.data.listen(({ details }) => {
     if (details.type === "session.deleted" && state.tasks[details.data.sessionID]) {
       void update((draft) => {
@@ -23,6 +42,16 @@ export function setupBackground(context: Context) {
       return;
     const task = state.tasks[details.data.sessionID];
     if (!task) return;
+    void saveCompletion(
+      task.sessionID,
+      details.type === "session.execution.succeeded"
+        ? "complete"
+        : details.type === "session.execution.failed"
+          ? "failed"
+          : "interrupted",
+      details.created,
+      details.type === "session.execution.failed" ? details.data.error.message : undefined,
+    ).catch((error) => showError(context, error));
     context.ui.toast.show({
       title:
         details.type === "session.execution.succeeded"
@@ -33,6 +62,61 @@ export function setupBackground(context: Context) {
     });
   });
 
+  const dismiss = async (sessionID: string) => {
+    await update((draft) => {
+      const completion = draft.tasks[sessionID]?.completion;
+      if (completion) completion.dismissed = true;
+    });
+  };
+  const act = async (task: BackgroundTask, action: string, reply?: string) => {
+    const sessionID = task.sessionID;
+    if (action === "open") context.ui.router.navigate({ type: "session", sessionID });
+    if (action === "copy" && reply) {
+      await copyText(reply);
+      context.ui.toast.show({ message: "Copied result." });
+    }
+    if (action === "bring" && reply) {
+      await context.client.session.synthetic({
+        sessionID: task.originSessionID,
+        text: `Background task: ${task.task}\n\n${reply}`,
+        resume: false,
+      });
+      context.ui.toast.show({ message: "Result queued for the next turn in the original chat." });
+    }
+    if (action === "stop") await context.client.session.interrupt({ sessionID, continue: false });
+    if (action === "dismiss") await dismiss(sessionID);
+    if (action === "remove")
+      await update((draft) => {
+        delete draft.tasks[sessionID];
+      });
+  };
+  const actions = async (task: BackgroundTask, reply?: string, card = false, next?: () => void) => {
+    setDialogOpen(true);
+    try {
+      const action = await context.ui.dialog.select({
+        title: "Background task",
+        options: [
+          ...(card ? [{ title: "View full result", value: "view" }] : []),
+          ...(next ? [{ title: "Next completed result", value: "next" }] : []),
+          { title: "Open task session", value: "open" },
+          { title: "Copy result", value: "copy", disabled: !reply },
+          { title: "Bring result into original chat", value: "bring", disabled: !reply },
+          { title: "Stop task", value: "stop" },
+          ...(card ? [{ title: "Dismiss result card", value: "dismiss" }] : []),
+          { title: "Remove from task list", value: "remove" },
+        ],
+      });
+      if (action === "view")
+        await context.ui.dialog.alert({
+          title: task.task,
+          message: reply ?? "No background response yet.",
+        });
+      else if (action === "next") next?.();
+      else if (action) await act(task, action, reply);
+    } finally {
+      setDialogOpen(false);
+    }
+  };
   const browse = async () => {
     const tasks = Object.values(state.tasks).sort((a, b) => b.startedAt - a.startedAt);
     if (!tasks.length) {
@@ -71,34 +155,7 @@ export function setupBackground(context: Context) {
       title: task.task,
       message: task.error ?? reply ?? "No background response yet.",
     });
-    const action = await context.ui.dialog.select({
-      title: "Background task",
-      options: [
-        { title: "Open task session", value: "open" },
-        { title: "Copy result", value: "copy", disabled: !reply },
-        { title: "Bring result into original chat", value: "bring", disabled: !reply },
-        { title: "Stop task", value: "stop" },
-        { title: "Remove from task list", value: "remove" },
-      ],
-    });
-    if (action === "open") context.ui.router.navigate({ type: "session", sessionID });
-    if (action === "copy" && reply) {
-      await copyText(reply);
-      context.ui.toast.show({ message: "Copied result." });
-    }
-    if (action === "bring" && reply) {
-      await context.client.session.synthetic({
-        sessionID: task.originSessionID,
-        text: `Background task: ${task.task}\n\n${reply}`,
-        resume: false,
-      });
-      context.ui.toast.show({ message: "Result queued for the next turn in the original chat." });
-    }
-    if (action === "stop") await context.client.session.interrupt({ sessionID, continue: false });
-    if (action === "remove")
-      await update((draft) => {
-        delete draft.tasks[sessionID];
-      });
+    await actions(task, reply);
   };
 
   const commands: KeymapCommand[] = [
@@ -110,7 +167,14 @@ export function setupBackground(context: Context) {
       slash: { name: "bg", arguments: true },
       run: async (input = "") => {
         const task = input.trim();
-        if (!task) return browse();
+        if (!task) {
+          setDialogOpen(true);
+          try {
+            return await browse();
+          } finally {
+            setDialogOpen(false);
+          }
+        }
         const originSessionID = currentSessionID(context);
         if (!originSessionID) {
           context.ui.toast.show({ message: "Open a session before starting /bg." });
@@ -161,5 +225,5 @@ export function setupBackground(context: Context) {
       },
     },
   ];
-  return { state, commands, dispose: stop };
+  return { state, commands, actions, dismiss, dialogOpen, dispose: stop };
 }

@@ -57,6 +57,12 @@ def status():
     return tmux("display-message", "-p", "-t", "smoke", "#{@opencode-status}").strip()
 
 
+def choose_action(title):
+    wait_for(lambda: title in screen(), title)
+    tmux("send-keys", "-t", "smoke", "-l", title)
+    keys("Enter")
+
+
 def context(session_id):
     return api("v2.session.context", session_id)["data"]
 
@@ -141,15 +147,38 @@ with tempfile.TemporaryDirectory(prefix="session-tools-", dir=temporary_root) as
         assert "BACKGROUND_OK" in last_text(context(fork))
         assert context(origin) == baseline, "Background task changed the main transcript"
 
+        wait_for(lambda: "Background task complete" in screen() and "Actions · /bg-result" in screen(), "automatic background result card")
+        assert screen().count("BACKGROUND_OK") >= 2, "Card did not render the answer"
+        tmux("send-keys", "-t", "smoke", "-l", "ci")
+        wait_for(lambda: any(line.strip().endswith("ci") for line in screen().splitlines()), "completion card leaves typing alone")
+        keys("BSpace", "BSpace")
+        tmux("respawn-pane", "-k", "-t", "smoke", launch)
+        wait_for(lambda: "Actions · /bg-result" in screen(), "result card survives restart")
+        command("/bg Reply with exactly SECOND_RESULT_OK. Do not use tools.")
+        wait_for(lambda: "1 of 2 · Next" in screen(), "multiple completed results", 120)
+        command("/bg-result")
+        choose_action("Next completed result")
+        wait_for(lambda: "2 of 2 · Next" in screen() and screen().count("SECOND_RESULT_OK") >= 2, "cycle completed results")
+        command("/bg-result")
+        choose_action("Remove from task list")
+        wait_for(lambda: "of 2 · Next" not in screen() and "Background task complete" in screen(), "remove selected result")
+        command("/bg-result")
+        choose_action("Dismiss result card")
+        wait_for(lambda: "Actions · /bg-result" not in screen(), "dismiss result card")
+        assert "Background tasks:" in screen(), "Dismissing removed the task"
+        tmux("respawn-pane", "-k", "-t", "smoke", launch)
+        wait_for(lambda: "Background tasks:" in screen(), "dismissed task survives restart")
+        assert "Actions · /bg-result" not in screen(), "Dismissed card returned after restart"
+        assert context(origin) == baseline, "Result card changed the main transcript"
+
         command("/bg")
         wait_for(lambda: "Background tasks" in screen(), "background picker")
         keys("Enter")
         wait_for(lambda: alert_open("BACKGROUND_OK"), "background result")
         keys("Enter")
-        wait_for(lambda: "Remove from task list" in screen(), "background controls")
-        keys("Down", "Down", "Down", "Down", "Enter")
+        choose_action("Remove from task list")
         wait_for(lambda: "Background tasks:" not in screen(), "remove finished task")
-        print("Passed: V2 loading, prompt status/focus refresh, tmux, parking persistence/inbox, /btw, /bg, and transcript isolation")
+        print("Passed: prompt status, tmux, parking, /btw, /bg cards/actions/cycling/dismissal/persistence, and transcript isolation")
     finally:
         if sessions:
             for session in api("v2.session.list")["data"]:
