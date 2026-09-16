@@ -3,6 +3,7 @@
   "autoupdate": true,
   "permission": {
     "*": "allow",
+    "codex-computer-use*": "ask",
     "bash": {
       "*": "allow",
       "vercel deploy*": "ask",
@@ -15,6 +16,11 @@
   },
   "plugin": ["@plannotator/opencode@latest"],
   "mcp": {
+    "codex-computer-use": {
+      "type": "local",
+      "command": ["/Users/jbaldwin/.local/share/codex-computer-use/node_modules/.bin/codex-computer-use-mcp"],
+      "enabled": true
+    },
     "zapier-mcp": {
       "type": "remote",
       "url": "{env:ZAPIER_MCP_URL}",
@@ -37,14 +43,6 @@
       "type": "remote",
       "url": "https://mcp.pscale.dev/mcp/planetscale",
       "enabled": true
-    },
-    "servers": {
-      "computer-use": {
-        "type": "local",
-        "command": [
-          "/Users/jbaldwin/.local/share/computer-use/node_modules/.bin/codex-computer-use-mcp"
-        ]
-      }
     }
   }
 }
