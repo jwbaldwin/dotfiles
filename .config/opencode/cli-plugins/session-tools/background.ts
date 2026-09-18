@@ -83,7 +83,7 @@ export function setupBackground(context: Context) {
       });
       context.ui.toast.show({ message: "Result queued for the next turn in the original chat." });
     }
-    if (action === "stop") await context.client.session.interrupt({ sessionID, continue: false });
+    if (action === "stop") await context.client.session.interrupt({ sessionID });
     if (action === "dismiss") await dismiss(sessionID);
     if (action === "remove")
       await update((draft) => {
@@ -185,7 +185,6 @@ export function setupBackground(context: Context) {
         const detached = messages.length
           ? await context.client.session.fork({
               sessionID: originSessionID,
-              boundary: { type: "through" },
             })
           : await context.client.session.create({
               location: origin.location,
@@ -204,7 +203,7 @@ export function setupBackground(context: Context) {
           };
         });
         try {
-          await context.client.session.rename({ sessionID, title: `BG: ${task.slice(0, 90)}` });
+          await context.client.session.update({ sessionID, title: `BG: ${task.slice(0, 90)}` });
           await context.client.session.prompt({
             sessionID,
             metadata: { "session-tools.background": sessionID },

@@ -3,7 +3,7 @@
   "autoupdate": true,
   "permission": {
     "*": "allow",
-    "codex-computer-use*": "ask",
+    "codex-computer-use*": "allow",
     "bash": {
       "*": "allow",
       "vercel deploy*": "ask",
@@ -14,6 +14,9 @@
       "vercel rollback*": "ask"
     }
   },
+  "permissions": [
+    { "action": "codex_computer_use_*", "resource": "*", "effect": "allow" }
+  ],
   "plugin": ["@plannotator/opencode@latest"],
   "mcp": {
     "codex-computer-use": {

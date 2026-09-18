@@ -12,6 +12,7 @@
     "agent.cycle.reverse": "none"
   },
   "plugins": [
+    "-opencode.btw",
     "./cli-plugins/session-tools"
   ],
   "attention": {
