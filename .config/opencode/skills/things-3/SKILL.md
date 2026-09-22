@@ -28,6 +28,13 @@ Prefer scripting interfaces over driving an app's window. They are faster and mo
 - The tag does not authorize purchases, payments, messages, or other commitments. When permission is missing, save the prepared next step and ask.
 - Confirm the real outcome, such as an order confirmation or a sent message, before recording it. If a result is unclear, check history before retrying so nothing happens twice.
 
+## Return drop-off locations
+
+When a return asks for a drop-off location, choose these without asking:
+
+- **UPS**: The UPS Store, 7371 Atlas Walk Way, Gainesville, VA 20155. It is near other stores James visits, so prefer it even when another UPS location is closer.
+- **FedEx**: the Walgreens on Devlin Road in Bristow, VA.
+
 ## Finishing and follow-ups
 
 - Complete the task when its outcome is achieved. James wants to see work finished and new work created.
