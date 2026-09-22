@@ -131,7 +131,7 @@ git-branch-prefix = "jb/"
 git-show-sidebar-pr-icons = true
 dock-icon-preference = "codex-system"
 usePointerCursors = false
-conversationDetailMode = "STEPS_COMMANDS"
+conversationDetailMode = "STEPS_PROSE"
 enabled-reasoning-efforts = ["low", "medium", "high", "xhigh", "ultra", "persistent", "max"]
 
 [desktop.appearanceLightChromeTheme]
