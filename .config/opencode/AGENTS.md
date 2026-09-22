@@ -64,6 +64,7 @@ Always invoke the matching skill for these workflows; never perform them manuall
 
 | Intent | Skill |
 | --- | --- |
+| Manage Things 3 or execute its tasks: “check my Things tasks”, “work through my Agent tasks”, “add a Things to-do”, “resume this Things task” | `things-3` |
 | Review an MR, branch, or code change | `code-review` |
 | Run a harsh maintainability review | `thermo-nuclear-code-quality-review` |
 | Address or triage MR feedback | `mr-comment-triage` |
