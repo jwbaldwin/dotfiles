@@ -53,7 +53,7 @@ export function BackgroundResult(props: {
     ],
   }));
   const syntaxStyle = createMemo(() => {
-    const style = generateSyntax(context.theme, context.themeMode);
+    const style = generateSyntax(context.theme);
     onCleanup(() => style.destroy());
     return style;
   });
@@ -63,15 +63,15 @@ export function BackgroundResult(props: {
         <box
           flexDirection="column"
           border={["top", "bottom"]}
-          borderColor={context.theme.border.default}
+          borderColor={context.theme.border.base}
           paddingX={1}
           gap={1}
         >
           <text
             fg={
               task().completion?.outcome === "complete"
-                ? context.theme.text.status.question
-                : context.theme.text.feedback.error.default
+                ? context.theme.text.feedback.warning.base
+                : context.theme.text.feedback.error.base
             }
             wrapMode="word"
           >
@@ -87,17 +87,17 @@ export function BackgroundResult(props: {
             />
           </scrollbox>
           <box flexDirection="row" gap={2}>
-            <text fg={context.theme.text.subdued} onMouseDown={() => run(actions)}>
+            <text fg={context.theme.text.muted} onMouseDown={() => run(actions)}>
               Actions · /bg-result
             </text>
             <Show when={tasks().length > 1}>
-              <text fg={context.theme.text.subdued} onMouseDown={next}>
+            <text fg={context.theme.text.muted} onMouseDown={next}>
                 {tasks().findIndex((entry) => entry.sessionID === task().sessionID) + 1} of{" "}
                 {tasks().length} · Next
               </text>
             </Show>
             <text
-              fg={context.theme.text.subdued}
+              fg={context.theme.text.muted}
               onMouseDown={() => run(() => props.background.dismiss(task().sessionID))}
             >
               Dismiss

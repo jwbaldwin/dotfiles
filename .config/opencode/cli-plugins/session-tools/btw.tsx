@@ -84,7 +84,7 @@ export function setupBtw(context: Context) {
       >
         {(() => {
           const syntaxStyle = createMemo(() => {
-            const style = generateSyntax(context.theme, context.themeMode);
+            const style = generateSyntax(context.theme);
             onCleanup(() => style.destroy());
             return style;
           });
@@ -119,7 +119,7 @@ export function setupBtw(context: Context) {
                 height="100%"
                 flexDirection="column"
                 border={["top", "bottom"]}
-                borderColor={context.theme.border.default}
+              borderColor={context.theme.border.base}
                 title=" /btw "
                 paddingX={1}
                 paddingY={1}
@@ -127,7 +127,7 @@ export function setupBtw(context: Context) {
               >
                 <scrollbox flexGrow={1} minHeight={0}>
                   <box flexDirection="column" gap={1}>
-                    <text fg={context.theme.text.status.question} wrapMode="word">
+                    <text fg={context.theme.text.feedback.warning.base} wrapMode="word">
                       {state.question?.question}
                     </text>
                     <Show
@@ -136,8 +136,8 @@ export function setupBtw(context: Context) {
                         <text
                           fg={
                             state.question?.status === "error"
-                              ? context.theme.text.feedback.error.default
-                              : context.theme.text.subdued
+                              ? context.theme.text.feedback.error.base
+                              : context.theme.text.muted
                           }
                         >
                           {state.question?.status === "running"
@@ -160,7 +160,7 @@ export function setupBtw(context: Context) {
                     </Show>
                   </box>
                 </scrollbox>
-                <text fg={context.theme.text.subdued}>
+                <text fg={context.theme.text.muted}>
                   {state.question?.status === "running" ? "Esc cancel" : "c copy · Esc dismiss"}
                 </text>
               </box>

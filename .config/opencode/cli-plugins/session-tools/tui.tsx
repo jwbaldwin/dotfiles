@@ -111,7 +111,7 @@ export default Plugin.define({
             />
             <Show when={parking.state.sessions[session.sessionID]}>
               {(record) => (
-                <text fg={context.theme.text.default}>
+                <text fg={context.theme.text.base}>
                   ◌ Parked{record().note ? ` — ${record().note}` : ""}
                 </text>
               )}
@@ -121,7 +121,7 @@ export default Plugin.define({
                 (task) => task.originSessionID === session.sessionID,
               )}
             >
-              <text fg={context.theme.text.default}>
+                <text fg={context.theme.text.base}>
                 Background tasks:{" "}
                 {
                   Object.values(background.state.tasks).filter(

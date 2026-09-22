@@ -110,15 +110,15 @@ export function PromptInfo(props: {
     <box flexDirection="row" gap={2} width="100%" height={1} overflow="hidden">
       <text flexGrow={1} flexShrink={1} wrapMode="none" overflow="hidden">
         <Show when={props.mode === "shell"}>
-          <span style={{ fg: context.theme.text.subdued }}>! shell </span>
+          <span style={{ fg: context.theme.text.muted }}>! shell </span>
         </Show>
-        <span style={{ fg: context.theme.text.feedback.info.default }}>
+        <span style={{ fg: context.theme.text.feedback.info.base }}>
           {directory()}
         </span>
         <Show when={jujutsu()}>
           {(status) => (
             <>
-              <span style={{ fg: context.theme.text.feedback.success.default }}>  </span>
+              <span style={{ fg: context.theme.text.feedback.success.base }}>  </span>
               <span style={{ fg: context.theme.syntax.keyword }}>
                 <b>{status().changeID}</b>
               </span>
@@ -145,7 +145,7 @@ export function PromptInfo(props: {
           )}
         </Show>
       </text>
-      <text fg={context.theme.text.subdued} flexShrink={0}>
+      <text fg={context.theme.text.muted} flexShrink={0}>
         {percent()}
       </text>
     </box>
