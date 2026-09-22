@@ -1,11 +1,8 @@
-
-
-notify = ["/Users/jbaldwin/.codex/computer-use/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient", "turn-ended"]
-approval_policy = "on-request"
-approvals_reviewer = "guardian_subagent"
-sandbox_mode = "workspace-write"
 model = "gpt-6-astra"
 model_reasoning_effort = "medium"
+
+notify = ["/Users/jbaldwin/.codex/computer-use/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient", "turn-ended"]
+service_tier = "priority"
 
 [marketplaces.openai-bundled]
 source_type = "local"
@@ -24,19 +21,16 @@ enabled = true
 [plugins."presentations@openai-primary-runtime"]
 enabled = true
 
-[plugins."github@openai-curated"]
-enabled = true
-
-[plugins."pdf@openai-primary-runtime"]
+[plugins."slack@openai-curated"]
 enabled = true
 
 [plugins."computer-use@openai-bundled"]
 enabled = true
 
-[plugins."template-creator@openai-primary-runtime"]
+[plugins."pdf@openai-primary-runtime"]
 enabled = true
 
-[plugins."sites@openai-bundled"]
+[plugins."template-creator@openai-primary-runtime"]
 enabled = true
 
 [plugins."visualize@openai-bundled"]
@@ -51,88 +45,134 @@ enabled = true
 [plugins."unified-computer-use@openai-bundled"]
 enabled = true
 
-[projects."/Users/jbaldwin/repos/projects/annie"]
+[projects."/Users/jbaldwin/repos/mcp"]
 trust_level = "trusted"
 
-[projects."/Users/jbaldwin/Documents/life"]
+[projects."/Users/jbaldwin/repos"]
 trust_level = "trusted"
 
-[projects."/Users/jbaldwin/repos/projects/inboxes"]
+[projects."/Users/jbaldwin/repos/ai-command-center"]
 trust_level = "trusted"
 
-[projects."/Users/jbaldwin/repos/projects/web"]
+[projects."/Users/jbaldwin/Documents/Codex/2026-06-16/goal-find-me-the-best-deal"]
 trust_level = "trusted"
 
-[projects."/Users/jbaldwin/Documents/Codex/2026-06-09/https-github-com-withbranches-can-you"]
+[projects."/Users/jbaldwin/Documents/Codex/2026-06-16/linear-in-slack-is-awesome-however"]
 trust_level = "trusted"
 
-[projects."/Users/jbaldwin/repos/projects/anron-icons"]
+[projects."/Users/jbaldwin/Documents/Codex/2026-06-24/https-zapier-slack-com-archives-d09e470kw05"]
 trust_level = "trusted"
 
-[projects."/Users/jbaldwin/conductor/repos/Starter project"]
+[projects."/Users/jbaldwin/Documents/Codex/2026-07-02/giv"]
 trust_level = "trusted"
 
-[projects."/Users/jbaldwin/conductor/repos/elixir-inertia-template"]
+[projects."/Users/jbaldwin/repos/perf-review-h1"]
 trust_level = "trusted"
 
-[projects."/Users/jbaldwin/repos/projects/arnor"]
+[projects."/Users/jbaldwin/Documents/Codex/2026-07-14/can"]
 trust_level = "trusted"
 
-[projects."/Users/jbaldwin/Documents/Codex/2026-07-25/realtime-voice-chat"]
+[projects."/Users/jbaldwin/Documents/Codex/2026-07-14/lo"]
 trust_level = "trusted"
 
-[projects."/Users/jbaldwin/repos/projects/mmentum"]
+[projects."/Users/jbaldwin/Documents/Codex/2026-07-17/can"]
 trust_level = "trusted"
 
-[projects."/Users/jbaldwin/Documents/Codex/2026-08-02/referenced-chatgpt-conversation-this-is-an"]
+[projects."/Users/jbaldwin/Documents/Codex/2026-07-17/can-you-look-at-my-perf"]
 trust_level = "trusted"
 
-[projects."/Users/jbaldwin/Documents/Codex/2026-08-04/referenced-chatgpt-conversation-this-is-an"]
+[projects."/Users/jbaldwin/Documents/Codex/2026-07-17/c"]
 trust_level = "trusted"
 
-[projects."/Users/jbaldwin/Documents/Codex/2026-08-09/continue-my-msi-rtx-4060-ti"]
+[projects."/Users/jbaldwin/Documents/Codex/2026-07-24/yeah"]
 trust_level = "trusted"
 
-[projects."/Users/jbaldwin/Documents/Codex/2026-08-18/referenced-chatgpt-conversation-this-is-an"]
+[projects."/Users/jbaldwin/Documents/Codex/2026-07-28/can-you-research-and-find-me"]
 trust_level = "trusted"
 
-[projects."/Users/jbaldwin/Documents/ChatGPT/vibes"]
+[projects."/Users/jbaldwin/Documents/Codex/2026-07-31/i-want-to-write-up-what"]
 trust_level = "trusted"
 
-[projects."/Users/jbaldwin/Documents/Codex/2026-09-08/paste-this-into-the-new-chat"]
+[projects."/Users/jbaldwin/Documents/Codex/2026-08-03/use"]
 trust_level = "trusted"
 
-[projects."/Users/jbaldwin/Documents/Codex/2026-09-08/files-pasted-by-the-user-finish"]
+[projects."/Users/jbaldwin/Documents/Codex/2026-08-13/run-one-autonomous-backlog-ticket-pass"]
 trust_level = "trusted"
 
-[projects."/Users/jbaldwin/Documents/Codex/2026-09-09/us"]
+[projects."/Users/jbaldwin/Documents/Codex/2026-08-13/use-the-improve-codebase-architecture-skill"]
 trust_level = "trusted"
 
-[projects."/Users/jbaldwin/Documents/Codex/2026-09-09/referenced-chatgpt-conversation-this-is-an"]
+[projects."/Users/jbaldwin/Documents/Codex/2026-08-18/can-you-find-the-codex-thread"]
 trust_level = "trusted"
 
-[projects."/Users/jbaldwin/Documents/Codex/2026-09-14/paste-this-into-computer-work-mode"]
+[projects."/Users/jbaldwin/Documents/Codex/2026-08-21/mr987-local-connector-test"]
 trust_level = "trusted"
 
-[projects."/Users/jbaldwin/Documents/Codex/2026-09-14/br"]
+[projects."/Users/jbaldwin/Documents/Codex/2026-08-25/yo"]
 trust_level = "trusted"
 
-[projects."/Users/jbaldwin/Documents/Codex/2026-09-14/what"]
+[projects."/Users/jbaldwin/Documents/Codex/2026-09-08/can-you-find-the-items-in"]
 trust_level = "trusted"
+
+[projects."/Users/jbaldwin/Documents/Codex/2026-09-08/where-is-my-astra-i-only"]
+trust_level = "trusted"
+
+[projects."/Users/jbaldwin/Documents/Codex/2026-09-09/plugin-creator-users-jbaldwin-codex-skills"]
+trust_level = "trusted"
+
+[projects."/Users/jbaldwin/Documents/Codex/2026-09-10/can-you-do-a-deep-comparison"]
+trust_level = "trusted"
+
+[mcp_servers.node_repl]
+args = []
+command = "/Applications/Codex.app/Contents/Resources/cua_node/bin/node_repl"
+startup_timeout_sec = 120
+
+[mcp_servers.node_repl.env]
+NODE_REPL_NATIVE_PIPE_CONNECT_TIMEOUT_MS = "1000"
+NODE_REPL_NODE_MODULE_DIRS = "/Applications/Codex.app/Contents/Resources/cua_node/lib/node_modules"
+NODE_REPL_NODE_PATH = "/Applications/Codex.app/Contents/Resources/cua_node/bin/node"
+NODE_REPL_TRUSTED_CODE_PATHS = "/Users/jbaldwin/.codex:/Applications/Codex.app/Contents/Resources/cua_node/lib/node_modules"
+CODEX_HOME = "/Users/jbaldwin/.codex"
+BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab"
+BROWSER_USE_TINYSKY_ENABLED = "1"
+NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = ""
+NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = ""
+NODE_REPL_INSTRUCTIONS_USE_CASE_COMPUTER_USE = ""
+BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
+BROWSER_USE_CODEX_APP_VERSION = "26.908.40834"
+NODE_REPL_TRUSTED_SERVICES = '{"browser":"/Users/jbaldwin/.codex/plugins/cache/openai-bundled/browser/26.908.40834/scripts/browser-service.mjs","sky":"@oai/sky/service"}'
+SKY_CUA_SERVICE_PATH = "/Users/jbaldwin/.codex/computer-use/Codex Computer Use.app"
+CODEX_CLI_PATH = "/Applications/Codex.app/Contents/Resources/codex"
+
+[mcp_servers.computer-use]
+command = "./Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient"
+args = ["mcp"]
+cwd = "."
+enabled = false
+
+[mcp_servers.zapier_mcp]
+enabled = true
+url = "https://mcp.zapier.com/api/v1/connect"
 
 [desktop]
-appearanceTheme = "dark"
+ambient-suggestions-enabled = true
 appearanceLightCodeThemeId = "linear"
-appearanceDarkCodeThemeId = "oscurange"
-sansFontSize = 16
-codeFontSize = 16
-followUpQueueMode = "steer"
+appearanceDarkCodeThemeId = "codex"
 git-branch-prefix = "jb/"
-git-show-sidebar-pr-icons = true
+conversationDetailMode = "STEPS_PROSE"
+default-service-tier = "priority"
+followUpQueueMode = "steer"
+codeFontSize = 16
+sansFontSize = 16
 dock-icon-preference = "codex-system"
 usePointerCursors = false
-conversationDetailMode = "STEPS_PROSE"
+avatar-overlay-mascot-width-px = 154
 enabled-reasoning-efforts = ["low", "medium", "high", "xhigh", "ultra", "persistent", "max"]
+selected-avatar-id = "custom:meru"
+defaultTerminalLocation = "right"
+preventSleepWhileRunning = false
+composerPlainTextMode = true
 
 [desktop.appearanceLightChromeTheme]
 accent = "#5e6ad2"
@@ -150,63 +190,45 @@ diffRemoved = "#c94446"
 skill = "#8160d8"
 
 [desktop.appearanceDarkChromeTheme]
-accent = "#f6fa8c"
-accentSource = "custom"
-contrast = 72
-ink = "#e6e6e6"
+accent = "#dbe60e"
+contrast = 73
+ink = "#e5e5e5"
 opaqueWindows = false
-surface = "#0b0b0f"
+surface = "#111111"
 
 [desktop.appearanceDarkChromeTheme.fonts]
-code = "Berkeley Mono"
 
 [desktop.appearanceDarkChromeTheme.semanticColors]
-diffAdded = "#40c977"
-diffRemoved = "#fa423e"
-skill = "#479ffa"
+diffAdded = "#00a240"
+diffRemoved = "#e02e2a"
+skill = "#b06dff"
 
 [desktop.open-in-target-preferences]
 global = "ghostty"
 
 [desktop.open-in-target-preferences.perPath]
-"/Users/jbaldwin/repos/projects/annie" = "ghostty"
+"/Users/jbaldwin/.codex/worktrees/7e2d/mcp" = "ghostty"
 
 [features]
+hooks = true
 js_repl = false
 
-hooks = true
-[mcp_servers.node_repl]
-args = []
-command = "/Applications/ChatGPT.app/Contents/Resources/cua_node/bin/node_repl"
-startup_timeout_sec = 120
+[hooks.state]
 
-[mcp_servers.node_repl.env]
-NODE_REPL_NATIVE_PIPE_CONNECT_TIMEOUT_MS = "1000"
-NODE_REPL_NODE_MODULE_DIRS = "/Applications/ChatGPT.app/Contents/Resources/cua_node/lib/node_modules"
-NODE_REPL_NODE_PATH = "/Applications/ChatGPT.app/Contents/Resources/cua_node/bin/node"
-NODE_REPL_TRUSTED_CODE_PATHS = "/Users/jbaldwin/.codex:/Applications/ChatGPT.app/Contents/Resources/cua_node/lib/node_modules"
-CODEX_HOME = "/Users/jbaldwin/.codex"
-BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab"
-BROWSER_USE_TINYSKY_ENABLED = "1"
-NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = ""
-NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = ""
-NODE_REPL_INSTRUCTIONS_USE_CASE_COMPUTER_USE = ""
-BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
-BROWSER_USE_CODEX_APP_VERSION = "26.908.70816"
-NODE_REPL_TRUSTED_SERVICES = '{"browser":"/Users/jbaldwin/.codex/plugins/cache/openai-bundled/browser/26.908.70816/scripts/browser-service.mjs","sky":"@oai/sky/service"}'
-SKY_CUA_SERVICE_PATH = "/Users/jbaldwin/.codex/computer-use/Codex Computer Use.app"
-CODEX_CLI_PATH = "/Applications/ChatGPT.app/Contents/Resources/codex"
+[hooks.state."/Users/jbaldwin/.codex/hooks.json:stop:0:0"]
+trusted_hash = "sha256:81e0b0c24db74a32f09c36842a447253b72aca729249b3a67fc73b08535e45fc"
 
-[mcp_servers.computer-use]
-command = "./Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient"
-args = ["mcp"]
-cwd = "."
+[apps.asdk_app_69a089a326dc8191b32a3f2553f5be2c.tools."linear.save_issue"]
+approval_mode = "approve"
+
+[apps.asdk_app_6a4d1065c3dc8191b6f8a53629235003]
+enabled = false
+
+[apps.asdk_app_6a876745d41881918628ba25b91493a6]
+enabled = false
+
+[apps.asdk_app_6a7a0298aed881918bf4d45fc4619ed1]
 enabled = false
 
 [shell_environment_policy.set]
-NODE_REPL_TRUSTED_BROWSER_CLIENT_SHA256S = "091a81603ff202a16ed56557709bf42d97caf8f0dd2e07ae9e26d7c014d71035"
-
-[agents]
-max_concurrent_threads_per_session = 10
-default_subagent_model = "gpt-5.6-luna"
-default_subagent_reasoning_effort = "max"
+NODE_REPL_TRUSTED_BROWSER_CLIENT_SHA256S = "e7fc907079d6797973cb63f97d2562c965aad8d33f52fb726005bf6702f30afc"
