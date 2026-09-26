@@ -42,6 +42,7 @@ For prose, follow Orwell's six rules from "Politics and the English Language":
 
 - After completing a change, verify the real artifact before declaring it done. Building, type checking, and unit tests are necessary where relevant, but they do not replace exercising the changed path.
 - For bugs, reproduce the failure first on the matching surface. Trace it to its root cause, then verify the original reproduction passes after the fix. Do not ship speculative guards that only hide the symptom.
+- Treat each test failure during development as a question: should the intended change have broken this behavior? Investigate before changing code or expectations. Preserve tests that expose real regressions and fix unreliable setup around useful checks. Rewrite or remove tests that only detect harmless changes to wording or implementation; their maintenance and runtime costs must earn their place. Test the behavioral contract, not the current code's incidental details.
 - Prefer deterministic, rerunnable checks over one-time inspection. For non-trivial work, build the smallest script, harness, codemod, or comparison tool that performs or proves the change.
 - Break multi-step work into small verifiable units. Check each unit before starting the next. Order commits so the sequence shows the proof, such as failing test then fix, baseline then treatment, or subtraction then reshape.
 - Verify delegated work from its artifacts. Inspect the diff, files, and runtime behavior yourself instead of trusting the delegate's summary.
