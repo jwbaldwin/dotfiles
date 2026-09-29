@@ -1,4 +1,5 @@
 import { generateSyntax } from "@opencode/theme/tui";
+import type { ScrollBoxRenderable } from "@opentui/core";
 import { createMemo, onCleanup, Show } from "solid-js";
 import type { Context, KeymapCommand } from "@opencode/plugin/tui/context";
 import { copyText } from "./clipboard.js";
@@ -92,9 +93,20 @@ export function setupBtw(context: Context) {
             const question = state.question;
             return question?.status === "complete" ? question.answer : undefined;
           };
+          let scrollbox: ScrollBoxRenderable | undefined;
+          const page = () => Math.max(1, (scrollbox?.height ?? 2) - 1);
           context.keymap.layer(() => ({
             commands: [
               { id: "session-tools.btw.dismiss", bind: "escape", run: dismiss },
+              { bind: "j,down", run: () => scrollbox?.scrollBy(1) },
+              { bind: "k,up", run: () => scrollbox?.scrollBy(-1) },
+              { bind: "pagedown,ctrl+f", run: () => scrollbox?.scrollBy(page()) },
+              { bind: "pageup,ctrl+b", run: () => scrollbox?.scrollBy(-page()) },
+              { bind: "g,home", run: () => scrollbox?.scrollTo(0) },
+              {
+                bind: "shift+g,end",
+                run: () => scrollbox?.scrollTo(scrollbox.scrollHeight),
+              },
               {
                 id: "session-tools.btw.copy",
                 bind: "c",
@@ -125,8 +137,8 @@ export function setupBtw(context: Context) {
                 paddingY={1}
                 gap={1}
               >
-                <scrollbox flexGrow={1} minHeight={0}>
-                  <box flexDirection="column" gap={1}>
+                <scrollbox ref={(element) => (scrollbox = element)} flexGrow={1} minHeight={0}>
+                  <box flexDirection="column" gap={1} paddingRight={1}>
                     <text fg={context.theme.text.feedback.warning.base} wrapMode="word">
                       {state.question?.question}
                     </text>
@@ -155,13 +167,14 @@ export function setupBtw(context: Context) {
                           fg={context.theme.markdown.text}
                           conceal
                           streaming={false}
+                          tableOptions={{ style: "grid", widthMode: "content", cellPaddingX: 1 }}
                         />
                       )}
                     </Show>
                   </box>
                 </scrollbox>
                 <text fg={context.theme.text.muted}>
-                  {state.question?.status === "running" ? "Esc cancel" : "c copy · Esc dismiss"}
+                  {state.question?.status === "running" ? "Esc cancel" : "j/k scroll · c copy · Esc dismiss"}
                 </text>
               </box>
             </box>
