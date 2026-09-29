@@ -12,6 +12,5 @@
     "skipLibCheck": true,
     "types": ["node"]
   },
-  "include": ["*.ts", "*.tsx", "*.js"],
-  "exclude": ["*.test.js"]
+  "include": ["*.ts", "*.tsx", "*.js"]
 }

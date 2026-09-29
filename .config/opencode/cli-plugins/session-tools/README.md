@@ -29,8 +29,8 @@ Parking saves an optional note and keeps the current session open. Sending a new
 prompt automatically unparks it. The inbox shows the note and last assistant
 response before opening a session.
 
-`/btw` opens a side panel. Press `c` to copy its answer or Escape to cancel/dismiss
-it. Running `/btw` without a question reopens the last answer for that session.
+`/btw` opens a side panel. Scroll with `j`/`k`, page up/down, `g`, or `G`. Press `c`
+to copy its answer or Escape to cancel/dismiss it. Running `/btw` without a question reopens the last answer for that session.
 
 Background tasks run as independent root sessions in the same working directory.
 They survive closing the TUI. `/bg` lets you open, stop, copy, or remove a task from
@@ -50,9 +50,4 @@ The plugin runs in the terminal client so each tmux pane reports its own session
 
 ## Development
 
-`npm ci`, then `npm run types` and `npm test`.
-
-`python3 smoke-test.py` exercises the installed V2 TUI in a disposable tmux server.
-It makes four short model requests, checks transcript isolation, and removes its
-test sessions afterward. It requires macOS, tmux, Jujutsu, and an authenticated OpenCode
-service.
+`npm ci`, then `npm run types`.

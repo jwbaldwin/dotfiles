@@ -6,7 +6,6 @@
     "./tui": "./tui.tsx"
   },
   "scripts": {
-    "test": "node --test *.test.js",
     "types": "tsc --noEmit"
   },
   "devDependencies": {

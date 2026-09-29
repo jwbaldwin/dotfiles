@@ -27,3 +27,4 @@
 .pi/agent/open-tui.json
 .pi/agent/pi-crash.log
 .pi/agent/run-history.jsonl
+.config/zed/prompts/*/lock.mdb
