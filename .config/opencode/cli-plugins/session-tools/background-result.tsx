@@ -87,18 +87,18 @@ export function BackgroundResult(props: {
             />
           </scrollbox>
           <box flexDirection="row" gap={2}>
-            <text fg={context.theme.text.muted} onMouseDown={() => run(actions)}>
+            <text fg={context.theme.text.muted} onMouseUp={() => run(actions)}>
               Actions · /bg-result
             </text>
             <Show when={tasks().length > 1}>
-            <text fg={context.theme.text.muted} onMouseDown={next}>
+            <text fg={context.theme.text.muted} onMouseUp={next}>
                 {tasks().findIndex((entry) => entry.sessionID === task().sessionID) + 1} of{" "}
                 {tasks().length} · Next
               </text>
             </Show>
             <text
               fg={context.theme.text.muted}
-              onMouseDown={() => run(() => props.background.dismiss(task().sessionID))}
+              onMouseUp={() => run(() => props.background.dismiss(task().sessionID))}
             >
               Dismiss
             </text>
