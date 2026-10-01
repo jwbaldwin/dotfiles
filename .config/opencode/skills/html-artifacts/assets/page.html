@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Page name · Site name</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<script>
+  // Multi-page sites only. Delete both lines for a single page; the top bar disappears.
+  window.SITE_TITLE = 'Site name';
+  window.SITE_PAGES = [['index.html', 'Start here'], ['page.html', 'Page name']];
+</script>
+</head>
+<body>
+<header class="sitebar"></header>
+<div class="wrap">
+  <nav class="toc" id="toc">
+    <div class="toc-title">On this page</div>
+    <a href="#claim">The short answer</a>
+    <a href="#how">How it works</a>
+  </nav>
+
+  <main class="main">
+    <h1>Title that states the claim</h1>
+    <p class="lead">One short orientation paragraph with <strong>the central idea</strong>.</p>
+
+    <section class="sec" id="claim">
+      <div class="sec-head"><h2>Section heading that answers a question</h2></div>
+      <p>Prose. Inline <code>identifiers</code> in Berkeley Mono.</p>
+
+      <div class="diagram-shell">
+        <script type="text/plain" class="diagram-source">
+flowchart TD
+  A["Request arrives"] --> B{{"Has the field?"}}
+  B -->|yes| C["Path one"]
+  B -->|no| D["Path two"]
+  classDef after fill:#0a706522,stroke:#0a7065,stroke-width:1.5px
+  class C after
+        </script>
+        <p class="diagram-shell__caption">What the reader should notice.</p>
+      </div>
+    </section>
+
+    <section class="sec" id="how">
+      <div class="sec-head"><h2>Second question</h2></div>
+      <div class="compare">
+        <div><div class="compare__label compare__label--before">Before</div><div class="codeblock"><div class="codeblock__head"><span>request</span><a href="#">source</a></div><pre>…</pre></div></div>
+        <div><div class="compare__label compare__label--after">After</div><div class="codeblock"><div class="codeblock__head"><span>request</span><a href="#">source</a></div><pre>…</pre></div></div>
+      </div>
+    </section>
+
+    <div class="sources">Sources: …</div>
+  </main>
+</div>
+<script src="assets/site.js"></script>
+</body>
+</html>
