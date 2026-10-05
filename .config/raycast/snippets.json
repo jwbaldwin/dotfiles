@@ -1,0 +1,56 @@
+[
+  {
+    "name": "pokayoke",
+    "text": "how can I pokayoke this so this kind of error never happens again",
+    "keyword": "pokayoke"
+  },
+  {
+    "name": "bruhh",
+    "text": "Restate your last message. Stop using jargon and speak coherently. State it more simply and concisely, like one human talking to another.",
+    "keyword": "bruhh"
+  },
+  {
+    "name": "Explain how",
+    "text": "Don't just tell me what, tell me how. I'm the owner of these changes so I'm responsible, therefor I need a clear understanding of how things now work.",
+    "keyword": "exhow"
+  },
+  {
+    "name": "Zapier Email",
+    "text": "james.baldwin@zapier.com",
+    "keyword": "zemail"
+  },
+  {
+    "name": "The GOD test prompt",
+    "text": "Test File Structure & Rules\nThe gold standard is ExUnit in Elixir - incredibly clean and easy to add to. Aim for that.\nFile Organization:\n1. Mocks and imports - if shared mock files or setup blocks exist in the codebase, use them. If not, put mocks at the top of the file, out of the way.\n2. Tests in the middle - short, focused, easy to scan\n3. Helper functions and factories - if shared factory files exist in the codebase, use them. If not, put helpers at the bottom of the file, out of the way but not hidden. Factories mean setting up test data is incredibly simple and not cluttering your test file.\nThe key principle: mocks, factories, and helpers should be out of the way - whether that's in separate files, setup blocks, or at the edges of the test file.\nTest Rules:\n1. Test names describe the condition under test - if a test fails, I should know the exact behavior that failed just by reading the test name\n2. No comments - only include comments if variable names or test names cannot succinctly convey the purpose. Put the documentation in the names themselves.\n3. One behavior per test - each test only tests one distinct piece of functionality\n4. Intentional variable names - all variables are named to make the test read clearer and with intent\n5. Ceremony-free setup - setup/mocking is done without ceremony so the two most important things are clear: test name and test assertion\n7. Minimal, relevant setup - only the specific attributes relevant to this test. If testing a Company account's ToS behavior, set up a Company account with that attribute - nothing else. The reader should immediately see what's being tested because that's the only interesting thing configured.\n8. No noise - no extra comments, no verbose setup, no defensive boilerplate. Someone reading a test should immediately understand the scenario.\n9. Easy to add to - the file should be clean and well-organized enough that adding a new test case is trivial.\nThe Goal: When someone reads a test, they see the scenario in 2-3 lines of setup, the function call, and the assertion. Nothing else competes for attention.",
+    "keyword": "llmtest"
+  },
+  {
+    "name": "Gmail",
+    "text": "jwbaldwin3@gmail.com",
+    "keyword": "gemail"
+  },
+  {
+    "name": "Good tests prompt",
+    "text": "ensure all tests adhere to the following rules:\n- each test name succinctly describes the condition under test and expected behavior, so a failure is understandable from the name alone\n- test externally observable behavior through public APIs; do not assert private/internal implementation details unless that interaction is the contract\n- only include comments when names cannot make intent obvious\n- variables are named to make the test read clearly and with intent\n- setup/mocking are minimal so the key behavior and assertion(s) are obvious\n- each test has one primary reason to fail (one behavior under test)\n- do not combine independent testing surfaces in one test unless the behavior under test is explicitly that combined flow\n- overlap across tests is acceptable when useful, especially for integration-style tests\n- do not split a single coherent controller/route flow if splitting reduces clarity\n- multiple assertions are allowed only when they directly support the named behavior\n- tests should be deterministic and hermetic by default (no sleeps, wall-clock coupling, random values, network/filesystem/global state) unless it's an integration test\n- tests must be order-independent and not rely on shared mutable state",
+    "keyword": "aitest"
+  },
+  {
+    "name": "synthesize",
+    "text": "Here are the high value conversations I'd like you to synthesize. Prefer updating, cleaning, rewriting, or adding to existing markdown guidance docs that already exist, over creating new ones. However, if you think creating new (well-defined and well placed) files would help future agents, ask me before doing so. Consult the oracle to aid with you synthesis. Here:"
+  },
+  {
+    "name": "Send to Things",
+    "text": "add-to-things-zcwgykw4m5yga0jtksoj9@things.email",
+    "keyword": "ethings"
+  },
+  {
+    "name": "AI Code Review",
+    "text": "Keep in mind I suspect this code is 100-90% AI generated (with _some_ light human in the loop) and as such look out for halmarks of AI generated code. They mostly boil down to LLM's optimizing for token generation (it's cheap) whereas humas optimize for readability and maintainability (less tokens often leads to this as reading and writing tokens is far more expensive for a human than an LLM).\n\nE.g. in a preview MR`types.ts` re-used a list of strings 4 times instead of creating an enum type. That's because the repitition was cheap for the LLM, but a human would never do that because we'de realize that if we ever needed to add something to this list we'd need to add it in 4+ places and for a human that takes time.\n\nOther examples of LLM code below ==========\nToken-inefficient patterns:\n- Repeating code blocks instead of extracting functions/types after 2+ uses\n- Verbose names and excessive comments restating obvious code\n- Try-catch blocks everywhere, redundant null checks, defensive code that adds no value\n- Over-explicit types that could be inferred\n\nMissing abstraction:\n- Not DRYing up repetition\n- Creating one-off solutions instead of reusable utilities\n- Ignoring existing patterns/helpers in the codebase\n- Breaking simple logic into unnecessary pieces (wrong kind of abstraction)\n\nContext blindness:\n- Not following codebase conventions or framework idioms\n- Database N+1 queries instead of joins/batching\n- React: wrong hook deps, missing memoization, unnecessary re-renders\n- Generic naming (handler, manager, service) without specificity\n\nOver-engineering vs under-abstracting:\n- Adding unused interfaces, config options, extensibility\n- But also repeating the same literal code because tokens are free\n- Humans find the right level: abstract what repeats, keep simple things simple",
+    "keyword": "aireview"
+  },
+  {
+    "name": "AI test file structure",
+    "text": "Test File Structure\nThe gold standard is ExUnit in Elixir - incredibly clean and easy to add to. Aim for that.\n1. Mocks and imports at the top - all the vi.mock() calls and module imports go at the very top, out of the way\n2. Tests are short and focused - each test should be just a few lines:\n   - Setup: only the specific attributes relevant to this test. If testing a Company account's ToS behavior, you set up a Company account with that specific attribute - nothing else. The reader should immediately see \"oh, this test is about Company accounts\" because that's the only interesting thing being configured.\n   - Call: the main function call\n   - Assert: the expectations\n   - That's it. Everything else is noise. There should be no noise.\n3. Helper functions and factories at the bottom - any utilities like entitlementsResponse() go at the end of the file, out of the way but not hidden. Factories mean setting up test data is incredibly simple and not cluttering your test file.\n4. Setup should be obvious but not in your face - the setup for each test is obvious and pretty out of the way, but not hidden. You can see what's happening without it dominating the test.\n5. No noise - no extra comments, no verbose setup that obscures what's being tested. No defensive boilerplate. Someone reading a test should immediately understand what scenario is being tested.\n6. Easy to add to - the file should be clean and well-organized enough that adding a new test case is trivial. You just add another it() block with minimal setup.\n---\nThe goal: when someone reads a test, they see the scenario in 2-3 lines of setup, the function call, and the assertion. Nothing else competes for attention.",
+    "keyword": "aitfile"
+  }
+]

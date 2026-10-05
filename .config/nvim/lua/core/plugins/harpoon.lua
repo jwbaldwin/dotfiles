@@ -8,9 +8,9 @@ M.config = function()
 			save_on_toggle = true,
 			sync_on_ui_close = true,
 			key = function()
-				local branch = vim.fn.system("git branch --show-current 2>/dev/null | tr -d '\n'")
-				if branch ~= "" then
-					return vim.loop.cwd() .. "-" .. branch
+				local branch = vim.fn.system({ "git", "branch", "--show-current" })
+				if vim.v.shell_error == 0 and branch ~= "" then
+					return vim.loop.cwd() .. "-" .. branch:gsub("\n", "")
 				end
 				return vim.loop.cwd()
 			end,

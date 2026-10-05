@@ -148,11 +148,11 @@ Ask James: `What should the MR description be? Or should I leave it blank for yo
 - If James says to leave it blank, use an empty description.
 - If James does not respond or says anything ambiguous, use an empty description.
 
-Never draft, summarize, or generate descriptions on your own. James writes his own MR descriptions.
+Never draft, summarize, or generate descriptions on your own. If James explicitly asks you to draft one, use `writing-style` for concise behavioral evidence and any material reversal constraint. A request for a draft alone does not authorize publishing it.
 
 Do **not** add generic verification/test sections to MR descriptions. Never include headings like `# Verification`, `## Verification`, `# Tests`, `## Tests`, `# Testing`, or `## Testing` just to list routine commands such as `pnpm types`, `pnpm lint`, `pnpm test`, or `pnpm check`. CI already covers routine checks, and this boilerplate is noise.
 
-Only include validation notes if James explicitly provides them or if they describe meaningful manual/product validation that CI cannot express, such as reproducing the bug locally against a running MCP server, toggling a feature flag, exercising the actual UI/API flow, and confirming the behavior changed. Even then, use James's provided wording verbatim instead of generating a stock verification block.
+Only include validation notes if James explicitly provides them or, when he has requested a draft, they describe meaningful manual/product validation that CI cannot express, such as reproducing the bug locally against a running MCP server, toggling a feature flag, exercising the actual UI/API flow, and confirming the behavior changed. Use James's provided wording verbatim; in an authorized draft, use only observed evidence instead of generating a stock verification block.
 
 ### 7. Create The MR Or Stack
 

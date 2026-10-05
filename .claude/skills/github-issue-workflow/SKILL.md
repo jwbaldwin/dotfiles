@@ -109,14 +109,17 @@ Use this when James asks to tackle a GitHub issue directly.
 6. Run focused tests, then repo precommit if appropriate.
 7. Create a GitHub PR with `gh pr create` after the branch/bookmark is pushed.
 
-PR description shape:
+When drafting the requested PR, use `writing-style` for concise before/after behavioral evidence and any material reversal constraint. Include only observed evidence that helps review; omit routine test narration and use visuals only when they clarify the change.
+
+PR description shape (omit optional bullets when they add nothing):
 
 ```markdown
 One sentence summary
 
 - What changed
 - Why the reviewer should care
-- Test coverage
+- Before/after behavior, when useful
+- Reversal constraint, when material
 
 Closes #N
 ```

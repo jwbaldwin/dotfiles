@@ -13,7 +13,8 @@
   },
   "plugins": [
     "-opencode.btw",
-    "./cli-plugins/session-tools"
+    "./cli-plugins/session-tools",
+    "opencode-quick-quote"
   ],
   "attention": {
     "enabled": true,

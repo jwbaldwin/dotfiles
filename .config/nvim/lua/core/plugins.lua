@@ -16,10 +16,6 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
-local function select_avante_provider()
-	return vim.fn.executable("opencode") == 1 and "opencode" or "claude"
-end
-
 -- plugins here
 require("lazy").setup({
 	-- base
@@ -161,6 +157,37 @@ require("lazy").setup({
 	},
 	{
 		"mfussenegger/nvim-dap",
+		keys = {
+			"<leader>db",
+			"<leader>dc",
+			"<leader>dx",
+			"<leader>dt",
+			"<leader>d?",
+			"<F1>",
+			"<F2>",
+			"<F3>",
+			"<F4>",
+			"<F5>",
+			"<F0>",
+		},
+		cmd = {
+			"DapSetLogLevel",
+			"DapShowLog",
+			"DapContinue",
+			"DapToggleBreakpoint",
+			"DapClearBreakpoints",
+			"DapToggleRepl",
+			"DapStepOver",
+			"DapStepInto",
+			"DapStepOut",
+			"DapPause",
+			"DapTerminate",
+			"DapDisconnect",
+			"DapRestartFrame",
+			"DapNew",
+			"DapEval",
+		},
+		event = { "BufNewFile */.vscode/launch.json", "BufReadCmd dap-eval://*", "BufReadCmd dap-src://*" },
 		dependencies = {
 			"rcarriga/nvim-dap-ui",
 			"theHamsta/nvim-dap-virtual-text",
@@ -174,6 +201,7 @@ require("lazy").setup({
 	-- misc plugins
 	{
 		"windwp/nvim-autopairs",
+		event = "InsertEnter",
 		config = function()
 			require("core.plugins.configs").autopairs()
 		end,
@@ -244,17 +272,18 @@ require("lazy").setup({
 	{
 		"catppuccin/nvim",
 		name = "catppuccin",
+		lazy = true,
 		config = function()
 			require("core.plugins.catppuccin")
 		end,
 	},
-	{ "rebelot/kanagawa.nvim" },
-	{ "savq/melange-nvim" },
-	{ "xero/miasma.nvim" },
+	{ "rebelot/kanagawa.nvim", lazy = true },
+	{ "savq/melange-nvim", lazy = true },
+	{ "xero/miasma.nvim", lazy = true },
 	{
 		"luisiacc/gruvbox-baby",
 		branch = "main",
-		lazy = false,
+		lazy = true,
 		priority = 10000,
 		config = function()
 			vim.g.gruvbox_baby_background_color = "dark"
@@ -267,13 +296,14 @@ require("lazy").setup({
 			-- vim.cmd("colorscheme gruvbox-baby")
 		end,
 	},
-	{ "ramojus/mellifluous.nvim" },
+	{ "ramojus/mellifluous.nvim", lazy = true },
 
-	{ "aliqyan-21/darkvoid.nvim" },
+	{ "aliqyan-21/darkvoid.nvim", lazy = true },
 
 	{
 		"ThePrimeagen/harpoon",
 		branch = "harpoon2",
+		keys = { "<leader>H", "<leader>h", "<leader>j", "<leader>k", "<leader>l", "<leader>;" },
 		dependencies = { "nvim-lua/plenary.nvim" },
 		config = function()
 			require("core.plugins.harpoon").config()
@@ -351,9 +381,10 @@ require("lazy").setup({
 		opts = require("core.plugins.configs").flash.otps,
 		keys = require("core.plugins.configs").flash.keys,
 	},
-	{ "nvim-pack/nvim-spectre" },
+	{ "nvim-pack/nvim-spectre", cmd = "Spectre" },
 	{
 		"smjonas/inc-rename.nvim",
+		cmd = "IncRename",
 		config = function()
 			require("inc_rename").setup()
 		end,
@@ -361,6 +392,16 @@ require("lazy").setup({
 	{
 		"akinsho/toggleterm.nvim",
 		version = "*",
+		cmd = {
+			"TermSelect",
+			"TermExec",
+			"ToggleTerm",
+			"ToggleTermToggleAll",
+			"ToggleTermSendVisualLines",
+			"ToggleTermSendVisualSelection",
+			"ToggleTermSendCurrentLine",
+			"ToggleTermSetName",
+		},
 		opts = require("core.plugins.configs").toggleterm.opts,
 	},
 	{
@@ -431,141 +472,16 @@ require("lazy").setup({
 	},
 	{
 		"folke/sidekick.nvim",
-		lazy = false,
-		opts = {
-			cli = {
-				mux = {
-					backend = "tmux",
-					enabled = true,
-				},
-			},
-		},
-		keys = {
-			{
-				"<tab>",
-				function()
-					-- if there is a next edit, jump to it, otherwise apply it if any
-					if not require("sidekick").nes_jump_or_apply() then
-						return "<Tab>" -- fallback to normal tab
-					end
-				end,
-				expr = true,
-				desc = "Goto/Apply Next Edit Suggestion",
-			},
-			{
-				"<leader>aa",
-				function()
-					require("sidekick.cli").toggle()
-				end,
-				desc = "Sidekick Toggle CLI",
-			},
-			{
-				"<leader>as",
-				function()
-					require("sidekick.cli").select({ filter = { installed = true } })
-				end,
-				desc = "Select CLI",
-			},
-			{
-				"<leader>at",
-				function()
-					require("sidekick.cli").send({ msg = "{this}" })
-				end,
-				mode = { "x", "n" },
-				desc = "Send This",
-			},
-			{
-				"<leader>av",
-				function()
-					require("sidekick.cli").send({ msg = "{selection}" })
-				end,
-				mode = { "x" },
-				desc = "Send Visual Selection",
-			},
-			{
-				"<leader>ap",
-				function()
-					require("sidekick.cli").prompt()
-				end,
-				mode = { "n", "x" },
-				desc = "Sidekick Select Prompt",
-			},
-			{
-				"<c-.>",
-				function()
-					require("sidekick.cli").focus()
-				end,
-				mode = { "n", "x", "i", "t" },
-				desc = "Sidekick Switch Focus",
-			},
-			{
-				"<leader>ac",
-				function()
-					require("sidekick.cli").toggle({ name = "opencode", focus = true })
-				end,
-				desc = "Sidekick Toggle Opencode",
-			},
-		},
-	},
-	{
-		"yetone/avante.nvim",
-		event = "VeryLazy",
-		version = false,
-		opts = function()
-			return {
-				provider = select_avante_provider(),
-				acp_providers = {
-					opencode = {
-						env = {
-							HOME = os.getenv("HOME"),
-							OPENCODE_CONFIG_CONTENT = vim.json.encode({
-								model = "openai/gpt-5.5",
-								provider = {
-									openai = {
-										models = {
-											["gpt-5.5"] = {
-												options = { reasoningEffort = "high" },
-											},
-										},
-									},
-								},
-							}),
-						},
-					},
-				},
-				input = {
-					provider = "snacks",
-				},
-				selector = {
-					provider = "snacks",
-				},
-				disabled_tools = { "run_python", "git_commit" },
-			}
-		end,
-		build = "make",
-		dependencies = {
-			"nvim-treesitter/nvim-treesitter",
-			"stevearc/dressing.nvim",
-			"nvim-lua/plenary.nvim",
-			"MunifTanjim/nui.nvim",
-			"nvim-telescope/telescope.nvim",
-			"nvim-tree/nvim-web-devicons",
-			{
-				"MeanderingProgrammer/render-markdown.nvim",
-				opts = {
-					file_types = { "markdown", "Avante" },
-				},
-				ft = { "markdown", "Avante" },
-			},
-		},
+		cmd = "Sidekick",
+		opts = require("core.plugins.sidekick").opts,
 		keys = {
 			{
 				"<leader>ae",
 				function()
-					require("avante.api").edit()
+					require("core.plugins.sidekick").edit_selection()
 				end,
-				desc = "Avante: Edit selection",
-				mode = "v",
+				desc = "Edit selection with OpenCode",
+				mode = "x",
 			},
 		},
 	},

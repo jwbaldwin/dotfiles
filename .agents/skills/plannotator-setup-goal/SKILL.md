@@ -158,6 +158,10 @@ Write `goals/<slug>/plan.md`:
 - Verification for each step (concrete commands or checks)
 - Risks or open questions worth flagging
 
+For work that needs multiple slices, give each slice its delivered behavior, the accepted facts it satisfies, acceptance criteria, and an observable finish line. Name genuine blockers and the capability each prerequisite provides. Prefer complete behavioral slices over separate layers that only work after all the pieces land. Confirm granularity when it materially changes delivery; the plan gate below remains the approval surface. Publish tasks only when requested, through the existing Jira/GitHub skills.
+
+For a broad migration that cannot land directly in independently passing slices, use expand–contract: introduce a compatible path, move callers in passing slices, then remove the old path once its callers are gone and the agreed compatibility obligations are met. State that removal condition in the plan. This is an exception for migrations, not a requirement to prefactor ordinary work.
+
 Gate the plan with Plannotator:
 
 ```bash
