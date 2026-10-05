@@ -148,7 +148,7 @@ Ask James: `What should the MR description be? Or should I leave it blank for yo
 - If James says to leave it blank, use an empty description.
 - If James does not respond or says anything ambiguous, use an empty description.
 
-Never draft, summarize, or generate descriptions on your own. James writes his own MR descriptions.
+Never draft, summarize, or generate descriptions on your own. If James explicitly asks you to draft one, use `writing-style` for concise behavioral evidence and any material reversal constraint. A request for a draft alone does not authorize publishing it.
 
 ### 7. Create The MR Or Stack
 

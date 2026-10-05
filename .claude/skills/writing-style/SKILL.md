@@ -19,7 +19,7 @@ Write for a busy teammate scanning in 10-15 seconds.
 - Optimize for readability over defensive precision in summaries; reviewers can inspect code for details.
 - Use a few short bullets to describe what the reviewer would see in this MR
 - Each bullet must say: what changed + why it matters.
-- Mention tests directly when present (especially regressions).
+- Include meaningful behavioral evidence when useful; omit routine test-command narration.
 - Do not narrate your process unless it's important to mention the things you tried or explored to help the reviewer understand how we arrived at the outcome (this is often NOT necessary); describe outcomes.
 
 ### Merge request description output shape (default)
@@ -27,6 +27,12 @@ Write for a busy teammate scanning in 10-15 seconds.
 1. One-sentence summary
 2. 2-4 bullets of concrete changes
 3. No periods on the last sentence, or in module docs, it's too formal.
+
+### Evidence in requested PR/MR drafts
+
+When James asks for a draft or authorizes one as part of opening a PR, include concise before/after evidence when it helps the reviewer understand the behavior change. Use observed results, not an invented success claim. Mention a concrete reversal constraint when code rollback alone cannot undo a data or external-system change. Omit generic risk labels, routine test-command narration, and stock verification sections. Add a visual only when it clarifies the change.
+
+This is writing guidance, not permission to draft or publish. Preserve the delivery skill's description and posting rules, and use James's supplied wording verbatim when requested.
 
 ## Example merge request description
 

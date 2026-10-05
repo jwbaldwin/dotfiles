@@ -38,6 +38,7 @@ This is a skill, not a plugin. Do not pretend you can open a new session, preloa
    - Spell out constraints, preferences, and anything that must not change.
    - Give a short ordered task list when sequence matters.
    - Include validation commands or review steps.
+   - Suggest a short list of available skills when they would materially guide the next session; omit the list when ordinary repository instructions suffice.
    - Name what is out of scope when that boundary matters.
 5. Sanity-check the result.
    - Make sure the prompt is actionable without reading the whole old thread.
@@ -52,6 +53,9 @@ This is a skill, not a plugin. Do not pretend you can open a new session, preloa
 - Give each chunk a concrete finish line such as "ship the API route", "write characterization tests", or "refactor auth helpers without behavior changes".
 - Keep chunks reviewable. A reviewer should be able to understand why the work belongs together.
 - If one chunk depends on another, say so explicitly and order them.
+- Give each chunk its delivered behavior, acceptance criteria, and observable finish line. Name actual blocking chunks and what they must provide; do not invent dependencies just to impose an order.
+- Prefer complete behavioral slices over separate layers that cannot work until a later handoff. Confirm granularity when the split materially changes delivery; use existing Jira/GitHub skills if James asks to publish the tasks.
+- For a broad migration that cannot land directly in independently passing slices, use expand–contract: introduce a compatible path, move callers in passing slices, then remove the old path. Name the condition that makes removal safe. Do not require preparatory refactors for ordinary changes.
 
 ### Sloppy Prototype Cleanup
 

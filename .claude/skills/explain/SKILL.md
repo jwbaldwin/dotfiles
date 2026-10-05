@@ -1,6 +1,6 @@
 ---
 name: explain
-description: Explain technical concepts from first principles in plain language. Start with a short mental model story, then define nouns and ground the story in step-by-step flows, diagrams, and concrete code references. Use when asked to explain, break down, ramp up, teach, simplify, or build deep understanding so the reader can explain and improve the system.
+description: Explain technical concepts from first principles in plain language. Start with a short mental model story, then define nouns and ground the story in step-by-step flows, diagrams, and concrete code references. Use when asked to explain, break down, ramp up, teach, simplify, build deep understanding, or repair an explanation that lost the reader.
 ---
 
 # Explain
@@ -24,6 +24,12 @@ Write clearly and directly.
 - Avoid spec-like or formal standards language unless the user asks for it or it's required.
 - If you must use a technical term, define it immediately in one plain sentence.
 - The use of similies or metaphors can help make abstract concepts more concrete, but avoid overusing them or mixing them.
+
+## When the explanation lost the user
+
+Treat "wait, you lost me" or "I don't follow" as a request to repair the missing context, not merely shorten the previous answer. Start from the last concrete point the user appeared to understand, name the problem being solved, and walk one small example through the missing causal step. Define unfamiliar terms through that example before using them again.
+
+Use the project's established names once their meaning is clear. Do not repeat the whole explanation or introduce more terminology to patch the gap. If the missing step is genuinely unclear, ask one focused question; otherwise repair it directly and stop once the connection is clear. This recovery mode takes precedence over the full explanation workflow below.
 
 ## Default Explanation Workflow
 

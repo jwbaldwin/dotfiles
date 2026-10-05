@@ -1,6 +1,6 @@
 ---
 name: explain
-description: Explain a technical code change, algorithm, architecture, bug, or concept from first principles by building the concrete mechanism before introducing terminology. Use when the user explicitly asks to understand, learn, or have a technical subject explained. Do not trigger for routine answers, implementation work, summaries, reviews, or generic requests to simplify code.
+description: Explain a technical code change, algorithm, architecture, bug, or concept from first principles by building the concrete mechanism before introducing terminology. Use when the user asks to understand a technical subject or says an explanation lost them. Do not trigger for routine answers, implementation work, summaries, reviews, or generic requests to simplify code.
 ---
 
 # Explain
@@ -12,6 +12,12 @@ Explain to an experienced software engineer who is comfortable with code, system
 The goal is not to simplify the topic. The goal is to make the actual mechanism understandable enough that the user can reason about it, question it, and own it.
 
 Do not optimize for brevity on the first pass. Optimize for constructing the correct mental model. Once that model exists, the rest can become concise quickly. Complete does not mean exhaustive: omit details that do not change the user's understanding of the question.
+
+## When the explanation lost the user
+
+Treat "wait, you lost me" or "I don't follow" as a request to repair the missing context, not merely shorten the previous answer. Start from the last concrete point the user appeared to understand, name the problem being solved, and walk one small example through the missing causal step. Define unfamiliar terms through that example before using them again.
+
+Use the project's established names once their meaning is clear. Do not repeat the whole explanation or introduce more terminology to patch the gap. If the missing step is genuinely unclear, ask one focused question; otherwise repair it directly and stop once the connection is clear.
 
 ## Primary Rule
 

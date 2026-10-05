@@ -198,6 +198,8 @@ description: Create or edit Word documents when formatting, tracked changes, or 
 
 Put detailed workflows, tool choices, examples, and operating modes in the body or relevant references rather than listing them all in the description. Preserve supported optional frontmatter, such as existing `metadata`, when appropriate.
 
+Keep each concept's definition, rules, and exceptions together so reading one brings the others into view. For steps where premature completion is a real risk, state the observable finish line: what artifact, observed behavior, or resolved decision distinguishes done from not done? Prefer "the original failing request now returns the agreed response" over "the fix is complete." Match the evidence to the task instead of adding a checklist to every step.
+
 Write only the instructions needed for another Codex instance to perform the task well. State the desired outcome, non-obvious context, real constraints, and relevant references or tools. Preserve the user's explicit choices and existing authorization boundaries. Avoid prescribing a fixed structure, process, or number of steps when the task does not require one.
 
 ### Validate and Iterate

@@ -47,6 +47,15 @@ Prompt:
 
 Goal: <clear outcome>
 
+Acceptance criteria:
+- <observable behavior this chunk delivers>
+
+Blocked by:
+- <prior chunk and the capability it must provide; omit if independent>
+
+Suggested skills:
+- <available skill and why it matters; omit if unnecessary>
+
 Context:
 - <only the facts needed for this chunk>
 
@@ -56,6 +65,8 @@ What to do:
 
 Validation:
 - <command or manual check>
+
+Done when: <observable finish line>
 
 Out of scope:
 - <neighboring work owned by another chunk>

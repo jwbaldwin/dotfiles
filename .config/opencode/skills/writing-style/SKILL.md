@@ -58,6 +58,12 @@ Use these guidelines for routine drafts. Consult [Slack drafting examples](refer
     - Only add a bullet if it describes a meaningful change that reviewers should know about
 3. **No periods on the last sentence**, or in module docs, it's too formal
 
+### Evidence in requested PR/MR drafts
+
+When James asks for a draft or authorizes one as part of opening a PR, include concise before/after evidence when it helps the reviewer understand the behavior change. Use observed results, not an invented success claim. Mention a concrete reversal constraint when code rollback alone cannot undo a data or external-system change. Omit generic risk labels, routine test-command narration, and stock verification sections. Add a visual only when it clarifies the change.
+
+This is writing guidance, not permission to draft or publish. Preserve the delivery skill's description and posting rules, and use James's supplied wording verbatim when requested.
+
 ## Writing a commit message
 
  - Use a short, concrete summary; lowercase. For review follow-ups, say what changed
@@ -69,4 +75,3 @@ Use these guidelines for routine drafts. Consult [Slack drafting examples](refer
 - Use this shape: observation → consequence → smallest useful fix or direct question
 - Give a concrete alternative when disagreeing
 - Keep simple nits to one line, mark optional feedback, and use an example when it makes the issue obvious
-
