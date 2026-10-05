@@ -75,7 +75,7 @@ Always invoke the matching skill for these workflows; never perform them manuall
 | Write in James's tone or writing style | `writing-style` |
 | Explain, teach, or break down a technical topic | `explain` |
 | Simplify or reduce code complexity | `simplify` |
-| Synthesize useful knowledge from past sessions | `synthesize-brain` |
+| Review a session and improve agent checks, tooling, or instructions | `retro` |
 | Commit changes | `commit` |
 | Create an MR or stacked MRs | `merge-request` |
 | Monitor an MR, CI, or Greptile | `babysit` |
