@@ -17,9 +17,9 @@
   ],
   "attention": {
     "enabled": true,
-    "notifications": false,
-    "sound": false,
-    "volume": 0.4
+    "notifications": true,
+    "sound": true,
+    "volume": 0.30000000000000004
   },
   "diffs": {
     "wrap": "word"
