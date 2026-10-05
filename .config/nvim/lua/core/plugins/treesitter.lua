@@ -16,9 +16,9 @@ local ensure_installed = {
 	"yaml",
 }
 
--- Check nvim-treesitter's parser dir specifically, not Neovim's bundled parsers,
+-- Check plugin-installed parsers, not Neovim's bundled parsers,
 -- to avoid stale bundled parsers mismatching nvim-treesitter's query files.
-local parser_dir = vim.fn.stdpath("data") .. "/lazy/nvim-treesitter/parser"
+local parser_dir = vim.fn.stdpath("data") .. "/site/parser"
 
 local function has_installed_parser(lang)
 	return vim.uv.fs_stat(parser_dir .. "/" .. lang .. ".so") ~= nil

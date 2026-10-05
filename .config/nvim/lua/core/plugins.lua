@@ -161,6 +161,37 @@ require("lazy").setup({
 	},
 	{
 		"mfussenegger/nvim-dap",
+		keys = {
+			"<leader>db",
+			"<leader>dc",
+			"<leader>dx",
+			"<leader>dt",
+			"<leader>d?",
+			"<F1>",
+			"<F2>",
+			"<F3>",
+			"<F4>",
+			"<F5>",
+			"<F0>",
+		},
+		cmd = {
+			"DapSetLogLevel",
+			"DapShowLog",
+			"DapContinue",
+			"DapToggleBreakpoint",
+			"DapClearBreakpoints",
+			"DapToggleRepl",
+			"DapStepOver",
+			"DapStepInto",
+			"DapStepOut",
+			"DapPause",
+			"DapTerminate",
+			"DapDisconnect",
+			"DapRestartFrame",
+			"DapNew",
+			"DapEval",
+		},
+		event = { "BufNewFile */.vscode/launch.json", "BufReadCmd dap-eval://*", "BufReadCmd dap-src://*" },
 		dependencies = {
 			"rcarriga/nvim-dap-ui",
 			"theHamsta/nvim-dap-virtual-text",
@@ -174,6 +205,7 @@ require("lazy").setup({
 	-- misc plugins
 	{
 		"windwp/nvim-autopairs",
+		event = "InsertEnter",
 		config = function()
 			require("core.plugins.configs").autopairs()
 		end,
@@ -244,17 +276,18 @@ require("lazy").setup({
 	{
 		"catppuccin/nvim",
 		name = "catppuccin",
+		lazy = true,
 		config = function()
 			require("core.plugins.catppuccin")
 		end,
 	},
-	{ "rebelot/kanagawa.nvim" },
-	{ "savq/melange-nvim" },
-	{ "xero/miasma.nvim" },
+	{ "rebelot/kanagawa.nvim", lazy = true },
+	{ "savq/melange-nvim", lazy = true },
+	{ "xero/miasma.nvim", lazy = true },
 	{
 		"luisiacc/gruvbox-baby",
 		branch = "main",
-		lazy = false,
+		lazy = true,
 		priority = 10000,
 		config = function()
 			vim.g.gruvbox_baby_background_color = "dark"
@@ -267,13 +300,14 @@ require("lazy").setup({
 			-- vim.cmd("colorscheme gruvbox-baby")
 		end,
 	},
-	{ "ramojus/mellifluous.nvim" },
+	{ "ramojus/mellifluous.nvim", lazy = true },
 
-	{ "aliqyan-21/darkvoid.nvim" },
+	{ "aliqyan-21/darkvoid.nvim", lazy = true },
 
 	{
 		"ThePrimeagen/harpoon",
 		branch = "harpoon2",
+		keys = { "<leader>H", "<leader>h", "<leader>j", "<leader>k", "<leader>l", "<leader>;" },
 		dependencies = { "nvim-lua/plenary.nvim" },
 		config = function()
 			require("core.plugins.harpoon").config()
@@ -351,9 +385,10 @@ require("lazy").setup({
 		opts = require("core.plugins.configs").flash.otps,
 		keys = require("core.plugins.configs").flash.keys,
 	},
-	{ "nvim-pack/nvim-spectre" },
+	{ "nvim-pack/nvim-spectre", cmd = "Spectre" },
 	{
 		"smjonas/inc-rename.nvim",
+		cmd = "IncRename",
 		config = function()
 			require("inc_rename").setup()
 		end,
@@ -361,6 +396,16 @@ require("lazy").setup({
 	{
 		"akinsho/toggleterm.nvim",
 		version = "*",
+		cmd = {
+			"TermSelect",
+			"TermExec",
+			"ToggleTerm",
+			"ToggleTermToggleAll",
+			"ToggleTermSendVisualLines",
+			"ToggleTermSendVisualSelection",
+			"ToggleTermSendCurrentLine",
+			"ToggleTermSetName",
+		},
 		opts = require("core.plugins.configs").toggleterm.opts,
 	},
 	{

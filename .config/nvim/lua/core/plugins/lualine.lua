@@ -175,10 +175,12 @@ local function get_project_root(bufnr)
 	end
 
 	-- Determine root: Try Git first
-	local git_root = vim.fn.trim(vim.fn.system("git rev-parse --show-toplevel 2>/dev/null"))
+	local git_root = vim.fn.system({ "git", "rev-parse", "--show-toplevel" })
+	local git_succeeded = vim.v.shell_error == 0
+	git_root = vim.trim(git_root)
 
 	local root_dir
-	if git_root ~= "" and vim.fn.isdirectory(git_root) == 1 then
+	if git_succeeded and git_root ~= "" and vim.fn.isdirectory(git_root) == 1 then
 		root_dir = git_root
 	else
 		-- Fallback to current working directory if Git fails or isn't a directory
@@ -346,55 +348,6 @@ local function full_git()
 
 	return full
 end
-
--- LSP progress tracking
-local statusline_augroup = vim.api.nvim_create_augroup("gmr_statusline", { clear = true })
-
---- @class LspProgress
---- @field client vim.lsp.Client?
---- @field kind string?
---- @field title string?
---- @field percentage integer?
---- @field message string?
-local lsp_progress = {
-	client = nil,
-	kind = nil,
-	title = nil,
-	percentage = nil,
-	message = nil,
-}
-
-vim.api.nvim_create_autocmd("LspProgress", {
-	group = statusline_augroup,
-	desc = "Update LSP progress in statusline",
-	pattern = { "begin", "report", "end" },
-	callback = function(args)
-		if not (args.data and args.data.client_id) then
-			return
-		end
-
-		-- Check if params and value exist before accessing their properties
-		local params = args.data.params or {}
-		local value = params.value or {}
-
-		lsp_progress = {
-			client = vim.lsp.get_client_by_id(args.data.client_id),
-			kind = value.kind,
-			message = value.message,
-			percentage = value.percentage,
-			title = value.title,
-		}
-
-		if lsp_progress.kind == "end" then
-			lsp_progress.title = nil
-			vim.defer_fn(function()
-				vim.cmd.redrawstatus()
-			end, 500)
-		else
-			vim.cmd.redrawstatus()
-		end
-	end,
-})
 
 -- Color scheme detection and mapping system
 local function get_current_colorscheme()
