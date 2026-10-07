@@ -1,4 +1,5 @@
 [tools]
+bun = "1.4.2"
 neovim = "latest"
 node = "24.18.1"
 "npm:@earendil-works/pi-coding-agent" = "latest"

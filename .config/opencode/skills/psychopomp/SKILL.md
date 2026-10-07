@@ -9,7 +9,7 @@ This is James's portable entrypoint to [Psychopomp](https://github.com/kitlangto
 
 ## Locate or set up the engine
 
-- Use `PSYCHOPOMP_HOME` when set; otherwise use `$HOME/.local/share/psychopomp`. Expand these on the current computer, never hardcode a username.
+- Use `PSYCHOPOMP_HOME` when set; otherwise use `$HOME/repos/psychopomp`. Expand these on the current computer, never hardcode a username.
 - Reuse an existing checkout after inspecting its origin, revision, and working changes with Jujutsu. Do not reset it or update it as part of ordinary rendering.
 - For a fresh setup, clone `https://github.com/kitlangton/psychopomp` as a colocated jj+git repository, using the `workspace` skill when available. Start a new working change from revision `46fd6121d0c2067f22a176e2187924a9914e9453`. This pins the initial engine and documentation across computers. If the destination exists but is not a checkout, ask for another location.
 - Before building, read the checkout's `AGENTS.md`, `README.md`, and Cargo manifests. Check Rust/Cargo and the local GPU environment. Video export needs FFmpeg with `libx264`; the TypeScript helper scripts need Bun. For narration, inspect `scripts/narrate.ts` for its transcription and audio-tool requirements as well.
