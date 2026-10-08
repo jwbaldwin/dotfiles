@@ -110,3 +110,6 @@ bindkey '^[[B' history-beginning-search-forward
 if [[ ! -f "$HOME/.zshrc.zwc" ]] || [[ "$HOME/.zshrc" -nt "$HOME/.zshrc.zwc" ]]; then
   zcompile "$HOME/.zshrc"
 fi
+
+# Vite+ bin (https://viteplus.dev)
+. "/Users/jbaldwin/.config/vite-plus/env"

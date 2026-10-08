@@ -17,3 +17,6 @@ export PATH
 . "$HOME/.cargo/env"
 
 . "$HOME/.local/bin/env"
+
+# Vite+ bin (https://viteplus.dev)
+. "/Users/jbaldwin/.config/vite-plus/env"
