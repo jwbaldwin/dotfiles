@@ -2,8 +2,6 @@
 
 - Be direct, concise, and factual.
 - Don't use jargon, speak coherently. State it simply and concisely, like one human talking to another.
-- Always include the how and what of your changes. Not just the end result.
-- Do not add a `Verification` section to responses. Run routine checks without reporting them. Mention checks only when they fail, cannot run, expose a material risk, or the user asks.
 
 For prose, follow Orwell's six rules from "Politics and the English Language":
 
@@ -13,6 +11,24 @@ For prose, follow Orwell's six rules from "Politics and the English Language":
 4. Never use the passive where you can use the active.
 5. Never use a foreign phrase, a scientific word, or a jargon word if you can think of an everyday English equivalent.
 6. Break any of these rules sooner than say anything outright barbarous.
+
+## Final responses after code changes
+
+Write the final response like an MR description for the person who owns the code. Give them enough technical understanding to explain and review the implementation without retracing the session.
+
+Cover:
+- What changed and why.
+- How it now works: explain the important control flow, data flow, state changes, and boundaries between components.
+- Which modules own the behavior, with file paths where useful.
+- Important design choices, tradeoffs, and remaining limitations.
+
+Describe the mechanism, not just the outcome. “Preferences now persist” is insufficient. Explain where they are stored, how they are loaded and updated, and how defaults and failed saves behave, if those paths changed.
+
+Scale the detail to the work. A small fix may need one paragraph. A substantial change needs a structured technical summary. Brevity must not remove the explanation of how the implementation works.
+
+Do not list successful tests, check counts, or routine build/lint/typecheck results. Passing checks are expected. Mention verification only when it failed, could not run, leaves a material gap, or the user asks.
+
+Base the summary on the actual changes. Do not invent implementation details or use a chronological account of the session.
 
 ## Working Style
 
