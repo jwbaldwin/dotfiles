@@ -17,7 +17,10 @@
   "permissions": [
     { "action": "codex_computer_use_*", "resource": "*", "effect": "allow" }
   ],
-  "plugin": ["@plannotator/opencode@latest"],
+  "plugins": [
+    "@plannotator/opencode@latest",
+    "github:anomalyco/opencode-ios#main::path:packages/notify-plugin"
+  ],
   "mcp": {
     "codex-computer-use": {
       "type": "local",

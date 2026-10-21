@@ -5,6 +5,43 @@
             "complex_modifications": {
                 "rules": [
                     {
+                        "description": "Fn+F1/F2: Adjust keyboard illumination",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "f1",
+                                    "modifiers": { "mandatory": ["fn"] }
+                                },
+                                "to": [
+                                    { "apple_vendor_top_case_key_code": "illumination_down" }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "from": {
+                                    "key_code": "f2",
+                                    "modifiers": { "mandatory": ["fn"] }
+                                },
+                                "to": [
+                                    { "apple_vendor_top_case_key_code": "illumination_up" }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "F4: Open Raycast File Search",
+                        "manipulators": [
+                            {
+                                "from": { "key_code": "f4" },
+                                "to": [
+                                    { "shell_command": "/usr/bin/open raycast://extensions/raycast/file-search/search-files" }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
                         "description": "MX Master 3: Map side buttons to browser back/forward",
                         "manipulators": [
                             {
@@ -34,7 +71,7 @@
             "devices": [
                 {
                     "identifiers": { "is_keyboard": true },
-                    "ignore": true
+                    "ignore": false
                 },
                 {
                     "identifiers": {

@@ -1,5 +1,15 @@
 [
   {
+    "key": "mod+shift+b",
+    "command": "threadPanel.toggle",
+    "when": "!terminalFocus"
+  },
+  {
+    "key": "mod+f",
+    "command": "chat.find",
+    "when": "!terminalFocus && !previewFocus"
+  },
+  {
     "key": "mod+b",
     "command": "sidebar.toggle"
   },
@@ -380,5 +390,14 @@
   {
     "key": "mod+e",
     "command": "rightPanel.toggle"
+  },
+  {
+    "key": "mod+t",
+    "command": "rightPanel.new",
+    "when": "rightPanelOpen && !terminalFocus"
+  },
+  {
+    "key": "mod+shift+t",
+    "command": "view.reopenClosed"
   }
 ]
