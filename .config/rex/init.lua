@@ -38,26 +38,34 @@ for direction, key in pairs(keys) do
 	rex.bind(key, "navigate", { direction = direction })
 end
 
--- This quick-opens an opencode session in the current directory
-rex.bind("ctrl+o", function()
-	local process = assert(rex.block.call(terminal, "process", {}))
-	local cwd = process.foreground and process.foreground.cwd
-	if not cwd then
-		cwd = assert(rex.block.call(terminal, "pwd", {})).pwd
-	end
-	assert(cwd, "The focused terminal has no working directory")
+rex.action({
+	name = "open_opencode",
+	title = "Open OpenCode in a new tab",
+	run = function(ctx)
+		local process = assert(rex.block.call(terminal, "process", {}))
+		local cwd = process.foreground and process.foreground.cwd
+		if not cwd then
+			cwd = assert(rex.block.call(terminal, "pwd", {})).pwd
+		end
+		assert(cwd, "The focused terminal has no working directory")
 
-	assert(rex.session.new_window({
-		window_label = "opencode",
-		layout = rex.layout.block({
-			flavor = terminal .. ".shell",
-			options = {
-				-- Load your PATH and keep the shell so Rex can identify OpenCode.
-				command = { "/bin/zsh", "-lic", "opencode" },
-				shell = "none",
-				cwd = cwd,
-			},
-		}),
-	}))
-	return true
-end)
+		local window = assert(rex.session.new_window({
+			window_label = "opencode",
+			layout = rex.layout.block({
+				flavor = terminal .. ".shell",
+				options = {
+					-- Load your PATH and keep the shell so Rex can identify OpenCode.
+					command = { "/bin/zsh", "-lic", "opencode" },
+					shell = "none",
+					cwd = cwd,
+				},
+			}),
+		}))
+		rex.client.queue("session.select", {
+			session_id = ctx.session_id,
+			window_id = window.window_id,
+		})
+	end,
+})
+
+rex.bind("ctrl+o", "open_opencode")
