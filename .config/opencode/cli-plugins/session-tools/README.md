@@ -50,4 +50,6 @@ The plugin runs in the terminal client so each tmux pane reports its own session
 
 ## Development
 
-`npm ci`, then `npm run types`.
+`npm ci`, then `npm run types` and `npm test`. The rendering tests use Bun and
+OpenTUI's native test renderer to exercise the side-answer panel and background
+result card. Development dependencies match OpenCode 2.1.2 and OpenTUI 0.6.6.

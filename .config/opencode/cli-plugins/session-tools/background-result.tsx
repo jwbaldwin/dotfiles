@@ -53,8 +53,8 @@ export function BackgroundResult(props: {
     ],
   }));
   const syntaxStyle = createMemo(() => {
-    const style = generateSyntax(context.theme);
-    onCleanup(() => style.destroy());
+    const style = generateSyntax(context.theme, context.renderer.nativeScene);
+    onCleanup(() => void context.renderer.idle().then(() => style.destroy()));
     return style;
   });
   return (
