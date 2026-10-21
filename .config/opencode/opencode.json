@@ -19,7 +19,7 @@
   ],
   "plugins": [
     "@plannotator/opencode@latest",
-    "/Users/jbaldwin/repos/personal/rex-relay"
+    "/Users/jbaldwin/repos/projects/rex-relay"
   ],
   "mcp": {
     "codex-computer-use": {
