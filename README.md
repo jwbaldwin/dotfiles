@@ -71,6 +71,20 @@ home directory:
 dotfiles config --local status.showUntrackedFiles no
 ```
 
+## Work-only OpenCode MCPs
+
+OpenCode's `~/.config/opencode/plugins/work-mcps.ts` disables `zapier-mcp` and
+`sherlock` unless `WORK` is exactly `true`. Other MCPs keep their configured
+behavior. This uses the same flag as the Neovim work configuration.
+
+Keep `export WORK=true` in the work computer's untracked `~/.zshenv`, not in
+synced dotfiles. Leave it unset or set it to `false` on personal computers.
+The plugin syncs with dotfiles; the machine's work setting does not.
+
+OpenCode reads the flag from its server's environment. After changing it,
+open a new shell and run `opencode service restart`. Setting `WORK` in a client
+shell does not change an already-running server.
+
 ## Committing new changes
 
 Suppose you just made a change to your `.zshrc` file and would like to commit it
