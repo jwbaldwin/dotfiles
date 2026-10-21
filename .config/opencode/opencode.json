@@ -19,7 +19,8 @@
   ],
   "plugins": [
     "@plannotator/opencode@latest",
-    "github:anomalyco/opencode-ios#main::path:packages/notify-plugin"
+    "github:anomalyco/opencode-ios#main::path:packages/notify-plugin",
+    "/Users/jbaldwin/repos/personal/rex-relay"
   ],
   "mcp": {
     "codex-computer-use": {

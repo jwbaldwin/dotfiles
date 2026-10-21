@@ -14,7 +14,9 @@
   "plugins": [
     "-opencode.btw",
     "./cli-plugins/session-tools",
-    "opencode-quick-quote"
+    "opencode-quick-quote",
+    "/Users/jbaldwin/repos/personal/rex-res/opencode",
+    "/Users/jbaldwin/repos/personal/rex-relay"
   ],
   "attention": {
     "enabled": true,
