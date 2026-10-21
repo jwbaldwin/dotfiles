@@ -1,7 +1,9 @@
 -- let cmd+s save
 rex.bind("cmd+s", "com.superlogical.terminal.write", { data = "\019" })
 
-dofile(os.getenv("HOME") .. "/repos/personal/rex-res/lua/plugin.lua")
+dofile(os.getenv("HOME") .. "/repos/projects/rex-res/lua/plugin.lua").setup({
+	prefix = "ctrl+b",
+})
 
 local terminal = "com.superlogical.terminal"
 local editors = { vi = true, vim = true, nvim = true, view = true, vimx = true }
