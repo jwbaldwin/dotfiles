@@ -309,57 +309,11 @@ require("lazy").setup({
 			require("core.plugins.harpoon").config()
 		end,
 	},
-	-- {
-	-- 	"swaits/zellij-nav.nvim",
-	-- 	lazy = true,
-	-- 	event = "VeryLazy",
-	-- 	keys = {
-	-- 		{ "<c-h>", "<cmd>ZellijNavigateLeftTab<cr>", { silent = true, desc = "navigate left or tab" } },
-	-- 		{ "<c-j>", "<cmd>ZellijNavigateDown<cr>", { silent = true, desc = "navigate down" } },
-	-- 		{ "<c-k>", "<cmd>ZellijNavigateUp<cr>", { silent = true, desc = "navigate up" } },
-	-- 		{ "<c-l>", "<cmd>ZellijNavigateRightTab<cr>", { silent = true, desc = "navigate right or tab" } },
-	-- 	},
-	-- 	opts = {},
-	-- },
-	-- Seamless vim/tmux navigation (wintab mode) — no plugin needed.
-	-- Pairs with C-h/j/k/l bindings in .tmux.conf.
-	-- h/l: vim splits → tmux panes → tmux windows
-	-- j/k: vim splits → tmux panes
 	{
-		"tmux-navigate",
+		"rex-navigate",
 		virtual = true,
 		config = function()
-			if vim.env.TMUX == nil or vim.env.TMUX == "" then
-				return
-			end
-
-			local pane_at = { h = "left", j = "bottom", k = "top", l = "right" }
-			local pane_flag = { h = "-L", j = "-D", k = "-U", l = "-R" }
-			local win_flag = { h = "-p", l = "-n" }
-
-			local function navigate(dir)
-				local prev_win = vim.fn.winnr()
-				vim.cmd("wincmd " .. dir)
-				if vim.fn.winnr() ~= prev_win then
-					return
-				end
-
-				local at_boundary = vim.trim(
-					vim.fn.system("tmux display-message -p '#{pane_at_" .. pane_at[dir] .. "}'")
-				) == "1"
-
-				if not at_boundary then
-					vim.fn.system("tmux select-pane " .. pane_flag[dir])
-				elseif win_flag[dir] then
-					vim.fn.system("tmux select-window " .. win_flag[dir])
-				end
-			end
-
-			for _, dir in ipairs({ "h", "j", "k", "l" }) do
-				vim.keymap.set("n", "<C-" .. dir .. ">", function()
-					navigate(dir)
-				end, { silent = true, desc = "Navigate " .. dir })
-			end
+			require("core.plugins.rex_navigation").setup()
 		end,
 	},
 	"mg979/vim-visual-multi",
@@ -403,18 +357,6 @@ require("lazy").setup({
 			"ToggleTermSetName",
 		},
 		opts = require("core.plugins.configs").toggleterm.opts,
-	},
-	{
-		"christoomey/vim-tmux-navigator",
-		lazy = true,
-		cmd = {
-			"TmuxNavigateLeft",
-			"TmuxNavigateDown",
-			"TmuxNavigateUp",
-			"TmuxNavigateRight",
-			"TmuxNavigatePrevious",
-			"TmuxNavigatorProcessList",
-		},
 	},
 
 	-- ui plugins

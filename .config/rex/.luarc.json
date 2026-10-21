@@ -1,0 +1,4 @@
+{
+  "diagnostics.globals": ["rex"],
+  "runtime.version": "Lua 5.1"
+}

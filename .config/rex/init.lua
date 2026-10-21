@@ -1,0 +1,58 @@
+local terminal = "com.superlogical.terminal"
+local editors = { vi = true, vim = true, nvim = true, view = true, vimx = true }
+local keys = { left = "ctrl+h", right = "ctrl+l", up = "ctrl+k", down = "ctrl+j" }
+local tab_actions = { left = "client.tab.previous", right = "client.tab.next" }
+
+rex.action {
+  name = "navigate",
+  title = "Move Between Rex Panes and Tabs",
+  args = { direction = "string" },
+  repeats = true,
+  run = function(ctx, args)
+    local direction = args.direction
+    assert(keys[direction], "Unknown navigation direction")
+    -- Physical keys go to Vim first; commands from Vim must not be sent back.
+    if ctx.origin == "key" then
+      local process = assert(rex.block.call(terminal, "process", {}))
+      local name = process.foreground and process.foreground.name:lower() or ""
+      local editor = name:gsub("^g", ""):gsub("diff$", "")
+      if editors[editor] or name:find("fzf", 1, true) then
+        rex.client.queue("pane.send_key", { key = keys[direction] })
+        return
+      end
+    end
+
+    local focused = assert(rex.session.focus_block { block_id = ctx.block_id })
+    local moved = assert(rex.session.focus_direction { direction = direction, wrap = false })
+    if moved.revision == focused.revision and tab_actions[direction] then
+      rex.client.queue(tab_actions[direction])
+    end
+  end,
+}
+
+for direction, key in pairs(keys) do
+  rex.bind(key, "navigate", { direction = direction })
+end
+
+rex.bind("ctrl+o", function()
+  local process = assert(rex.block.call(terminal, "process", {}))
+  local cwd = process.foreground and process.foreground.cwd
+  if not cwd then
+    cwd = assert(rex.block.call(terminal, "pwd", {})).pwd
+  end
+  assert(cwd, "The focused terminal has no working directory")
+
+  assert(rex.session.new_window {
+    window_label = "opencode",
+    layout = rex.layout.block {
+      flavor = terminal .. ".shell",
+      options = {
+        -- Load your PATH and keep the shell so Rex can identify OpenCode.
+        command = { "/bin/zsh", "-lic", "opencode" },
+        shell = "none",
+        cwd = cwd,
+      },
+    },
+  })
+  return true
+end)
