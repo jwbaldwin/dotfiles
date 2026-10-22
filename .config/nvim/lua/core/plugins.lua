@@ -412,6 +412,7 @@ require("lazy").setup({
 			})
 		end,
 	},
+	{ "rawnly/rex.nvim", opts = {} },
 	{
 		"folke/sidekick.nvim",
 		cmd = "Sidekick",
