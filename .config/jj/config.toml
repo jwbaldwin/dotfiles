@@ -2,7 +2,7 @@
 
 [user]
 name = "James Baldwin"
-email = "james.baldwin@zapier.com"
+email = "jwbaldwin3@gmail.com"
 
 [ui]
 default-command = "log"
@@ -39,3 +39,8 @@ auto-track-created-bookmarks = "*"
 
 [templates]
 git_push_bookmark = '"jb/push-" ++ change_id.short()'
+
+[[--scope]]
+--when.environments = ["WORK=true"]
+[--scope.user]
+email = "james.baldwin@zapier.com"
