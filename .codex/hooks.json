@@ -1,16 +1,5 @@
 {
   "hooks": {
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/jbaldwin/.local/bin/plannotator",
-            "timeout": 345600
-          }
-        ]
-      }
-    ],
     "SessionStart": [
       {
         "hooks": [

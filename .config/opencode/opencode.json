@@ -18,7 +18,6 @@
     { "action": "codex_computer_use_*", "resource": "*", "effect": "allow" }
   ],
   "plugins": [
-    "@plannotator/opencode@latest",
     "/Users/jbaldwin/repos/projects/rex-relay"
   ],
   "mcp": {
