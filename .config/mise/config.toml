@@ -4,3 +4,7 @@ neovim = "latest"
 node = "latest"
 "npm:@earendil-works/pi-coding-agent" = "latest"
 tree-sitter = "latest"
+viteplus = "latest"
+
+[settings.shims]
+exclude = ["zoxide"]
