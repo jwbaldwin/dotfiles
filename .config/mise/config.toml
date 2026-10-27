@@ -1,5 +1,12 @@
 [tools]
 bun = "latest"
+mole = { version = "latest", additional_asset_patterns = ['binaries-darwin-{{ arch(x64="amd64") }}.tar.gz'], bin_path = ".", filter_bins = ["mo", "mole"], platforms = { macos-arm64 = { url = "https://github.com/tw93/Mole/archive/refs/tags/V{{ version }}.tar.gz" }, macos-x64 = { url = "https://github.com/tw93/Mole/archive/refs/tags/V{{ version }}.tar.gz" } }, postinstall = """
+set -eu
+cd "$MISE_TOOL_INSTALL_PATH"
+mv analyze-darwin-* bin/analyze-go
+mv status-darwin-* bin/status-go
+ln -s ../lib ../bin .mise-bins/
+""", strip_components = 1, version_prefix = "V" }
 neovim = "latest"
 node = "latest"
 "npm:@earendil-works/pi-coding-agent" = "latest"
