@@ -54,7 +54,6 @@ rex.action({
 		assert(cwd, "The focused terminal has no working directory")
 
 		local window = assert(rex.session.new_window({
-			window_label = "opencode",
 			layout = rex.layout.block({
 				flavor = terminal .. ".shell",
 				options = {
@@ -65,11 +64,17 @@ rex.action({
 				},
 			}),
 		}))
-		rex.client.queue("session.select", {
-			session_id = ctx.session_id,
-			window_id = window.window_id,
-		})
+		-- A queued client action runs before the app has received the new tab, so select it from a separate process.
+		assert(rex.exec.start({
+			os.getenv("HOME") .. "/.local/bin/rex",
+			"--client",
+			ctx.client_id,
+			"do",
+			"session.select",
+			"session_id=" .. ctx.session_id,
+			"window_id=" .. window.window_id,
+		}, { detach = true }))
 	end,
 })
 
-rex.bind("ctrl+o", "open_opencode")
+rex.bind("ctrl+n", "open_opencode")
