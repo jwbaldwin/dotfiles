@@ -8,7 +8,10 @@ dofile(os.getenv("HOME") .. "/repos/projects/rex-res/lua/plugin.lua").setup({
 local terminal = "com.superlogical.terminal"
 local editors = { vi = true, vim = true, nvim = true, view = true, vimx = true }
 local keys = { left = "ctrl+h", right = "ctrl+l", up = "ctrl+k", down = "ctrl+j" }
-local tab_actions = { left = "client.tab.previous", right = "client.tab.next" }
+-- Rex can't report the app's tab style, so keep this in sync with Toggle Tab Style.
+local tab_style = "vertical" -- "horizontal" when tabs are on top
+local tab_actions = tab_style == "vertical" and { up = "client.tab.previous", down = "client.tab.next" }
+	or { left = "client.tab.previous", right = "client.tab.next" }
 
 -- This is the c-hjkl navigation that lets me move between panes and tabs
 rex.action({
