@@ -1,4 +1,19 @@
 {
-  "imports": ["opencode"],
-  "mcpServers": {}
+  "mcpServers": {
+    "codex-computer-use": {
+      "command": "~/.local/share/codex-computer-use/node_modules/.bin/codex-computer-use-mcp"
+    },
+    "agent-browser": {
+      "command": "agent-browser",
+      "args": ["mcp"],
+      "description": "Browser automation: open pages, snapshot interactive elements, click, fill forms, screenshots"
+    },
+    "context7": {
+      "url": "https://mcp.context7.com/mcp",
+      "headers": { "CONTEXT7_API_KEY": "${CONTEXT7_API_KEY}" }
+    },
+    "planetscale": {
+      "url": "https://mcp.pscale.dev/mcp/planetscale"
+    }
+  }
 }

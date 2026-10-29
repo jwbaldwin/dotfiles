@@ -6,7 +6,7 @@ import {
   rm,
   writeFile,
 } from "node:fs/promises";
-import { homedir } from "node:os";
+import { getAgentDir } from "@earendil-works/pi-coding-agent";
 import path from "node:path";
 
 export const PARKING_STATUS_EVENT = "pi-parking/status/v1";
@@ -28,7 +28,7 @@ export interface ParkingStatusEvent {
   parked: boolean;
 }
 
-const parkingDirectory = path.join(homedir(), ".pi", "agent", "parked");
+const parkingDirectory = path.join(getAgentDir(), "parked");
 
 function parkedSessionPath(sessionId: string): string {
   const safeSessionId = sessionId.replaceAll(/[^a-zA-Z0-9_-]/g, "_");

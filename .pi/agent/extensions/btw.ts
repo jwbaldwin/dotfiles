@@ -1,5 +1,5 @@
 import type { AgentMessage } from "@earendil-works/pi-agent-core";
-import type { AssistantMessage, Message, Tool } from "@earendil-works/pi-ai";
+import type { AssistantMessage, Message } from "@earendil-works/pi-ai";
 import {
   convertToLlm,
   copyToClipboard,
@@ -171,18 +171,6 @@ function collectContextMessages(ctx: ExtensionCommandContext, streamingAssistant
   return convertToLlm(agentMessages);
 }
 
-function activeToolCatalog(pi: ExtensionAPI): Tool[] {
-  const activeNames = new Set(pi.getActiveTools());
-  return pi
-    .getAllTools()
-    .filter((tool) => activeNames.has(tool.name))
-    .map((tool) => ({
-      name: tool.name,
-      description: tool.description,
-      parameters: tool.parameters,
-    }));
-}
-
 export default function btwExtension(pi: ExtensionAPI) {
   let currentRequest: BtwRequest | undefined;
   let streamingAssistant: AgentMessage | undefined;
@@ -256,12 +244,6 @@ export default function btwExtension(pi: ExtensionAPI) {
       const model = request.ctx.model;
       if (!model) throw new Error("No active model available for /btw.");
 
-      const provider = request.ctx.modelRegistry.getProvider(model.provider);
-      if (!provider) throw new Error(`Provider ${model.provider} is unavailable.`);
-
-      const auth = await request.ctx.modelRegistry.getApiKeyAndHeaders(model);
-      if (!auth.ok) throw new Error(auth.error);
-
       const messages = collectContextMessages(request.ctx, streamingAssistant);
       messages.push({
         role: "user",
@@ -274,18 +256,10 @@ export default function btwExtension(pi: ExtensionAPI) {
         timestamp: Date.now(),
       });
 
-      const requestModel = auth.baseUrl ? { ...model, baseUrl: auth.baseUrl } : model;
-      const stream = provider.streamSimple(
-        requestModel,
+      const stream = request.ctx.modelRegistry.streamSimple(
+        model,
+        { messages },
         {
-          systemPrompt: request.ctx.getSystemPrompt(),
-          messages,
-          tools: activeToolCatalog(pi),
-        },
-        {
-          apiKey: auth.apiKey,
-          headers: auth.headers,
-          env: auth.env,
           signal: request.abortController.signal,
           reasoning: request.ctx.thinkingLevel === "off" ? undefined : request.ctx.thinkingLevel,
           cacheRetention: "short",

@@ -1,12 +1,8 @@
 import { readFileSync, statSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import type { ImageContent } from "@earendil-works/pi-ai";
-import {
-  CustomEditor,
-  type ExtensionAPI,
-  type KeybindingsManager,
-} from "@earendil-works/pi-coding-agent";
-import type { Component, EditorTheme, TUI } from "@earendil-works/pi-tui";
+import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
+import type { Component } from "@earendil-works/pi-tui";
 
 const BRACKETED_PASTE = /^\x1b\[200~([\s\S]*)\x1b\[201~$/;
 const IMAGE_MARKER = /\[Image #(\d+)(?:, \d+x\d+)?\]/g;
@@ -134,93 +130,85 @@ function droppedImagePaths(data: string): string[] | undefined {
   return paths;
 }
 
-export default function promptImageDrop(pi: ExtensionAPI) {
-  const images = new Map<number, DroppedImage>();
-  let nextImageId = 1;
+const images = new Map<number, DroppedImage>();
+let nextImageId = 1;
 
-  pi.on("session_start", (_event, ctx) => {
-    if (ctx.mode !== "tui") return;
+export function attachImageDrop(editor: PromptEditor): void {
+  const handleInput = editor.handleInput.bind(editor);
+  const render = editor.render.bind(editor);
+  const pasteStart = "\x1b[200~";
+  const pasteEnd = "\x1b[201~";
+  let pasteBuffer: string | undefined;
 
-    const previousEditor = ctx.ui.getEditorComponent();
-    ctx.ui.setEditorComponent((tui: TUI, theme: EditorTheme, keybindings: KeybindingsManager) => {
-      const editor = (previousEditor?.(tui, theme, keybindings) ??
-        new CustomEditor(tui, theme, keybindings)) as PromptEditor;
-      const handleInput = editor.handleInput.bind(editor);
-      const render = editor.render.bind(editor);
-      const pasteStart = "\x1b[200~";
-      const pasteEnd = "\x1b[201~";
-      let pasteBuffer: string | undefined;
+  const insertDroppedImages = (data: string, replaceEditor = false): boolean => {
+    const paths = droppedImagePaths(data);
+    if (!paths) return false;
 
-      const insertDroppedImages = (data: string, replaceEditor = false): boolean => {
-        const paths = droppedImagePaths(data);
-        if (!paths) return false;
+    const markers: string[] = [];
+    for (const path of paths) {
+      const bytes = readFileSync(path);
+      const mimeType = imageType(bytes)!;
+      const id = nextImageId++;
+      const dimensions = imageDimensions(bytes, mimeType);
+      const marker = `[Image #${id}${dimensions ? `, ${dimensions}` : ""}]`;
+      images.set(id, { path, marker, mimeType });
+      markers.push(marker);
+    }
+    if (replaceEditor) editor.setText("");
+    editor.insertTextAtCursor(markers.join(" "));
+    return true;
+  };
 
-        const markers: string[] = [];
-        for (const path of paths) {
-          const bytes = readFileSync(path);
-          const mimeType = imageType(bytes)!;
-          const id = nextImageId++;
-          const dimensions = imageDimensions(bytes, mimeType);
-          const marker = `[Image #${id}${dimensions ? `, ${dimensions}` : ""}]`;
-          images.set(id, { path, marker, mimeType });
-          markers.push(marker);
-        }
-        if (replaceEditor) editor.setText("");
-        editor.insertTextAtCursor(markers.join(" "));
-        return true;
-      };
+  editor.handleInput = (data: string) => {
+    if (pasteBuffer !== undefined) {
+      pasteBuffer += data;
+      const end = pasteBuffer.indexOf(pasteEnd);
+      if (end < 0) return;
 
-      editor.handleInput = (data: string) => {
-        if (pasteBuffer !== undefined) {
-          pasteBuffer += data;
-          const end = pasteBuffer.indexOf(pasteEnd);
-          if (end < 0) return;
+      const pasted = pasteBuffer.slice(0, end);
+      const remaining = pasteBuffer.slice(end + pasteEnd.length);
+      pasteBuffer = undefined;
+      if (!insertDroppedImages(pasted)) handleInput(`${pasteStart}${pasted}${pasteEnd}`);
+      if (remaining) editor.handleInput(remaining);
+      return;
+    }
 
-          const pasted = pasteBuffer.slice(0, end);
-          const remaining = pasteBuffer.slice(end + pasteEnd.length);
-          pasteBuffer = undefined;
-          if (!insertDroppedImages(pasted)) handleInput(`${pasteStart}${pasted}${pasteEnd}`);
-          if (remaining) editor.handleInput(remaining);
-          return;
-        }
+    const start = data.indexOf(pasteStart);
+    if (start >= 0) {
+      if (start > 0) handleInput(data.slice(0, start));
+      const rest = data.slice(start + pasteStart.length);
+      const end = rest.indexOf(pasteEnd);
+      if (end < 0) {
+        pasteBuffer = rest;
+        return;
+      }
 
-        const start = data.indexOf(pasteStart);
-        if (start >= 0) {
-          if (start > 0) handleInput(data.slice(0, start));
-          const rest = data.slice(start + pasteStart.length);
-          const end = rest.indexOf(pasteEnd);
-          if (end < 0) {
-            pasteBuffer = rest;
-            return;
-          }
+      const pasted = rest.slice(0, end);
+      if (!insertDroppedImages(pasted)) handleInput(`${pasteStart}${pasted}${pasteEnd}`);
+      const remaining = rest.slice(end + pasteEnd.length);
+      if (remaining) editor.handleInput(remaining);
+      return;
+    }
 
-          const pasted = rest.slice(0, end);
-          if (!insertDroppedImages(pasted)) handleInput(`${pasteStart}${pasted}${pasteEnd}`);
-          const remaining = rest.slice(end + pasteEnd.length);
-          if (remaining) editor.handleInput(remaining);
-          return;
-        }
+    if (insertDroppedImages(data)) return;
+    handleInput(data);
 
-        if (insertDroppedImages(data)) return;
-        handleInput(data);
+    // Some terminals deliver a dropped path one character at a time rather than
+    // as bracketed paste. Replace it as soon as the complete path exists.
+    insertDroppedImages(editor.getExpandedText(), true);
+  };
 
-        // Some terminals deliver a dropped path one character at a time rather than
-        // as bracketed paste. Replace it as soon as the complete path exists.
-        insertDroppedImages(editor.getExpandedText(), true);
-      };
+  editor.render = (width: number) =>
+    render(width).map((line) =>
+      line.replace(
+        IMAGE_MARKER,
+        (marker) => `${IMAGE_MARKER_ORANGE}\x1b[4m${marker}\x1b[24m\x1b[39m`,
+      ),
+    );
 
-      editor.render = (width: number) =>
-        render(width).map((line) =>
-          line.replace(
-            IMAGE_MARKER,
-            (marker) => `${IMAGE_MARKER_ORANGE}\x1b[4m${marker}\x1b[24m\x1b[39m`,
-          ),
-        );
+}
 
-      return editor;
-    });
-  });
-
+export function attachDroppedImagesOnSubmit(pi: ExtensionAPI): void {
   pi.on("input", async (event) => {
     const attached: ImageContent[] = [...(event.images ?? [])];
     let foundImage = false;

@@ -25,7 +25,8 @@ function collectUserPrompts(ctx: ExtensionContext): string[] {
   const prompts: string[] = [];
   for (const entry of ctx.sessionManager.getBranch()) {
     if (entry.type !== "message" || entry.message.role !== "user") continue;
-    const text = entry.message.content
+    const content = entry.message.content;
+    const text = (typeof content === "string" ? [{ type: "text" as const, text: content }] : content)
       .filter((part): part is { type: "text"; text: string } => part.type === "text")
       .map((part) => part.text)
       .join(" ")
@@ -96,18 +97,13 @@ export default function autoSessionName(pi: ExtensionAPI) {
 
   const generateName = async (ctx: ExtensionContext, prompts: string[]) => {
     const model = ctx.modelRegistry.find(PROVIDER, MODEL);
-    if (!model) return;
-    const provider = ctx.modelRegistry.getProvider(PROVIDER);
-    if (!provider) return;
-
-    const auth = await ctx.modelRegistry.getApiKeyAndHeaders(model);
-    if (!auth.ok || !isActive(ctx)) return;
+    if (!model || !isActive(ctx)) return;
 
     namingAbort = new AbortController();
     const timeout = setTimeout(() => namingAbort?.abort(), 15_000);
 
     try {
-      const stream = provider.streamSimple(
+      const stream = ctx.modelRegistry.streamSimple(
         model,
         {
           systemPrompt: "You write short, accurate titles for coding sessions.",
@@ -118,9 +114,6 @@ export default function autoSessionName(pi: ExtensionAPI) {
           }],
         },
         {
-          apiKey: auth.apiKey,
-          headers: auth.headers,
-          env: auth.env,
           signal: namingAbort.signal,
           reasoning: "minimal",
           transport: "sse",
