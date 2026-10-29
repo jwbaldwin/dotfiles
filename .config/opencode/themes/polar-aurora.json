@@ -20,7 +20,7 @@
     },
     "background": {
       "base": "transparent",
-      "raised": {"base": "#0f1419", "high": "#12171c", "max": "#1b2026"},
+      "raised": {"base": "transparent", "high": "#12171c", "max": "#1b2026"},
       "action": {
         "primary": {"base": "transparent", "$hovered": "#1a2e2d", "$focused": "#6ef2b8", "$selected": "#1a2e2d"},
         "secondary": {"base": "transparent", "$hovered": "#1b2026", "$focused": "#6ef2b8"},
