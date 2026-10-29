@@ -85,10 +85,10 @@ If James later edits the theme in Rex, re-export this record from `Workspace.cus
 
 ## Ports
 
-The same palette drives these themes. When the palette changes, update them too.
+Related themes in other tools. When the palette changes, check them too.
 
-- opencode: `~/.config/opencode/themes/zinc-aurora.json`, selected in `~/.config/opencode/cli.json`. Backgrounds are transparent so the terminal's `#141414` shows through. Dialogs use `#141414` and raised panels use `#1c1c1c`/`#242424`. Each hue ramp runs from a light tint (100) through the ANSI color (200; green 200 is the mint cursor) to tints mixed onto `#141414` (300–900).
-- pi: `~/.pi/agent/themes/zinc-aurora.json`, selected in `~/.pi/agent/settings.json`. Uses the same roles as opencode: mint accents, headings and bullets; purple keywords; bright blue functions; bright green strings; and `#323232` selection and borders.
+- opencode (port): `~/.config/opencode/themes/zinc-aurora.json`, selected in `~/.config/opencode/cli.json`. Backgrounds are transparent so the terminal's `#141414` shows through. Dialogs use `#141414` and raised panels use `#1c1c1c`/`#242424`. Each hue ramp runs from a light tint (100) through the ANSI color (200; green 200 is the mint cursor) to tints mixed onto `#141414` (300–900).
+- pi (companion, not a port): `~/.pi/agent/themes/zinc.json`, selected as `"theme": "zinc"` in `~/.pi/agent/settings.json`. James prefers this theme as it is, so don't convert it to the Zinc Aurora palette. It shares the neutral zinc idea but is calmer: true-gray text (`#e4e4e4` text, `#9a9a9a` muted, `#6e6e6e` dim, `#3c3c3c` faint, `#2c2c2c` selection) and muted pastel accents (teal `#8fd6bf`, blue `#8fb4e0`, red `#e58a8a`, yellow `#e3c78a`, green `#9fd49a`). Accents, headings and bullets stay gray-white; color appears only in links, code, diffs, status, syntax and the higher thinking levels (teal, then yellow). Panel backgrounds are transparent.
 
 ## Theme record
 
