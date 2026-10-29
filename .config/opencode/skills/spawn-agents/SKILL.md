@@ -1,120 +1,45 @@
 ---
 name: spawn-agents
-description: Spawn persistent coding agent sessions (OpenCode or pi) in Herdr tabs or tmux windows with preloaded prompts. Use when James asks to launch or spawn agents, open agent tabs/windows/panes, or run multiple agents in parallel.
+description: Spawn persistent coding agent sessions (pi or OpenCode) in Rex tabs with preloaded prompts. Use when James asks to launch or spawn agents, open agent tabs or panes, or run multiple agents in parallel.
 ---
 
 # Spawn Agents
 
-Launch one visible, persistent agent TUI per requested agent. Use Herdr when the current agent runs inside Herdr, tmux when it runs inside tmux, and the multiplexer James explicitly names when he asks for one.
+Open one Rex tab per agent, running an interactive agent that starts with its prompt. For anything beyond this, such as layouts, other sessions, or app control, run `rex skill show` and follow that guide.
 
-## Choose The Agent CLI
+## Pick the agent
 
-Spawn the same harness this skill is invoked from, unless James names one explicitly:
+Use the agent James names. Otherwise use `pi` when `PI_SESSION_ID` is set, and `opencode` if it isn't.
 
-1. If James explicitly says pi or OpenCode, use that.
-2. Otherwise, if `PI_SESSION_ID` is set, you are running inside pi — spawn `pi`.
-3. Otherwise spawn `opencode`.
+- pi takes the prompt as a positional argument: `pi "$prompt"`
+- OpenCode takes it through a flag: `opencode --prompt "$prompt"`. Never pass a bare positional argument, because OpenCode treats it as a project path.
 
-The two CLIs take prompts differently:
+## Spawn
 
-- **pi**: prompt is a positional argument — `pi "Review the current diff."`
-- **opencode**: prompt goes through `--prompt` — `opencode --prompt "Review the current diff."`. Never use `opencode "prompt"`; OpenCode interprets the positional argument as a project path.
-
-Herdr's `agent start --kind` value matches the CLI name: `pi` or `opencode`.
-
-## Choose The Backend
-
-1. If James explicitly says Herdr, require `HERDR_ENV=1` and use Herdr.
-2. If James explicitly says tmux, require `TMUX` and use tmux.
-3. Otherwise use Herdr when `HERDR_ENV=1`.
-4. Otherwise use tmux when `TMUX` is set.
-5. If neither environment is active, ask where to launch the agents.
-
-Prefer one Herdr tab or tmux window per agent unless James explicitly requests split panes. Use short, unique names that satisfy Herdr agent names: `[a-z][a-z0-9_-]{0,31}`.
-
-## Herdr Workflow
-
-Confirm the current Herdr context and resolve the caller's current workspace rather than relying on UI focus:
+Give each agent a short, unique tab name. Open it in the background so James keeps his focus:
 
 ```sh
-test "${HERDR_ENV:-}" = 1
-current="$(herdr pane current --current)"
-workspace_id="$(printf '%s\n' "$current" | jq -r '.result.pane.workspace_id')"
-herdr tab list --workspace "$workspace_id"
+rex window new -s "$REX_SESSION" reviewer -c "$PWD" --focus=false --json -- \
+  pi "Review the current diff and report actionable findings."
 ```
 
-Create a background tab in the caller's working directory and capture its root pane ID:
+Rex passes each word after `--` to the agent as its own argument, so long, multiline, or quoted prompts need no temp file or extra escaping. Keep the prompt in one quoted shell variable or string.
+
+Save `.block_ids[0]` from the JSON output. It identifies the agent's pane.
+
+Use split panes only if James asks for them: `rex split -s "$REX_SESSION" -b "$REX_BLOCK" --split=right --focus=false --json -- pi "$prompt"`.
+
+If `REX_SESSION` is unset, run `rex ls --json` and ask James which session to use.
+
+## Verify
+
+After a few seconds, confirm that each agent started and received its prompt:
 
 ```sh
-created="$(herdr tab create --workspace "$workspace_id" --cwd "$PWD" --label "reviewer" --no-focus)"
-pane_id="$(printf '%s\n' "$created" | jq -r '.result.root_pane.pane_id')"
+rex capture -s "$REX_SESSION" -b "$block" --trim | tail -20
+rex block call -s "$REX_SESSION" -b "$block" program_status
 ```
 
-Start and name the agent in that shell pane (`--kind pi` or `--kind opencode` per the CLI choice above), then submit the work through Herdr's agent surface:
+`program_status` reports the agent's state, such as `working`, `idle`, or `done`. Use it later to check whether an agent has finished. If the pane has disappeared or shows a shell prompt, read the capture before retrying.
 
-```sh
-herdr agent start reviewer --kind pi --pane "$pane_id"
-herdr agent prompt reviewer "Review the current diff and report actionable findings."
-```
-
-Do not add `--wait` when spawning independent background work unless James asks to wait for completion. Herdr validates that the expected agent owns the pane before accepting `agent prompt`, so do not use raw `send-keys` for normal prompts.
-
-For a long or heavily quoted prompt, write it under the approved temporary directory, read it into one quoted argument, then remove the file after `agent prompt` succeeds:
-
-```sh
-herdr agent prompt reviewer "$(</var/folders/m8/gss9chjj74l9hwrb58cb_4j00000gp/T/opencode/reviewer-prompt.txt)"
-```
-
-Verify the named agent and tab:
-
-```sh
-herdr agent get reviewer
-herdr tab list --workspace "$workspace_id"
-```
-
-If startup or prompting fails, inspect before retrying:
-
-```sh
-herdr pane process-info --pane "$pane_id"
-herdr pane read "$pane_id" --source visible
-```
-
-Never close a Herdr tab or pane that this workflow did not create.
-
-## Tmux Workflow
-
-Confirm the current tmux context:
-
-```sh
-tmux display-message -p '#S #{session_id} #{socket_path}'
-tmux list-windows
-```
-
-Create an empty window first, then launch the agent through its shell so the window remains open if the agent exits:
-
-```sh
-# pi
-tmux new-window -n "reviewer"
-tmux send-keys -t "reviewer" 'pi "Review the current diff."' C-m
-
-# opencode
-tmux new-window -n "reviewer"
-tmux send-keys -t "reviewer" 'opencode --prompt "Review the current diff."' C-m
-```
-
-For long, multiline, or heavily quoted prompts, write the prompt under the approved temporary directory and send a short command that reads it:
-
-```sh
-tmux new-window -n "reviewer"
-tmux send-keys -t "reviewer" 'pi "$(</var/folders/m8/gss9chjj74l9hwrb58cb_4j00000gp/T/opencode/reviewer-prompt.txt)"' C-m
-# or: opencode --prompt "$(<...)"
-```
-
-Remove temporary prompt files after the agent has launched. Verify both the window and prompt delivery:
-
-```sh
-tmux list-windows
-tmux capture-pane -t "reviewer" -p -S -20
-```
-
-If the command is sitting at a shell prompt, send `C-c` and retry with the prompt-file form.
+Close only the tabs this workflow opened: `rex window close -s "$REX_SESSION" "$window_id"`.
