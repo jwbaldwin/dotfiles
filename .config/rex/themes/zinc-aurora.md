@@ -83,6 +83,13 @@ Check: `defaults read com.superlogical.rex Workspace.darkThemeID` prints the ID 
 
 If James later edits the theme in Rex, re-export this record from `Workspace.customThemes` and update the tables above to match.
 
+## Ports
+
+The same palette drives these themes. When the palette changes, update them too.
+
+- opencode: `~/.config/opencode/themes/zinc-aurora.json`, selected in `~/.config/opencode/cli.json`. Backgrounds are transparent so the terminal's `#141414` shows through. Dialogs use `#141414` and raised panels use `#1c1c1c`/`#242424`. Each hue ramp runs from a light tint (100) through the ANSI color (200; green 200 is the mint cursor) to tints mixed onto `#141414` (300–900).
+- pi: `~/.pi/agent/themes/zinc-aurora.json`, selected in `~/.pi/agent/settings.json`. Uses the same roles as opencode: mint accents, headings and bullets; purple keywords; bright blue functions; bright green strings; and `#323232` selection and borders.
+
 ## Theme record
 
 The exact record from Rex. `createdAt` uses Apple's reference date (seconds since 2001-01-01).
