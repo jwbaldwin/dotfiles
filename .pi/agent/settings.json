@@ -19,5 +19,8 @@
   },
   "followUpMode": "all",
   "steeringMode": "all",
-  "hideThinkingBlock": false
+  "hideThinkingBlock": false,
+  "defaultProvider": "openai",
+  "defaultModel": "gpt-6.1-sol",
+  "defaultThinkingLevel": "high"
 }
