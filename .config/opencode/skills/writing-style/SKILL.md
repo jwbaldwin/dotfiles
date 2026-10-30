@@ -44,19 +44,41 @@ Use these guidelines for routine drafts. Consult [Slack drafting examples](refer
 
 ## For a Merge Request Description
 
-- Start with one or two sentences saying what changed and why it matters. Add only useful detail: behavior changes, reviewer-visible choices, rollout, or risks. A tiny MR may need one sentence; a risky one may need something more
+Write it the way James would explain the MR to a teammate: first person, active, short paragraphs of prose. It reads like a person talking through the work, not a changelog, a spec, or a headline
+
+### Shape
+
+1. **What this MR does.** Open with "This MR …" plus an active verb, then the whole scope in one or two sentences. Name the feature or idea, not a slogan
+   - Good: "This MR adds the core plumbing for tools with UI views: who gets to see them, and who doesn't"
+   - Bad: "Only show MCP Apps UI tools to clients that can render them" (no subject, reads like a headline)
+2. **How it works and where it lives.** Say where the new pieces go in the codebase and walk through the flow in plain words: what gets declared where, when it gets checked, what happens to it after
+3. **Design calls.** The decisions a reviewer would ask about, each with its reason: why it's built this way, what it matches in the existing code ("same as our other gates"), what it costs
+4. **User impact.** End with what changes for users or rollout, including "nothing changes until X" when that's true
+
+A small MR can collapse this into one or two sentences. Don't pad to fill the shape
+
+### Voice
+
+- Use "I" for James's decisions ("I put the registry for these tools in…") and "we" for how the system behaves ("we check the client's capabilities at build time")
+- Keep James's opinions and asides when he gives them, like a planned rename or a direction he wants the codebase to go. Mark them as opinion ("I think", "at some point") and keep them short
+- Prefer prose paragraphs. Don't add `**How**` / `**Design**` headings, and don't turn every sentence into a bullet. Bullets only for a real list of parallel items
+- Don't write it too literally or too tersely. Every sentence should carry a reason or a consequence, not just restate the diff
+- Name exact code (`sdk-tools`, `initialize`, `registerAppTool`) where it helps a reviewer find things; skip line-by-line detail they can read in the diff
 - Describe outcomes, not the agent's process, unless the investigation explains an important decision
-- Optimize for readability over "precision"; reviewers can inspect code for details
-- Each bullet must say: what changed + why it matters
-- Do not narrate your process unless it's important to mention the things you tried or explored to help the reviewer understand how we arrived at the outcome (this is often NOT necessary); describe outcomes
-- Never mention that you ran the test, lint, etc. That's useless and assumed. It's noise. We hate noise
+- Never mention running tests, lint, or type checks. That's assumed. It's noise
+- No period at the end of each paragraph's last sentence. Periods between sentences inside a paragraph are fine
 
-### Merge request description output shape (default)
+### Example James approved
 
-1. One-sentence summary
-2. 1-2 bullets of concrete changes for small - medium MRs, 2-4 bullets for larger MRs
-    - Only add a bullet if it describes a meaningful change that reviewers should know about
-3. **No periods on the last sentence**, or in module docs, it's too formal
+> This MR adds the core plumbing for tools with UI views: who gets to see them, and who doesn't. That covers tools that show a view alongside their normal result, and tools that only exist for a view to call
+>
+> I put the registry for these tools in the `sdk-tools` part of the code. That folder needs a rename at some point. I think the design there (a registry, building tools from it, and attaching them to a server) works well, and if we moved all future tools to that flow, not just SDK tools, I think it'd help us. Anyways, that's where new view tools go. A registry entry can now declare a `ui` view, and that view gets added to the tool when we build it and attach it to a server
+>
+> We check the client's capabilities at build time, same as our other gates. If the client can't render MCP Apps, it doesn't get view-only tools, and the rest come through without their view. 2026-07-28 clients send their capabilities on every request, so that's easy. 2025 clients only send them in `initialize`, so we save the answer with their client metadata and read it back on later requests. `initialize` now waits for that save so the next request can see it
+>
+> We also only advertise the `io.modelcontextprotocol/ui` extension when the client is actually getting a tool with a view. No tool sets `ui` yet, so nothing changes for users until the first one lands
+
+Use it to calibrate tone and structure. Don't copy its sentences
 
 ### Evidence in requested PR/MR drafts
 
