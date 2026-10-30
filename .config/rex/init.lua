@@ -80,4 +80,4 @@ rex.action({
 	end,
 })
 
-rex.bind("ctrl+n", "open_opencode")
+-- rex.bind("ctrl+n", "open_opencode")

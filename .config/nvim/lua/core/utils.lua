@@ -66,9 +66,13 @@ local function close_dashboard_windows()
 	end
 end
 
-M.jj_diff_hunks_to_qf = function()
+M.jj_diff_hunks_to_qf = function(revset)
 	local cwd = find_jj_root()
-	local result = vim.system({ "jj", "diff", "--git" }, { cwd = cwd, text = true }):wait()
+	local cmd = { "jj", "diff", "--git" }
+	if revset then
+		vim.list_extend(cmd, { "-r", revset })
+	end
+	local result = vim.system(cmd, { cwd = cwd, text = true }):wait()
 
 	if result.code ~= 0 then
 		vim.notify(result.stderr ~= "" and result.stderr or "jj diff failed", vim.log.levels.ERROR)
@@ -95,10 +99,73 @@ M.jj_diff_hunks_to_qf = function()
 		return
 	end
 
-	vim.fn.setqflist({}, "r", { title = "JJ Diff", items = qf_entries })
+	vim.fn.setqflist({}, "r", { title = "JJ Diff " .. (revset or "@"), items = qf_entries })
 	vim.cmd("cfirst")
 	close_dashboard_windows()
 	vim.cmd("botright copen")
+end
+
+local STACK_REVSET = "trunk()..@"
+
+local function list_stack_commits(cwd)
+	local template = table.concat({
+		"change_id.shortest(8)",
+		"self.diff().files().len()",
+		'if(self.contained_in("trunk()"), "trunk", "")',
+		"bookmarks",
+		"description.first_line()",
+	}, ' ++ "\\t" ++ ') .. ' ++ "\\n"'
+	local result = vim.system(
+		{ "jj", "log", "--no-graph", "--color=never", "-r", "trunk()::@", "-T", template },
+		{ cwd = cwd, text = true }
+	):wait()
+	if result.code ~= 0 then
+		return nil, result.stderr ~= "" and result.stderr or "jj log failed"
+	end
+
+	local commits = {}
+	for line in result.stdout:gmatch("[^\n]+") do
+		local fields = vim.split(line, "\t", { plain = true })
+		commits[#commits + 1] = {
+			change_id = fields[1],
+			files_changed = tonumber(fields[2]) or 0,
+			is_trunk = fields[3] == "trunk",
+			bookmarks = fields[4],
+			summary = table.concat(vim.list_slice(fields, 5), "\t"),
+		}
+	end
+	return commits
+end
+
+local function stack_choice_label(choice)
+	if choice.revset == STACK_REVSET then
+		return "[select all] " .. STACK_REVSET
+	end
+	local commit = choice.commit
+	if commit.is_trunk then
+		return ("[main - %s] %s"):format(commit.change_id, commit.bookmarks ~= "" and commit.bookmarks or commit.summary)
+	end
+	local summary = commit.summary ~= "" and commit.summary or "(no description)"
+	return ("[%s] ~%d %s"):format(commit.change_id, commit.files_changed, summary)
+end
+
+M.jj_pick_diff_to_qf = function()
+	local commits, err = list_stack_commits(find_jj_root())
+	if not commits then
+		vim.notify(err, vim.log.levels.ERROR)
+		return
+	end
+
+	local choices = { { revset = STACK_REVSET } }
+	for _, commit in ipairs(commits) do
+		choices[#choices + 1] = { revset = commit.change_id, commit = commit }
+	end
+
+	vim.ui.select(choices, { prompt = "Diff to quickfix", format_item = stack_choice_label }, function(choice)
+		if choice then
+			M.jj_diff_hunks_to_qf(choice.revset)
+		end
+	end)
 end
 
 M.close_buffer = function(bufnr)

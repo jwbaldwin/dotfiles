@@ -597,7 +597,7 @@ return {
 		{
 			"<leader>gq",
 			function()
-				require("core.utils").jj_diff_hunks_to_qf()
+				require("core.utils").jj_pick_diff_to_qf()
 			end,
 			desc = "[G]it diff [q]uickfix",
 		},
