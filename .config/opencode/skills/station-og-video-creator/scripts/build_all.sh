@@ -10,7 +10,7 @@ for clip in $dir/video/*.mp4; do
   ch=$(( cw * 630 / 1200 ))
   cx=$(( x + (w - cw) / 2 )); cy=$(( y + (h - ch) / 2 ))
   rm -rf $dir/frames-$id
-  $py -I $here/footage_loop.py $clip $dir/frames-$id $cx $cy $cw 4 1 $fps || continue
+  $py -I $here/footage_loop.py $clip $dir/frames-$id $cx $cy $cw 4 1 $fps || { echo "$id: clip too short, regrab from another start"; rm -rf $dir/frames-$id; continue; }
   (cd $dir/out && $here/encode.sh "../frames-$id/%04d.png" $id $fps >/dev/null)
 done
 $py -I - $dir <<'PY'
