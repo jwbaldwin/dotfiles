@@ -2,7 +2,7 @@ import type { AssistantMessage } from "@earendil-works/pi-ai";
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
 
 const MARKER_TYPE = "auto-session-name";
-const PROVIDER = "openai-codex";
+const PROVIDER = "openai";
 const MODEL = "gpt-5.6-luna";
 
 type NameMarker = {
