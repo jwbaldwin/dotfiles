@@ -24,6 +24,9 @@
     "codex-computer-use": {
       "type": "local",
       "command": ["/Users/jbaldwin/.local/share/codex-computer-use/node_modules/.bin/codex-computer-use-mcp"],
+      "environment": {
+        "PATH": "/opt/homebrew/bin:{env:PATH}"
+      },
       "enabled": true
     },
     "zapier-mcp": {
