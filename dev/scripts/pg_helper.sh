@@ -8,7 +8,7 @@ set -euo pipefail
 # Configuration
 readonly SCRIPT_NAME="${0:t}"
 readonly MISE_POSTGRES_PATH="$HOME/.local/share/mise/installs/postgres"
-readonly MISE_BIN="/opt/homebrew/bin/mise"
+readonly MISE_BIN="$HOME/.local/bin/mise"
 
 # Logging functions
 log_info() {
