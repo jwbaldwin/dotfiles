@@ -2,8 +2,11 @@ import type { AssistantMessage } from "@earendil-works/pi-ai";
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
 
 const MARKER_TYPE = "auto-session-name";
-const PROVIDER = "openai";
-const MODEL = "gpt-5.6-luna";
+// Work machines (WORK=true in the untracked ~/.zshenv) only have the Vercel AI Gateway;
+// the personal machine only has an OpenAI key.
+const NAMING_MODEL = process.env.WORK === "true"
+  ? { provider: "vercel-ai-gateway", id: "openai/gpt-5.6-luna" }
+  : { provider: "openai", id: "gpt-5.6-luna" };
 
 type NameMarker = {
   name: string;
@@ -96,7 +99,7 @@ export default function autoSessionName(pi: ExtensionAPI) {
     ctx.sessionManager.getSessionId() === activeSessionId;
 
   const generateName = async (ctx: ExtensionContext, prompts: string[]) => {
-    const model = ctx.modelRegistry.find(PROVIDER, MODEL);
+    const model = ctx.modelRegistry.find(NAMING_MODEL.provider, NAMING_MODEL.id);
     if (!model || !isActive(ctx)) return;
 
     namingAbort = new AbortController();
