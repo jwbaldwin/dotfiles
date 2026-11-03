@@ -71,17 +71,6 @@ for file in "$HOME"/.aliases/*(N); do
   [[ -r "$file" ]] && source "$file"
 done
 
-# Misc env
-export ERL_AFLAGS="-kernel shell_history enabled"
-[ -d "$HOMEBREW_PREFIX/opt/go/libexec" ] && export GOROOT="$HOMEBREW_PREFIX/opt/go/libexec"
-
-# bun completions
-[ -s "/Users/jbaldwin/.bun/_bun" ] && source "/Users/jbaldwin/.bun/_bun"
-
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
-
 # Dotfiles helpers
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias df='dotfiles'
@@ -95,9 +84,6 @@ alias df='dotfiles'
 # OpenCode experimental features
 export OPENCODE_EXPERIMENTAL_PLAN_MODE=0
 export OPENCODE_EXPERIMENTAL_MARKDOWN=1
-
-# Local env (kept as-is)
-[ -r "$HOME/.local/bin/env" ] && . "$HOME/.local/bin/env"
 
 # ===== Keybindings for faster history search ===== (unsure if needed still)
 bindkey '^R' history-incremental-search-backward
