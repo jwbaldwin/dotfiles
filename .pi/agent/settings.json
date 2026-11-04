@@ -1,6 +1,6 @@
 {
   "$schema": "https://pi.dev/schemas/settings.schema.json",
-  "lastChangelogVersion": "1.4.0",
+  "lastChangelogVersion": "1.5.0",
   "skills": [
     "~/.config/opencode/skills"
   ],
@@ -11,7 +11,7 @@
     "npm:pi-web-access",
     "npm:@ff-labs/pi-fff"
   ],
-  "theme": "zinc",
+  "theme": "zinc-jade",
   "outputPad": 0,
   "quietStartup": true,
   "terminal": {
@@ -22,5 +22,9 @@
   "hideThinkingBlock": false,
   "defaultProvider": "openai",
   "defaultModel": "gpt-6.1-sol",
-  "defaultThinkingLevel": "high"
+  "defaultThinkingLevel": "high",
+  "extensionChangelogVersions": {
+    "{\"source\":\"npm:pi-web-access\",\"scope\":\"user\"}": "0.46.0"
+  },
+  "deviceId": "fa3d19e1-5c54-4feb-9b31-3b1c7352859d"
 }
