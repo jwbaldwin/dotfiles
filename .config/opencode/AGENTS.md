@@ -1,5 +1,7 @@
 ## Hard rules
 
+- Do not add AI co-author trailers, generated-by footers, model or harness credits, or agent session links to commits or pull requests unless James explicitly asks. Preserve human co-author credits.
+
 - Use Jujutsu (`jj`), never Git, for version control. Keep separate changes in separate commits. Never `jj squash` unless James names the two commits to squash.
 - Never deploy, alias or roll back a production deployment, or change production environment variables without James's approval in this conversation.
 - Never post to Slack or speak as James unless he asks, and confirm the exact message right before posting. Drafting is fine.
