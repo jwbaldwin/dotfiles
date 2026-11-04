@@ -84,4 +84,5 @@ rex.action({
 rex.bind("ctrl+a>p", "open_pi")
 rex.bind("ctrl+a>ctrl+a", "pane.send_key", { key = "ctrl+a" })
 
-dofile(os.getenv("HOME") .. "/repos/projects/agent-automations/rex/reviews.lua")
+require("panels.reviews")
+require("panels.timers")
