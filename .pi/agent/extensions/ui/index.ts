@@ -3,6 +3,7 @@ import type { ExtensionAPI, ExtensionContext, Theme } from "@earendil-works/pi-c
 import { BarEditor } from "./editor.ts";
 import { readBookmarkLabel, renderFooterLine } from "./footer.ts";
 import { attachDroppedImagesOnSubmit, attachImageDrop } from "./image-drop.ts";
+import { copyQuoteOnOptionClick } from "./quote-copy.ts";
 import { registerToolGroups } from "./tool-groups.ts";
 import { drawLightTables, drawUserMessagesWithBar } from "./transcript-patches.ts";
 
@@ -16,6 +17,7 @@ export default function ui(pi: ExtensionAPI) {
 
   drawUserMessagesWithBar(currentTheme);
   drawLightTables(currentTheme);
+  copyQuoteOnOptionClick(() => activeContext);
   registerToolGroups(pi);
   attachDroppedImagesOnSubmit(pi);
 
