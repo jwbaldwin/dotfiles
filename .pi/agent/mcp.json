@@ -5,12 +5,17 @@
     },
     "agent-browser": {
       "command": "agent-browser",
-      "args": ["mcp"],
+      "args": [
+        "mcp"
+      ],
       "description": "Browser automation: open pages, snapshot interactive elements, click, fill forms, screenshots"
     },
     "context7": {
       "url": "https://mcp.context7.com/mcp",
-      "headers": { "CONTEXT7_API_KEY": "${CONTEXT7_API_KEY}" }
+      "headers": {
+        "CONTEXT7_API_KEY": "${CONTEXT7_API_KEY}"
+      },
+      "enabled": false
     },
     "planetscale": {
       "url": "https://mcp.pscale.dev/mcp/planetscale"
