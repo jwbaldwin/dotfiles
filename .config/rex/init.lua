@@ -46,8 +46,8 @@ for direction, key in pairs(keys) do
 end
 
 rex.action({
-	name = "open_opencode",
-	title = "Open OpenCode in a new tab",
+	name = "open_pi",
+	title = "Open Pi in a new tab",
 	run = function(ctx)
 		local process = assert(rex.block.call(terminal, "process", {}))
 		local cwd = process.foreground and process.foreground.cwd
@@ -60,8 +60,8 @@ rex.action({
 			layout = rex.layout.block({
 				flavor = terminal .. ".shell",
 				options = {
-					-- Load your PATH and keep the shell so Rex can identify OpenCode.
-					command = { "/bin/zsh", "-lic", "opencode" },
+					-- Load your PATH and keep the shell so Rex can identify Pi.
+					command = { "/bin/zsh", "-lic", "pi" },
 					shell = "none",
 					cwd = cwd,
 				},
@@ -80,4 +80,8 @@ rex.action({
 	end,
 })
 
--- rex.bind("ctrl+n", "open_opencode")
+-- Same prefix as tmux, so Ctrl+A twice sends one to the terminal (Neovim's increment, shell's line start).
+rex.bind("ctrl+a>p", "open_pi")
+rex.bind("ctrl+a>ctrl+a", "pane.send_key", { key = "ctrl+a" })
+
+dofile(os.getenv("HOME") .. "/repos/projects/agent-automations/rex/reviews.lua")
