@@ -12,14 +12,15 @@ description: Create, change, pause, run, or inspect James's scheduled jobs (cron
 ```sh
 timers                       # table: schedule, state, last run, result, next run
 timers ls --all              # plus non-timers launch agents and crontab
-timers add NAME --command CMD (--schedule CRON | --every 15m) [--cwd DIR] [--tab SESSION] [--description TEXT] [--disabled]
+timers add NAME --command CMD (--schedule CRON | --every 15m) [--cwd DIR] [--tab SESSION] [--description TEXT] [--expires DATE] [--disabled]
+timers add NAME --check CHECK [--notify] [--on-change CMD] (--schedule CRON | --every 15m) [--expires DATE] [--description TEXT]
 timers enable NAME | timers disable NAME
 timers rm NAME
 timers run NAME              # run now through launchd
 timers logs NAME             # last 60 lines of output
 ```
 
-To change an existing job, edit its TOML file, then run `timers sync`. Settings: `description`, `schedule` or `every`, `cwd`, `tab`, `enabled`, `command`.
+To change an existing job, edit its TOML file, then run `timers sync`. Settings: `description`, `schedule` or `every`, `cwd`, `tab`, `enabled`, `expires`, and either `command` or `check` with `notify` and `on_change`.
 
 ## Choosing settings
 
@@ -29,6 +30,18 @@ To change an existing job, edit its TOML file, then run `timers sync`. Settings:
 - For an agent job James should watch or continue, use `--tab SESSION` and an interactive prompt, such as `--tab agents --command "pi 'morning report'"`. It opens a Rex tab in that session.
 - For an unattended agent job, run headless with output in the log, such as `--command "pi -p 'summarize ...'"`.
 - When the request is ambiguous about time, ask once. Otherwise pick sensible defaults and say what you chose.
+
+## Watches
+
+Use a watch when James wants to know when something changes, not to run something on a clock. A watch runs a check, a program in `timers/checks/` that prints what is true now as JSON. It compares the result with the last run and acts only on changes, so nothing expensive runs when nothing changed. The first run only records a baseline.
+
+- `--notify` sends a macOS notification per change. Clicking it opens the item's URL.
+- `--on-change CMD` runs a shell command once per change, with `{job}` and any field the check prints, such as `{id}`, `{url}`, or `{summary}`, filled in and quoted.
+- `--expires DATE` deletes the watch after that date. A check can also end its watch by printing `"done": true`.
+
+Checks that exist: `review-requests` (new MRs where James is a reviewer) and `feedback-addressed` (MRs where someone replied, resolved, or pushed after James's last comment). Both standing watches already run; don't add duplicates.
+
+To add a check, write an executable in `timers/checks/` that prints `{"items": [{"id", "url", "summary", "state"}], "done": false}`. An item counts as changed when its id is new or its `state` differs, so put only the facts that should trigger a change in `state`. Keep checks cheap and stateless.
 
 ## After creating or changing a job
 
