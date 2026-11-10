@@ -5,7 +5,7 @@ description: Create, change, pause, run, or inspect James's scheduled jobs (cron
 
 # timers
 
-`timers` keeps one TOML file per job in `~/repos/personal/agent-automations/timers/jobs/<name>.toml` and loads each enabled job into launchd. James manages them by hand with `timers ui` (shift+cmd+j in Rex). Never write launchd plists or crontab entries yourself.
+`timers` keeps one TOML file per job in `~/repos/personal/agent-automations/timers/jobs/<name>.toml` and loads each enabled job into launchd. James manages them by hand with `timers ui` (also a Rex panel). Never write launchd plists or crontab entries yourself.
 
 ## Commands
 

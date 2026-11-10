@@ -10,4 +10,4 @@ rex.action({
 	end,
 })
 
-rex.bind("shift+cmd+j", "scheduled_jobs")
+rex.bind("shift+cmd+t", "scheduled_jobs")
