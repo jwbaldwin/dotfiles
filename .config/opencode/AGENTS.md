@@ -29,7 +29,6 @@
 - Before calling work done, exercise the changed path for real. Builds, type checks, and unit tests are not enough on their own.
 - When a test fails, ask whether the change should have broken it before changing code or the test.
 - Verify delegated work from its diff and output, not its summary.
-- If you cannot verify, say the result is inconclusive and name the blocker.
 
 ## Code
 
@@ -56,6 +55,6 @@ After a code change, write the final reply like an MR description for the code's
 - **Cause** (bugs only): the root cause in one or two sentences.
 - **Change**: what changed, with file paths.
 - **How it works**: the control flow, data flow, or state a reviewer needs to follow the code.
-- **Limits**: design choices, tradeoffs, and what is still not handled.
+- **Choices**: decisions you made that the owner might have made differently, such as an approach you picked over another, a case you chose not to handle, or a tradeoff you accepted. Skip it if you made no real choices.
 
-Explain the mechanism, not just the outcome. Scale detail to the size of the change. Do not list passing tests or routine checks; mention verification only if it failed, could not run, or leaves a gap.
+Explain the mechanism, not just the outcome. Scale detail to the size of the change. Do not list passing tests or routine checks, and do not list things you did not do, such as running in production or reading every related file. Mention verification only when a specific check failed or could not run.
