@@ -1,7 +1,10 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 
 export default function workMcps(pi: ExtensionAPI) {
-  if (process.env.WORK !== "true") return;
+  if (process.env.WORK !== "true") {
+    pi.registerMcpServer("planetscale", { url: "https://mcp.pscale.dev/mcp/planetscale" });
+    return;
+  }
 
   const zapierMcpUrl = process.env.ZAPIER_MCP_URL;
   if (zapierMcpUrl) pi.registerMcpServer("zapier-mcp", { url: zapierMcpUrl });

@@ -71,11 +71,13 @@ home directory:
 dotfiles config --local status.showUntrackedFiles no
 ```
 
-## Work-only OpenCode MCPs
+## Work-only and personal-only MCPs
 
 OpenCode's `~/.config/opencode/plugins/work-mcps.ts` disables `zapier-mcp` and
-`sherlock` unless `WORK` is exactly `true`. Other MCPs keep their configured
-behavior. This uses the same flag as the Neovim work configuration.
+`sherlock` unless `WORK` is exactly `true`, and disables `planetscale` when it
+is. Pi's `~/.pi/agent/extensions/work-mcps.ts` registers the same servers on
+the same rule; keep them out of `~/.pi/agent/mcp.json`, because a server in
+that file overrides the extension. Other MCPs keep their configured behavior. This uses the same flag as the Neovim work configuration.
 
 Keep `export WORK=true` in the work computer's untracked `~/.zshenv`, not in
 synced dotfiles. Leave it unset or set it to `false` on personal computers.
