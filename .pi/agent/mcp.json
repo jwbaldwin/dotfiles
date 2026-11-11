@@ -19,9 +19,6 @@
     },
     "superlogical": {
       "url": "https://www.superlogical.com/rex/community-mcp"
-    },
-    "zapier-mcp": {
-      "url": "https://mcp.zapier.com/api/v1/connect"
     }
   }
 }

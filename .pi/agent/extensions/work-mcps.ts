@@ -6,8 +6,7 @@ export default function workMcps(pi: ExtensionAPI) {
     return;
   }
 
-  const zapierMcpUrl = process.env.ZAPIER_MCP_URL;
-  if (zapierMcpUrl) pi.registerMcpServer("zapier-mcp", { url: zapierMcpUrl });
+  pi.registerMcpServer("zapier-mcp", { url: "https://mcp.zapier.com/api/v1/connect" });
   pi.registerMcpServer("sherlock", {
     url: "https://sherlockbackend.global-us-east-1.int.zapier.com/v1/mcp",
   });
