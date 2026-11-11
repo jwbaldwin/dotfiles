@@ -5,15 +5,16 @@ description: Create, change, pause, run, or inspect James's scheduled jobs (cron
 
 # timers
 
-`timers` keeps one TOML file per job in `~/repos/personal/agent-automations/timers/jobs/<name>.toml` and loads each enabled job into launchd. James manages them by hand with `timers ui` (also a Rex panel). Never write launchd plists or crontab entries yourself.
+`timers` keeps one TOML file per job in `~/repos/personal/agent-automations/timers/jobs/<name>.toml`, or `timers/jobs/personal/<name>.toml` for personal jobs, and loads each enabled job into launchd. James manages them by hand with `timers ui` (also a Rex panel). Never write launchd plists or crontab entries yourself.
 
 ## Commands
 
 ```sh
 timers                       # table: schedule, state, last run, result, next run
 timers ls --all              # plus non-timers launch agents and crontab
-timers add NAME --command CMD (--schedule CRON | --every 15m) [--cwd DIR] [--tab SESSION] [--description TEXT] [--expires DATE] [--disabled]
-timers add NAME --check CHECK [--on-change CMD] (--schedule CRON | --every 15m) [--expires DATE] [--description TEXT]
+timers add NAME --command CMD (--schedule CRON | --every 15m) [--cwd DIR] [--tab SESSION] [--description TEXT] [--expires DATE] [--disabled] [--personal]
+timers add NAME --check CHECK [--on-change CMD] (--schedule CRON | --every 15m) [--expires DATE] [--description TEXT] [--personal]
+timers edit NAME [--personal]
 timers enable NAME | timers disable NAME
 timers snooze NAME|all [30m | 2h | 1d | 14:30]   # skip runs until then; default 1h
 timers unsnooze NAME|all
@@ -27,6 +28,7 @@ To change an existing job, edit its TOML file, then run `timers sync`. Settings:
 ## Choosing settings
 
 - Names are lowercase-with-dashes and say the job, such as `morning-report`.
+- Jobs are shared by default: they're committed and anyone who clones the repo runs them. Use `--personal` for a job tied to James's own repos, tickets, or work, such as cleaning up lint rules in one repo. A long prompt goes in a `.md` file next to the job in `timers/jobs/personal/`, passed to pi as `@<full path>`.
 - `--schedule` is 5-field cron in local time (`30 8 * * 1-5` = weekdays 8:30) or `@hourly`/`@daily`/`@weekly`. A schedule can't restrict both day of month and weekday. Use `--every 30s|15m|2h|1d` for intervals.
 - Commands run in zsh with James's PATH from when the job was synced.
 - For an agent job James should watch or continue, use `--tab SESSION` and an interactive prompt, such as `--tab agents --command "pi 'morning report'"`. It opens a Rex tab in that session.
