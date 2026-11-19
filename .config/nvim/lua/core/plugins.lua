@@ -206,10 +206,10 @@ require("lazy").setup({
 			require("core.plugins.configs").autopairs()
 		end,
 	},
-	{
-		"sphamba/smear-cursor.nvim",
-		opts = {},
-	},
+	-- {
+	-- 	"sphamba/smear-cursor.nvim",
+	-- 	opts = {},
+	-- },
 	{
 		"brianhuster/live-preview.nvim",
 		cmd = { "LivePreview" },
