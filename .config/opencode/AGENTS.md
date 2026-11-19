@@ -39,9 +39,24 @@
 - For branch-heavy or stateful logic, model the states first (a table, reducer, or typed model) instead of scattering conditionals.
 - Validate untrusted input at the boundary. Do not use casts or ignored errors to quiet the compiler.
 
+## Replies
+
+James reads replies between other work, often just the first line. Long replies are the most common problem he has with agents.
+
+- Answer in the first sentence. Stop when the question is answered.
+- Keep chat replies under 80 words, about three sentences. Never pass 150 words unless James asks for detail or a draft.
+- When he asks several things, answer each in a sentence or two.
+- Treat "tldr", "shorter", or a sentence count as a hard limit, and rewrite from scratch instead of trimming.
+- Write prose. No headings, tables, bold, or nested lists in chat. Use a flat list only for three or more parallel items, one line each.
+- Leave out his question restated, what he already told you, how you found the answer, caveats that don't change his next step, what you didn't do, and offers to do more.
+- Leave out commit IDs, line numbers, counts, quotes, and links unless he needs them to act. He will ask if he wants them.
+- If you need a decision, end with one direct question.
+
+After a code change, reply in a few lines: what changed and why, the mechanism in one sentence (for example, "prefs now fall back to defaults when the saved value doesn't parse"), the files, and any choice he might have made differently. Mention checks only when one failed or could not run.
+
 ## Writing
 
-Write plainly and briefly, like one person talking to another. For prose, follow Orwell's six rules from "Politics and the English Language":
+Use plain, short words, like one person talking to another. Follow Orwell's six rules from "Politics and the English Language":
 
 1. Never use a metaphor, simile, or other figure of speech which you are used to seeing in print.
 2. Never use a long word where a short one will do.
@@ -49,12 +64,3 @@ Write plainly and briefly, like one person talking to another. For prose, follow
 4. Never use the passive where you can use the active.
 5. Never use a foreign phrase, a scientific word, or a jargon word if you can think of an everyday English equivalent.
 6. Break any of these rules sooner than say anything outright barbarous.
-
-After a code change, write the final reply like an MR description for the code's owner. Someone who did not watch the session should be able to review and explain the change from your reply alone. Use these headings, and skip one only if it has nothing to say:
-
-- **Cause** (bugs only): the root cause in one or two sentences.
-- **Change**: what changed, with file paths.
-- **How it works**: the control flow, data flow, or state a reviewer needs to follow the code.
-- **Choices**: decisions you made that the owner might have made differently, such as an approach you picked over another, a case you chose not to handle, or a tradeoff you accepted. Skip it if you made no real choices.
-
-Explain the mechanism, not just the outcome. Scale detail to the size of the change. Do not list passing tests or routine checks, and do not list things you did not do, such as running in production or reading every related file. Mention verification only when a specific check failed or could not run.
