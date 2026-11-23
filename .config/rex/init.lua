@@ -86,3 +86,4 @@ rex.bind("ctrl+a>ctrl+a", "pane.send_key", { key = "ctrl+a" })
 
 require("panels.reviews")
 require("panels.timers")
+require("mentioned_files")
