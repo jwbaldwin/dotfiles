@@ -130,6 +130,24 @@ install_mise_languages() {
 	success "Languages installed via mise."
 }
 
+# Agent MCP configs for browse live in dotfiles. `browse install` would rewrite
+# opencode.json in a format that hides every other MCP server, so only install
+# the binary here and pair the Helium extension with `browse pair`.
+install_browse() {
+	if command_exists browse; then
+		success "browse is already installed."
+		return
+	fi
+
+	info "Installing browse..."
+	curl -fsSL https://opencode.ai/browse/install | bash -s -- --no-setup
+
+	if [[ ! -x "$HOME/.local/bin/browse" ]]; then
+		fail "browse installation failed."
+	fi
+	success "browse installed. To pair Helium: add https://chromewebstore.google.com/detail/mfnicocicmmlkpjnaffgihfjhdgjkdjg, then run 'browse pair' and enter the code in the extension's Options."
+}
+
 # --- Main ---
 
 main() {
@@ -141,6 +159,7 @@ main() {
 	install_packages
 	install_rust
 	install_mise_languages
+	install_browse
 
 	echo ""
 	success "Bootstrap complete!"
