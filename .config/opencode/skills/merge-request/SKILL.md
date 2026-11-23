@@ -22,7 +22,6 @@ Pick **two** of these at random for each MR unless James specifies reviewers. Ne
 |------|----------------|
 | Nate Moore | `neat.moore` (ID: 16898407) |
 | Dylan Laible | `dylan.laible` (ID: 31252789) |
-| Marco Costa | `marco.costa6` (ID: 35597336) |
 | (for AI eng things) Daniel Vagg | `daniel.vagg` (ID: 23002286) |
 
 ## Default Policy: Small MRs
