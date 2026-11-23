@@ -51,6 +51,14 @@
       "type": "remote",
       "url": "https://mcp.pscale.dev/mcp/planetscale",
       "enabled": true
+    },
+    "browse": {
+      "type": "local",
+      "command": ["/Users/jbaldwin/.local/bin/browse", "mcp"],
+      "environment": {
+        "OPENCODE_BROWSER_RUNTIME": "auto-update"
+      },
+      "enabled": true
     }
   }
 }

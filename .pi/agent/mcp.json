@@ -19,6 +19,12 @@
     },
     "superlogical": {
       "url": "https://www.superlogical.com/rex/community-mcp"
+    },
+    "browse": {
+      "command": "/Users/jbaldwin/.local/bin/browse",
+      "args": [
+        "mcp"
+      ]
     }
   }
 }
